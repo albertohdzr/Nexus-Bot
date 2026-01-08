@@ -185,13 +185,28 @@ def _load_session_messages(
     )
 
     def _normalize_dt(value: str) -> str:
+        import re
+
         normalized = value.strip()
         if normalized.endswith("Z"):
-            return normalized.replace("Z", "+00:00")
+            normalized = normalized.replace("Z", "+00:00")
         if len(normalized) >= 3 and normalized[-3] in {"+", "-"}:
-            return f"{normalized}:00"
+            normalized = f"{normalized}:00"
         if len(normalized) >= 5 and normalized[-5] in {"+", "-"}:
-            return f"{normalized[:-2]}:{normalized[-2:]}"
+            normalized = f"{normalized[:-2]}:{normalized[-2:]}"
+
+        # Fix microseconds to be 3 or 6 digits for Python < 3.11 compatibility
+        match = re.search(r"\.(\d+)(?:([+-]\d{2}:\d{2})|$)", normalized)
+        if match:
+            us = match.group(1)
+            tz = match.group(2) or ""
+            if len(us) != 3 and len(us) != 6:
+                if len(us) < 6:
+                    new_us = us.ljust(6, "0")
+                else:
+                    new_us = us[:6]
+                normalized = normalized.replace(f".{us}{tz}", f".{new_us}{tz}")
+
         return normalized
 
     def _parse_dt(value: Optional[str]) -> Optional[datetime]:
@@ -712,6 +727,10 @@ def process_queue(
         "[admissions] history",
         {"count": len(history), "messages": history},
     )
+    print("----------- HISTORY LINES -----------")
+    for i, msg in enumerate(history):
+        print(f"[{i}] {msg.get('role')}: {msg.get('content')}")
+    print("-------------------------------------")
 
     has_assistant_history = any(
         message.get("role") == "assistant" for message in history

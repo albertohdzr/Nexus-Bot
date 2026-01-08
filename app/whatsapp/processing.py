@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import time
 from typing import Any, Dict, Optional, Set
 
@@ -210,7 +210,7 @@ def handle_incoming_messages(value: Dict[str, Any]) -> None:
             else int(datetime.utcnow().timestamp() * 1000)
         )
         message_timestamp_iso = datetime.fromtimestamp(
-            message_timestamp_ms / 1000
+            message_timestamp_ms / 1000, tz=timezone.utc
         ).isoformat()
 
         message_insert = (
