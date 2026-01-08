@@ -18,6 +18,8 @@ from app.whatsapp.outbound import (
     send_whatsapp_document,
     UploadWhatsAppMediaParams,
     upload_whatsapp_media,
+    SendWhatsAppReadParams,
+    send_whatsapp_read,
 )
 
 router = APIRouter(prefix="/api/whatsapp", tags=["whatsapp"])
@@ -84,10 +86,13 @@ def _build_prompt(org: Dict[str, Any]) -> str:
     now_utc = datetime.utcnow()
     current_date = now_utc.strftime("%Y-%m-%d")
     current_time = now_utc.strftime("%H:%M:%S UTC")
+    # Day of week in Spanish
+    days_es = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    day_of_week = days_es[now_utc.weekday()]
 
     base_prompt = (
         f"Eres {bot_name}, un asistente virtual de admisiones de {school_name}. "
-        f"Hoy es {current_date} y la hora actual es {current_time}. "
+        f"Hoy es {day_of_week} {current_date} y la hora actual es {current_time}. "
         f"Responde en {language} con un tono {tone}. "
         "Tu objetivo es orientar a familias interesadas de forma natural y servicial. "
         "No pidas datos personales (como nombre, correo o teléfono) de inmediato en el saludo. "
@@ -119,9 +124,26 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "Una vez creado el lead, tu meta es agendar una visita al campus. "
         "Pregunta qué días y horarios prefieren para visitar. "
         "Usa 'search_availability_slots' con un rango de fechas (YYYY-MM-DD) para buscar espacios. "
-        "Ofrece los horarios disponibles encontrados. "
-        "Si el usuario elige uno, usa 'book_appointment' con el ID del slot correspondiente. "
-        "Confirma cuando la cita esté agendada."
+        "IMPORTANTE: Cuando presentes los horarios al usuario, NO muestres los IDs técnicos (UUIDs). "
+        "En su lugar, presenta una lista numerada amigable (ej: 1. Lunes 13 de enero, 9:00-10:00am). "
+        "Guarda internamente la relación entre el número y el ID del slot. "
+        "Cuando el usuario elija (ej: 'la opción 2' o 'el de las 10am'), usa 'book_appointment' con el ID correcto. "
+        "Confirma cuando la cita esté agendada. "
+        
+        "CAMPUS LIFE (información que SÍ puedes compartir): "
+        "🏅 DEPORTES: Alberca con calefacción solar, 5 canchas de fútbol, pista de atletismo, canchas de básquetbol y voleibol, 3 gimnasios. Educación física curricular + programa deportivo vespertino. Participación en torneos ASOMEX (19 escuelas). "
+        "🎭 CENTRO DE ARTES (CVPA): Teatro profesional para 450 personas, aulas especializadas. Clases curriculares de arte + talleres vespertinos (pintura, instrumentos de cuerda/viento, teatro, danza clásica/moderna/hip hop, canto, arte digital). Grupos representativos: CATEnsemble, Jazz Band, grupo de teatro. "
+        "📚 BIBLIOTECAS: 3 espacios (Early Childhood, Elementary, Middle/High). Luz natural, áreas colaborativas, recursos impresos y electrónicos en inglés y español. Enfoque en formar lectores apasionados. "
+        "🚀 CLUBES Y LIDERAZGO: "
+        "- Robótica FIRST: FLL Explore (1º-3º primaria), FLL Challenge (4º-6º primaria), FTC (secundaria), FRC (prepa). Competencias nacionales e internacionales. "
+        "- Student Council: Representantes electos, eventos tradicionales (Halloween, San Valentín, colectas). "
+        "- National Honor Society (NHS): Estudiantes destacados en carácter, estudio, servicio y liderazgo. "
+        "- Equipo de Debate. "
+        
+        "LÍMITES DEL BOT: "
+        "Si detectas que la intención del usuario NO es sobre admisiones (ej. quejas, pagos, calificaciones, situación de alumnos actuales, temas administrativos no relacionados), "
+        "responde amablemente que este canal es exclusivo para admisiones y ofrece el contacto general: "
+        "Teléfono: 8711123687 | Correo: contact@cat.mx"
     )
 
     if instructions:
@@ -729,6 +751,26 @@ def process_queue(
     if not chat.get("wa_id"):
         raise HTTPException(status_code=500, detail="Chat missing wa_id")
 
+    # Mark last message as read and show typing indicator
+    last_msg_response = (
+        supabase.from_("messages")
+        .select("wa_message_id")
+        .eq("chat_id", chat.get("id"))
+        .eq("direction", "inbound")
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    last_msgs = get_supabase_data(last_msg_response)
+    if last_msgs and last_msgs[0].get("wa_message_id"):
+        send_whatsapp_read(
+            SendWhatsAppReadParams(
+                phone_number_id=org.get("phone_number_id"),
+                message_id=last_msgs[0].get("wa_message_id"),
+                typing_type="text",
+            )
+        )
+
     session_id = _ensure_active_session(chat, org.get("id"))
 
     supabase.from_("messages").update({"chat_session_id": session_id}).eq(
@@ -1041,14 +1083,44 @@ def _search_availability_slots(
             
     if not available_slots:
         return "No hay horarios disponibles en esas fechas."
+    
+    # Days of week in Spanish for formatting
+    days_es = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    
+    # Format for bot with local time conversion (UTC-6 for Torreón)
+    from datetime import timedelta
+    utc_offset = timedelta(hours=-6)
+    
+    result_text = "Horarios disponibles (hora local Torreón):\n"
+    for idx, s in enumerate(available_slots[:10], start=1):
+        start_str = s.get("starts_at")
+        end_str = s.get("ends_at")
+        slot_id = s.get("id")
         
-    # Format for bot
-    result_text = "Horarios disponibles:\n"
-    for s in available_slots[:10]: # Limit to 10
-        start = s.get("starts_at")
-        end = s.get("ends_at")
-        # You might want to format these ISO strings to something readable
-        result_text += f"- ID: {s.get('id')} | Inicio: {start} | Fin: {end}\n"
+        try:
+            # Parse UTC time
+            start_utc = datetime.fromisoformat(start_str.replace("+00", "+00:00"))
+            end_utc = datetime.fromisoformat(end_str.replace("+00", "+00:00"))
+            
+            # Convert to local
+            start_local = start_utc + utc_offset
+            end_local = end_utc + utc_offset
+            
+            day_name = days_es[start_local.weekday()]
+            date_str = start_local.strftime("%d de %B de %Y").replace(
+                "January", "enero").replace("February", "febrero").replace(
+                "March", "marzo").replace("April", "abril").replace(
+                "May", "mayo").replace("June", "junio").replace(
+                "July", "julio").replace("August", "agosto").replace(
+                "September", "septiembre").replace("October", "octubre").replace(
+                "November", "noviembre").replace("December", "diciembre")
+            
+            start_time = start_local.strftime("%I:%M %p").lstrip("0")
+            end_time = end_local.strftime("%I:%M %p").lstrip("0")
+            
+            result_text += f"- Opción {idx}: {day_name.capitalize()} {date_str}, {start_time} - {end_time} (ID interno: {slot_id})\n"
+        except Exception:
+            result_text += f"- Opción {idx}: {start_str} - {end_str} (ID interno: {slot_id})\n"
         
     return result_text
 
@@ -1224,8 +1296,8 @@ def _send_requirements(
             },
             "sender_name": org.get("bot_name"),
             "media_id": media_id,
-            "media_path": file_path, # Or storage path
-            "media_file_name": file_name,
+            "media_path": file_path,
+            "media_mime_type": "application/pdf",
             "created_at": datetime.utcnow().isoformat(),
         }
         supabase.from_("messages").insert(message_payload).execute()
