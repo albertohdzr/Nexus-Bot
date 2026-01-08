@@ -80,9 +80,14 @@ def _build_prompt(org: Dict[str, Any]) -> str:
     tone = org.get("bot_tone") or "amable"
     language = org.get("bot_language") or "es"
     school_name = org.get("name") or "el colegio"
+    
+    now_utc = datetime.utcnow()
+    current_date = now_utc.strftime("%Y-%m-%d")
+    current_time = now_utc.strftime("%H:%M:%S UTC")
 
     base_prompt = (
         f"Eres {bot_name}, un asistente virtual de admisiones de {school_name}. "
+        f"Hoy es {current_date} y la hora actual es {current_time}. "
         f"Responde en {language} con un tono {tone}. "
         "Tu objetivo es orientar a familias interesadas de forma natural y servicial. "
         "No pidas datos personales (como nombre, correo o teléfono) de inmediato en el saludo. "
@@ -108,7 +113,15 @@ def _build_prompt(org: Dict[str, Any]) -> str:
 
         "Para enviar el PDF usa 'get_admission_requirements' con la división correcta: "
         "'prenursery', 'early_child' (para kinder/preescolar), 'elementary' (primaria), 'middle_school' (secundaria), 'high_school' (prepa). "
-        "Si no sabes la división, pregúntala antes de intentar enviar."
+        "Si no sabes la división, pregúntala antes de intentar enviar. "
+        
+        "OBJETIVO SECUNDARIO (VISITAS): "
+        "Una vez creado el lead, tu meta es agendar una visita al campus. "
+        "Pregunta qué días y horarios prefieren para visitar. "
+        "Usa 'search_availability_slots' con un rango de fechas (YYYY-MM-DD) para buscar espacios. "
+        "Ofrece los horarios disponibles encontrados. "
+        "Si el usuario elige uno, usa 'book_appointment' con el ID del slot correspondiente. "
+        "Confirma cuando la cita esté agendada."
     )
 
     if instructions:
@@ -809,6 +822,22 @@ def process_queue(
                 "parameters": GetRequirementsRequest.model_json_schema(),
             },
         },
+        {
+            "type": "function",
+            "function": {
+                "name": "search_availability_slots",
+                "description": "Search for available appointment slots within a date range.",
+                "parameters": SearchSlotsRequest.model_json_schema(),
+            },
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "book_appointment",
+                "description": "Book an appointment slot for the current lead.",
+                "parameters": BookAppointmentRequest.model_json_schema(),
+            },
+        },
     ]
 
     model = org.get("bot_model")
@@ -884,6 +913,26 @@ def process_queue(
                     )
                 except Exception as exc:
                     tool_result = f"Error al enviar requisitos: {str(exc)}"
+            elif tool_name == "search_availability_slots":
+                try:
+                    tool_args = SearchSlotsRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _search_availability_slots(
+                        tool_args, org=org
+                    )
+                except Exception as exc:
+                    tool_result = f"Error al buscar horarios: {str(exc)}"
+            elif tool_name == "book_appointment":
+                try:
+                    tool_args = BookAppointmentRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _book_appointment(
+                        tool_args, org=org, chat=chat
+                    )
+                except Exception as exc:
+                    tool_result = f"Error al agendar cita: {str(exc)}"
 
             print(
                 "[admissions] tool result",
@@ -942,6 +991,135 @@ def process_queue(
         "message_id": send_result.message_id,
         "error": send_result.error,
     }
+
+
+class SearchSlotsRequest(BaseModel):
+    start_date: str  # YYYY-MM-DD
+    end_date: str    # YYYY-MM-DD
+
+
+class BookAppointmentRequest(BaseModel):
+    slot_id: str
+    notes: Optional[str] = None
+
+
+def _search_availability_slots(
+    request: SearchSlotsRequest,
+    org: Dict[str, Any],
+) -> str:
+    supabase = get_supabase_client()
+    print(f"[admissions] searching slots from {request.start_date} to {request.end_date}")
+    
+    # Simple validation
+    try:
+        start_dt = datetime.fromisoformat(request.start_date).replace(tzinfo=timezone.utc)
+        end_dt = datetime.fromisoformat(request.end_date).replace(tzinfo=timezone.utc)
+        # Verify range is mostly valid for a query (ends at 23:59:59 usually externally but let's assume raw dates)
+    except ValueError:
+        return "Formato de fechas invalido. Usa YYYY-MM-DD."
+
+    # Query
+    response = (
+        supabase.from_("availability_slots")
+        .select("id, starts_at, ends_at, max_appointments, appointments_count")
+        .eq("organization_id", org.get("id"))
+        .eq("is_active", True)
+        .eq("is_blocked", False)
+        .gte("starts_at", request.start_date)
+        .lte("ends_at", f"{request.end_date} 23:59:59")
+        .execute()
+    )
+    
+    slots = get_supabase_data(response) or []
+    available_slots = []
+    
+    for slot in slots:
+        count = slot.get("appointments_count", 0)
+        max_app = slot.get("max_appointments", 1)
+        if count < max_app:
+            available_slots.append(slot)
+            
+    if not available_slots:
+        return "No hay horarios disponibles en esas fechas."
+        
+    # Format for bot
+    result_text = "Horarios disponibles:\n"
+    for s in available_slots[:10]: # Limit to 10
+        start = s.get("starts_at")
+        end = s.get("ends_at")
+        # You might want to format these ISO strings to something readable
+        result_text += f"- ID: {s.get('id')} | Inicio: {start} | Fin: {end}\n"
+        
+    return result_text
+
+
+def _book_appointment(
+    request: BookAppointmentRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> str:
+    supabase = get_supabase_client()
+    print(f"[admissions] booking appointment for slot {request.slot_id}")
+    
+    # 1. Verify Slot
+    slot_response = (
+        supabase.from_("availability_slots")
+        .select("*")
+        .eq("id", request.slot_id)
+        .single()
+        .execute()
+    )
+    slot = get_supabase_data(slot_response)
+    if not slot:
+        return "El horario seleccionado no existe."
+        
+    if slot.get("appointments_count", 0) >= slot.get("max_appointments", 1):
+        return "El horario seleccionado ya esta lleno."
+        
+    # 2. Get Lead ID (Required)
+    lead_response = (
+        supabase.from_("leads")
+        .select("id")
+        .eq("wa_chat_id", chat.get("id"))
+        .eq("organization_id", org.get("id"))
+        .maybe_single()
+        .execute()
+    )
+    lead = get_supabase_data(lead_response)
+    if not lead:
+        return "No encontre un lead activo para agendar. Crea el lead primero."
+    
+    lead_id = lead.get("id")
+
+    # 3. Create Appointment
+    appt_payload = {
+        "organization_id": org.get("id"),
+        "lead_id": lead_id,
+        "slot_id": request.slot_id,
+        "starts_at": slot.get("starts_at"),
+        "ends_at": slot.get("ends_at"),
+        "status": "scheduled",
+        "notes": request.notes or "Agendado via WhatsApp Bot",
+        "created_at": datetime.utcnow().isoformat(),
+        "updated_at": datetime.utcnow().isoformat(),
+    }
+    
+    appt_insert = supabase.from_("appointments").insert(appt_payload).execute()
+    if get_supabase_error(appt_insert):
+        return "Error al crear la cita en base de datos."
+        
+    # 4. Update Slot Count
+    new_count = slot.get("appointments_count", 0) + 1
+    supabase.from_("availability_slots").update(
+        {"appointments_count": new_count}
+    ).eq("id", request.slot_id).execute()
+    
+    # 5. Update Lead Status
+    supabase.from_("leads").update(
+        {"status": "visit_scheduled", "updated_at": datetime.utcnow().isoformat()}
+    ).eq("id", lead_id).execute()
+    
+    return "Cita agendada exitosamente. El lead ha sido actualizado a 'visit_scheduled'."
 
 
 class GetRequirementsRequest(BaseModel):
