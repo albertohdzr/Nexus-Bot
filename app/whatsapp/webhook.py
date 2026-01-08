@@ -33,8 +33,6 @@ async def receive_webhook(request: Request):
     except Exception as exc:
         raise HTTPException(status_code=400, detail="Invalid JSON") from exc
 
-    print("Webhook received:", body)
-
     if body.get("object") != "whatsapp_business_account":
         return Response(content="Not a WhatsApp API event", status_code=404)
 

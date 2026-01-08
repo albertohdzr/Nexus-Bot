@@ -1,4 +1,5 @@
 from datetime import datetime
+import time
 from typing import Any, Dict, Optional, Set
 
 from app.core.config import settings
@@ -26,14 +27,20 @@ def _get_public_media_url(path: str) -> Optional[str]:
 
 
 def handle_incoming_messages(value: Dict[str, Any]) -> None:
+    print("[whatsapp] webhook payload received")
     messages = list(value.get("messages") or [])
     if not messages:
+        print("[whatsapp] no messages in payload")
         return
 
     contact = value.get("contacts", [None])[0]
     metadata = value.get("metadata") or {}
     phone_number = metadata.get("display_phone_number")
     phone_number_id = metadata.get("phone_number_id")
+    print(
+        "[whatsapp] metadata",
+        {"phone_number": phone_number, "phone_number_id": phone_number_id},
+    )
 
     supabase = get_supabase_client()
     org_response = (
@@ -50,6 +57,7 @@ def handle_incoming_messages(value: Dict[str, Any]) -> None:
     if org_error or not org_data:
         print("Organization not found for phone_number_id:", phone_number_id)
         return
+    print("[whatsapp] org resolved", {"org_id": org_data.get("id")})
 
     ordered_messages = sorted(
         messages,
@@ -72,6 +80,7 @@ def handle_incoming_messages(value: Dict[str, Any]) -> None:
         if not wa_id:
             print("Missing waId in incoming message")
             continue
+        print("[whatsapp] incoming message", {"wa_id": wa_id, "type": message.get("type")})
 
         upsert_response = (
             supabase.from_("chats")
@@ -112,6 +121,7 @@ def handle_incoming_messages(value: Dict[str, Any]) -> None:
         if not chat_id:
             print("Missing chat id after upsert")
             continue
+        print("[whatsapp] chat resolved", {"chat_id": chat_id})
 
         media_url: Optional[str] = None
         media_path: Optional[str] = None
@@ -240,6 +250,7 @@ def handle_incoming_messages(value: Dict[str, Any]) -> None:
         if message_error:
             print("Error inserting message:", message_error)
             continue
+        print("[whatsapp] message stored", {"wa_message_id": message_id})
 
         queue_response = supabase.rpc(
             "accumulate_whatsapp_message",
@@ -253,14 +264,31 @@ def handle_incoming_messages(value: Dict[str, Any]) -> None:
         if queue_error:
             print("Error accumulating message queue:", queue_error)
         else:
+            print("[whatsapp] message queued", {"chat_id": chat_id})
             chats_to_process.add(chat_id)
 
     for chat_id in chats_to_process:
-        invoke_response = supabase.functions.invoke(
-            "process-whatsapp-queue",
-            {"body": {"chat_id": chat_id}},
-        )
-        invoke_error = get_supabase_error(invoke_response)
-
-        if invoke_error:
-            print("Error invoking process-whatsapp-queue:", invoke_error)
+        try:
+            start = time.time()
+            print("[whatsapp] invoking process-whatsapp-queue", {"chat_id": chat_id})
+            invoke_response = supabase.functions.invoke(
+                "process-whatsapp-queue",
+                {"body": {"chat_id": chat_id}},
+            )
+            elapsed = round((time.time() - start) * 1000)
+            invoke_error = get_supabase_error(invoke_response)
+            if invoke_error:
+                print(
+                    "[whatsapp] process-whatsapp-queue error",
+                    {"chat_id": chat_id, "error": invoke_error},
+                )
+            else:
+                print(
+                    "[whatsapp] process-whatsapp-queue ok",
+                    {"chat_id": chat_id, "elapsed_ms": elapsed},
+                )
+        except Exception as exc:
+            print(
+                "[whatsapp] process-whatsapp-queue exception",
+                {"chat_id": chat_id, "error": str(exc)},
+            )

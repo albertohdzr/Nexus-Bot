@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Header, HTTPException
@@ -21,6 +21,42 @@ class ProcessQueueRequest(BaseModel):
     final_message: Optional[str] = None
 
 
+class CreateAdmissionsLeadRequest(BaseModel):
+    student_first_name: str
+    student_middle_name: Optional[str] = None
+    student_last_name_paternal: str
+    student_last_name_maternal: Optional[str] = None
+    grade_interest: str
+    school_year: Optional[str] = None
+    current_school: str
+    contact_first_name: Optional[str] = None
+    contact_middle_name: Optional[str] = None
+    contact_last_name_paternal: Optional[str] = None
+    contact_last_name_maternal: Optional[str] = None
+    contact_email: Optional[str] = None
+    contact_phone: Optional[str] = None
+    relationship: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class UpdateAdmissionsLeadRequest(BaseModel):
+    student_first_name: Optional[str] = None
+    student_middle_name: Optional[str] = None
+    student_last_name_paternal: Optional[str] = None
+    student_last_name_maternal: Optional[str] = None
+    grade_interest: Optional[str] = None
+    school_year: Optional[str] = None
+    current_school: Optional[str] = None
+    contact_first_name: Optional[str] = None
+    contact_middle_name: Optional[str] = None
+    contact_last_name_paternal: Optional[str] = None
+    contact_last_name_maternal: Optional[str] = None
+    contact_email: Optional[str] = None
+    contact_phone: Optional[str] = None
+    relationship: Optional[str] = None
+    notes: Optional[str] = None
+
+
 def _require_cron_secret(authorization: Optional[str]) -> None:
     if not settings.cron_secret:
         raise HTTPException(status_code=500, detail="CRON_SECRET is not set")
@@ -36,14 +72,34 @@ def _build_prompt(org: Dict[str, Any]) -> str:
     instructions = org.get("bot_instructions") or ""
     tone = org.get("bot_tone") or "amable"
     language = org.get("bot_language") or "es"
+    school_name = org.get("name") or "el colegio"
 
     base_prompt = (
-        f"Eres {bot_name}, un asistente de soporte al cliente por WhatsApp. "
+        f"Eres {bot_name}, un asistente virtual de admisiones de {school_name}. "
         f"Responde en {language} con un tono {tone}. "
-        "Mantente en el contexto del negocio y ofrece ayuda clara y breve."
+        "Tu objetivo es orientar a familias interesadas y recabar datos para crear un lead. "
+        "Haz preguntas breves y de una en una para completar la informacion. "
+        "No inventes datos. "
+        "Nunca compartas costos, colegiaturas, cuotas ni descuentos. "
+        "Si preguntan por precios, explica que no puedes compartirlos por este canal y ofrece "
+        "que un asesor de admisiones los contactara. "
+        "Generalmente conversas con madres, padres o tutores, no con alumnos. "
+        "Si no conoces el nombre del tutor, usa un saludo neutro. "
+        "Evita saludar dos veces si ya saludaste en esta conversacion. "
+        "No digas que actualizaste datos si no se ejecuto una herramienta. "
+        "Cuando tengas los datos minimos, llama a la herramienta create_admissions_lead. "
+        "Si el lead ya existe y el usuario aporta nuevos datos, llama a update_admissions_lead. "
+        "Datos minimos: nombre del alumno, apellido paterno del alumno, "
+        "colegio de procedencia (escuela actual) y grado o nivel de interes. "
+        "Niveles disponibles: kinder, primaria, secundaria, preparatoria. "
+        "No preguntes por el ciclo escolar por ahora. "
+        "Datos recomendados: apellido materno, segundo nombre, "
+        "nombre y apellidos del tutor, correo, y confirmar si este WhatsApp es el telefono de contacto."
     )
+
     if instructions:
         base_prompt = f"{base_prompt}\nInstrucciones adicionales: {instructions}"
+
     return base_prompt
 
 
@@ -113,19 +169,396 @@ def _load_session_messages(
     session_id: str,
 ) -> List[Dict[str, Any]]:
     supabase = get_supabase_client()
+    print("[admissions] loading session messages", {"session_id": session_id})
     response = (
         supabase.from_("messages")
-        .select("role, body, created_at")
+        .select("role, body, created_at, wa_timestamp")
         .eq("chat_session_id", session_id)
-        .order("created_at", desc=False)
+        .order("created_at", desc=True)
         .execute()
     )
     data = get_supabase_data(response) or []
+    print("[admissions] session messages data", data)
+    print(
+        "[admissions] session messages fetched",
+        {"session_id": session_id, "count": len(data)},
+    )
+
+    def _normalize_dt(value: str) -> str:
+        normalized = value.strip()
+        if normalized.endswith("Z"):
+            return normalized.replace("Z", "+00:00")
+        if len(normalized) >= 3 and normalized[-3] in {"+", "-"}:
+            return f"{normalized}:00"
+        if len(normalized) >= 5 and normalized[-5] in {"+", "-"}:
+            return f"{normalized[:-2]}:{normalized[-2:]}"
+        return normalized
+
+    def _parse_dt(value: Optional[str]) -> Optional[datetime]:
+        if not value:
+            return None
+        try:
+            parsed = datetime.fromisoformat(_normalize_dt(value))
+            if parsed.tzinfo is None:
+                return parsed.replace(tzinfo=timezone.utc)
+            return parsed
+        except ValueError:
+            try:
+                parsed = datetime.fromisoformat(_normalize_dt(value.replace(" ", "T")))
+                if parsed.tzinfo is None:
+                    return parsed.replace(tzinfo=timezone.utc)
+                return parsed
+            except ValueError:
+                return None
+
+    def _sort_key(item: Dict[str, Any]) -> float:
+        role = item.get("role")
+        created_dt = _parse_dt(item.get("created_at"))
+        wa_dt = _parse_dt(item.get("wa_timestamp"))
+        if role == "user" and wa_dt:
+            dt = wa_dt
+        else:
+            dt = created_dt or wa_dt
+        return dt.timestamp() if dt else 0.0
+
+    ordered = sorted(data, key=_sort_key)
+    debug_order = [
+        {
+            "role": item.get("role"),
+            "created_at": item.get("created_at"),
+            "wa_timestamp": item.get("wa_timestamp"),
+            "key": _sort_key(item),
+            "body": (item.get("body") or "")[:60],
+        }
+        for item in ordered[:20]
+    ]
+    print("[admissions] session messages ordered", debug_order)
     return [
         item
-        for item in data
+        for item in ordered
         if item.get("role") in {"user", "assistant"} and item.get("body")
     ]
+
+
+def _compose_full_name(parts: List[Optional[str]]) -> Optional[str]:
+    cleaned = [part.strip() for part in parts if part and part.strip()]
+    return " ".join(cleaned) if cleaned else None
+
+
+def _find_or_create_contact(
+    org_id: str,
+    wa_id: Optional[str],
+    request: CreateAdmissionsLeadRequest,
+) -> str:
+    supabase = get_supabase_client()
+    contact_phone = request.contact_phone or wa_id
+    print(
+        "[admissions] contact lookup",
+        {"org_id": org_id, "wa_id": wa_id, "contact_phone": contact_phone},
+    )
+
+    contact_response = (
+        supabase.from_("crm_contacts")
+        .select("id")
+        .eq("organization_id", org_id)
+        .eq("whatsapp_wa_id", wa_id)
+        .maybe_single()
+        .execute()
+    )
+    contact_error = get_supabase_error(contact_response)
+    contact_data = get_supabase_data(contact_response)
+    if contact_error:
+        raise HTTPException(status_code=500, detail="Failed to lookup contact")
+
+    if not contact_data and contact_phone:
+        contact_response = (
+            supabase.from_("crm_contacts")
+            .select("id")
+            .eq("organization_id", org_id)
+            .eq("phone", contact_phone)
+            .maybe_single()
+            .execute()
+        )
+        contact_error = get_supabase_error(contact_response)
+        contact_data = get_supabase_data(contact_response)
+        if contact_error:
+            raise HTTPException(status_code=500, detail="Failed to lookup contact")
+
+    if contact_data and contact_data.get("id"):
+        print("[admissions] contact found", {"contact_id": contact_data.get("id")})
+        return contact_data["id"]
+
+    if not contact_phone:
+        raise HTTPException(status_code=400, detail="Missing contact phone")
+
+    contact_insert = (
+        supabase.from_("crm_contacts")
+        .insert(
+            {
+                "organization_id": org_id,
+                "first_name": request.contact_first_name,
+                "middle_name": request.contact_middle_name,
+                "last_name_paternal": request.contact_last_name_paternal,
+                "last_name_maternal": request.contact_last_name_maternal,
+                "phone": contact_phone,
+                "email": request.contact_email,
+                "whatsapp_wa_id": wa_id,
+                "source": "whatsapp",
+            }
+        )
+        .execute()
+    )
+    contact_error = get_supabase_error(contact_insert)
+    contact_rows = get_supabase_data(contact_insert) or []
+    contact_row = contact_rows[0] if contact_rows else None
+    if contact_error or not contact_row or not contact_row.get("id"):
+        raise HTTPException(status_code=500, detail="Failed to create contact")
+
+    print("[admissions] contact created", {"contact_id": contact_row.get("id")})
+    return contact_row["id"]
+
+
+def _create_admissions_lead(
+    request: CreateAdmissionsLeadRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> str:
+    supabase = get_supabase_client()
+    print(
+        "[admissions] create lead payload",
+        {
+            "student_first_name": request.student_first_name,
+            "student_last_name_paternal": request.student_last_name_paternal,
+            "grade_interest": request.grade_interest,
+            "current_school": request.current_school,
+            "contact_email": request.contact_email,
+            "contact_phone": request.contact_phone,
+        },
+    )
+    if (
+        not request.student_first_name.strip()
+        or not request.student_last_name_paternal.strip()
+        or not request.grade_interest.strip()
+        or not request.current_school.strip()
+    ):
+        return (
+            "No se pudo crear el lead porque faltan datos obligatorios del alumno, "
+            "el colegio de procedencia o el grado de interes."
+        )
+
+    org_id = org.get("id")
+    chat_id = chat.get("id")
+    wa_id = chat.get("wa_id")
+    if not org_id or not chat_id:
+        raise HTTPException(status_code=400, detail="Missing org or chat id")
+
+    existing_response = (
+        supabase.from_("leads")
+        .select("id, lead_number")
+        .eq("organization_id", org_id)
+        .eq("wa_chat_id", chat_id)
+        .maybe_single()
+        .execute()
+    )
+    existing_error = get_supabase_error(existing_response)
+    existing_data = get_supabase_data(existing_response)
+    if existing_error:
+        raise HTTPException(status_code=500, detail="Failed to lookup lead")
+    if existing_data and existing_data.get("id"):
+        lead_number = existing_data.get("lead_number")
+        print(
+            "[admissions] lead exists",
+            {"lead_id": existing_data.get("id"), "lead_number": lead_number},
+        )
+        return (
+            f"Lead ya existente con folio L-{lead_number}."
+            if lead_number
+            else "Lead ya existente."
+        )
+
+    contact_id = _find_or_create_contact(org_id, wa_id, request)
+    contact_phone = request.contact_phone or wa_id
+    if not contact_phone:
+        raise HTTPException(status_code=400, detail="Missing contact phone")
+
+    contact_name = _compose_full_name(
+        [
+            request.contact_first_name,
+            request.contact_middle_name,
+            request.contact_last_name_paternal,
+            request.contact_last_name_maternal,
+        ]
+    ) or chat.get("name")
+
+    metadata: Dict[str, Any] = {}
+    if request.relationship:
+        metadata["relationship"] = request.relationship
+
+    lead_insert = (
+        supabase.from_("leads")
+        .insert(
+            {
+                "organization_id": org_id,
+                "source": "whatsapp",
+                "student_first_name": request.student_first_name,
+                "student_middle_name": request.student_middle_name,
+                "student_last_name_paternal": request.student_last_name_paternal,
+                "student_last_name_maternal": request.student_last_name_maternal,
+                "student_grade_interest": request.grade_interest,
+                "grade_interest": request.grade_interest,
+                "school_year": request.school_year,
+                "current_school": request.current_school,
+                "contact_id": contact_id,
+                "contact_name": contact_name,
+                "contact_first_name": request.contact_first_name,
+                "contact_middle_name": request.contact_middle_name,
+                "contact_last_name_paternal": request.contact_last_name_paternal,
+                "contact_last_name_maternal": request.contact_last_name_maternal,
+                "contact_email": request.contact_email,
+                "contact_phone": contact_phone,
+                "notes": request.notes,
+                "wa_chat_id": chat_id,
+                "wa_id": wa_id,
+                "metadata": metadata,
+            }
+        )
+        .execute()
+    )
+    lead_error = get_supabase_error(lead_insert)
+    lead_rows = get_supabase_data(lead_insert) or []
+    lead_row = lead_rows[0] if lead_rows else None
+    if lead_error or not lead_row:
+        raise HTTPException(status_code=500, detail="Failed to create lead")
+
+    lead_number = lead_row.get("lead_number")
+    print(
+        "[admissions] lead created",
+        {"lead_id": lead_row.get("id"), "lead_number": lead_number},
+    )
+    return (
+        f"Lead creado con folio L-{lead_number}."
+        if lead_number
+        else "Lead creado."
+    )
+
+
+def _update_admissions_lead(
+    request: UpdateAdmissionsLeadRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> str:
+    supabase = get_supabase_client()
+    print("[admissions] update lead payload", request.model_dump(exclude_none=True))
+    org_id = org.get("id")
+    chat_id = chat.get("id")
+    wa_id = chat.get("wa_id")
+    if not org_id or not chat_id:
+        raise HTTPException(status_code=400, detail="Missing org or chat id")
+
+    lead_response = (
+        supabase.from_("leads")
+        .select("id, lead_number, contact_id, metadata")
+        .eq("organization_id", org_id)
+        .eq("wa_chat_id", chat_id)
+        .maybe_single()
+        .execute()
+    )
+    lead_error = get_supabase_error(lead_response)
+    lead_data = get_supabase_data(lead_response)
+    if lead_error:
+        raise HTTPException(status_code=500, detail="Failed to lookup lead")
+    if not lead_data or not lead_data.get("id"):
+        print("[admissions] lead not found for update", {"chat_id": chat_id})
+        return "No encontre un lead activo para actualizar."
+
+    lead_updates: Dict[str, Any] = {}
+    if request.student_first_name:
+        lead_updates["student_first_name"] = request.student_first_name
+    if request.student_middle_name:
+        lead_updates["student_middle_name"] = request.student_middle_name
+    if request.student_last_name_paternal:
+        lead_updates["student_last_name_paternal"] = request.student_last_name_paternal
+    if request.student_last_name_maternal:
+        lead_updates["student_last_name_maternal"] = request.student_last_name_maternal
+    if request.grade_interest:
+        lead_updates["grade_interest"] = request.grade_interest
+        lead_updates["student_grade_interest"] = request.grade_interest
+    if request.school_year:
+        lead_updates["school_year"] = request.school_year
+    if request.current_school:
+        lead_updates["current_school"] = request.current_school
+    if request.notes:
+        lead_updates["notes"] = request.notes
+
+    contact_name = _compose_full_name(
+        [
+            request.contact_first_name,
+            request.contact_middle_name,
+            request.contact_last_name_paternal,
+            request.contact_last_name_maternal,
+        ]
+    )
+    if contact_name:
+        lead_updates["contact_name"] = contact_name
+
+    metadata = lead_data.get("metadata") or {}
+    if request.relationship:
+        metadata = {**metadata, "relationship": request.relationship}
+        lead_updates["metadata"] = metadata
+
+    if lead_updates:
+        update_response = (
+            supabase.from_("leads")
+            .update(lead_updates)
+            .eq("id", lead_data.get("id"))
+            .execute()
+        )
+        update_error = get_supabase_error(update_response)
+        if update_error:
+            raise HTTPException(status_code=500, detail="Failed to update lead")
+        print(
+            "[admissions] lead updated",
+            {"lead_id": lead_data.get("id"), "updates": lead_updates},
+        )
+
+    contact_id = lead_data.get("contact_id")
+    contact_updates: Dict[str, Any] = {}
+    if request.contact_first_name:
+        contact_updates["first_name"] = request.contact_first_name
+    if request.contact_middle_name:
+        contact_updates["middle_name"] = request.contact_middle_name
+    if request.contact_last_name_paternal:
+        contact_updates["last_name_paternal"] = request.contact_last_name_paternal
+    if request.contact_last_name_maternal:
+        contact_updates["last_name_maternal"] = request.contact_last_name_maternal
+    if request.contact_email:
+        contact_updates["email"] = request.contact_email
+    if request.contact_phone:
+        contact_updates["phone"] = request.contact_phone
+    if wa_id:
+        contact_updates["whatsapp_wa_id"] = wa_id
+
+    if contact_updates and contact_id:
+        contact_response = (
+            supabase.from_("crm_contacts")
+            .update(contact_updates)
+            .eq("id", contact_id)
+            .execute()
+        )
+        contact_error = get_supabase_error(contact_response)
+        if contact_error:
+            raise HTTPException(status_code=500, detail="Failed to update contact")
+        print(
+            "[admissions] contact updated",
+            {"contact_id": contact_id, "updates": contact_updates},
+        )
+
+    lead_number = lead_data.get("lead_number")
+    return (
+        f"Lead L-{lead_number} actualizado."
+        if lead_number
+        else "Lead actualizado."
+    )
 
 
 def _load_session_state(session_id: str) -> Dict[str, Any]:
@@ -140,12 +573,68 @@ def _load_session_state(session_id: str) -> Dict[str, Any]:
     return get_supabase_data(response) or {}
 
 
+def _load_lead_context(org_id: str, chat_id: str) -> Optional[str]:
+    supabase = get_supabase_client()
+    response = (
+        supabase.from_("leads")
+        .select(
+            "id, lead_number, student_first_name, student_middle_name, "
+            "student_last_name_paternal, student_last_name_maternal, "
+            "grade_interest, current_school, contact_name, contact_email, contact_phone"
+        )
+        .eq("organization_id", org_id)
+        .eq("wa_chat_id", chat_id)
+        .maybe_single()
+        .execute()
+    )
+    lead_error = get_supabase_error(response)
+    lead_data = get_supabase_data(response)
+    if lead_error or not lead_data:
+        return None
+
+    lead_number = lead_data.get("lead_number")
+    student_name = _compose_full_name(
+        [
+            lead_data.get("student_first_name"),
+            lead_data.get("student_middle_name"),
+            lead_data.get("student_last_name_paternal"),
+            lead_data.get("student_last_name_maternal"),
+        ]
+    )
+    missing = []
+    if not lead_data.get("current_school"):
+        missing.append("colegio de procedencia")
+    if not lead_data.get("grade_interest"):
+        missing.append("grado de interes")
+    if not lead_data.get("contact_name"):
+        missing.append("nombre del tutor")
+    if not lead_data.get("contact_email"):
+        missing.append("correo del tutor")
+    if not lead_data.get("contact_phone"):
+        missing.append("telefono del tutor")
+
+    missing_text = ", ".join(missing) if missing else "ninguno"
+    lead_label = f"L-{lead_number}" if lead_number else "sin folio"
+    return (
+        "Lead existente: "
+        f"folio {lead_label}. "
+        f"Alumno: {student_name or 'sin nombre'}. "
+        f"Grado: {lead_data.get('grade_interest') or 'sin dato'}. "
+        f"Escuela actual: {lead_data.get('current_school') or 'sin dato'}. "
+        f"Tutor: {lead_data.get('contact_name') or 'sin dato'}. "
+        f"Correo: {lead_data.get('contact_email') or 'sin dato'}. "
+        f"Telefono: {lead_data.get('contact_phone') or 'sin dato'}. "
+        f"Faltantes: {missing_text}."
+    )
+
+
 @router.post("/process")
 def process_queue(
     payload: ProcessQueueRequest,
     authorization: Optional[str] = Header(default=None),
 ):
     _require_cron_secret(authorization)
+    print("[admissions] process_queue", {"chat_id": payload.chat_id})
 
     supabase = get_supabase_client()
     chat_response = (
@@ -160,10 +649,13 @@ def process_queue(
 
     if chat_error or not chat:
         raise HTTPException(status_code=404, detail="Chat not found")
+    print("[admissions] chat loaded", {"chat_id": chat.get("id")})
 
     org_response = (
         supabase.from_("organizations")
-        .select("id, bot_name, bot_instructions, bot_tone, bot_language, bot_model, phone_number_id")
+        .select(
+            "id, name, bot_name, bot_instructions, bot_tone, bot_language, bot_model, phone_number_id"
+        )
         .eq("id", chat.get("organization_id"))
         .single()
         .execute()
@@ -173,6 +665,7 @@ def process_queue(
 
     if org_error or not org:
         raise HTTPException(status_code=404, detail="Organization not found")
+    print("[admissions] org loaded", {"org_id": org.get("id")})
 
     if not org.get("phone_number_id"):
         raise HTTPException(
@@ -188,45 +681,81 @@ def process_queue(
         "chat_id", chat.get("id")
     ).is_("chat_session_id", None).execute()
 
-    session_state = _load_session_state(session_id)
-    last_response_at = session_state.get("last_response_at")
-    last_response_dt = None
-    if last_response_at:
-        try:
-            last_response_dt = datetime.fromisoformat(last_response_at)
-        except ValueError:
-            last_response_dt = None
-
     all_messages = _load_session_messages(session_id)
 
     history: List[Dict[str, str]] = []
     pending_user_texts: List[str] = []
 
-    for message in all_messages:
+    last_assistant_index = -1
+    for index, message in enumerate(all_messages):
+        if message.get("role") == "assistant":
+            last_assistant_index = index
+
+    for message in all_messages[: last_assistant_index + 1]:
         role = message.get("role")
         body = message.get("body")
-        created_at = message.get("created_at")
-        created_dt = None
-        if created_at:
-            try:
-                created_dt = datetime.fromisoformat(created_at)
-            except ValueError:
-                created_dt = None
         if not body or not role:
             continue
-        if last_response_dt and created_dt and created_dt <= last_response_dt:
-            history.append({"role": role, "content": body})
-        elif role == "user":
+        history.append({"role": role, "content": body})
+
+    for message in all_messages[last_assistant_index + 1 :]:
+        role = message.get("role")
+        body = message.get("body")
+        if role == "user" and body:
             pending_user_texts.append(body)
 
     combined_user = payload.final_message or " ".join(pending_user_texts)
     if not combined_user:
         return {"status": "skipped", "reason": "no_user_message"}
+    print("[admissions] combined user", {"text": combined_user})
+    print(
+        "[admissions] history",
+        {"count": len(history), "messages": history},
+    )
 
+    has_assistant_history = any(
+        message.get("role") == "assistant" for message in history
+    )
+
+    lead_context = _load_lead_context(org.get("id"), chat.get("id"))
     messages_payload = [
         {"role": "system", "content": _build_prompt(org)},
+        *(
+            [
+                {
+                    "role": "system",
+                    "content": "El usuario ya fue saludado en esta conversacion.",
+                }
+            ]
+            if has_assistant_history
+            else []
+        ),
+        *(
+            [{"role": "system", "content": lead_context}]
+            if lead_context
+            else []
+        ),
         *history,
         {"role": "user", "content": combined_user},
+    ]
+
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "create_admissions_lead",
+                "description": "Create an admissions lead once the required data is collected",
+                "parameters": CreateAdmissionsLeadRequest.model_json_schema(),
+            },
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "update_admissions_lead",
+                "description": "Update an admissions lead with additional details",
+                "parameters": UpdateAdmissionsLeadRequest.model_json_schema(),
+            },
+        },
     ]
 
     model = org.get("bot_model")
@@ -236,8 +765,79 @@ def process_queue(
     completion = grok_client.chat.completions.create(
         model=model,
         messages=messages_payload,
+        tools=tools,
     )
-    assistant_text = completion.choices[0].message.content or ""
+    assistant_message = completion.choices[0].message
+    assistant_text = assistant_message.content or ""
+    tool_calls = assistant_message.tool_calls or []
+    print(
+        "[admissions] grok response",
+        {"assistant_text": assistant_text, "tool_calls": len(tool_calls)},
+    )
+
+    if tool_calls:
+        messages_payload.append(
+            {
+                "role": "assistant",
+                "content": assistant_text,
+                "tool_calls": [
+                    tool_call.model_dump() for tool_call in tool_calls
+                ],
+            }
+        )
+        for tool_call in tool_calls:
+            tool_name = tool_call.function.name
+            tool_args_json = tool_call.function.arguments
+            tool_result = "No se pudo ejecutar la accion solicitada."
+            print(
+                "[admissions] tool call received",
+                {"tool_name": tool_name, "args": tool_args_json},
+            )
+            if tool_name == "create_admissions_lead":
+                try:
+                    tool_args = CreateAdmissionsLeadRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _create_admissions_lead(
+                        tool_args, org=org, chat=chat
+                    )
+                except HTTPException as exc:
+                    tool_result = f"No se pudo crear el lead: {exc.detail}"
+                except Exception:
+                    tool_result = (
+                        "No se pudo crear el lead: datos incompletos o invalidos."
+                    )
+            elif tool_name == "update_admissions_lead":
+                try:
+                    tool_args = UpdateAdmissionsLeadRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _update_admissions_lead(
+                        tool_args, org=org, chat=chat
+                    )
+                except HTTPException as exc:
+                    tool_result = f"No se pudo actualizar el lead: {exc.detail}"
+                except Exception:
+                    tool_result = (
+                        "No se pudo actualizar el lead: datos invalidos."
+                    )
+            print(
+                "[admissions] tool result",
+                {"tool_name": tool_name, "result": tool_result},
+            )
+            messages_payload.append(
+                {
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": tool_result,
+                }
+            )
+        followup = grok_client.chat.completions.create(
+            model=model,
+            messages=messages_payload,
+            tools=tools,
+        )
+        assistant_text = followup.choices[0].message.content or ""
 
     send_result = send_whatsapp_text(
         SendWhatsAppTextParams(
