@@ -11,7 +11,14 @@ from app.core.supabase import (
     get_supabase_data,
     get_supabase_error,
 )
-from app.whatsapp.outbound import SendWhatsAppTextParams, send_whatsapp_text
+from app.whatsapp.outbound import (
+    SendWhatsAppTextParams,
+    send_whatsapp_text,
+    SendWhatsAppDocumentParams,
+    send_whatsapp_document,
+    UploadWhatsAppMediaParams,
+    upload_whatsapp_media,
+)
 
 router = APIRouter(prefix="/api/whatsapp", tags=["whatsapp"])
 
@@ -77,24 +84,31 @@ def _build_prompt(org: Dict[str, Any]) -> str:
     base_prompt = (
         f"Eres {bot_name}, un asistente virtual de admisiones de {school_name}. "
         f"Responde en {language} con un tono {tone}. "
-        "Tu objetivo es orientar a familias interesadas y recabar datos para crear un lead. "
-        "Haz preguntas breves y de una en una para completar la informacion. "
+        "Tu objetivo es orientar a familias interesadas de forma natural y servicial. "
+        "No pidas datos personales (como nombre, correo o teléfono) de inmediato en el saludo. "
+        "Primero responde a las dudas del usuario o inicia la conversación de manera amigable. "
+        "Recaba los datos necesarios poco a poco y de forma integrada en la charla, no como un interrogatorio. "
         "No inventes datos. "
         "Nunca compartas costos, colegiaturas, cuotas ni descuentos. "
-        "Si preguntan por precios, explica que no puedes compartirlos por este canal y ofrece "
-        "que un asesor de admisiones los contactara. "
-        "Generalmente conversas con madres, padres o tutores, no con alumnos. "
-        "Si no conoces el nombre del tutor, usa un saludo neutro. "
-        "Evita saludar dos veces si ya saludaste en esta conversacion. "
-        "No digas que actualizaste datos si no se ejecuto una herramienta. "
-        "Cuando tengas los datos minimos, llama a la herramienta create_admissions_lead. "
-        "Si el lead ya existe y el usuario aporta nuevos datos, llama a update_admissions_lead. "
-        "Datos minimos: nombre del alumno, apellido paterno del alumno, "
-        "colegio de procedencia (escuela actual) y grado o nivel de interes. "
-        "Niveles disponibles: kinder, primaria, secundaria, preparatoria. "
-        "No preguntes por el ciclo escolar por ahora. "
-        "Datos recomendados: apellido materno, segundo nombre, "
-        "nombre y apellidos del tutor, correo, y confirmar si este WhatsApp es el telefono de contacto."
+        "Si preguntan por precios, explica amablemente que no puedes compartirlos por este medio y ofrece "
+        "que un asesor de admisiones los contactará para darles información personalizada. "
+        "Generalmente conversas con madres, padres o tutores. Usa un saludo neutro si no conoces su nombre. "
+        "No saludes de nuevo si ya la conversación está iniciada. "
+        "Solo di que actualizaste o guardaste datos cuando hayas ejecutado exitosamente una herramienta. "
+        "Datos objetivo a recolectar durante la charla: Nombre completo del alumno, Grado de interés (kinder, primaria, secundaria, prepa), Escuela actual, Nombre del tutor, Correo y Teléfono. "
+        "Valora la fluidez y la empatía por encima de capturar los datos rápido. "
+        "SÍ tienes acceso a información de requisitos. Si preguntan, responde con la información clave y OFRECE enviar el documento PDF oficial usando la herramienta 'get_admission_requirements'. "
+        
+        "RESUMEN DE REQUISITOS (ten esto en contexto para dudas): "
+        "1. PRENURSERY (MATERNAL): 4 fotos, Acta nacimiento, Carta desempeño (si aplica), Curp, Carta solvencia (nuevos), Certificado salud, Cartilla vacunación, Formatos CAT. "
+        "2. EARLY CHILDHOOD (PREESCOLAR/KINDER): Similar a maternal + Reporte evaluación SEP y Carta conducta escuela anterior. "
+        "3. ELEMENTARY (PRIMARIA): Fotos, Acta, Calificaciones SEP (año en curso y 2 anteriores), Certificado Preescolar (para 1ro), Carta conducta, Curp, Solvencia, Cartas recomendación. "
+        "4. MIDDLE SCHOOL (SECUNDARIA): Similar primaria + Certificado Primaria. "
+        "5. HIGH SCHOOL (PREPARATORIA): Promedio mínimo 8.0, Conducta condicionante. Certificado Secundaria + Papelería estándar. "
+
+        "Para enviar el PDF usa 'get_admission_requirements' con la división correcta: "
+        "'prenursery', 'early_child' (para kinder/preescolar), 'elementary' (primaria), 'middle_school' (secundaria), 'high_school' (prepa). "
+        "Si no sabes la división, pregúntala antes de intentar enviar."
     )
 
     if instructions:
@@ -178,11 +192,11 @@ def _load_session_messages(
         .execute()
     )
     data = get_supabase_data(response) or []
-    print("[admissions] session messages data", data)
-    print(
-        "[admissions] session messages fetched",
-        {"session_id": session_id, "count": len(data)},
-    )
+    # print("[admissions] session messages data", data)
+    # print(
+    #     "[admissions] session messages fetched",
+    #     {"session_id": session_id, "count": len(data)},
+    # )
 
     def _normalize_dt(value: str) -> str:
         import re
@@ -247,7 +261,7 @@ def _load_session_messages(
         }
         for item in ordered[:20]
     ]
-    print("[admissions] session messages ordered", debug_order)
+    # print("[admissions] session messages ordered", debug_order)
     return [
         item
         for item in ordered
@@ -504,6 +518,18 @@ def _update_admissions_lead(
         lead_updates["current_school"] = request.current_school
     if request.notes:
         lead_updates["notes"] = request.notes
+    if request.contact_email:
+        lead_updates["contact_email"] = request.contact_email
+    if request.contact_phone:
+        lead_updates["contact_phone"] = request.contact_phone
+    if request.contact_first_name:
+        lead_updates["contact_first_name"] = request.contact_first_name
+    if request.contact_middle_name:
+        lead_updates["contact_middle_name"] = request.contact_middle_name
+    if request.contact_last_name_paternal:
+        lead_updates["contact_last_name_paternal"] = request.contact_last_name_paternal
+    if request.contact_last_name_maternal:
+        lead_updates["contact_last_name_maternal"] = request.contact_last_name_maternal
 
     contact_name = _compose_full_name(
         [
@@ -723,14 +749,14 @@ def process_queue(
     if not combined_user:
         return {"status": "skipped", "reason": "no_user_message"}
     print("[admissions] combined user", {"text": combined_user})
-    print(
-        "[admissions] history",
-        {"count": len(history), "messages": history},
-    )
-    print("----------- HISTORY LINES -----------")
-    for i, msg in enumerate(history):
-        print(f"[{i}] {msg.get('role')}: {msg.get('content')}")
-    print("-------------------------------------")
+    # print(
+    #     "[admissions] history",
+    #     {"count": len(history), "messages": history},
+    # )
+    # print("----------- HISTORY LINES -----------")
+    # for i, msg in enumerate(history):
+    #     print(f"[{i}] {msg.get('role')}: {msg.get('content')}")
+    # print("-------------------------------------")
 
     has_assistant_history = any(
         message.get("role") == "assistant" for message in history
@@ -773,6 +799,14 @@ def process_queue(
                 "name": "update_admissions_lead",
                 "description": "Update an admissions lead with additional details",
                 "parameters": UpdateAdmissionsLeadRequest.model_json_schema(),
+            },
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "get_admission_requirements",
+                "description": "Get and send the admission requirements document (PDF) for a specific school division. Use this when the user asks for requirements.",
+                "parameters": GetRequirementsRequest.model_json_schema(),
             },
         },
     ]
@@ -840,6 +874,17 @@ def process_queue(
                     tool_result = (
                         "No se pudo actualizar el lead: datos invalidos."
                     )
+            elif tool_name == "get_admission_requirements":
+                try:
+                    tool_args = GetRequirementsRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _send_requirements(
+                        tool_args, org=org, chat=chat, session_id=session_id
+                    )
+                except Exception as exc:
+                    tool_result = f"Error al enviar requisitos: {str(exc)}"
+
             print(
                 "[admissions] tool result",
                 {"tool_name": tool_name, "result": tool_result},
@@ -896,4 +941,187 @@ def process_queue(
         "status": "sent" if not send_result.error else "error",
         "message_id": send_result.message_id,
         "error": send_result.error,
+    }
+
+
+class GetRequirementsRequest(BaseModel):
+    division: str  # prenursery, early_child, elementary, middle_school, high_school
+
+
+def _send_requirements(
+    request: GetRequirementsRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+    session_id: str,
+) -> str:
+    supabase = get_supabase_client()
+    division = request.division.lower().strip()
+    valid_divisions = {
+        "prenursery",
+        "early_child",
+        "elementary",
+        "middle_school",
+        "high_school",
+    }
+    if division not in valid_divisions:
+        return f"Division invalida: {division}. Divisiones validas: {', '.join(valid_divisions)}"
+
+    print(f"[admissions] fetching requirements for {division}")
+    
+    # 1. Fetch document metadata from DB
+    doc_response = (
+        supabase.from_("admission_requirement_documents")
+        .select("*")
+        .eq("organization_id", org.get("id"))
+        .eq("division", division)
+        .eq("is_active", True)
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    docs = get_supabase_data(doc_response)
+    if not docs:
+        return f"No hay documento de requisitos configurado para la division {division}."
+    
+    doc = docs[0]
+    file_path = doc.get("file_path")
+    bucket = doc.get("storage_bucket")
+    file_name = doc.get("file_name") or f"Requisitos_{division}.pdf"
+    
+    if not file_path or not bucket:
+        return "Error de configuracion: falta bucket o path del archivo."
+
+    # 2. Download file from Supabase Storage
+    try:
+        print(f"[admissions] downloading {file_path} from {bucket}")
+        file_bytes = supabase.storage.from_(bucket).download(file_path)
+    except Exception as exc:
+        print(f"[admissions] storage download error: {exc}")
+        return "No se pudo descargar el documento de requisitos."
+        
+    # 3. Upload to WhatsApp
+    try:
+        import base64
+        media_b64 = base64.b64encode(file_bytes).decode("utf-8")
+        
+        upload_params = UploadWhatsAppMediaParams(
+            phone_number_id=org.get("phone_number_id"),
+            media_base64=media_b64,
+            mime_type="application/pdf",
+            file_name=file_name,
+        )
+        upload_result = upload_whatsapp_media(upload_params)
+        
+        if upload_result.error or not upload_result.media_id:
+            print(f"[admissions] whatsapp upload error: {upload_result.error}")
+            return "Error al subir el documento a WhatsApp."
+            
+        media_id = upload_result.media_id
+        
+        # 4. Send Document to User
+        send_params = SendWhatsAppDocumentParams(
+            phone_number_id=org.get("phone_number_id"),
+            to=chat.get("wa_id"),
+            media_id=media_id,
+            file_name=file_name,
+            caption=f"Requisitos de admisión para {division.replace('_', ' ').title()}",
+        )
+        send_result = send_whatsapp_document(send_params)
+        
+        # 5. Log Outbound Message
+        message_payload = {
+            "chat_id": chat.get("id"),
+            "chat_session_id": session_id,
+            "wa_message_id": send_result.message_id,
+            "body": f"[Documento enviado: {file_name}]",
+            "type": "document",
+            "status": "sent" if not send_result.error else "failed",
+            "direction": "outbound",
+            "role": "assistant",
+            "payload": {
+                "source": "tool_requirements",
+                "division": division,
+                "file_path": file_path,
+                "error": send_result.error,
+            },
+            "sender_name": org.get("bot_name"),
+            "media_id": media_id,
+            "media_path": file_path, # Or storage path
+            "media_file_name": file_name,
+            "created_at": datetime.utcnow().isoformat(),
+        }
+        supabase.from_("messages").insert(message_payload).execute()
+        
+        if send_result.error:
+            return f"Error al enviar el documento: {send_result.error}"
+            
+        return f"Documento de requisitos para {division} enviado exitosamente al usuario."
+        
+    except Exception as exc:
+        print(f"[admissions] send requirements exception: {exc}")
+        return "Error inesperado al enviar requisitos."
+
+
+@router.get("/chats/{chat_id}/history")
+def get_chat_history_endpoint(chat_id: str):
+    """
+    Retrieves the chat history for a given chat_id using the active session or the latest one.
+    Useful for debugging and prompt improvement.
+    """
+    supabase = get_supabase_client()
+
+    # 1. Get Chat to find active session
+    chat_response = (
+        supabase.from_("chats")
+        .select("id, active_session_id")
+        .eq("id", chat_id)
+        .single()
+        .execute()
+    )
+    # Handle error or missing chat
+    chat_data = get_supabase_data(chat_response)
+    if not chat_data:
+        raise HTTPException(status_code=404, detail="Chat not found")
+
+    session_id = chat_data.get("active_session_id")
+
+    # 2. If no active session, try to find the last created session
+    if not session_id:
+        session_fetch = (
+            supabase.from_("chat_sessions")
+            .select("id")
+            .eq("chat_id", chat_id)
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        rows = get_supabase_data(session_fetch)
+        if rows:
+            session_id = rows[0]["id"]
+
+    if not session_id:
+        return {
+            "chat_id": chat_id,
+            "session_id": None,
+            "history": [],
+            "note": "No session found for this chat",
+        }
+
+    # 3. Load messages using existing logic
+    messages = _load_session_messages(session_id)
+
+    # 4. Format output
+    history = []
+    for msg in messages:
+        # Sort key used in _load_session_messages ensures order
+        role = msg.get("role")
+        content = msg.get("body")
+        if role and content:
+            history.append({"role": role, "content": content})
+
+    return {
+        "chat_id": chat_id,
+        "session_id": session_id,
+        "count": len(history),
+        "history": history,
     }
