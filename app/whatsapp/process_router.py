@@ -35,6 +35,7 @@ class CreateAdmissionsLeadRequest(BaseModel):
     student_middle_name: Optional[str] = None
     student_last_name_paternal: str
     student_last_name_maternal: Optional[str] = None
+    student_dob: Optional[str] = None
     grade_interest: str
     school_year: Optional[str] = None
     current_school: str
@@ -53,6 +54,7 @@ class UpdateAdmissionsLeadRequest(BaseModel):
     student_middle_name: Optional[str] = None
     student_last_name_paternal: Optional[str] = None
     student_last_name_maternal: Optional[str] = None
+    student_dob: Optional[str] = None
     grade_interest: Optional[str] = None
     school_year: Optional[str] = None
     current_school: Optional[str] = None
@@ -100,6 +102,9 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         f"Hoy es {day_of_week} {current_date} y la hora actual es {current_time}. "
         f"Responde en {language} con un tono {tone}. "
         "Tu objetivo es orientar a familias interesadas de forma natural y servicial. "
+        "En el primer mensaje, usa un saludo breve y claro como: "
+        f"'Hola, gracias por comunicarte al area de admisiones de {school_name}. "
+        "¿Como puedo ayudarte?' "
         "No pidas datos personales (como nombre, correo o teléfono) de inmediato en el saludo. "
         "Primero responde a las dudas del usuario o inicia la conversación de manera amigable. "
         "Si el usuario solo saluda o no expresa intención, responde con un saludo breve y una pregunta abierta "
@@ -110,7 +115,10 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "3) '¡Hola! Estoy para ayudarte con admisiones. ¿Qué información necesitas?' "
         "Recaba los datos necesarios poco a poco y de forma integrada en la charla, no como un interrogatorio. "
         "No inventes datos. "
+        "No inventes nombres de alumnos, padres o tutores. Si no tienes el nombre, usa 'tu hija' o 'tu hijo'. "
         "Nunca compartas costos, colegiaturas, cuotas ni descuentos. "
+        "No hay becas ni descuentos por hermanos. Si preguntan por beca o descuentos, "
+        "explica amablemente que no hay y registra una nota en el lead: 'Solicita beca/descuento'. "
         "Si preguntan por precios, explica amablemente que no puedes compartirlos por este medio y ofrece "
         "que un asesor de admisiones los contactará para darles información personalizada. "
         "Generalmente conversas con madres, padres o tutores. Usa un saludo neutro si no conoces su nombre. "
@@ -118,12 +126,35 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "Solo di que actualizaste o guardaste datos cuando hayas ejecutado exitosamente una herramienta. "
         "Valora la fluidez y la empatía por encima de capturar los datos rápido. "
         "Datos objetivo a recolectar durante la charla (solo cuando el usuario ya mostró interés o hizo una pregunta concreta): "
-        "Nombre completo del alumno, Grado de interés (kinder, primaria, secundaria, prepa), Escuela actual, "
-        "Nombre del tutor, Correo y Teléfono. "
-        "Si el usuario comparte intereses, preferencias o detalles relevantes que no son campos estructurados, "
+        "Nombre completo del alumno, Fecha de nacimiento, Grado de interés (kinder, primaria, secundaria, prepa), "
+        "Escuela actual, Nombre del tutor, Correo y Teléfono. "
+        "Si hay interes y aun no tienes la fecha de nacimiento, preguntala. Es obligatoria. "
+        "Si el usuario comparte intereses, preferencias o detalles relevantes (motivaciones, dudas, "
+        "condiciones, contexto familiar o cualquier informacion util), "
         "guarda una nota breve en el lead usando la herramienta 'add_lead_note'. "
-        "Ejemplo: 'Interes en robotica' o 'Busca actividades de arte y deportes'. "
+        "Ejemplo: 'Busca jornada extendida', 'Quiere visita con ambos padres', "
+        "'Preocupacion por adaptacion', 'Solicita beca/descuento'. "
+        "Solo envia el documento de requisitos si el usuario lo pide expresamente. Si no lo pide, solo OFRECE enviarlo. "
         "SÍ tienes acceso a información de requisitos. Si preguntan, responde con la información clave y OFRECE enviar el documento PDF oficial usando la herramienta 'get_admission_requirements'. "
+        "Si el usuario no pidio requisitos, NO uses 'get_admission_requirements'. "
+        "Si el usuario pide el PDF o la papeleria, envia el documento por WhatsApp con 'get_admission_requirements'. "
+        "No digas que lo enviaste por correo ni inventes envios; solo confirma envio si la herramienta se ejecuto. "
+        "Los ciclos son de agosto a junio: "
+        "si el mes actual es agosto-diciembre, el ciclo actual es anio actual-anio siguiente; "
+        "si el mes actual es enero-julio, el ciclo actual es anio anterior-anio actual. "
+        "Si la intencion es para el ciclo actual, canaliza a un asesor y no sigas el flujo normal. "
+        "Si es para el ciclo siguiente, sigue el flujo normal. "
+        "Rangos de fechas de nacimiento para ciclo 2025-2026 (estrictos): "
+        "Prenursery: 01-Aug-2022 a 31-Jul-2023; Nursery: 01-Aug-2021 a 31-Jul-2022; "
+        "Preschool: 01-Aug-2020 a 31-Jul-2021; Kinder: 01-Aug-2019 a 31-Jul-2020; "
+        "Primaria 1: 01-Aug-2018 a 31-Jul-2019; Primaria 2: 01-Aug-2017 a 31-Jul-2018; "
+        "Primaria 3: 01-Aug-2016 a 31-Jul-2017; Primaria 4: 01-Aug-2015 a 31-Jul-2016; "
+        "Primaria 5: 01-Aug-2014 a 31-Jul-2015; Primaria 6: 01-Aug-2013 a 31-Jul-2014; "
+        "Secundaria 1: 01-Aug-2012 a 31-Jul-2013; Secundaria 2: 01-Aug-2011 a 31-Jul-2012; "
+        "Secundaria 3: 01-Aug-2010 a 31-Jul-2011; Bachillerato 1: 01-Aug-2009 a 31-Jul-2010; "
+        "Bachillerato 2: 01-Aug-2008 a 31-Jul-2009; Bachillerato 3: 01-Aug-2007 a 31-Jul-2008. "
+        "Para ciclo 2026-2027, incrementa todos los rangos de fechas un ano. "
+        "Se estricto con los rangos: si la fecha de nacimiento no cae en el rango del grado solicitado, explica y ofrece canalizar con un asesor. "
         
         "RESUMEN DE REQUISITOS (ten esto en contexto para dudas): "
         "1. PRENURSERY (MATERNAL): 4 fotos, Acta nacimiento, Carta desempeño (si aplica), Curp, Carta solvencia (nuevos), Certificado salud, Cartilla vacunación, Formatos CAT. "
@@ -416,6 +447,31 @@ def _append_lead_note(
     ).eq("id", lead.get("id")).execute()
 
 
+def _append_pending_note(
+    supabase: Any,
+    chat: Dict[str, Any],
+    note: str,
+) -> None:
+    note = note.strip()
+    if not note:
+        return
+    state = _get_chat_state(chat)
+    pending = state.get("pending_notes") or []
+    if note in pending:
+        return
+    pending.append(note)
+    _set_chat_state_value(supabase, chat, "pending_notes", pending)
+
+
+def _drain_pending_notes(
+    supabase: Any,
+    chat: Dict[str, Any],
+) -> List[str]:
+    notes = _get_chat_state(chat).get("pending_notes") or []
+    _pop_chat_state_value(supabase, chat, "pending_notes")
+    return [note for note in notes if note]
+
+
 def _get_slot_options(
     lead: Optional[Dict[str, Any]],
     chat: Dict[str, Any],
@@ -469,6 +525,13 @@ def _extract_interest_note(text: str) -> Optional[str]:
     lowered = text.lower()
     if "robotica" in lowered or "robótica" in lowered:
         return "Interes en robotica"
+    return None
+
+
+def _extract_scholarship_note(text: str) -> Optional[str]:
+    lowered = text.lower()
+    if any(term in lowered for term in ["beca", "becas", "descuento", "descuentos", "herman"]):
+        return "Solicita beca/descuento"
     return None
 
 
@@ -729,6 +792,7 @@ def _create_admissions_lead(
                 "student_middle_name": request.student_middle_name,
                 "student_last_name_paternal": request.student_last_name_paternal,
                 "student_last_name_maternal": request.student_last_name_maternal,
+                "student_dob": request.student_dob,
                 "student_grade_interest": request.grade_interest,
                 "grade_interest": request.grade_interest,
                 "school_year": request.school_year,
@@ -763,6 +827,9 @@ def _create_admissions_lead(
             request.notes,
             subject="Nota del bot",
         )
+    pending_notes = _drain_pending_notes(supabase, chat)
+    for note in pending_notes:
+        _append_lead_note(supabase, lead_row, org_id, note, subject="Nota")
 
     lead_number = lead_row.get("lead_number")
     print(
@@ -814,6 +881,8 @@ def _update_admissions_lead(
         lead_updates["student_last_name_paternal"] = request.student_last_name_paternal
     if request.student_last_name_maternal:
         lead_updates["student_last_name_maternal"] = request.student_last_name_maternal
+    if request.student_dob:
+        lead_updates["student_dob"] = request.student_dob
     if request.grade_interest:
         lead_updates["grade_interest"] = request.grade_interest
         lead_updates["student_grade_interest"] = request.grade_interest
@@ -957,6 +1026,32 @@ def _maybe_auto_add_interest_note(
         return None
     _append_lead_note(supabase, lead, org.get("id"), note, subject="Interes")
     return note
+
+
+def _maybe_auto_add_notes(
+    combined_user: str,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> bool:
+    notes = []
+    interest_note = _extract_interest_note(combined_user)
+    if interest_note:
+        notes.append(interest_note)
+    scholarship_note = _extract_scholarship_note(combined_user)
+    if scholarship_note:
+        notes.append(scholarship_note)
+    if not notes:
+        return False
+
+    supabase = get_supabase_client()
+    lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+    if lead and lead.get("id"):
+        for note in notes:
+            _append_lead_note(supabase, lead, org.get("id"), note, subject="Nota")
+        return True
+    for note in notes:
+        _append_pending_note(supabase, chat, note)
+    return True
 
 
 def _maybe_book_from_selection(
@@ -1138,7 +1233,7 @@ def _load_lead_context(org_id: str, chat_id: str) -> Optional[str]:
         supabase.from_("leads")
         .select(
             "id, lead_number, student_first_name, student_middle_name, "
-            "student_last_name_paternal, student_last_name_maternal, "
+            "student_last_name_paternal, student_last_name_maternal, student_dob, "
             "grade_interest, current_school, contact_name, contact_email, contact_phone, notes"
         )
         .eq("organization_id", org_id)
@@ -1165,6 +1260,8 @@ def _load_lead_context(org_id: str, chat_id: str) -> Optional[str]:
         missing.append("colegio de procedencia")
     if not lead_data.get("grade_interest"):
         missing.append("grado de interes")
+    if not lead_data.get("student_dob"):
+        missing.append("fecha de nacimiento")
     if not lead_data.get("contact_name"):
         missing.append("nombre del tutor")
     if not lead_data.get("contact_email"):
@@ -1183,6 +1280,7 @@ def _load_lead_context(org_id: str, chat_id: str) -> Optional[str]:
         f"folio {lead_label}. "
         f"Alumno: {student_name or 'sin nombre'}. "
         f"Grado: {lead_data.get('grade_interest') or 'sin dato'}. "
+        f"Fecha nacimiento: {lead_data.get('student_dob') or 'sin dato'}. "
         f"Escuela actual: {lead_data.get('current_school') or 'sin dato'}. "
         f"Tutor: {lead_data.get('contact_name') or 'sin dato'}. "
         f"Correo: {lead_data.get('contact_email') or 'sin dato'}. "
@@ -1482,9 +1580,29 @@ def process_queue(
                     tool_args = GetRequirementsRequest.model_validate_json(
                         tool_args_json
                     )
-                    tool_result = _send_requirements(
-                        tool_args, org=org, chat=chat, session_id=session_id
-                    )
+                    lower_user = combined_user.lower()
+                    if not any(
+                        term in lower_user
+                        for term in [
+                            "requisito",
+                            "requisitos",
+                            "documento",
+                            "documentos",
+                            "pdf",
+                            "lista",
+                            "papeleria",
+                            "papelería",
+                            "papel",
+                        ]
+                    ):
+                        tool_result = (
+                            "Solo puedo enviar requisitos si me los solicitan. "
+                            "Si los necesitas, dimelo y con gusto te los envio."
+                        )
+                    else:
+                        tool_result = _send_requirements(
+                            tool_args, org=org, chat=chat, session_id=session_id
+                        )
                 except Exception as exc:
                     tool_result = f"Error al enviar requisitos: {str(exc)}"
             elif tool_name == "search_availability_slots":
@@ -1554,7 +1672,7 @@ def process_queue(
             assistant_text = followup.choices[0].message.content or ""
 
     if not lead_note_added:
-        _maybe_auto_add_interest_note(combined_user, org=org, chat=chat)
+        _maybe_auto_add_notes(combined_user, org=org, chat=chat)
 
     return _send_assistant_message(assistant_text, org, chat, session_id)
 
