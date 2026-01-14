@@ -166,6 +166,17 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "Para enviar el PDF usa 'get_admission_requirements' con la división correcta: "
         "'prenursery', 'early_child' (para kinder/preescolar), 'elementary' (primaria), 'middle_school' (secundaria), 'high_school' (prepa). "
         "Si no sabes la división, pregúntala antes de intentar enviar. "
+
+        "EVENTOS: "
+        "Cuando ya conozcas la division de interes, usa 'get_next_event' para revisar "
+        "si hay un evento proximo para esa division. "
+        "Solo ofrece el proximo evento disponible y nunca ofrezcas eventos de otra division. "
+        "Si el lead ya esta registrado, confirmalo y evita insistir. "
+        "Si el usuario acepta, usa 'register_event' para registrarlo. "
+        "Si no hay lead pero ya sabes la division y el usuario acepta, "
+        "recaba los datos para crear el lead y luego registra con 'register_event'. "
+        "Si hay documento del evento, el bot debe adjuntarlo (se envia desde 'register_event'). "
+        "No muestres IDs tecnicos de eventos al usuario. "
         
         "OBJETIVO SECUNDARIO (VISITAS): "
         "Una vez creado el lead, tu meta es agendar una visita al campus. "
@@ -402,6 +413,7 @@ def _get_lead_by_chat(
     supabase: Any,
     org_id: str,
     chat_id: str,
+    wa_id: Optional[str] = None,
 ) -> Optional[Dict[str, Any]]:
     response = (
         supabase.from_("leads")
@@ -413,7 +425,23 @@ def _get_lead_by_chat(
     )
     if get_supabase_error(response):
         raise HTTPException(status_code=500, detail="Failed to lookup lead")
-    return get_supabase_data(response)
+    lead_data = get_supabase_data(response)
+    if lead_data or not wa_id:
+        return lead_data
+
+    fallback_response = (
+        supabase.from_("leads")
+        .select("id, lead_number, metadata, notes")
+        .eq("organization_id", org_id)
+        .eq("wa_id", wa_id)
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    if get_supabase_error(fallback_response):
+        raise HTTPException(status_code=500, detail="Failed to lookup lead by wa_id")
+    fallback_rows = get_supabase_data(fallback_response) or []
+    return fallback_rows[0] if fallback_rows else None
 
 
 def _append_lead_note(
@@ -498,6 +526,10 @@ def _clear_slot_options(
                 {"metadata": metadata, "updated_at": datetime.utcnow().isoformat()}
             ).eq("id", lead.get("id")).execute()
     _pop_chat_state_value(supabase, chat, "slot_options")
+
+
+def _get_pending_event(chat: Dict[str, Any]) -> Dict[str, Any]:
+    return _get_chat_state(chat).get("pending_event") or {}
 
 
 def _slot_id_from_selection(
@@ -633,6 +665,20 @@ def _format_slot_window_local(starts_at: str, ends_at: str) -> Optional[str]:
     return f"{day_name.capitalize()} {date_str}, {start_time} - {end_time}"
 
 
+def _normalize_event_division(division: str) -> Optional[str]:
+    if not division:
+        return None
+    value = division.strip().lower()
+    valid_divisions = {
+        "prenursery",
+        "early_child",
+        "elementary",
+        "middle_school",
+        "high_school",
+    }
+    return value if value in valid_divisions else None
+
+
 def _find_or_create_contact(
     org_id: str,
     wa_id: Optional[str],
@@ -763,6 +809,32 @@ def _create_admissions_lead(
             if lead_number
             else "Lead ya existente."
         )
+    if wa_id:
+        existing_response = (
+            supabase.from_("leads")
+            .select("id, lead_number")
+            .eq("organization_id", org_id)
+            .eq("wa_id", wa_id)
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        existing_error = get_supabase_error(existing_response)
+        existing_rows = get_supabase_data(existing_response) or []
+        existing_data = existing_rows[0] if existing_rows else None
+        if existing_error:
+            raise HTTPException(status_code=500, detail="Failed to lookup lead")
+        if existing_data and existing_data.get("id"):
+            lead_number = existing_data.get("lead_number")
+            print(
+                "[admissions] lead exists",
+                {"lead_id": existing_data.get("id"), "lead_number": lead_number},
+            )
+            return (
+                f"Lead ya existente con folio L-{lead_number}."
+                if lead_number
+                else "Lead ya existente."
+            )
 
     contact_id = _find_or_create_contact(org_id, wa_id, request)
     contact_phone = request.contact_phone or wa_id
@@ -868,6 +940,21 @@ def _update_admissions_lead(
     lead_data = get_supabase_data(lead_response)
     if lead_error:
         raise HTTPException(status_code=500, detail="Failed to lookup lead")
+    if (not lead_data or not lead_data.get("id")) and wa_id:
+        lead_response = (
+            supabase.from_("leads")
+            .select("id, lead_number, contact_id, metadata, notes")
+            .eq("organization_id", org_id)
+            .eq("wa_id", wa_id)
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        lead_error = get_supabase_error(lead_response)
+        lead_rows = get_supabase_data(lead_response) or []
+        lead_data = lead_rows[0] if lead_rows else None
+        if lead_error:
+            raise HTTPException(status_code=500, detail="Failed to lookup lead")
     if not lead_data or not lead_data.get("id"):
         print("[admissions] lead not found for update", {"chat_id": chat_id})
         return "No encontre un lead activo para actualizar."
@@ -993,7 +1080,7 @@ def _add_lead_note(
     if not org_id or not chat_id:
         raise HTTPException(status_code=400, detail="Missing org or chat id")
 
-    lead = _get_lead_by_chat(supabase, org_id, chat_id)
+    lead = _get_lead_by_chat(supabase, org_id, chat_id, wa_id=chat.get("wa_id"))
     if not lead or not lead.get("id"):
         return "No encontre un lead activo para agregar notas."
 
@@ -1021,7 +1108,9 @@ def _maybe_auto_add_interest_note(
     if not note:
         return None
     supabase = get_supabase_client()
-    lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
     if not lead or not lead.get("id"):
         return None
     _append_lead_note(supabase, lead, org.get("id"), note, subject="Interes")
@@ -1044,7 +1133,9 @@ def _maybe_auto_add_notes(
         return False
 
     supabase = get_supabase_client()
-    lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
     if lead and lead.get("id"):
         for note in notes:
             _append_lead_note(supabase, lead, org.get("id"), note, subject="Nota")
@@ -1060,7 +1151,9 @@ def _maybe_book_from_selection(
     chat: Dict[str, Any],
 ) -> Optional[str]:
     supabase = get_supabase_client()
-    lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
     slot_options = _get_slot_options(lead, chat)
     pending_option = _get_chat_state(chat).get("pending_slot_option")
     allow_bare = bool(slot_options or pending_option)
@@ -1081,7 +1174,9 @@ def _maybe_book_from_selection(
                 org=org,
                 chat=chat,
             )
-            lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+            lead = _get_lead_by_chat(
+                supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+            )
             slot_options = _get_slot_options(lead, chat)
             match = _slot_id_from_selection(slot_options, selection)
             if match and match.get("slot_id"):
@@ -1139,7 +1234,9 @@ def _maybe_book_pending_selection(
     pending = _get_chat_state(chat).get("pending_slot_option")
     if not pending:
         return None
-    lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
     if not lead or not lead.get("id"):
         return None
     slot_options = _get_slot_options(lead, chat)
@@ -1227,7 +1324,9 @@ def _load_session_state(session_id: str) -> Dict[str, Any]:
     return get_supabase_data(response) or {}
 
 
-def _load_lead_context(org_id: str, chat_id: str) -> Optional[str]:
+def _load_lead_context(
+    org_id: str, chat_id: str, wa_id: Optional[str] = None
+) -> Optional[str]:
     supabase = get_supabase_client()
     response = (
         supabase.from_("leads")
@@ -1243,7 +1342,27 @@ def _load_lead_context(org_id: str, chat_id: str) -> Optional[str]:
     )
     lead_error = get_supabase_error(response)
     lead_data = get_supabase_data(response)
-    if lead_error or not lead_data:
+    if lead_error:
+        return None
+    if not lead_data and wa_id:
+        fallback_response = (
+            supabase.from_("leads")
+            .select(
+                "id, lead_number, student_first_name, student_middle_name, "
+                "student_last_name_paternal, student_last_name_maternal, student_dob, "
+                "grade_interest, current_school, contact_name, contact_email, contact_phone, notes"
+            )
+            .eq("organization_id", org_id)
+            .eq("wa_id", wa_id)
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        if get_supabase_error(fallback_response):
+            return None
+        rows = get_supabase_data(fallback_response) or []
+        lead_data = rows[0] if rows else None
+    if not lead_data:
         return None
 
     lead_number = lead_data.get("lead_number")
@@ -1413,7 +1532,9 @@ def process_queue(
         message.get("role") == "assistant" for message in history
     )
 
-    lead_context = _load_lead_context(org.get("id"), chat.get("id"))
+    lead_context = _load_lead_context(
+        org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
     messages_payload = [
         {"role": "system", "content": _build_prompt(org)},
         *(
@@ -1458,6 +1579,22 @@ def process_queue(
                 "name": "add_lead_note",
                 "description": "Add a note to the lead activities for the current chat",
                 "parameters": AddLeadNoteRequest.model_json_schema(),
+            },
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "get_next_event",
+                "description": "Get the next upcoming event for a specific division.",
+                "parameters": GetNextEventRequest.model_json_schema(),
+            },
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "register_event",
+                "description": "Register the current lead for the selected event.",
+                "parameters": RegisterEventRequest.model_json_schema(),
             },
         },
         {
@@ -1540,6 +1677,17 @@ def process_queue(
                     tool_result = _create_admissions_lead(
                         tool_args, org=org, chat=chat
                     )
+                    pending_event_id = _pop_chat_state_value(
+                        supabase, chat, "pending_event_registration"
+                    )
+                    if pending_event_id:
+                        register_text = _register_event(
+                            RegisterEventRequest(event_id=pending_event_id),
+                            org=org,
+                            chat=chat,
+                            session_id=session_id,
+                        )
+                        tool_result = f"{tool_result} {register_text}"
                 except HTTPException as exc:
                     tool_result = f"No se pudo crear el lead: {exc.detail}"
                 except Exception:
@@ -1575,6 +1723,26 @@ def process_queue(
                     tool_result = f"No se pudo agregar la nota: {exc.detail}"
                 except Exception:
                     tool_result = "No se pudo agregar la nota al lead."
+            elif tool_name == "get_next_event":
+                try:
+                    tool_args = GetNextEventRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _get_next_event(
+                        tool_args, org=org, chat=chat
+                    )
+                except Exception as exc:
+                    tool_result = f"Error al buscar eventos: {str(exc)}"
+            elif tool_name == "register_event":
+                try:
+                    tool_args = RegisterEventRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _register_event(
+                        tool_args, org=org, chat=chat, session_id=session_id
+                    )
+                except Exception as exc:
+                    tool_result = f"Error al registrar evento: {str(exc)}"
             elif tool_name == "get_admission_requirements":
                 try:
                     tool_args = GetRequirementsRequest.model_validate_json(
@@ -1680,6 +1848,14 @@ def process_queue(
 class SearchSlotsRequest(BaseModel):
     start_date: str  # YYYY-MM-DD
     end_date: str    # YYYY-MM-DD
+
+
+class GetNextEventRequest(BaseModel):
+    division: str
+
+
+class RegisterEventRequest(BaseModel):
+    event_id: Optional[str] = None
 
 
 class BookAppointmentRequest(BaseModel):
@@ -1825,7 +2001,9 @@ def _search_availability_slots(
     _set_chat_state_value(supabase, chat, "slot_options", slot_state)
     _pop_chat_state_value(supabase, chat, "pending_slot_option")
 
-    lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
     if lead and lead.get("id"):
         metadata = lead.get("metadata") or {}
         metadata["slot_options"] = slot_state
@@ -1860,7 +2038,9 @@ def _book_appointment(
     except ValueError:
         return "El horario seleccionado no es valido. Indica el numero de la opcion."
 
-    lead = _get_lead_by_chat(supabase, org.get("id"), chat.get("id"))
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
     if not _slot_id_allowed(request.slot_id, lead, chat):
         return "El horario seleccionado no corresponde a las opciones enviadas. Elige una opcion de la lista."
     
@@ -1928,6 +2108,236 @@ def _book_appointment(
 
 class GetRequirementsRequest(BaseModel):
     division: str  # prenursery, early_child, elementary, middle_school, high_school
+
+
+def _get_next_event(
+    request: GetNextEventRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> str:
+    supabase = get_supabase_client()
+    division = _normalize_event_division(request.division)
+    if not division:
+        return "Division invalida. Usa prenursery, early_child, elementary, middle_school o high_school."
+
+    now_utc = datetime.utcnow().isoformat()
+    response = (
+        supabase.from_("events")
+        .select("id, name, description, starts_at, ends_at, requires_registration")
+        .eq("organization_id", org.get("id"))
+        .contains("divisions", [division])
+        .gte("starts_at", now_utc)
+        .order("starts_at", desc=False)
+        .limit(1)
+        .execute()
+    )
+    events = get_supabase_data(response) or []
+    if not events:
+        _pop_chat_state_value(supabase, chat, "pending_event")
+        return "No hay eventos proximos para esa division."
+
+    event = events[0]
+    event_id = event.get("id")
+    _set_chat_state_value(
+        supabase,
+        chat,
+        "pending_event",
+        {
+            "event_id": event_id,
+            "division": division,
+            "requires_registration": bool(event.get("requires_registration")),
+        },
+    )
+
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+    if lead and lead.get("id") and event_id:
+        attendance_response = (
+            supabase.from_("event_attendance")
+            .select("id, status")
+            .eq("event_id", event_id)
+            .eq("lead_id", lead.get("id"))
+            .maybe_single()
+            .execute()
+        )
+        attendance = get_supabase_data(attendance_response)
+        if attendance and attendance.get("id"):
+            formatted = _format_slot_window_local(
+                event.get("starts_at"), event.get("ends_at") or event.get("starts_at")
+            )
+            event_time = formatted or event.get("starts_at") or "la fecha programada"
+            return (
+                f"Ya estas registrado en el evento {event.get('name')} "
+                f"para {event_time}."
+            )
+
+    formatted = _format_slot_window_local(
+        event.get("starts_at"), event.get("ends_at") or event.get("starts_at")
+    )
+    event_time = formatted or event.get("starts_at") or "fecha por confirmar"
+    description = (event.get("description") or "").strip()
+    description_text = f" Descripcion: {description}." if description else ""
+    requires = "Requiere registro." if event.get("requires_registration") else "No requiere registro."
+    return (
+        f"Proximo evento para {division.replace('_', ' ')}: "
+        f"{event.get('name')} el {event_time}. {requires}{description_text}"
+    )
+
+
+def _register_event(
+    request: RegisterEventRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+    session_id: str,
+) -> str:
+    supabase = get_supabase_client()
+    pending = _get_pending_event(chat)
+    event_id = request.event_id or pending.get("event_id")
+    if not event_id:
+        return "No tengo un evento seleccionado para registrar."
+
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+    if not lead or not lead.get("id"):
+        _set_chat_state_value(supabase, chat, "pending_event_registration", event_id)
+        return (
+            "Para registrarte necesito algunos datos del alumno y tutor. "
+            "Primero creo el lead y enseguida hago el registro."
+        )
+
+    event_response = (
+        supabase.from_("events")
+        .select("id, name, starts_at, ends_at, requires_registration")
+        .eq("organization_id", org.get("id"))
+        .eq("id", event_id)
+        .maybe_single()
+        .execute()
+    )
+    event_data = get_supabase_data(event_response)
+    if not event_data:
+        return "No encontre el evento seleccionado."
+
+    attendance_response = (
+        supabase.from_("event_attendance")
+        .select("id, status")
+        .eq("event_id", event_id)
+        .eq("lead_id", lead.get("id"))
+        .maybe_single()
+        .execute()
+    )
+    attendance = get_supabase_data(attendance_response)
+    if attendance and attendance.get("id"):
+        return "Ya estas registrado en ese evento."
+
+    supabase.from_("event_attendance").insert(
+        {
+            "organization_id": org.get("id"),
+            "event_id": event_id,
+            "lead_id": lead.get("id"),
+            "status": "registered",
+            "registered_at": datetime.utcnow().isoformat(),
+        }
+    ).execute()
+
+    _pop_chat_state_value(supabase, chat, "pending_event_registration")
+
+    doc_result = _send_event_document(
+        org=org,
+        chat=chat,
+        session_id=session_id,
+        event_id=event_id,
+    )
+    if doc_result:
+        return f"Registro completado. {doc_result}"
+    return "Registro completado. Te esperamos en el evento."
+
+
+def _send_event_document(
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+    session_id: str,
+    event_id: str,
+) -> Optional[str]:
+    supabase = get_supabase_client()
+    doc_response = (
+        supabase.from_("event_documents")
+        .select("*")
+        .eq("organization_id", org.get("id"))
+        .eq("event_id", event_id)
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    docs = get_supabase_data(doc_response) or []
+    if not docs:
+        return None
+
+    doc = docs[0]
+    file_path = doc.get("file_path")
+    bucket = doc.get("storage_bucket")
+    file_name = doc.get("file_name") or "Documento_evento.pdf"
+    mime_type = doc.get("mime_type") or "application/pdf"
+    if not file_path or not bucket:
+        return "No pude adjuntar el documento del evento por configuracion incompleta."
+
+    try:
+        file_bytes = supabase.storage.from_(bucket).download(file_path)
+    except Exception:
+        return "No pude descargar el documento del evento."
+
+    try:
+        import base64
+
+        media_b64 = base64.b64encode(file_bytes).decode("utf-8")
+        upload_params = UploadWhatsAppMediaParams(
+            phone_number_id=org.get("phone_number_id"),
+            media_base64=media_b64,
+            mime_type=mime_type,
+            file_name=file_name,
+        )
+        upload_result = upload_whatsapp_media(upload_params)
+        if upload_result.error or not upload_result.media_id:
+            return "No pude subir el documento del evento a WhatsApp."
+
+        media_id = upload_result.media_id
+        send_params = SendWhatsAppDocumentParams(
+            phone_number_id=org.get("phone_number_id"),
+            to=chat.get("wa_id"),
+            media_id=media_id,
+            file_name=file_name,
+            caption="Documento del evento",
+        )
+        send_result = send_whatsapp_document(send_params)
+        message_payload = {
+            "chat_id": chat.get("id"),
+            "chat_session_id": session_id,
+            "wa_message_id": send_result.message_id,
+            "body": f"[Documento enviado: {file_name}]",
+            "type": "document",
+            "status": "sent" if not send_result.error else "failed",
+            "direction": "outbound",
+            "role": "assistant",
+            "payload": {
+                "source": "tool_event_document",
+                "event_id": event_id,
+                "file_path": file_path,
+                "error": send_result.error,
+            },
+            "sender_name": org.get("bot_name"),
+            "media_id": media_id,
+            "media_path": file_path,
+            "media_mime_type": mime_type,
+            "created_at": datetime.utcnow().isoformat(),
+        }
+        supabase.from_("messages").insert(message_payload).execute()
+
+        if send_result.error:
+            return "Tu registro quedo listo, pero no pude enviar el documento."
+        return "Te comparto el documento del evento."
+    except Exception:
+        return "Tu registro quedo listo, pero no pude enviar el documento."
 
 
 def _send_requirements(

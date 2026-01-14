@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "@supabase/supabase-js";
 
-const WAIT_TIME_MS = 5000;
+const WAIT_TIME_MS = 15000;
 
 // Usa SERVICE_ROLE_KEY para tener permisos de borrado/update
 const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
@@ -68,40 +68,60 @@ Deno.serve(async (req) => {
   const appBaseUrl = "http://host.docker.internal:8000";
   const cronSecret = "m1LIdlqcxZl0JY5btW9FQO+VB4Cm1L9h/egJXzc2gkE=";
 
-  if (!appBaseUrl) {
-    console.error("Missing APP_BASE_URL for API call.");
-    return new Response("Missing app base url", { status: 500 });
+  try {
+    if (!appBaseUrl) {
+      console.error("Missing APP_BASE_URL for API call.");
+      throw new Error("Missing app base url");
+    }
+
+    if (!cronSecret) {
+      console.error("Missing CRON_SECRET for API call.");
+      throw new Error("Missing cron secret");
+    }
+
+    const response = await fetch(`${appBaseUrl}/api/whatsapp/process`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${cronSecret}`,
+      },
+      body: JSON.stringify({
+        chat_id,
+        final_message: finalMessage,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => "");
+      console.error("API process error:", response.status, errorText);
+      throw new Error(`API process error: ${response.status}`);
+    }
+
+    // 6. LIMPIEZA TOTAL (Esto garantiza que el 4to mensaje sea "nuevo")
+    await supabase.from("message_queue").delete().eq("chat_id", chat_id);
+
+    console.log(
+      `[Limpieza] Cola eliminada para ${chat_id}. Próximo mensaje empezará de cero.`,
+    );
+
+    return new Response("Processed", { status: 200 });
+  } catch (error) {
+    console.error(
+      `[Error] Ocurrió un error procesando el chat ${chat_id}:`,
+      error,
+    );
+
+    // Liberar el lock para que pueda ser procesado nuevamente
+    await supabase
+      .from("message_queue")
+      .update({ is_processing: false })
+      .eq("chat_id", chat_id);
+
+    console.log(`[Lock liberado] Se liberó el lock para el chat ${chat_id}`);
+
+    const errorMessage = error instanceof Error
+      ? error.message
+      : "Unknown error";
+    return new Response(errorMessage, { status: 500 });
   }
-
-  if (!cronSecret) {
-    console.error("Missing CRON_SECRET for API call.");
-    return new Response("Missing cron secret", { status: 500 });
-  }
-
-  const response = await fetch(`${appBaseUrl}/api/whatsapp/process`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${cronSecret}`,
-    },
-    body: JSON.stringify({
-      chat_id,
-      final_message: finalMessage,
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text().catch(() => "");
-    console.error("API process error:", response.status, errorText);
-    return new Response("API process error", { status: 502 });
-  }
-
-  // 6. LIMPIEZA TOTAL (Esto garantiza que el 4to mensaje sea "nuevo")
-  await supabase.from("message_queue").delete().eq("chat_id", chat_id);
-
-  console.log(
-    `[Limpieza] Cola eliminada para ${chat_id}. Próximo mensaje empezará de cero.`,
-  );
-
-  return new Response("Processed", { status: 200 });
 });
