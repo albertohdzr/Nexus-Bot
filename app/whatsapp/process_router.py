@@ -133,26 +133,30 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "condiciones, contexto familiar o cualquier informacion util), "
         "SIEMPRE guarda una nota breve en el lead usando la herramienta 'add_lead_note'. "
         "Es MUY IMPORTANTE documentar cualquier informacion relevante que comparta el usuario. "
-        "Ejemplos de cuando usar add_lead_note: "
+        "NUNCA digas que guardaste o actualizaste una nota si no ejecutaste 'add_lead_note'. "
+        "Ejemplos de cuando DEBES usar add_lead_note: "
         "- 'Busca jornada extendida' "
         "- 'Quiere visita con ambos padres' "
+        "- 'Esposa/esposo también asistirá a la visita' "
+        "- 'Nombre del otro padre/madre que asistirá' "
         "- 'Preocupacion por adaptacion' "
         "- 'Solicita beca/descuento' "
         "- 'Viene del Colegio Britanico' "
         "- 'Mama trabaja, necesita horario flexible' "
-        "- 'Le interesa robotica' "
+        "- 'Le interesa robotica/natacion/danza' "
         "- 'Tiene hermanos en otra escuela' "
-        "Si el usuario menciona algo que podria ser util para el asesor, guardalo como nota. "
+        "Si el usuario menciona algo que podria ser util para el asesor, USA add_lead_note inmediatamente. "
         "Solo envia el documento de requisitos si el usuario lo pide expresamente. Si no lo pide, solo OFRECE enviarlo. "
         "SÍ tienes acceso a información de requisitos. Si preguntan, responde con la información clave y OFRECE enviar el documento PDF oficial usando la herramienta 'get_admission_requirements'. "
         "Si el usuario no pidio requisitos, NO uses 'get_admission_requirements'. "
         "Si el usuario pide el PDF o la papeleria, envia el documento por WhatsApp con 'get_admission_requirements'. "
         "No digas que lo enviaste por correo ni inventes envios; solo confirma envio si la herramienta se ejecuto. "
-        "Los ciclos son de agosto a junio: "
-        "si el mes actual es agosto-diciembre, el ciclo actual es anio actual-anio siguiente; "
-        "si el mes actual es enero-julio, el ciclo actual es anio anterior-anio actual. "
-        "Si la intencion es para el ciclo actual, canaliza a un asesor y no sigas el flujo normal. "
-        "Si es para el ciclo siguiente, sigue el flujo normal. "
+        "Los ciclos escolares son de agosto a junio. "
+        "Regla de ORO sobre Ciclos: Siempre asume que el interés es para el SIGUIENTE ciclo escolar (inicia Agosto 2026). "
+        "El ciclo ACTUAL (que inicio en 2025) es un caso especial ('late enrollment') con cupo muy limitado. "
+        "Si el usuario pregunta por el ciclo actual, advierte amablemente que es un caso especial sujeto a disponibilidad y evaluación, "
+        "pero NO lo ofrezcas como la opcion estandar ni digas que 'encaja perfectamente' sin esa advertencia. "
+        "Enfocate en promover el ingreso para Agosto 2026. "
         "Rangos de fechas de nacimiento para ciclo 2025-2026 (estrictos): "
         "Prenursery: 01-Aug-2022 a 31-Jul-2023; Nursery: 01-Aug-2021 a 31-Jul-2022; "
         "Preschool: 01-Aug-2020 a 31-Jul-2021; Kinder: 01-Aug-2019 a 31-Jul-2020; "
@@ -2167,6 +2171,20 @@ def process_queue(
             )
             assistant_text = followup.choices[0].message.content or ""
 
+            # Fallback for empty responses after tool execution
+            if not assistant_text.strip() and tool_calls:
+                 executed_tools = [t.function.name for t in tool_calls]
+                 if "update_admissions_lead" in executed_tools:
+                     assistant_text = "¡Gracias! He actualizado la información en tu registro correctamente. ¿Hay algo más en lo que pueda ayudarte o te gustaría agendar una visita?"
+                 elif "create_admissions_lead" in executed_tools:
+                     assistant_text = "¡Excelente! Hemos registrado tus datos correctamente. El siguiente paso recomendado es conocer el campus. ¿Te gustaría agendar una visita?"
+                 elif "book_appointment" in executed_tools:
+                     assistant_text = "¡Tu visita ha sido agendada! Te esperamos."
+                 elif "cancel_appointment" in executed_tools:
+                     assistant_text = "Entendido, la cita ha sido cancelada. ¿Te gustaría ver disponibilidad para otro día?"
+                 else:
+                     assistant_text = "¡Listo! He procesado tu solicitud exitosamente. ¿En qué más puedo apoyarte hoy?"
+
     if not lead_note_added:
         _maybe_auto_add_notes(combined_user, org=org, chat=chat)
 
@@ -2221,31 +2239,61 @@ def _validate_and_fix_response(
                 "ya no te funciona el horario? (ej: trabajo, agenda familiar, etc.)"
             )
     
-    # Check 2: Model invented a CLEAR schedule list without calling search_availability_slots
-    # This should ONLY trigger if:
-    # - User explicitly asked about available times/appointments
+    # Check 2: Model claims to have added/updated notes but didn't call add_lead_note
+    note_claimed = any(phrase in lowered_text for phrase in [
+        "he actualizado la nota",
+        "he anotado",
+        "he registrado",
+        "he guardado",
+        "actualicé la nota",
+        "anoté",
+        "registré",
+        "guardé",
+        "lo registro",
+        "lo anoto",
+    ])
+    
+    if note_claimed and "add_lead_note" not in called_tools and "update_admissions_lead" not in called_tools:
+        print("[admissions] WARNING: Model claimed to add note without calling tool")
+        # Don't completely replace, but the note wasn't actually saved
+        # For now, we let it slide but log it - the model should be trained to use tools
+    
+    # Check 3: Model invented a schedule list without calling search_availability_slots
+    # This should trigger if:
+    # - User asked about available times/dates in various ways
     # - Response contains multiple numbered time options (at least 3)
     # - No tool was called to get the slots
     
     user_asked_for_times = any(phrase in lowered_user for phrase in [
         "horarios disponibles", "fechas disponibles", "que fechas tienes",
         "qué días tienes", "que dias tienes", "cuando puedo ir",
-        "agendar visita", "agendar una visita"
+        "agendar visita", "agendar una visita", "tienes disponibilidad",
+        "tienes disponible", "hay disponibilidad", "que tienes disponible",
+        "qué tienes disponible", "opciones disponibles", "horarios libres",
+        "la próxima semana", "la proxima semana", "esta semana",
+        # Specific date patterns
+        "de enero", "de febrero", "de marzo", "de abril", "de mayo",
+        "de junio", "de julio", "de agosto", "de septiembre", "de octubre",
+        "de noviembre", "de diciembre",
     ])
     
     if user_asked_for_times and "search_availability_slots" not in called_tools:
-        # Check for multiple numbered time options (pattern: "1. ... AM/PM" appearing 3+ times)
-        time_option_pattern = r'\d+\.\s+[^.\n]*(?:\d{1,2}:\d{2}\s*(?:am|pm|AM|PM)|(?:de\s+)?\d{1,2}\s*(?:am|pm|AM|PM))'
-        time_matches = re.findall(time_option_pattern, assistant_text)
+        # Check for multiple numbered time options (pattern: "Opción X" appearing 3+ times)
+        option_count = len(re.findall(r'(?:opción|opcion)\s*\d+', lowered_text, re.IGNORECASE))
         
-        if len(time_matches) >= 3:
+        # Also check for numbered list with AM/PM
+        time_list_pattern = r'\d+[.):]+\s+[^\n]*(?:\d{1,2}:\d{2}|\d{1,2}\s*(?:am|pm|AM|PM))'
+        time_matches = len(re.findall(time_list_pattern, assistant_text))
+        
+        if option_count >= 3 or time_matches >= 3:
             # Check if there are valid slot_options in context
             slot_options = _get_slot_options(lead, chat)
             if not slot_options:
-                print(f"[admissions] WARNING: Model invented {len(time_matches)} time slots without tool call")
+                print(f"[admissions] WARNING: Model invented schedule list ({option_count} options, {time_matches} times) without tool call")
                 return (
                     "Para mostrarte los horarios disponibles, necesito buscarlos en el sistema. "
-                    "¿Qué días y horarios te convendrían mejor? (ej: 'próxima semana por la mañana')"
+                    "Dame un momento...\n\n"
+                    "¿Qué días y horarios te convendrían mejor? (ej: 'jueves o viernes por la mañana')"
                 )
     
     return assistant_text
