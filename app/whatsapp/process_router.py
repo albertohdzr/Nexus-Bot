@@ -73,6 +73,11 @@ class AddLeadNoteRequest(BaseModel):
     subject: Optional[str] = None
 
 
+class CloseChatSessionRequest(BaseModel):
+    summary: str
+    reason: Optional[str] = None
+
+
 def _require_cron_secret(authorization: Optional[str]) -> None:
     if not settings.cron_secret:
         raise HTTPException(status_code=500, detail="CRON_SECRET is not set")
@@ -226,6 +231,14 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "- Student Council: Representantes electos, eventos tradicionales (Halloween, San Valentín, colectas). "
         "- National Honor Society (NHS): Estudiantes destacados en carácter, estudio, servicio y liderazgo. "
         "- Equipo de Debate. "
+        
+        "=== CIERRE DE SESIÓN === "
+        "Si el usuario indica que quiere terminar, finalizar o cerrar la conversación: "
+        "1. PRIMERO: Confirma amablemente. Pregunta algo como '¿Te gustaría finalizar esta conversación ahora? Generaré un resumen de nuestra charla.' "
+        "2. Solo si el usuario confirma (dice sí, adelante, ok, etc.), PROCEDE. "
+        "3. EJECUTA la herramienta 'close_chat_session'. "
+        "4. En el argumento 'summary', genera un resumen DETALLADO de todo lo hablado (temas, datos recolectados, citas agendadas, dudas resueltas). "
+        "5. Despídete cordialmente. "
         
         "LÍMITES DEL BOT: "
         "Si detectas que la intención del usuario NO es sobre admisiones (ej. quejas, pagos, calificaciones, situación de alumnos actuales, temas administrativos no relacionados), "
@@ -1358,6 +1371,25 @@ def _maybe_auto_cancel(
     )
 
 
+def _close_chat_session(
+    request: CloseChatSessionRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+    session_id: str,
+) -> str:
+    supabase = get_supabase_client()
+    print("[admissions] close session payload", request.model_dump(exclude_none=True))
+
+    supabase.from_("chat_sessions").update({
+        "status": "closed",
+        "closed_at": datetime.utcnow().isoformat(),
+        "summary": request.summary,
+        "updated_at": datetime.utcnow().isoformat(),
+    }).eq("id", session_id).execute()
+
+    return "Sesión cerrada correctamente y resumen guardado."
+
+
 def _maybe_book_from_selection(
     combined_user: str,
     org: Dict[str, Any],
@@ -1961,6 +1993,14 @@ def process_queue(
                 "parameters": CancelAppointmentRequest.model_json_schema(),
             },
         },
+        {
+            "type": "function",
+            "function": {
+                "name": "close_chat_session",
+                "description": "Close the current chat session and save a summary. Use ONLY after user confirmation.",
+                "parameters": CloseChatSessionRequest.model_json_schema(),
+            },
+        },
     ]
 
     model = org.get("bot_model")
@@ -2143,6 +2183,16 @@ def process_queue(
                     )
                 except Exception as exc:
                     tool_result = f"Error al cancelar cita: {str(exc)}"
+            elif tool_name == "close_chat_session":
+                try:
+                    tool_args = CloseChatSessionRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _close_chat_session(
+                        tool_args, org=org, chat=chat, session_id=session_id
+                    )
+                except Exception as exc:
+                    tool_result = f"Error al cerrar la sesión: {str(exc)}"
 
             print(
                 "[admissions] tool result",
@@ -2182,6 +2232,8 @@ def process_queue(
                      assistant_text = "¡Tu visita ha sido agendada! Te esperamos."
                  elif "cancel_appointment" in executed_tools:
                      assistant_text = "Entendido, la cita ha sido cancelada. ¿Te gustaría ver disponibilidad para otro día?"
+                 elif "close_chat_session" in executed_tools:
+                     assistant_text = "¡Gracias por tu tiempo! He guardado el resumen de nuestra conversación. ¡Hasta pronto!"
                  else:
                      assistant_text = "¡Listo! He procesado tu solicitud exitosamente. ¿En qué más puedo apoyarte hoy?"
 
