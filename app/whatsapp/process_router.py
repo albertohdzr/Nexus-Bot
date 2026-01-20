@@ -131,9 +131,18 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "Si hay interes y aun no tienes la fecha de nacimiento, preguntala. Es obligatoria. "
         "Si el usuario comparte intereses, preferencias o detalles relevantes (motivaciones, dudas, "
         "condiciones, contexto familiar o cualquier informacion util), "
-        "guarda una nota breve en el lead usando la herramienta 'add_lead_note'. "
-        "Ejemplo: 'Busca jornada extendida', 'Quiere visita con ambos padres', "
-        "'Preocupacion por adaptacion', 'Solicita beca/descuento'. "
+        "SIEMPRE guarda una nota breve en el lead usando la herramienta 'add_lead_note'. "
+        "Es MUY IMPORTANTE documentar cualquier informacion relevante que comparta el usuario. "
+        "Ejemplos de cuando usar add_lead_note: "
+        "- 'Busca jornada extendida' "
+        "- 'Quiere visita con ambos padres' "
+        "- 'Preocupacion por adaptacion' "
+        "- 'Solicita beca/descuento' "
+        "- 'Viene del Colegio Britanico' "
+        "- 'Mama trabaja, necesita horario flexible' "
+        "- 'Le interesa robotica' "
+        "- 'Tiene hermanos en otra escuela' "
+        "Si el usuario menciona algo que podria ser util para el asesor, guardalo como nota. "
         "Solo envia el documento de requisitos si el usuario lo pide expresamente. Si no lo pide, solo OFRECE enviarlo. "
         "SÍ tienes acceso a información de requisitos. Si preguntan, responde con la información clave y OFRECE enviar el documento PDF oficial usando la herramienta 'get_admission_requirements'. "
         "Si el usuario no pidio requisitos, NO uses 'get_admission_requirements'. "
@@ -178,23 +187,31 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "Si hay documento del evento, el bot debe adjuntarlo (se envia desde 'register_event'). "
         "No muestres IDs tecnicos de eventos al usuario. "
         
-        "OBJETIVO SECUNDARIO (VISITAS): "
+        "=== VISITAS AL CAMPUS (MUY IMPORTANTE) === "
         "Una vez creado el lead, tu meta es agendar una visita al campus. "
-        "Pregunta qué días y horarios prefieren para visitar. "
-        "Usa 'search_availability_slots' con un rango de fechas (YYYY-MM-DD) para buscar espacios. "
-        "IMPORTANTE: Cuando presentes los horarios al usuario, NO muestres los IDs técnicos (UUIDs). "
-        "En su lugar, presenta una lista numerada amigable (ej: 1. Lunes 13 de enero, 9:00-10:00am). "
-        "Guarda internamente la relación entre el número y el ID del slot. "
-        "Cuando el usuario elija (ej: 'la opción 2' o 'el de las 10am'), usa 'book_appointment' con el ID correcto. "
-        "Confirma cuando la cita esté agendada. "
-        "Solo confirma una cita si 'book_appointment' se ejecutó exitosamente. "
-        "Nunca inventes un slot_id ni llames 'book_appointment' si no tienes un ID real de 'search_availability_slots'. "
         
-        "CANCELACIÓN DE VISITAS: "
-        "Si el usuario quiere cancelar su cita, primero pregunta amablemente la razón. "
-        "Una vez tengas la razón, usa 'cancel_appointment' con el motivo. "
-        "Después de cancelar, intenta convencer al usuario de agendar otra fecha preguntando qué días le convendrían mejor. "
-        "Mantén un tono positivo y empático, sin presionar. "
+        "REGLA CRÍTICA #1 - NUNCA INVENTES HORARIOS: "
+        "SIEMPRE usa 'search_availability_slots' para buscar horarios disponibles. "
+        "NUNCA escribas una lista de horarios sin haber ejecutado 'search_availability_slots' primero. "
+        "Si el usuario pregunta por horarios, USA LA HERRAMIENTA. No inventes fechas ni horas. "
+        
+        "REGLA CRÍTICA #2 - CÓMO USAR LOS SLOTS: "
+        "- El sistema guarda las opciones internamente cuando llamas 'search_availability_slots'. "
+        "- Cuando el usuario elige (ej: 'la 2', '2', 'la del jueves a las 9'), el sistema detecta automáticamente y agenda. "
+        "- Si el usuario elige y el sistema no lo detectó, NO inventes un slot_id. Pregunta nuevamente. "
+        "- NUNCA uses un UUID inventado como 'a3b1c2d4-e5f6...' - solo usa los IDs reales del resultado de 'search_availability_slots'. "
+        
+        "REGLA CRÍTICA #3 - SI NO HAY OPCIONES GUARDADAS: "
+        "Si el usuario quiere agendar pero no hay opciones disponibles en el contexto, "
+        "pregunta qué días prefiere y USA 'search_availability_slots' para buscar. "
+        
+        "=== CANCELACIÓN DE VISITAS === "
+        "REGLA CRÍTICA #4 - USA LA HERRAMIENTA PARA CANCELAR: "
+        "Si el usuario quiere cancelar o cambiar su cita: "
+        "1. Pregunta la razón si no la dio. "
+        "2. OBLIGATORIO: Llama 'cancel_appointment' con el motivo. "
+        "3. NUNCA digas que cancelaste si no ejecutaste 'cancel_appointment'. "
+        "4. Después de cancelar, pregunta qué días le convendrían mejor y busca opciones con 'search_availability_slots'. "
         
         "CAMPUS LIFE (información que SÍ puedes compartir): "
         "🏅 DEPORTES: Alberca con calefacción solar, 5 canchas de fútbol, pista de atletismo, canchas de básquetbol y voleibol, 3 gimnasios. Educación física curricular + programa deportivo vespertino. Participación en torneos ASOMEX (19 escuelas). "
@@ -571,16 +588,81 @@ def _parse_slot_selection(text: str, allow_bare: bool) -> Optional[int]:
     import re
 
     lowered = text.strip().lower()
+    
+    # Pattern 1: Exact match for bare numbers or with prefix ("1", "la 1", "el 1")
     if allow_bare:
-        match = re.match(
+        bare_match = re.match(
             r"^(?:la|el|opcion|opción)?\s*(\d{1,2})\s*$", lowered
         )
-    else:
-        match = re.search(r"\b(?:opcion|opción)\s*(\d{1,2})\b", lowered)
-    if not match:
+        if bare_match:
+            value = int(bare_match.group(1))
+            return value if 1 <= value <= 10 else None
+    
+    # Pattern 2: "opción X" anywhere in the text ("opción 1 funciona para mi")
+    option_match = re.search(r"\b(?:opcion|opción)\s*(\d{1,2})\b", lowered)
+    if option_match:
+        value = int(option_match.group(1))
+        return value if 1 <= value <= 10 else None
+    
+    # Pattern 3: "la X" or "el X" at the start ("la 1", "el 2")
+    prefix_match = re.match(r"^(?:la|el)\s+(\d{1,2})\b", lowered)
+    if prefix_match:
+        value = int(prefix_match.group(1))
+        return value if 1 <= value <= 10 else None
+    
+    # Pattern 4: Just a number with optional text after ("1", "1 por favor")
+    if allow_bare:
+        starts_with_num = re.match(r"^(\d{1,2})(?:\s|$|\.|,)", lowered)
+        if starts_with_num:
+            value = int(starts_with_num.group(1))
+            return value if 1 <= value <= 10 else None
+    
+    return None
+
+
+def _match_slot_by_date_text(
+    text: str,
+    options: List[Dict[str, Any]],
+) -> Optional[int]:
+    """Try to match user text against formatted slot dates."""
+    if not options:
         return None
-    value = int(match.group(1))
-    return value if 1 <= value <= 10 else None
+    
+    lowered = text.strip().lower()
+    
+    for option in options:
+        starts_at = option.get("starts_at")
+        ends_at = option.get("ends_at")
+        if not starts_at or not ends_at:
+            continue
+        
+        formatted = _format_slot_window_local(starts_at, ends_at)
+        if not formatted:
+            continue
+        
+        # Check if the user's text contains key parts of the formatted date
+        formatted_lower = formatted.lower()
+        
+        # Exact or near-exact match
+        if formatted_lower in lowered or lowered in formatted_lower:
+            return option.get("option")
+        
+        # Check for day + date pattern (e.g., "jueves 15")
+        import re
+        day_pattern = r"(lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)\s*(\d{1,2})"
+        user_match = re.search(day_pattern, lowered)
+        formatted_match = re.search(day_pattern, formatted_lower)
+        
+        if user_match and formatted_match:
+            user_day = user_match.group(1).replace("á", "a").replace("é", "e")
+            formatted_day = formatted_match.group(1).replace("á", "a").replace("é", "e")
+            user_num = user_match.group(2)
+            formatted_num = formatted_match.group(2)
+            
+            if user_day == formatted_day and user_num == formatted_num:
+                return option.get("option")
+    
+    return None
 
 
 def _extract_preferred_date(text: str) -> Optional[str]:
@@ -1145,6 +1227,133 @@ def _maybe_auto_add_notes(
     return True
 
 
+def _maybe_auto_cancel(
+    combined_user: str,
+    history: List[Dict[str, str]],
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> Optional[str]:
+    """
+    Detect when user is providing a cancellation reason after being asked,
+    and automatically execute the cancellation.
+    """
+    import re
+    
+    lowered = combined_user.lower().strip()
+    
+    # Common cancellation reason patterns
+    reason_patterns = [
+        r"(?:por|es por|son)?\s*(?:razones?\s+de\s+)?trabajo",
+        r"(?:por|es por)?\s*(?:razones?\s+)?familiar(?:es)?",
+        r"(?:por|es por)?\s*(?:la\s+)?agenda",
+        r"(?:por|es por)?\s*(?:un\s+)?compromiso",
+        r"(?:por|es por)?\s*(?:una\s+)?cita\s+(?:medica|médica)",
+        r"(?:tengo\s+)?(?:un\s+)?viaje",
+        r"(?:tengo\s+)?(?:una\s+)?junta",
+        r"(?:no\s+)?(?:me\s+)?(?:puedo|funciona|acomoda)",
+        r"horario\s+(?:de\s+)?trabajo",
+        r"cambio\s+de\s+planes",
+    ]
+    
+    is_likely_reason = any(re.search(pattern, lowered) for pattern in reason_patterns)
+    if not is_likely_reason:
+        return None
+    
+    # Check if recent history asked for cancellation reason
+    asked_for_reason = False
+    for msg in reversed(history[-5:]):
+        if msg.get("role") == "assistant":
+            content = (msg.get("content") or "").lower()
+            if any(phrase in content for phrase in [
+                "razón del cambio",
+                "razon del cambio", 
+                "por qué ya no",
+                "porque ya no",
+                "motivo del cambio",
+                "dices la razón",
+                "dices la razon",
+                "me dices por qué",
+                "me dices porque",
+            ]):
+                asked_for_reason = True
+                break
+    
+    if not asked_for_reason:
+        return None
+    
+    # Check if there's a scheduled appointment to cancel
+    supabase = get_supabase_client()
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+    if not lead or not lead.get("id"):
+        return None
+    
+    lead_id = lead.get("id")
+    appt_response = (
+        supabase.from_("appointments")
+        .select("id, slot_id, starts_at, ends_at")
+        .eq("lead_id", lead_id)
+        .eq("status", "scheduled")
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    appts = get_supabase_data(appt_response) or []
+    if not appts:
+        return None
+    
+    appt = appts[0]
+    appt_id = appt.get("id")
+    slot_id = appt.get("slot_id")
+    
+    # Execute cancellation
+    print(f"[admissions] auto-canceling appointment {appt_id}, reason: {combined_user}")
+    
+    supabase.from_("appointments").update({
+        "status": "cancelled",
+        "notes": f"Cancelado por usuario. Razón: {combined_user}",
+        "updated_at": datetime.utcnow().isoformat(),
+    }).eq("id", appt_id).execute()
+    
+    # Free up the slot
+    if slot_id:
+        slot_response = (
+            supabase.from_("availability_slots")
+            .select("appointments_count")
+            .eq("id", slot_id)
+            .single()
+            .execute()
+        )
+        slot = get_supabase_data(slot_response)
+        if slot:
+            new_count = max(0, slot.get("appointments_count", 1) - 1)
+            supabase.from_("availability_slots").update({
+                "appointments_count": new_count,
+                "updated_at": datetime.utcnow().isoformat(),
+            }).eq("id", slot_id).execute()
+    
+    # Update lead status
+    supabase.from_("leads").update({
+        "status": "contacted",
+        "updated_at": datetime.utcnow().isoformat(),
+    }).eq("id", lead_id).execute()
+    
+    # Clear any stored slot options
+    _clear_slot_options(supabase, lead, chat)
+    
+    # Get formatted cancelled appointment time for context
+    formatted = _format_slot_window_local(appt.get("starts_at"), appt.get("ends_at"))
+    time_text = f" del {formatted}" if formatted else ""
+    
+    return (
+        f"¡Entendido! Tu cita{time_text} ha sido cancelada. "
+        "No te preocupes, podemos reagendar cuando te convenga. 😊\n\n"
+        "¿Qué días y horarios de la próxima semana te funcionarían mejor? "
+        "(Por ejemplo: 'jueves o viernes por la mañana')"
+    )
+
+
 def _maybe_book_from_selection(
     combined_user: str,
     org: Dict[str, Any],
@@ -1158,6 +1367,11 @@ def _maybe_book_from_selection(
     pending_option = _get_chat_state(chat).get("pending_slot_option")
     allow_bare = bool(slot_options or pending_option)
     selection = _parse_slot_selection(combined_user, allow_bare=allow_bare)
+    
+    # If no numeric selection, try matching by date text
+    if not selection and slot_options:
+        selection = _match_slot_by_date_text(combined_user, slot_options)
+    
     if not selection:
         return None
     if not slot_options and pending_option:
@@ -1264,6 +1478,58 @@ def _maybe_book_pending_selection(
     return result
 
 
+def _sanitize_assistant_response(text: str) -> str:
+    """
+    Sanitize assistant response to remove any LLM artifacts that might have leaked.
+    Common issues:
+    - "Human: ..." prefix (model confusion)
+    - "Assistant: ..." prefix
+    - Markdown code blocks with system content
+    - Empty or whitespace-only responses
+    """
+    import re
+    
+    if not text:
+        return ""
+    
+    sanitized = text.strip()
+    
+    # Remove "Human:" or "User:" prefixes and everything after on that line
+    # This catches cases where the model starts repeating user input
+    if re.match(r"^(?:Human|User|Usuario):\s*", sanitized, re.IGNORECASE):
+        # Log this anomaly for debugging
+        print(f"[admissions] WARNING: Response started with Human/User prefix: {sanitized[:100]}")
+        # Try to find actual assistant content after
+        lines = sanitized.split("\n")
+        filtered_lines = []
+        skip_human_block = False
+        for line in lines:
+            if re.match(r"^(?:Human|User|Usuario):\s*", line, re.IGNORECASE):
+                skip_human_block = True
+                continue
+            if re.match(r"^(?:Assistant|Asistente|Bot):\s*", line, re.IGNORECASE):
+                skip_human_block = False
+                line = re.sub(r"^(?:Assistant|Asistente|Bot):\s*", "", line, flags=re.IGNORECASE)
+            if not skip_human_block:
+                filtered_lines.append(line)
+        sanitized = "\n".join(filtered_lines).strip()
+    
+    # Remove "Assistant:" prefix if present at the start
+    sanitized = re.sub(r"^(?:Assistant|Asistente|Bot):\s*", "", sanitized, flags=re.IGNORECASE)
+    
+    # Remove thinking tags or internal markers
+    sanitized = re.sub(r"<thinking>.*?</thinking>", "", sanitized, flags=re.DOTALL | re.IGNORECASE)
+    sanitized = re.sub(r"\[thinking\].*?\[/thinking\]", "", sanitized, flags=re.DOTALL | re.IGNORECASE)
+    
+    # Remove any system/tool internal JSON that might have leaked
+    sanitized = re.sub(r"```(?:json|tool_call|system)?\s*\{.*?\}\s*```", "", sanitized, flags=re.DOTALL)
+    
+    # Clean up multiple newlines
+    sanitized = re.sub(r"\n{3,}", "\n\n", sanitized)
+    
+    return sanitized.strip()
+
+
 def _send_assistant_message(
     assistant_text: str,
     org: Dict[str, Any],
@@ -1271,11 +1537,20 @@ def _send_assistant_message(
     session_id: str,
 ) -> Dict[str, Any]:
     supabase = get_supabase_client()
+    
+    # Sanitize the response before sending
+    sanitized_text = _sanitize_assistant_response(assistant_text)
+    
+    # If sanitization resulted in empty text, use a fallback
+    if not sanitized_text:
+        sanitized_text = "Disculpa, hubo un problema procesando mi respuesta. ¿Podrías repetir tu pregunta?"
+        print("[admissions] WARNING: Empty response after sanitization, using fallback")
+    
     send_result = send_whatsapp_text(
         SendWhatsAppTextParams(
             phone_number_id=org.get("phone_number_id"),
             to=chat.get("wa_id"),
-            body=assistant_text,
+            body=sanitized_text,
         )
     )
 
@@ -1283,7 +1558,7 @@ def _send_assistant_message(
         "chat_id": chat.get("id"),
         "chat_session_id": session_id,
         "wa_message_id": send_result.message_id,
-        "body": assistant_text,
+        "body": sanitized_text,
         "type": "text",
         "status": "sent" if not send_result.error else "failed",
         "direction": "outbound",
@@ -1366,6 +1641,7 @@ def _load_lead_context(
         return None
 
     lead_number = lead_data.get("lead_number")
+    lead_id = lead_data.get("id")
     student_name = _compose_full_name(
         [
             lead_data.get("student_first_name"),
@@ -1394,7 +1670,27 @@ def _load_lead_context(
     notes = notes.strip()
     if notes and len(notes) > 300:
         notes = f"{notes[:300].rstrip()}..."
-    return (
+    
+    # Load scheduled appointment info
+    appointment_text = ""
+    if lead_id:
+        appt_response = (
+            supabase.from_("appointments")
+            .select("id, starts_at, ends_at, status")
+            .eq("lead_id", lead_id)
+            .eq("status", "scheduled")
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        appts = get_supabase_data(appt_response) or []
+        if appts:
+            appt = appts[0]
+            formatted = _format_slot_window_local(appt.get("starts_at"), appt.get("ends_at"))
+            if formatted:
+                appointment_text = f"CITA AGENDADA: {formatted}. "
+    
+    base_context = (
         "Lead existente: "
         f"folio {lead_label}. "
         f"Alumno: {student_name or 'sin nombre'}. "
@@ -1405,8 +1701,10 @@ def _load_lead_context(
         f"Correo: {lead_data.get('contact_email') or 'sin dato'}. "
         f"Telefono: {lead_data.get('contact_phone') or 'sin dato'}. "
         f"Notas: {notes or 'sin notas'}. "
-        f"Faltantes: {missing_text}."
+        f"Faltantes: {missing_text}. "
+        f"{appointment_text}"
     )
+    return base_context.strip()
 
 
 @router.post("/process")
@@ -1527,6 +1825,16 @@ def process_queue(
     )
     if forced_text:
         return _send_assistant_message(forced_text, org, chat, session_id)
+    
+    # Check if user is providing a cancellation reason after being asked
+    forced_cancel = _maybe_auto_cancel(
+        combined_user=combined_user,
+        history=history,
+        org=org,
+        chat=chat,
+    )
+    if forced_cancel:
+        return _send_assistant_message(forced_cancel, org, chat, session_id)
 
     has_assistant_history = any(
         message.get("role") == "assistant" for message in history
@@ -1552,9 +1860,29 @@ def process_queue(
             if lead_context
             else []
         ),
-        *history,
-        {"role": "user", "content": combined_user},
     ]
+    
+    # Add slot options context if available
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+    slot_options = _get_slot_options(lead, chat)
+    if slot_options:
+        slot_context_lines = ["OPCIONES DE HORARIOS DISPONIBLES (usa estos IDs exactos para book_appointment):"]
+        for opt in slot_options:
+            formatted = _format_slot_window_local(opt.get("starts_at"), opt.get("ends_at"))
+            if formatted:
+                slot_context_lines.append(
+                    f"- Opción {opt.get('option')}: {formatted} (slot_id: {opt.get('slot_id')})"
+                )
+        slot_context_lines.append("Si el usuario elige una opción, usa el slot_id correspondiente en book_appointment.")
+        messages_payload.append({
+            "role": "system",
+            "content": "\n".join(slot_context_lines)
+        })
+    
+    messages_payload.extend(history)
+    messages_payload.append({"role": "user", "content": combined_user})
 
     tools = [
         {
@@ -1842,7 +2170,85 @@ def process_queue(
     if not lead_note_added:
         _maybe_auto_add_notes(combined_user, org=org, chat=chat)
 
+    # Post-response validation: detect invented responses
+    assistant_text = _validate_and_fix_response(
+        assistant_text, combined_user, tool_calls, lead, chat, org
+    )
+
     return _send_assistant_message(assistant_text, org, chat, session_id)
+
+
+def _validate_and_fix_response(
+    assistant_text: str,
+    combined_user: str,
+    tool_calls: list,
+    lead: Optional[Dict[str, Any]],
+    chat: Dict[str, Any],
+    org: Dict[str, Any],
+) -> str:
+    """
+    Validate the model's response and fix/replace if it contains invented data.
+    IMPORTANT: This should be very conservative and only catch clear violations.
+    """
+    import re
+    
+    lowered_text = assistant_text.lower()
+    lowered_user = combined_user.lower()
+    
+    # Get tool names that were actually called
+    called_tools = {tc.function.name for tc in tool_calls} if tool_calls else set()
+    
+    # Check 1: Model claims to have canceled but didn't call cancel_appointment
+    # Only trigger if user explicitly wanted to cancel
+    user_wants_cancel = any(phrase in lowered_user for phrase in [
+        "cancelar", "cancela mi cita", "cambiar la cita", "no se me acomoda la hora"
+    ])
+    
+    if user_wants_cancel:
+        cancel_claimed = any(phrase in lowered_text for phrase in [
+            "cita ha sido cancelada",
+            "cita fue cancelada", 
+            "cita cancelada exitosamente",
+            "he cancelado tu cita",
+            "queda cancelada"
+        ])
+        
+        if cancel_claimed and "cancel_appointment" not in called_tools:
+            print("[admissions] WARNING: Model claimed cancellation without calling tool")
+            return (
+                "Entiendo que quieres cambiar tu cita. Para hacerlo, "
+                "necesito saber la razón del cambio. ¿Podrías decirme por qué "
+                "ya no te funciona el horario? (ej: trabajo, agenda familiar, etc.)"
+            )
+    
+    # Check 2: Model invented a CLEAR schedule list without calling search_availability_slots
+    # This should ONLY trigger if:
+    # - User explicitly asked about available times/appointments
+    # - Response contains multiple numbered time options (at least 3)
+    # - No tool was called to get the slots
+    
+    user_asked_for_times = any(phrase in lowered_user for phrase in [
+        "horarios disponibles", "fechas disponibles", "que fechas tienes",
+        "qué días tienes", "que dias tienes", "cuando puedo ir",
+        "agendar visita", "agendar una visita"
+    ])
+    
+    if user_asked_for_times and "search_availability_slots" not in called_tools:
+        # Check for multiple numbered time options (pattern: "1. ... AM/PM" appearing 3+ times)
+        time_option_pattern = r'\d+\.\s+[^.\n]*(?:\d{1,2}:\d{2}\s*(?:am|pm|AM|PM)|(?:de\s+)?\d{1,2}\s*(?:am|pm|AM|PM))'
+        time_matches = re.findall(time_option_pattern, assistant_text)
+        
+        if len(time_matches) >= 3:
+            # Check if there are valid slot_options in context
+            slot_options = _get_slot_options(lead, chat)
+            if not slot_options:
+                print(f"[admissions] WARNING: Model invented {len(time_matches)} time slots without tool call")
+                return (
+                    "Para mostrarte los horarios disponibles, necesito buscarlos en el sistema. "
+                    "¿Qué días y horarios te convendrían mejor? (ej: 'próxima semana por la mañana')"
+                )
+    
+    return assistant_text
 
 
 class SearchSlotsRequest(BaseModel):
