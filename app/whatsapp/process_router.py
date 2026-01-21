@@ -170,7 +170,7 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "Si el usuario pregunta por el ciclo actual, advierte amablemente que es un caso especial sujeto a disponibilidad y evaluación, "
         "pero NO lo ofrezcas como la opcion estandar ni digas que 'encaja perfectamente' sin esa advertencia. "
         "Enfocate en promover el ingreso para Agosto 2026. "
-        "Rangos de fechas de nacimiento para ciclo 2025-2026 (estrictos): "
+        "El preescolar (Early Childhood) incluye Prenursery y comienza desde los 2 años. Rangos de fechas de nacimiento para ciclo 2025-2026 (estrictos): "
         "Prenursery: 01-Aug-2022 a 31-Jul-2023; Nursery: 01-Aug-2021 a 31-Jul-2022; "
         "Preschool: 01-Aug-2020 a 31-Jul-2021; Kinder: 01-Aug-2019 a 31-Jul-2020; "
         "Primaria 1: 01-Aug-2018 a 31-Jul-2019; Primaria 2: 01-Aug-2017 a 31-Jul-2018; "
@@ -233,9 +233,11 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "REGLA CRÍTICA #5 - FECHAS DE CITAS: "
         "- NO se pueden agendar citas para el mismo día ('hoy'). Si el usuario pide hoy, explica amablemente que deben programarse con antelación y ofrece fechas futuras. "
         "- NO se pueden agendar citas en fechas pasadas. Si el usuario pide una fecha anterior a hoy, explica que no es posible viajar en el tiempo y pide una fecha futura. "
+        "- NO se pueden agendar citas los fines de semana (sábado y domingo). Si el usuario pide fin de semana, ofrece buscar entre semana. "
         
         "CAMPUS LIFE (información que SÍ puedes compartir): "
-        "🏅 DEPORTES: Alberca con calefacción solar, 5 canchas de fútbol, pista de atletismo, canchas de básquetbol y voleibol, 3 gimnasios. Educación física curricular + programa deportivo vespertino. Participación en torneos ASOMEX (19 escuelas). "
+        "⚠️ IMPORTANTE - ACTIVIDADES VESPERTINAS: Las actividades deportivas y artísticas por la tarde (after-school) comienzan a partir de PRESCHOOL. NO están disponibles para Prenursery ni Nursery. "
+        "🏅 DEPORTES: Alberca con calefacción solar, 5 canchas de fútbol, pista de atletismo, canchas de básquetbol y voleibol, 3 gimnasios. Educación física curricular + programa deportivo vespertino (desde Preschool). Participación en torneos ASOMEX (19 escuelas). "
         "🎭 CENTRO DE ARTES (CVPA): Teatro profesional para 450 personas, aulas especializadas. Clases curriculares de arte + talleres vespertinos (pintura, instrumentos de cuerda/viento, teatro, danza clásica/moderna/hip hop, canto, arte digital). Grupos representativos: CATEnsemble, Jazz Band, grupo de teatro. "
         "📚 BIBLIOTECAS: 3 espacios (Early Childhood, Elementary, Middle/High). Luz natural, áreas colaborativas, recursos impresos y electrónicos en inglés y español. Enfoque en formar lectores apasionados. "
         "🚀 CLUBES Y LIDERAZGO: "
@@ -264,6 +266,12 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "4. SIEMPRE usa 'add_lead_note' para registrar estos detalles críticos ('Reprobó año', 'Edad avanzada', 'Tema económico'). "
         "5. En lugar de agendar visita automática, di algo como: 'Por la situación que comentas, lo ideal es que un asesor revise el caso primero para darte la mejor opción. ¿Me permites que te contacten directamente?' "
         
+        "UBICACIÓN Y ACCESO: "
+        "Dirección exacta: C. P.º del Algodón 500, Los Viñedos, 27023 Torreón, Coah. "
+        "Entrada para visitas: Puerta 3 (por la caseta del reloj). "
+        "Ubicación en Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9 "
+        "Si el usuario pregunta dónde es o cómo llegar, comparte esta información exacta. "
+
         "LÍMITES DEL BOT: "
         "Si detectas que la intención del usuario NO es sobre admisiones (ej. quejas, pagos, calificaciones, situación de alumnos actuales, temas administrativos no relacionados), "
         "responde amablemente que este canal es exclusivo para admisiones y ofrece el contacto general: "
@@ -2193,6 +2201,7 @@ def process_queue(
                     )
                     if tool_result.lower().startswith("cita agendada exitosamente"):
                         booking_done = True
+                        assistant_text = "¡Tu visita ha sido agendada exitosamente! Te esperamos con gusto."
                     elif tool_result.lower().startswith("el horario seleccionado"):
                         booking_error_text = (
                             "Para reservar necesito que elijas una opcion "
@@ -2257,11 +2266,16 @@ def process_queue(
                  elif "create_admissions_lead" in executed_tools:
                      assistant_text = "¡Excelente! Hemos registrado tus datos correctamente. El siguiente paso recomendado es conocer el campus. ¿Te gustaría agendar una visita?"
                  elif "book_appointment" in executed_tools:
-                     assistant_text = "¡Tu visita ha sido agendada! Te esperamos."
+                     if booking_done:
+                         assistant_text = "¡Tu visita ha sido agendada! Te esperamos."
+                     else:
+                         assistant_text = "Hubo un problema al agendar tu visita. ¿Te gustaría verificar otros horarios?"
                  elif "cancel_appointment" in executed_tools:
                      assistant_text = "Entendido, la cita ha sido cancelada. ¿Te gustaría ver disponibilidad para otro día?"
                  elif "close_chat_session" in executed_tools:
                      assistant_text = "¡Gracias por tu tiempo! He guardado el resumen de nuestra conversación. ¡Hasta pronto!"
+                 elif "search_availability_slots" in executed_tools:
+                     assistant_text = "He consultado la disponibilidad. Si no encontré horarios en la fecha solicitada, ¿te gustaría probar con otro día?"
                  else:
                      assistant_text = "¡Listo! He procesado tu solicitud exitosamente. ¿En qué más puedo apoyarte hoy?"
 
@@ -2355,6 +2369,7 @@ def _validate_and_fix_response(
         "de enero", "de febrero", "de marzo", "de abril", "de mayo",
         "de junio", "de julio", "de agosto", "de septiembre", "de octubre",
         "de noviembre", "de diciembre",
+        "lista", "cuales", "cuáles",
     ])
     
     if user_asked_for_times and "search_availability_slots" not in called_tools:
