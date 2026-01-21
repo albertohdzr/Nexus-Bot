@@ -65,7 +65,9 @@ class UpdateAdmissionsLeadRequest(BaseModel):
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
     relationship: Optional[str] = None
+    relationship: Optional[str] = None
     notes: Optional[str] = None
+    qualification_status: Optional[str] = None
 
 
 class AddLeadNoteRequest(BaseModel):
@@ -243,6 +245,18 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "3. EJECUTA la herramienta 'close_chat_session'. "
         "4. En el argumento 'summary', genera un resumen DETALLADO de todo lo hablado (temas, datos recolectados, citas agendadas, dudas resueltas). "
         "5. Despídete cordialmente. "
+
+        "=== CASOS SENSIBLES O ESPECIALES === "
+        "Si detectas situaciones delicadas como: "
+        "- Alumno con edad muy mayor para el grado (ej. 18 años para secundaria). "
+        "- Alumno que ha reprobado o repetido años. "
+        "- Situaciones económicas complicadas (ej. mención de bajos ingresos). "
+        "ACTÚA CON EMPATÍA PERO FIRMEZA EN EL PROCESO: "
+        "1. NO prometas admisión ni visitas estándar de inmediato si el caso es evidentemente inviable bajo reglas normales. "
+        "2. EXPLICA que estos casos requieren una evaluación personalizada por el Comité de Admisiones. "
+        "3. OFRECE tomar los datos para canalizar el caso con un asesor especializado. "
+        "4. SIEMPRE usa 'add_lead_note' para registrar estos detalles críticos ('Reprobó año', 'Edad avanzada', 'Tema económico'). "
+        "5. En lugar de agendar visita automática, di algo como: 'Por la situación que comentas, lo ideal es que un asesor revise el caso primero para darte la mejor opción. ¿Me permites que te contacten directamente?' "
         
         "LÍMITES DEL BOT: "
         "Si detectas que la intención del usuario NO es sobre admisiones (ej. quejas, pagos, calificaciones, situación de alumnos actuales, temas administrativos no relacionados), "
@@ -1100,6 +1114,10 @@ def _update_admissions_lead(
         lead_updates["contact_last_name_paternal"] = request.contact_last_name_paternal
     if request.contact_last_name_maternal:
         lead_updates["contact_last_name_maternal"] = request.contact_last_name_maternal
+
+    # Update lead status if qualification is provided (e.g., 'qualified' or 'disqualified')
+    if request.qualification_status:
+        lead_updates["status"] = request.qualification_status
 
     contact_name = _compose_full_name(
         [
