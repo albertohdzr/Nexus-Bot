@@ -221,6 +221,10 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "2. OBLIGATORIO: Llama 'cancel_appointment' con el motivo. "
         "3. NUNCA digas que cancelaste si no ejecutaste 'cancel_appointment'. "
         "4. Después de cancelar, pregunta qué días le convendrían mejor y busca opciones con 'search_availability_slots'. "
+
+        "REGLA CRÍTICA #5 - FECHAS DE CITAS: "
+        "- NO se pueden agendar citas para el mismo día ('hoy'). Si el usuario pide hoy, explica amablemente que deben programarse con antelación y ofrece fechas futuras. "
+        "- NO se pueden agendar citas en fechas pasadas. Si el usuario pide una fecha anterior a hoy, explica que no es posible viajar en el tiempo y pide una fecha futura. "
         
         "CAMPUS LIFE (información que SÍ puedes compartir): "
         "🏅 DEPORTES: Alberca con calefacción solar, 5 canchas de fútbol, pista de atletismo, canchas de básquetbol y voleibol, 3 gimnasios. Educación física curricular + programa deportivo vespertino. Participación en torneos ASOMEX (19 escuelas). "
