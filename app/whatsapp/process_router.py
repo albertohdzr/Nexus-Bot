@@ -80,6 +80,12 @@ class CloseChatSessionRequest(BaseModel):
     reason: Optional[str] = None
 
 
+class CloseChatSessionEndpointRequest(BaseModel):
+    chat_id: str
+    org_id: str
+    model: str = "grok-4"
+
+
 def _require_cron_secret(authorization: Optional[str]) -> None:
     if not settings.cron_secret:
         raise HTTPException(status_code=500, detail="CRON_SECRET is not set")
@@ -3044,4 +3050,102 @@ def get_chat_history_endpoint(chat_id: str):
         "session_id": session_id,
         "count": len(history),
         "history": history,
+    }
+
+
+@router.post("/chats/close-session")
+def close_chat_session_endpoint(request: CloseChatSessionEndpointRequest):
+    supabase = get_supabase_client()
+    chat_response = (
+        supabase.from_("chats")
+        .select("id, organization_id, active_session_id")
+        .eq("id", request.chat_id)
+        .single()
+        .execute()
+    )
+    chat_data = get_supabase_data(chat_response)
+    if not chat_data:
+        raise HTTPException(status_code=404, detail="Chat not found")
+    if chat_data.get("organization_id") != request.org_id:
+        raise HTTPException(
+            status_code=403, detail="Chat does not belong to organization"
+        )
+
+    session_id = chat_data.get("active_session_id")
+    if not session_id:
+        session_fetch = (
+            supabase.from_("chat_sessions")
+            .select("id")
+            .eq("chat_id", request.chat_id)
+            .eq("organization_id", request.org_id)
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        rows = get_supabase_data(session_fetch) or []
+        if rows:
+            session_id = rows[0]["id"]
+
+    if not session_id:
+        return {
+            "chat_id": request.chat_id,
+            "session_id": None,
+            "summary": None,
+            "note": "No session found for this chat",
+        }
+
+    session_response = (
+        supabase.from_("chat_sessions")
+        .select("id, status, summary")
+        .eq("id", session_id)
+        .single()
+        .execute()
+    )
+    session_data = get_supabase_data(session_response)
+    if not session_data:
+        raise HTTPException(status_code=404, detail="Chat session not found")
+    if session_data.get("status") == "closed" and session_data.get("summary"):
+        return {
+            "chat_id": request.chat_id,
+            "session_id": session_id,
+            "summary": session_data.get("summary"),
+            "note": "Session already closed",
+        }
+
+    messages = _load_session_messages(session_id)
+    if messages:
+        grok_messages = [
+            {
+                "role": "system",
+                "content": (
+                    "Resume la conversacion en espanol. Incluye temas, datos clave, "
+                    "acuerdos y pendientes. Se claro y conciso."
+                ),
+            }
+        ]
+        grok_messages.extend(
+            {"role": msg.get("role"), "content": msg.get("body") or ""}
+            for msg in messages
+        )
+        grok_client = get_grok_client()
+        completion = grok_client.chat.completions.create(
+            model=request.model,
+            messages=grok_messages,
+        )
+        summary = completion.choices[0].message.content or ""
+    else:
+        summary = "No hay mensajes para resumir."
+
+    supabase.from_("chat_sessions").update({
+        "status": "closed",
+        "closed_at": datetime.utcnow().isoformat(),
+        "summary": summary,
+        "updated_at": datetime.utcnow().isoformat(),
+    }).eq("id", session_id).execute()
+
+    return {
+        "chat_id": request.chat_id,
+        "session_id": session_id,
+        "summary": summary,
+        "status": "closed",
     }

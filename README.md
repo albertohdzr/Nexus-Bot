@@ -20,7 +20,7 @@
    ```bash
    # Crear entorno virtual
    python3 -m venv venv
-   
+
    # Activar entorno virtual
    # En macOS/Linux:
    source venv/bin/activate
@@ -34,48 +34,50 @@
    ```
 
 4. **Configurar variables de entorno**
-   
+
    Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
-   
+
    ```env
    # Supabase Configuration
    SUPABASE_URL=https://your-project.supabase.co
    SUPABASE_KEY=your-anon-key
    SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
    SUPABASE_STORAGE_BUCKET=media
-   
+
    # XAI (OpenAI-compatible) Configuration
    XAI_API_KEY=your-xai-api-key
    XAI_BASE_URL=https://api.x.ai/v1
-   
+
    # WhatsApp Configuration
    WHATSAPP_ACCESS_TOKEN=your-whatsapp-access-token
    WHATSAPP_VERIFY_TOKEN=my_secure_token
-   
+
    # Cron Secret (for scheduled tasks)
    CRON_SECRET=your-cron-secret
    ```
-   
+
    **Nota:** Reemplaza los valores con tus credenciales reales.
 
 5. **Ejecutar el servidor de desarrollo**
    ```bash
-   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
    ```
-   
+
    El servidor estará disponible en: `http://localhost:8000`
-   
+
    - Documentación interactiva (Swagger): `http://localhost:8000/docs`
    - Documentación alternativa (ReDoc): `http://localhost:8000/redoc`
 
 ### Opciones de ejecución
 
 **Modo desarrollo (con recarga automática):**
+
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 **Modo producción:**
+
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
@@ -104,7 +106,9 @@ Si quieres correr Supabase localmente:
 ### Verificar que funciona
 
 Una vez que el servidor esté corriendo, puedes verificar que funciona visitando:
-- `http://localhost:8000/` - Debería mostrar: `{"mensaje": "Backend funcionando correctamente"}`
+
+- `http://localhost:8000/` - Debería mostrar:
+  `{"mensaje": "Backend funcionando correctamente"}`
 
 ### Estructura del proyecto
 
