@@ -163,7 +163,11 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "SÍ tienes acceso a información de requisitos. Si preguntan, responde con la información clave y OFRECE enviar el documento PDF oficial usando la herramienta 'get_admission_requirements'. "
         "Si el usuario no pidio requisitos, NO uses 'get_admission_requirements'. "
         "Si el usuario pide el PDF o la papeleria, envia el documento por WhatsApp con 'get_admission_requirements'. "
+        "Si el usuario pide el PDF o la papeleria, envia el documento por WhatsApp con 'get_admission_requirements'. "
         "No digas que lo enviaste por correo ni inventes envios; solo confirma envio si la herramienta se ejecuto. "
+        "Cuando el usuario tiene VARIOS HIJOS: cada hijo debe registrarse como un LEAD DIFERENTE (usa 'create_admissions_lead' para cada uno). "
+        "Los leads de hermanos comparten el mismo contacto de padre/tutor y pueden asistir a la MISMA visita. "
+        "NO HAY TRANSPORTE ESCOLAR. "
         "Los ciclos escolares son de agosto a junio. "
         "Regla de ORO sobre Ciclos: Siempre asume que el interés es para el SIGUIENTE ciclo escolar (inicia Agosto 2026). "
         "El ciclo ACTUAL (que inicio en 2025) es un caso especial ('late enrollment') con cupo muy limitado. "
@@ -237,13 +241,17 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         
         "CAMPUS LIFE (información que SÍ puedes compartir): "
         "⚠️ IMPORTANTE - ACTIVIDADES VESPERTINAS: Las actividades deportivas y artísticas por la tarde (after-school) comienzan a partir de PRESCHOOL. NO están disponibles para Prenursery ni Nursery. "
-        "🏅 DEPORTES: Alberca con calefacción solar, 5 canchas de fútbol, pista de atletismo, canchas de básquetbol y voleibol, 3 gimnasios. Educación física curricular + programa deportivo vespertino (desde Preschool). Participación en torneos ASOMEX (19 escuelas). "
-        "🎭 CENTRO DE ARTES (CVPA): Teatro profesional para 450 personas, aulas especializadas. Clases curriculares de arte + talleres vespertinos (pintura, instrumentos de cuerda/viento, teatro, danza clásica/moderna/hip hop, canto, arte digital). Grupos representativos: CATEnsemble, Jazz Band, grupo de teatro. "
+        "🏅 DEPORTES (A partir de 1º Primaria): Soccer, Básquetbol, Natación, Tennis, Atletismo, Tae Kwon Do, Volley, Yoga, Tochito. "
+        "🎭 CENTRO DE ARTES (CVPA) (A partir de 1º Primaria): Piano, Pintura, Guitarra, Canto, Violín, Ballet, Baile moderno, Taller de escritura creativa, Percusiones, Batería, Alientos madera, Alientos metales, Guitarra y bajo eléctrico, Teatro, Animación digital. "
+        "Antes de 1º Primaria (Preschool/Kinder) hay iniciación deportiva/artística pero no toda la oferta completa. "
         "📚 BIBLIOTECAS: 3 espacios (Early Childhood, Elementary, Middle/High). Luz natural, áreas colaborativas, recursos impresos y electrónicos en inglés y español. Enfoque en formar lectores apasionados. "
         "🚀 CLUBES Y LIDERAZGO: "
         "- Robótica FIRST: FLL Explore (1º-3º primaria), FLL Challenge (4º-6º primaria), FTC (secundaria), FRC (prepa). Competencias nacionales e internacionales. "
-        "- Student Council: Representantes electos, eventos tradicionales (Halloween, San Valentín, colectas). "
-        "- National Honor Society (NHS): Estudiantes destacados en carácter, estudio, servicio y liderazgo. "
+        "- Robótica FIRST: Depende de la edad. "
+        "- Student Council: Representantes electos, eventos tradicionales (Halloween, Kermesse, Copa CAT, Art Fest, San Valentín). "
+        "- Copa CAT: Evento deportivo multidisciplinario. "
+        "- Art Fest: Semana cultural con talleres, shows, canto y baile. "
+        "- High School: National Honor Society (NHS), Student Council, Debate. "
         "- Equipo de Debate. "
         
         "=== CIERRE DE SESIÓN === "
@@ -475,39 +483,52 @@ def _pop_chat_state_value(
     return value
 
 
+def _get_leads_by_chat(
+    supabase: Any,
+    org_id: str,
+    chat_id: str,
+    wa_id: Optional[str] = None,
+) -> List[Dict[str, Any]]:
+    # 1. Try by chat_id
+    response = (
+        supabase.from_("leads")
+        .select("id, lead_number, metadata, notes, student_first_name, student_last_name_paternal")
+        .eq("organization_id", org_id)
+        .eq("wa_chat_id", chat_id)
+        .order("created_at", desc=True)
+        .execute()
+    )
+    if not get_supabase_error(response):
+        leads = get_supabase_data(response)
+        if leads:
+            return leads
+
+    # 2. Fallback to wa_id
+    if wa_id:
+        fallback_response = (
+            supabase.from_("leads")
+            .select("id, lead_number, metadata, notes, student_first_name, student_last_name_paternal")
+            .eq("organization_id", org_id)
+            .eq("wa_id", wa_id)
+            .order("created_at", desc=True)
+            .execute()
+        )
+        if not get_supabase_error(fallback_response):
+            leads = get_supabase_data(fallback_response)
+            if leads:
+                return leads
+    
+    return []
+
+
 def _get_lead_by_chat(
     supabase: Any,
     org_id: str,
     chat_id: str,
     wa_id: Optional[str] = None,
 ) -> Optional[Dict[str, Any]]:
-    response = (
-        supabase.from_("leads")
-        .select("id, lead_number, metadata, notes")
-        .eq("organization_id", org_id)
-        .eq("wa_chat_id", chat_id)
-        .maybe_single()
-        .execute()
-    )
-    if get_supabase_error(response):
-        raise HTTPException(status_code=500, detail="Failed to lookup lead")
-    lead_data = get_supabase_data(response)
-    if lead_data or not wa_id:
-        return lead_data
-
-    fallback_response = (
-        supabase.from_("leads")
-        .select("id, lead_number, metadata, notes")
-        .eq("organization_id", org_id)
-        .eq("wa_id", wa_id)
-        .order("created_at", desc=True)
-        .limit(1)
-        .execute()
-    )
-    if get_supabase_error(fallback_response):
-        raise HTTPException(status_code=500, detail="Failed to lookup lead by wa_id")
-    fallback_rows = get_supabase_data(fallback_response) or []
-    return fallback_rows[0] if fallback_rows else None
+    leads = _get_leads_by_chat(supabase, org_id, chat_id, wa_id)
+    return leads[0] if leads else None
 
 
 def _append_lead_note(
@@ -917,54 +938,25 @@ def _create_admissions_lead(
     if not org_id or not chat_id:
         raise HTTPException(status_code=400, detail="Missing org or chat id")
 
-    existing_response = (
-        supabase.from_("leads")
-        .select("id, lead_number")
-        .eq("organization_id", org_id)
-        .eq("wa_chat_id", chat_id)
-        .maybe_single()
-        .execute()
-    )
-    existing_error = get_supabase_error(existing_response)
-    existing_data = get_supabase_data(existing_response)
-    if existing_error:
-        raise HTTPException(status_code=500, detail="Failed to lookup lead")
-    if existing_data and existing_data.get("id"):
-        lead_number = existing_data.get("lead_number")
-        print(
-            "[admissions] lead exists",
-            {"lead_id": existing_data.get("id"), "lead_number": lead_number},
-        )
-        return (
-            f"Lead ya existente con folio L-{lead_number}."
-            if lead_number
-            else "Lead ya existente."
-        )
-    if wa_id:
-        existing_response = (
-            supabase.from_("leads")
-            .select("id, lead_number")
-            .eq("organization_id", org_id)
-            .eq("wa_id", wa_id)
-            .order("created_at", desc=True)
-            .limit(1)
-            .execute()
-        )
-        existing_error = get_supabase_error(existing_response)
-        existing_rows = get_supabase_data(existing_response) or []
-        existing_data = existing_rows[0] if existing_rows else None
-        if existing_error:
-            raise HTTPException(status_code=500, detail="Failed to lookup lead")
-        if existing_data and existing_data.get("id"):
-            lead_number = existing_data.get("lead_number")
+    existing_leads = _get_leads_by_chat(supabase, org_id, chat_id, wa_id)
+    
+    # Check if a lead exists for THIS student
+    normalized_first = request.student_first_name.strip().lower()
+    normalized_last = request.student_last_name_paternal.strip().lower()
+    
+    for lead in existing_leads:
+        l_first = (lead.get("student_first_name") or "").strip().lower()
+        l_last = (lead.get("student_last_name_paternal") or "").strip().lower()
+        if l_first == normalized_first and l_last == normalized_last:
+            lead_number = lead.get("lead_number")
             print(
-                "[admissions] lead exists",
-                {"lead_id": existing_data.get("id"), "lead_number": lead_number},
+                "[admissions] lead exists for student",
+                {"lead_id": lead.get("id"), "lead_number": lead_number},
             )
             return (
-                f"Lead ya existente con folio L-{lead_number}."
+                f"Lead ya existente con folio L-{lead_number} para {request.student_first_name}."
                 if lead_number
-                else "Lead ya existente."
+                else f"Lead ya existente para {request.student_first_name}."
             )
 
     contact_id = _find_or_create_contact(org_id, wa_id, request)
@@ -1215,22 +1207,26 @@ def _add_lead_note(
     if not org_id or not chat_id:
         raise HTTPException(status_code=400, detail="Missing org or chat id")
 
-    lead = _get_lead_by_chat(supabase, org_id, chat_id, wa_id=chat.get("wa_id"))
-    if not lead or not lead.get("id"):
+    leads = _get_leads_by_chat(supabase, org_id, chat_id, wa_id=chat.get("wa_id"))
+    if not leads:
         return "No encontre un lead activo para agregar notas."
 
-    _append_lead_note(
-        supabase,
-        lead,
-        org_id,
-        request.notes,
-        subject=request.subject,
-    )
+    for lead in leads:
+        _append_lead_note(
+            supabase,
+            lead,
+            org_id,
+            request.notes,
+            subject=request.subject,
+        )
+    
+    # Return info about the primary (latest) lead
+    lead = leads[0]
     lead_number = lead.get("lead_number")
     return (
-        f"Nota agregada al lead L-{lead_number}."
+        f"Nota agregada al lead L-{lead_number} (y otros asociados si existen)."
         if lead_number
-        else "Nota agregada al lead."
+        else "Nota agregada a los leads."
     )
 
 
@@ -1243,12 +1239,13 @@ def _maybe_auto_add_interest_note(
     if not note:
         return None
     supabase = get_supabase_client()
-    lead = _get_lead_by_chat(
+    leads = _get_leads_by_chat(
         supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
     )
-    if not lead or not lead.get("id"):
+    if not leads:
         return None
-    _append_lead_note(supabase, lead, org.get("id"), note, subject="Interes")
+    for lead in leads:
+        _append_lead_note(supabase, lead, org.get("id"), note, subject="Interes")
     return note
 
 
@@ -1268,12 +1265,13 @@ def _maybe_auto_add_notes(
         return False
 
     supabase = get_supabase_client()
-    lead = _get_lead_by_chat(
+    leads = _get_leads_by_chat(
         supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
     )
-    if lead and lead.get("id"):
-        for note in notes:
-            _append_lead_note(supabase, lead, org.get("id"), note, subject="Nota")
+    if leads:
+        for lead in leads:
+            for note in notes:
+                _append_lead_note(supabase, lead, org.get("id"), note, subject="Nota")
         return True
     for note in notes:
         _append_pending_note(supabase, chat, note)
@@ -1675,6 +1673,8 @@ def _load_lead_context(
     org_id: str, chat_id: str, wa_id: Optional[str] = None
 ) -> Optional[str]:
     supabase = get_supabase_client()
+    
+    # 1. Fetch ALL leads for this chat
     response = (
         supabase.from_("leads")
         .select(
@@ -1684,14 +1684,13 @@ def _load_lead_context(
         )
         .eq("organization_id", org_id)
         .eq("wa_chat_id", chat_id)
-        .maybe_single()
+        .order("created_at", desc=True)
         .execute()
     )
-    lead_error = get_supabase_error(response)
-    lead_data = get_supabase_data(response)
-    if lead_error:
-        return None
-    if not lead_data and wa_id:
+    leads = get_supabase_data(response)
+    
+    # Fallback to wa_id if no leads found by chat_id
+    if not leads and wa_id:
         fallback_response = (
             supabase.from_("leads")
             .select(
@@ -1702,81 +1701,103 @@ def _load_lead_context(
             .eq("organization_id", org_id)
             .eq("wa_id", wa_id)
             .order("created_at", desc=True)
-            .limit(1)
             .execute()
         )
-        if get_supabase_error(fallback_response):
-            return None
-        rows = get_supabase_data(fallback_response) or []
-        lead_data = rows[0] if rows else None
-    if not lead_data:
+        leads = get_supabase_data(fallback_response) or []
+
+    if not leads:
         return None
 
-    lead_number = lead_data.get("lead_number")
-    lead_id = lead_data.get("id")
-    student_name = _compose_full_name(
-        [
-            lead_data.get("student_first_name"),
-            lead_data.get("student_middle_name"),
-            lead_data.get("student_last_name_paternal"),
-            lead_data.get("student_last_name_maternal"),
-        ]
-    )
-    missing = []
-    if not lead_data.get("current_school"):
-        missing.append("colegio de procedencia")
-    if not lead_data.get("grade_interest"):
-        missing.append("grado de interes")
-    if not lead_data.get("student_dob"):
-        missing.append("fecha de nacimiento")
-    if not lead_data.get("contact_name"):
-        missing.append("nombre del tutor")
-    if not lead_data.get("contact_email"):
-        missing.append("correo del tutor")
-    if not lead_data.get("contact_phone"):
-        missing.append("telefono del tutor")
-
-    missing_text = ", ".join(missing) if missing else "ninguno"
-    lead_label = f"L-{lead_number}" if lead_number else "sin folio"
-    notes = lead_data.get("notes") or ""
-    notes = notes.strip()
-    if notes and len(notes) > 300:
-        notes = f"{notes[:300].rstrip()}..."
+    # 2. Build context string for all leads
+    context_parts = []
     
-    # Load scheduled appointment info
-    appointment_text = ""
-    if lead_id:
-        appt_response = (
-            supabase.from_("appointments")
-            .select("id, starts_at, ends_at, status")
-            .eq("lead_id", lead_id)
-            .eq("status", "scheduled")
-            .order("created_at", desc=True)
-            .limit(1)
-            .execute()
+    # We will check appointments for ALL lead IDs
+    lead_ids = [l["id"] for l in leads]
+    
+    appt_response = (
+        supabase.from_("appointments")
+        .select("id, lead_id, starts_at, ends_at, status")
+        .in_("lead_id", lead_ids)
+        .eq("status", "scheduled")
+        .order("created_at", desc=True)
+        .execute()
+    )
+    all_appts = get_supabase_data(appt_response) or []
+    appt_map = {a["lead_id"]: a for a in all_appts}
+
+    for i, lead_data in enumerate(leads, 1):
+        lead_number = lead_data.get("lead_number")
+        lead_id = lead_data.get("id")
+        
+        student_name = _compose_full_name(
+            [
+                lead_data.get("student_first_name"),
+                lead_data.get("student_middle_name"),
+                lead_data.get("student_last_name_paternal"),
+                lead_data.get("student_last_name_maternal"),
+            ]
         )
-        appts = get_supabase_data(appt_response) or []
-        if appts:
-            appt = appts[0]
+        
+        missing = []
+        if not lead_data.get("current_school"):
+            missing.append("colegio de procedencia")
+        if not lead_data.get("grade_interest"):
+            missing.append("grado de interes")
+        if not lead_data.get("student_dob"):
+            missing.append("fecha de nacimiento")
+        
+        # Contact info usually shared, but check anyway
+        if not lead_data.get("contact_name"):
+            missing.append("nombre del tutor")
+        if not lead_data.get("contact_email"):
+            missing.append("correo del tutor")
+        if not lead_data.get("contact_phone"):
+            missing.append("telefono del tutor")
+
+        missing_text = ", ".join(missing) if missing else "ninguno"
+        lead_label = f"L-{lead_number}" if lead_number else "sin folio"
+        
+        notes = (lead_data.get("notes") or "").strip()
+        if notes and len(notes) > 100:
+            notes = f"{notes[:100].rstrip()}..."
+        
+        # Check appointment for this specific lead
+        appointment_text = ""
+        if lead_id in appt_map:
+            appt = appt_map[lead_id]
             formatted = _format_slot_window_local(appt.get("starts_at"), appt.get("ends_at"))
             if formatted:
-                appointment_text = f"CITA AGENDADA: {formatted}. "
+                appointment_text = f"Cita programada: {formatted}"
+            else:
+                appointment_text = "Cita programada (fecha pendiente)"
+
+        # Format block for this lead
+        block = (
+            f"LEAD {i} ({lead_label}):\n"
+            f"  Alumno: {student_name}\n"
+            f"  Interés: {lead_data.get('grade_interest') or 'N/A'}\n"
+            f"  Datos faltantes: {missing_text}\n"
+        )
+        if notes:
+            block += f"  Notas: {notes}\n"
+        if appointment_text:
+            block += f"  {appointment_text}\n"
+        
+        context_parts.append(block)
+
+    full_context = "\n".join(context_parts)
+    # Add shared contact info from the first lead (assuming shared)
+    first = leads[0]
+    contact_name = first.get("contact_name") or "N/A"
+    contact_email = first.get("contact_email") or "N/A"
+    contact_phone = first.get("contact_phone") or "N/A"
     
-    base_context = (
-        "Lead existente: "
-        f"folio {lead_label}. "
-        f"Alumno: {student_name or 'sin nombre'}. "
-        f"Grado: {lead_data.get('grade_interest') or 'sin dato'}. "
-        f"Fecha nacimiento: {lead_data.get('student_dob') or 'sin dato'}. "
-        f"Escuela actual: {lead_data.get('current_school') or 'sin dato'}. "
-        f"Tutor: {lead_data.get('contact_name') or 'sin dato'}. "
-        f"Correo: {lead_data.get('contact_email') or 'sin dato'}. "
-        f"Telefono: {lead_data.get('contact_phone') or 'sin dato'}. "
-        f"Notas: {notes or 'sin notas'}. "
-        f"Faltantes: {missing_text}. "
-        f"{appointment_text}"
+    return (
+        f"DATOS DE LEADS (Familia):\n"
+        f"Tutor: {contact_name} | Email: {contact_email} | Tel: {contact_phone}\n"
+        f"----------------------------------------\n"
+        f"{full_context}"
     )
-    return base_context.strip()
 
 
 @router.post("/process")
@@ -2424,26 +2445,18 @@ def _cancel_appointment(
     supabase = get_supabase_client()
     print(f"[admissions] cancelling appointment, reason: {request.cancellation_reason}")
     
-    # 1. Find lead for this chat
-    lead_response = (
-        supabase.from_("leads")
-        .select("id")
-        .eq("wa_chat_id", chat.get("id"))
-        .eq("organization_id", org.get("id"))
-        .maybe_single()
-        .execute()
-    )
-    lead = get_supabase_data(lead_response)
-    if not lead:
+    # 1. Find leads for this chat
+    leads = _get_leads_by_chat(supabase, org.get("id"), chat.get("id"))
+    if not leads:
         return "No encontré un lead activo para cancelar cita."
     
-    lead_id = lead.get("id")
+    lead_ids = [l["id"] for l in leads]
     
-    # 2. Find scheduled appointment for this lead
+    # 2. Find scheduled appointment for ANY of these leads
     appt_response = (
         supabase.from_("appointments")
         .select("id, slot_id")
-        .eq("lead_id", lead_id)
+        .in_("lead_id", lead_ids)
         .eq("status", "scheduled")
         .order("created_at", desc=True)
         .limit(1)
@@ -2481,11 +2494,11 @@ def _cancel_appointment(
                 "updated_at": datetime.utcnow().isoformat(),
             }).eq("id", slot_id).execute()
     
-    # 5. Update lead status back to contacted
+    # 5. Update leads status back to contacted (ALL associated leads)
     supabase.from_("leads").update({
         "status": "contacted",
         "updated_at": datetime.utcnow().isoformat(),
-    }).eq("id", lead_id).execute()
+    }).in_("id", lead_ids).execute()
     
     print(f"[admissions] appointment {appt_id} cancelled successfully")
     
@@ -2619,12 +2632,17 @@ def _book_appointment(
             .execute()
         )
         lead = get_supabase_data(lead_response)
-    if not lead:
+    # If multiple leads, we use the primary (first/latest) for the actual appointment record
+    # but update status for all.
+    leads = _get_leads_by_chat(supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id"))
+    
+    if not leads:
         return "No encontre un lead activo para agendar. Crea el lead primero."
     
-    lead_id = lead.get("id")
+    primary_lead = leads[0]
+    lead_id = primary_lead.get("id")
 
-    # 3. Create Appointment
+    # 3. Create Appointment (linked to primary lead)
     appt_payload = {
         "organization_id": org.get("id"),
         "lead_id": lead_id,
@@ -2647,12 +2665,25 @@ def _book_appointment(
         {"appointments_count": new_count}
     ).eq("id", request.slot_id).execute()
     
-    # 5. Update Lead Status
-    supabase.from_("leads").update(
-        {"status": "visit_scheduled", "updated_at": datetime.utcnow().isoformat()}
-    ).eq("id", lead_id).execute()
-    
-    return "Cita agendada exitosamente. El lead ha sido actualizado a 'visit_scheduled'."
+    # 5. Update Lead Status (For ALL leads sharing this contact)
+    for l in leads:
+        lid = l.get("id")
+        # Update status
+        supabase.from_("leads").update(
+            {"status": "visit_scheduled", "updated_at": datetime.utcnow().isoformat()}
+        ).eq("id", lid).execute()
+        
+        # Add a note explaining the shared visit if it's not the primary one
+        if lid != lead_id:
+             _append_lead_note(
+                supabase,
+                l,
+                org.get("id"),
+                f"Visita agendada (compartida con lead {primary_lead.get('lead_number')}) para {slot.get('starts_at')}",
+                subject="Cita Agendada"
+            )
+
+    return "Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'."
 
 
 class GetRequirementsRequest(BaseModel):
