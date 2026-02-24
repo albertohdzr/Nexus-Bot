@@ -471,10 +471,10 @@ def _create_admissions_lead(
         },
     )
     if (
-        not request.student_first_name.strip()
-        or not request.student_last_name_paternal.strip()
-        or not request.grade_interest.strip()
-        or not request.current_school.strip()
+        not (request.student_first_name or "").strip()
+        or not (request.student_last_name_paternal or "").strip()
+        or not (request.grade_interest or "").strip()
+        or not (request.current_school or "").strip()
     ):
         return (
             "No se pudo crear el lead porque faltan datos obligatorios del alumno, "

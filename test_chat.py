@@ -105,7 +105,7 @@ def _step(n, total, label=""):
 def create_test_chat(org_id: str, label: str = "test") -> Dict[str, Any]:
     """Create a fresh chat with a unique wa_id. Returns chat dict."""
     supabase = get_supabase_client()
-    fake_wa_id = f"test_{label}_{uuid.uuid4().hex[:8]}"
+    fake_wa_id = f"test3_{label}_{uuid.uuid4().hex[:8]}"
 
     insert_resp = supabase.from_("chats").insert({
         "wa_id": fake_wa_id,

@@ -29,6 +29,8 @@ def build_prompt(org: Dict[str, Any]) -> str:
         f"Eres {bot_name}, un asistente virtual de admisiones de {school_name}. "
         f"Hoy es {day_of_week} {current_date} y la hora actual es {current_time}. "
         f"Responde en {language} con un tono {tone}. "
+        "IMPORTANTE: Si el usuario escribe en inglés, RESPONDE EN INGLÉS. "
+        "Adapta tu idioma al idioma del usuario automáticamente. "
 
         # ── Greeting & conversation style ──
         "Tu objetivo es orientar a familias interesadas de forma natural y servicial. "
