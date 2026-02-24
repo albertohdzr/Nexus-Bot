@@ -65,13 +65,17 @@ Deno.serve(async (req) => {
   console.log(`🚀 ENVIANDO A API FINAL: "${finalMessage}"`);
   console.log("-----------------------------------------");
 
-  const appBaseUrl = "http://host.docker.internal:8000";
-  const cronSecret = "m1LIdlqcxZl0JY5btW9FQO+VB4Cm1L9h/egJXzc2gkE=";
+  const appBaseUrl = Deno.env.get("APP_BASE_URL") ?? "http://host.docker.internal:8000";
+  const cronSecret = Deno.env.get("CRON_SECRET") ?? "m1LIdlqcxZl0JY5btW9FQO+VB4Cm1L9h/egJXzc2gkE=";
 
   try {
     if (!appBaseUrl) {
       console.error("Missing APP_BASE_URL for API call.");
       throw new Error("Missing app base url");
+    }
+    if (!/^https?:\/\//.test(appBaseUrl)) {
+      console.error("APP_BASE_URL must include http:// or https://.");
+      throw new Error("Invalid app base url");
     }
 
     if (!cronSecret) {
@@ -90,6 +94,8 @@ Deno.serve(async (req) => {
         final_message: finalMessage,
       }),
     });
+
+    console.log("response", response);
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => "");

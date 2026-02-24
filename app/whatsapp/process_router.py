@@ -112,6 +112,82 @@ def _require_cron_secret(authorization: Optional[str]) -> None:
 # (prompt logic moved to app.whatsapp.prompt)
 # (continued prompt removal — see prompt.py)
 
+
+def _load_session_messages(
+    session_id: str,
+) -> List[Dict[str, Any]]:
+    supabase = get_supabase_client()
+    print("[admissions] loading session messages", {"session_id": session_id})
+    response = (
+        supabase.from_("messages")
+        .select("role, body, created_at, wa_timestamp")
+        .eq("chat_session_id", session_id)
+        .order("created_at", desc=True)
+        .execute()
+    )
+    data = get_supabase_data(response) or []
+
+    def _normalize_dt(value: str) -> str:
+        import re
+
+        normalized = value.strip()
+        if normalized.endswith("Z"):
+            normalized = normalized.replace("Z", "+00:00")
+        if len(normalized) >= 3 and normalized[-3] in {"+", "-"}:
+            normalized = f"{normalized}:00"
+        if len(normalized) >= 5 and normalized[-5] in {"+", "-"}:
+            normalized = f"{normalized[:-2]}:{normalized[-2:]}"
+
+        # Fix microseconds to be 3 or 6 digits for Python < 3.11 compatibility
+        match = re.search(r"\.(\d+)(?:([+-]\d{2}:\d{2})|$)", normalized)
+        if match:
+            us = match.group(1)
+            tz = match.group(2) or ""
+            if len(us) != 3 and len(us) != 6:
+                if len(us) < 6:
+                    new_us = us.ljust(6, "0")
+                else:
+                    new_us = us[:6]
+                normalized = normalized.replace(f".{us}{tz}", f".{new_us}{tz}")
+
+        return normalized
+
+    def _parse_dt(value: Optional[str]) -> Optional[datetime]:
+        if not value:
+            return None
+        try:
+            parsed = datetime.fromisoformat(_normalize_dt(value))
+            if parsed.tzinfo is None:
+                return parsed.replace(tzinfo=timezone.utc)
+            return parsed
+        except ValueError:
+            try:
+                parsed = datetime.fromisoformat(_normalize_dt(value.replace(" ", "T")))
+                if parsed.tzinfo is None:
+                    return parsed.replace(tzinfo=timezone.utc)
+                return parsed
+            except ValueError:
+                return None
+
+    def _sort_key(item: Dict[str, Any]) -> float:
+        role = item.get("role")
+        created_dt = _parse_dt(item.get("created_at"))
+        wa_dt = _parse_dt(item.get("wa_timestamp"))
+        if role == "user" and wa_dt:
+            dt = wa_dt
+        else:
+            dt = created_dt or wa_dt
+        return dt.timestamp() if dt else 0.0
+
+    ordered = sorted(data, key=_sort_key)
+    return [
+        item
+        for item in ordered
+        if item.get("role") in {"user", "assistant"} and item.get("body")
+    ]
+
+
+
 def _extract_interest_note(text: str) -> Optional[str]:
     lowered = text.lower()
     if "robotica" in lowered or "robótica" in lowered:
@@ -334,11 +410,12 @@ def _find_or_create_contact(
             .select("id")
             .eq("organization_id", org_id)
             .eq("phone", contact_phone)
-            .maybe_single()
+            .limit(1)
             .execute()
         )
         contact_error = get_supabase_error(contact_response)
-        contact_data = get_supabase_data(contact_response)
+        contact_rows = get_supabase_data(contact_response) or []
+        contact_data = contact_rows[0] if contact_rows else None
         if contact_error:
             raise HTTPException(status_code=500, detail="Failed to lookup contact")
 
@@ -681,7 +758,12 @@ def _add_lead_note(
 
     leads = _get_leads_by_chat(supabase, org_id, chat_id, wa_id=chat.get("wa_id"))
     if not leads:
-        return "No encontre un lead activo para agregar notas."
+        # No lead yet — save as pending note so it attaches when lead is created
+        _append_pending_note(supabase, chat, request.notes)
+        return (
+            "Aún no hay un lead registrado, pero guardé la nota pendiente. "
+            "Se agregará automáticamente cuando se cree el lead."
+        )
 
     for lead in leads:
         _append_lead_note(
@@ -1663,7 +1745,7 @@ def process_queue(
                     followup = client.responses.create(
                         model=model,
                         instructions=followup_instructions,
-                        input=response.output + tool_outputs,
+                        input=input_messages + list(response.output) + tool_outputs,
                     )
                     assistant_text = followup.output_text or ""
                 except Exception:
@@ -1674,92 +1756,94 @@ def process_queue(
                     )
                 booking_done = True
         if not booking_done:
-            try:
-                followup = client.responses.create(
-                    model=model,
-                    instructions=full_instructions,
-                    input=response.output + tool_outputs,
-                    tools=tools,
-                )
-                assistant_text = followup.output_text or ""
-            except Exception as exc:
-                print(
-                    "[admissions] OpenAI followup error",
-                    {"error": str(exc), "chat_id": chat.get("id")},
-                )
-                # Build a context-aware fallback based on what tools ran
-                executed_tools = [t.name for t in tool_calls] if tool_calls else []
-                if "create_admissions_lead" in executed_tools:
-                    assistant_text = (
-                        "¡Excelente! Ya quedaron registrados tus datos en admisiones. 🎉 "
-                        "El siguiente paso es conocer el campus, ¿te gustaría que busque "
-                        "horarios disponibles para una visita?"
+            # ── Agentic loop: keep executing tools until model responds ──
+            MAX_TOOL_ROUNDS = 5
+            accumulated_input = input_messages + list(response.output) + tool_outputs
+            for round_idx in range(MAX_TOOL_ROUNDS):
+                try:
+                    followup = client.responses.create(
+                        model=model,
+                        instructions=full_instructions,
+                        input=accumulated_input,
+                        tools=tools,
                     )
-                elif "update_admissions_lead" in executed_tools:
-                    assistant_text = (
-                        "¡Listo, ya actualicé la información! "
-                        "¿Hay algo más en lo que pueda ayudarte?"
+                except Exception as exc:
+                    print(
+                        "[admissions] OpenAI followup error",
+                        {"error": str(exc), "round": round_idx, "chat_id": chat.get("id")},
                     )
-                elif "book_appointment" in executed_tools:
-                    assistant_text = (
-                        "Tu solicitud de cita fue procesada. "
-                        "¿Necesitas algo más?"
-                    )
-                else:
-                    assistant_text = (
-                        "Tu solicitud fue procesada correctamente. "
-                        "¿En qué más puedo ayudarte?"
-                    )
+                    # Context-aware fallback
+                    executed_tools = [t.name for t in tool_calls] if tool_calls else []
+                    if "create_admissions_lead" in executed_tools:
+                        assistant_text = (
+                            "¡Excelente! Ya quedaron registrados tus datos en admisiones. 🎉 "
+                            "El siguiente paso es conocer el campus, ¿te gustaría que busque "
+                            "horarios disponibles para una visita?"
+                        )
+                    elif "book_appointment" in executed_tools:
+                        assistant_text = "Tu solicitud de cita fue procesada. ¿Necesitas algo más?"
+                    else:
+                        assistant_text = "Tu solicitud fue procesada correctamente. ¿En qué más puedo ayudarte?"
+                    break
 
-            # Fallback for empty responses after tool execution
-            if not assistant_text.strip() and tool_calls:
-                 executed_tools = [t.name for t in tool_calls]
-                 if "update_admissions_lead" in executed_tools:
-                     assistant_text = (
-                         "¡Listo, ya actualicé tu información! "
-                         "¿Hay algo más en lo que pueda ayudarte o te gustaría agendar una visita al campus?"
-                     )
-                 elif "create_admissions_lead" in executed_tools:
-                     assistant_text = (
-                         "¡Excelente! Ya quedaron registrados tus datos. 🎉 "
-                         "El siguiente paso recomendado es conocer nuestro campus. "
-                         "¿Te gustaría que busque horarios disponibles para una visita?"
-                     )
-                 elif "book_appointment" in executed_tools:
-                     if booking_done:
-                         assistant_text = "¡Tu visita ha sido agendada! Te esperamos. 😊"
-                     else:
-                         assistant_text = (
-                             "Tuve un inconveniente al agendar tu visita. "
-                             "¿Te gustaría que busque otros horarios disponibles?"
-                         )
-                 elif "cancel_appointment" in executed_tools:
-                     assistant_text = (
-                         "Entendido, tu cita ha sido cancelada. "
-                         "¿Te gustaría que busque disponibilidad para otro día?"
-                     )
-                 elif "close_chat_session" in executed_tools:
-                     assistant_text = (
-                         "¡Muchas gracias por tu tiempo! Guardé un resumen de nuestra conversación. "
-                         "Si necesitas algo más adelante, no dudes en escribirnos. ¡Hasta pronto! 👋"
-                     )
-                 elif "search_availability_slots" in executed_tools:
-                     assistant_text = (
-                         "Ya revisé la disponibilidad. Parece que no hay horarios en la fecha solicitada, "
-                         "¿te gustaría probar con otros días o un horario diferente?"
-                     )
-                 else:
-                     assistant_text = (
-                         "Tu solicitud fue procesada correctamente. "
-                         "¿En qué más puedo ayudarte?"
-                     )
+                followup_tool_calls = [
+                    item for item in followup.output if item.type == "function_call"
+                ]
+
+                if not followup_tool_calls:
+                    # Model produced text — we're done
+                    assistant_text = followup.output_text or ""
+                    break
+
+                # Model wants more tools — execute them
+                print(
+                    "[admissions] followup tool round",
+                    {"round": round_idx + 1, "tools": [t.name for t in followup_tool_calls]},
+                )
+                followup_outputs = []
+                for tc in followup_tool_calls:
+                    tool_name = tc.name
+                    tool_args_json = tc.arguments
+                    tool_result = "No se pudo ejecutar la accion solicitada."
+                    if tool_name in tool_dispatch:
+                        request_cls, handler = tool_dispatch[tool_name]
+                        try:
+                            parsed_args = request_cls.model_validate_json(tool_args_json)
+                            tool_result = handler(parsed_args)
+                        except Exception as tool_exc:
+                            tool_result = f"Error ejecutando {tool_name}: {tool_exc}"
+                    print(
+                        f"[admissions] tool call received",
+                        {"tool_name": tool_name, "args": tool_args_json[:120]},
+                    )
+                    print(
+                        f"[admissions] tool result",
+                        {"tool_name": tool_name, "result": tool_result[:200]},
+                    )
+                    # Track for note detection
+                    tool_calls.append(tc)
+                    if tool_name in ("add_lead_note", "update_admissions_lead"):
+                        lead_note_added = True
+
+                    followup_outputs.append({
+                        "type": "function_call_output",
+                        "call_id": tc.call_id,
+                        "output": tool_result,
+                    })
+
+                # Extend accumulated input for next round
+                accumulated_input = accumulated_input + list(followup.output) + followup_outputs
+            else:
+                # Exhausted all rounds without getting text
+                print("[admissions] WARNING: exhausted tool rounds without text response")
+                assistant_text = "Tu solicitud fue procesada correctamente. ¿En qué más puedo ayudarte?"
 
     if not lead_note_added:
         _maybe_auto_add_notes(combined_user, org=org, chat=chat)
 
     # Post-response validation: detect invented responses
     assistant_text = _validate_and_fix_response(
-        assistant_text, combined_user, tool_calls, lead, chat, org
+        assistant_text, combined_user, tool_calls, lead, chat
     )
 
     return _send_assistant_message(assistant_text, org, chat, session_id)
