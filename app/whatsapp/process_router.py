@@ -210,33 +210,41 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         
         "=== VISITAS AL CAMPUS (MUY IMPORTANTE) === "
         "Una vez creado el lead, tu meta es agendar una visita al campus. "
+        "El horario de atención para visitas es de *8:00 AM a 3:00 PM* de lunes a viernes. "
+        "NO hay visitas los fines de semana. "
         
         "REGLA CRÍTICA #1 - NUNCA INVENTES HORARIOS: "
         "SIEMPRE usa 'search_availability_slots' para buscar horarios disponibles. "
         "NUNCA escribas una lista de horarios sin haber ejecutado 'search_availability_slots' primero. "
         "Si el usuario pregunta por horarios, USA LA HERRAMIENTA. No inventes fechas ni horas. "
+        "Si el resultado dice que no hay horarios, NO inventes opciones: ofrece buscar en otros días. "
         
         "REGLA CRÍTICA #2 - CÓMO USAR LOS SLOTS: "
         "- El sistema guarda las opciones internamente cuando llamas 'search_availability_slots'. "
-        "- Cuando el usuario elige (ej: 'la 2', '2', 'la del jueves a las 9'), el sistema detecta automáticamente y agenda. "
+        "- Cuando el usuario elige una opción (ej: 'la 2', '2', 'la del jueves a las 9'), el sistema detecta automáticamente y agenda. "
         "- Si el usuario elige y el sistema no lo detectó, NO inventes un slot_id. Pregunta nuevamente. "
-        "- NUNCA uses un UUID inventado como 'a3b1c2d4-e5f6...' - solo usa los IDs reales del resultado de 'search_availability_slots'. "
+        "- NUNCA uses un UUID inventado. Solo usa los IDs reales del resultado de 'search_availability_slots'. "
         
         "REGLA CRÍTICA #3 - SI NO HAY OPCIONES GUARDADAS: "
         "Si el usuario quiere agendar pero no hay opciones disponibles en el contexto, "
         "pregunta qué días prefiere y USA 'search_availability_slots' para buscar. "
+        "Puedes usar el parámetro 'preferred_time' ('morning' o 'afternoon') si el usuario indicó preferencia. "
+        
+        "REGLA CRÍTICA #4 - CONFIRMAR ANTES DE AGENDAR: "
+        "Después de mostrar opciones, SIEMPRE espera a que el usuario CONFIRME cuál opción quiere. "
+        "NUNCA agendes automáticamente sin que el usuario elija explícitamente. "
         
         "=== CANCELACIÓN DE VISITAS === "
-        "REGLA CRÍTICA #4 - USA LA HERRAMIENTA PARA CANCELAR: "
+        "REGLA CRÍTICA #5 - USA LA HERRAMIENTA PARA CANCELAR: "
         "Si el usuario quiere cancelar o cambiar su cita: "
         "1. Pregunta la razón si no la dio. "
         "2. OBLIGATORIO: Llama 'cancel_appointment' con el motivo. "
         "3. NUNCA digas que cancelaste si no ejecutaste 'cancel_appointment'. "
         "4. Después de cancelar, pregunta qué días le convendrían mejor y busca opciones con 'search_availability_slots'. "
 
-        "REGLA CRÍTICA #5 - FECHAS DE CITAS: "
-        "- NO se pueden agendar citas para el mismo día ('hoy'). Si el usuario pide hoy, explica amablemente que deben programarse con antelación y ofrece fechas futuras. "
-        "- NO se pueden agendar citas en fechas pasadas. Si el usuario pide una fecha anterior a hoy, explica que no es posible viajar en el tiempo y pide una fecha futura. "
+        "REGLA CRÍTICA #6 - FECHAS DE CITAS: "
+        "- NO se pueden agendar citas para el mismo día ('hoy'). Si el usuario pide hoy, explica que deben programarse con antelación y ofrece fechas futuras. "
+        "- NO se pueden agendar citas en fechas pasadas. "
         "- NO se pueden agendar citas los fines de semana (sábado y domingo). Si el usuario pide fin de semana, ofrece buscar entre semana. "
         
         "CAMPUS LIFE (información que SÍ puedes compartir): "
@@ -279,6 +287,24 @@ def _build_prompt(org: Dict[str, Any]) -> str:
         "Entrada para visitas: Puerta 3 (por la caseta del reloj). "
         "Ubicación en Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9 "
         "Si el usuario pregunta dónde es o cómo llegar, comparte esta información exacta. "
+
+        "FORMATO DE MENSAJES (MUY IMPORTANTE): "
+        "Estás conversando por WhatsApp, NO por email ni web. "
+        "WhatsApp usa *asteriscos simples* para negritas (NO dobles **). "
+        "Usa _guiones bajos_ para itálicas. "
+        "Usa ~tilde~ para tachado. "
+        "NO uses encabezados markdown (###). "
+        "Mantén los mensajes concisos y naturales. "
+        "Evita listas largas de más de 5 puntos. "
+        "Usa saltos de línea para separar ideas en vez de listas numeradas largas. "
+
+        "TONO Y CALIDEZ: "
+        "Sé cálido y cercano, como un asesor amigable de admisiones. "
+        "Usa emojis con moderación (1-2 por mensaje máximo, NO en cada línea). "
+        "Evita sonar como un formulario o un interrogatorio. "
+        "Integra preguntas de forma natural en la conversación. "
+        "Si el usuario da varias respuestas a la vez, NO repitas todo de forma mecánica; integra todo fluidamente. "
+        "Evita mensajes demasiado largos — si tienes mucho que decir, prioriza lo más importante. "
 
         "LÍMITES DEL BOT: "
         "Si detectas que la intención del usuario NO es sobre admisiones (ej. quejas, pagos, calificaciones, situación de alumnos actuales, temas administrativos no relacionados), "
@@ -1429,66 +1455,48 @@ def _maybe_book_from_selection(
     org: Dict[str, Any],
     chat: Dict[str, Any],
 ) -> Optional[str]:
+    """Attempt to book when the user selects a slot option by number.
+    
+    CRITICAL DESIGN: This function ONLY books when there are REAL slot_options
+    stored from a prior `search_availability_slots` call. It NEVER auto-searches
+    or auto-books — doing so caused the wrong-date bug where the bot would
+    grab the first available slot instead of what the user requested.
+    """
     supabase = get_supabase_client()
     lead = _get_lead_by_chat(
         supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
     )
     slot_options = _get_slot_options(lead, chat)
-    pending_option = _get_chat_state(chat).get("pending_slot_option")
-    allow_bare = bool(slot_options or pending_option)
+    
+    # Only parse selection if there are real slot options to match against
+    if not slot_options:
+        return None
+    
+    allow_bare = True
     selection = _parse_slot_selection(combined_user, allow_bare=allow_bare)
     
     # If no numeric selection, try matching by date text
-    if not selection and slot_options:
+    if not selection:
         selection = _match_slot_by_date_text(combined_user, slot_options)
     
     if not selection:
         return None
-    if not slot_options and pending_option:
-        _pop_chat_state_value(supabase, chat, "pending_slot_option")
-        return None
-    if not lead or not lead.get("id") or not slot_options:
-        _set_chat_state_value(supabase, chat, "pending_slot_option", selection)
-        preferred_date = _get_chat_state(chat).get("preferred_date")
-        if preferred_date:
-            result_text = _search_availability_slots(
-                SearchSlotsRequest(
-                    start_date=preferred_date, end_date=preferred_date
-                ),
-                org=org,
-                chat=chat,
-            )
-            lead = _get_lead_by_chat(
-                supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
-            )
-            slot_options = _get_slot_options(lead, chat)
-            match = _slot_id_from_selection(slot_options, selection)
-            if match and match.get("slot_id"):
-                result = _book_appointment(
-                    BookAppointmentRequest(slot_id=match.get("slot_id")),
-                    org=org,
-                    chat=chat,
-                )
-                if result.lower().startswith("cita agendada exitosamente"):
-                    formatted = _format_slot_window_local(
-                        match.get("starts_at"), match.get("ends_at")
-                    )
-                    _clear_slot_options(supabase, lead, chat)
-                    _pop_chat_state_value(supabase, chat, "pending_slot_option")
-                    slot_text = formatted or "el horario seleccionado"
-                    return (
-                        f"¡Listo! Tu visita quedó agendada para {slot_text}. "
-                        "Si necesitas cambiarla, solo dime."
-                    )
-            return result_text
-        return (
-            "Antes de reservar necesito mostrarte las opciones disponibles. "
-            "Dime que dias u horarios te convienen y te comparto la lista."
-        )
+    
+    # We have slot_options and a selection — try to match
     match = _slot_id_from_selection(slot_options, selection)
     if not match or not match.get("slot_id"):
-        return "No pude identificar esa opcion. Dime un numero de la lista."
-
+        return (
+            "No encontré esa opción en la lista. "
+            "¿Podrías decirme el número de la opción que prefieres?"
+        )
+    
+    # We need a lead to book
+    if not lead or not lead.get("id"):
+        # Save the pending selection so it can be booked after lead creation
+        _set_chat_state_value(supabase, chat, "pending_slot_option", selection)
+        return None  # Let the LLM ask for lead data naturally
+    
+    # Book the selected slot
     result = _book_appointment(
         BookAppointmentRequest(slot_id=match.get("slot_id")),
         org=org,
@@ -1505,7 +1513,7 @@ def _maybe_book_from_selection(
         slot_text = formatted or "el horario seleccionado"
         return (
             f"¡Listo! Tu visita quedó agendada para {slot_text}. "
-            "Si necesitas cambiarla, solo dime."
+            "Si necesitas cambiarla, solo dime. 😊"
         )
     return result
 
@@ -1593,6 +1601,14 @@ def _sanitize_assistant_response(text: str) -> str:
     
     # Remove any system/tool internal JSON that might have leaked
     sanitized = re.sub(r"```(?:json|tool_call|system)?\s*\{.*?\}\s*```", "", sanitized, flags=re.DOTALL)
+    
+    # --- WhatsApp formatting conversion ---
+    # GPT outputs markdown **bold** but WhatsApp uses *bold* (single asterisk)
+    # Convert **text** → *text*  (must be done before other cleanup)
+    sanitized = re.sub(r"\*\*(.+?)\*\*", r"*\1*", sanitized)
+    
+    # Convert markdown headings (### Heading) to just *bold* text
+    sanitized = re.sub(r"^#{1,6}\s+(.+)$", r"*\1*", sanitized, flags=re.MULTILINE)
     
     # Clean up multiple newlines
     sanitized = re.sub(r"\n{3,}", "\n\n", sanitized)
@@ -2030,7 +2046,12 @@ def process_queue(
             "type": "function",
             "function": {
                 "name": "search_availability_slots",
-                "description": "Search for available appointment slots within a date range.",
+                "description": (
+                    "Search for available appointment slots within a date range. "
+                    "MUST be called before offering any schedule options to the user. "
+                    "Business hours are 8am-3pm Monday-Friday (Torreón time). "
+                    "Use 'preferred_time' to filter: 'morning' (8am-12pm) or 'afternoon' (12pm-3pm)."
+                ),
                 "parameters": SearchSlotsRequest.model_json_schema(),
             },
         },
@@ -2038,7 +2059,11 @@ def process_queue(
             "type": "function",
             "function": {
                 "name": "book_appointment",
-                "description": "Book an appointment slot for the current lead.",
+                "description": (
+                    "Book an appointment slot for the current lead. "
+                    "The slot_id MUST come from a previous 'search_availability_slots' result. "
+                    "NEVER invent or guess a slot_id."
+                ),
                 "parameters": BookAppointmentRequest.model_json_schema(),
             },
         },
@@ -2296,31 +2321,72 @@ def process_queue(
                     "[admissions] OpenAI followup error",
                     {"error": str(exc), "chat_id": chat.get("id")},
                 )
-                assistant_text = (
-                    "¡Listo! He procesado tu solicitud. "
-                    "¿En qué más puedo apoyarte hoy?"
-                )
+                # Build a context-aware fallback based on what tools ran
+                executed_tools = [t.function.name for t in tool_calls] if tool_calls else []
+                if "create_admissions_lead" in executed_tools:
+                    assistant_text = (
+                        "¡Excelente! Ya quedaron registrados tus datos en admisiones. 🎉 "
+                        "El siguiente paso es conocer el campus, ¿te gustaría que busque "
+                        "horarios disponibles para una visita?"
+                    )
+                elif "update_admissions_lead" in executed_tools:
+                    assistant_text = (
+                        "¡Listo, ya actualicé la información! "
+                        "¿Hay algo más en lo que pueda ayudarte?"
+                    )
+                elif "book_appointment" in executed_tools:
+                    assistant_text = (
+                        "Tu solicitud de cita fue procesada. "
+                        "¿Necesitas algo más?"
+                    )
+                else:
+                    assistant_text = (
+                        "Tu solicitud fue procesada correctamente. "
+                        "¿En qué más puedo ayudarte?"
+                    )
 
             # Fallback for empty responses after tool execution
             if not assistant_text.strip() and tool_calls:
                  executed_tools = [t.function.name for t in tool_calls]
                  if "update_admissions_lead" in executed_tools:
-                     assistant_text = "¡Gracias! He actualizado la información en tu registro correctamente. ¿Hay algo más en lo que pueda ayudarte o te gustaría agendar una visita?"
+                     assistant_text = (
+                         "¡Listo, ya actualicé tu información! "
+                         "¿Hay algo más en lo que pueda ayudarte o te gustaría agendar una visita al campus?"
+                     )
                  elif "create_admissions_lead" in executed_tools:
-                     assistant_text = "¡Excelente! Hemos registrado tus datos correctamente. El siguiente paso recomendado es conocer el campus. ¿Te gustaría agendar una visita?"
+                     assistant_text = (
+                         "¡Excelente! Ya quedaron registrados tus datos. 🎉 "
+                         "El siguiente paso recomendado es conocer nuestro campus. "
+                         "¿Te gustaría que busque horarios disponibles para una visita?"
+                     )
                  elif "book_appointment" in executed_tools:
                      if booking_done:
-                         assistant_text = "¡Tu visita ha sido agendada! Te esperamos."
+                         assistant_text = "¡Tu visita ha sido agendada! Te esperamos. 😊"
                      else:
-                         assistant_text = "Hubo un problema al agendar tu visita. ¿Te gustaría verificar otros horarios?"
+                         assistant_text = (
+                             "Tuve un inconveniente al agendar tu visita. "
+                             "¿Te gustaría que busque otros horarios disponibles?"
+                         )
                  elif "cancel_appointment" in executed_tools:
-                     assistant_text = "Entendido, la cita ha sido cancelada. ¿Te gustaría ver disponibilidad para otro día?"
+                     assistant_text = (
+                         "Entendido, tu cita ha sido cancelada. "
+                         "¿Te gustaría que busque disponibilidad para otro día?"
+                     )
                  elif "close_chat_session" in executed_tools:
-                     assistant_text = "¡Gracias por tu tiempo! He guardado el resumen de nuestra conversación. ¡Hasta pronto!"
+                     assistant_text = (
+                         "¡Muchas gracias por tu tiempo! Guardé un resumen de nuestra conversación. "
+                         "Si necesitas algo más adelante, no dudes en escribirnos. ¡Hasta pronto! 👋"
+                     )
                  elif "search_availability_slots" in executed_tools:
-                     assistant_text = "He consultado la disponibilidad. Si no encontré horarios en la fecha solicitada, ¿te gustaría probar con otro día?"
+                     assistant_text = (
+                         "Ya revisé la disponibilidad. Parece que no hay horarios en la fecha solicitada, "
+                         "¿te gustaría probar con otros días o un horario diferente?"
+                     )
                  else:
-                     assistant_text = "¡Listo! He procesado tu solicitud exitosamente. ¿En qué más puedo apoyarte hoy?"
+                     assistant_text = (
+                         "Tu solicitud fue procesada correctamente. "
+                         "¿En qué más puedo ayudarte?"
+                     )
 
     if not lead_note_added:
         _maybe_auto_add_notes(combined_user, org=org, chat=chat)
@@ -2396,42 +2462,36 @@ def _validate_and_fix_response(
         # For now, we let it slide but log it - the model should be trained to use tools
     
     # Check 3: Model invented a schedule list without calling search_availability_slots
-    # This should trigger if:
-    # - User asked about available times/dates in various ways
-    # - Response contains multiple numbered time options (at least 3)
-    # - No tool was called to get the slots
+    # If the model outputs 3+ time slots without calling the tool, it's ALWAYS invented.
+    # We don't need the user to have explicitly asked for times — if the bot lists slots, they must be real.
     
-    user_asked_for_times = any(phrase in lowered_user for phrase in [
-        "horarios disponibles", "fechas disponibles", "que fechas tienes",
-        "qué días tienes", "que dias tienes", "cuando puedo ir",
-        "agendar visita", "agendar una visita", "tienes disponibilidad",
-        "tienes disponible", "hay disponibilidad", "que tienes disponible",
-        "qué tienes disponible", "opciones disponibles", "horarios libres",
-        "la próxima semana", "la proxima semana", "esta semana",
-        # Specific date patterns
-        "de enero", "de febrero", "de marzo", "de abril", "de mayo",
-        "de junio", "de julio", "de agosto", "de septiembre", "de octubre",
-        "de noviembre", "de diciembre",
-        "lista", "cuales", "cuáles",
-    ])
-    
-    if user_asked_for_times and "search_availability_slots" not in called_tools:
-        # Check for multiple numbered time options (pattern: "Opción X" appearing 3+ times)
+    if "search_availability_slots" not in called_tools:
+        # Pattern 1: "Opción X" format
         option_count = len(re.findall(r'(?:opción|opcion)\s*\d+', lowered_text, re.IGNORECASE))
         
-        # Also check for numbered list with AM/PM
+        # Pattern 2: Numbered list with AM/PM times (e.g. "1) 8:00–9:00 am", "2. 9:00 AM")
         time_list_pattern = r'\d+[.):]+\s+[^\n]*(?:\d{1,2}:\d{2}|\d{1,2}\s*(?:am|pm|AM|PM))'
         time_matches = len(re.findall(time_list_pattern, assistant_text))
         
-        if option_count >= 3 or time_matches >= 3:
+        # Pattern 3: Time ranges like "8:00-9:00" or "8:00–9:00" (em dash)
+        time_range_pattern = r'\d{1,2}:\d{2}\s*[-–]\s*\d{1,2}:\d{2}'
+        time_range_matches = len(re.findall(time_range_pattern, assistant_text))
+        
+        has_invented_list = (option_count >= 3 or time_matches >= 3 or time_range_matches >= 3)
+        
+        if has_invented_list:
             # Check if there are valid slot_options in context
             slot_options = _get_slot_options(lead, chat)
             if not slot_options:
-                print(f"[admissions] WARNING: Model invented schedule list ({option_count} options, {time_matches} times) without tool call")
+                print(
+                    f"[admissions] WARNING: Model invented schedule list "
+                    f"(options={option_count}, times={time_matches}, ranges={time_range_matches}) "
+                    f"without tool call"
+                )
                 return (
-                    "Para mostrarte los horarios disponibles, necesito buscarlos en el sistema. "
-                    "Dame un momento...\n\n"
-                    "¿Qué días y horarios te convendrían mejor? (ej: 'jueves o viernes por la mañana')"
+                    "Déjame buscar los horarios disponibles en el sistema. "
+                    "¿Qué días y horarios te convendrían mejor? "
+                    "(ej: 'jueves o viernes por la mañana')"
                 )
     
     return assistant_text
@@ -2440,6 +2500,7 @@ def _validate_and_fix_response(
 class SearchSlotsRequest(BaseModel):
     start_date: str  # YYYY-MM-DD
     end_date: str    # YYYY-MM-DD
+    preferred_time: Optional[str] = None  # "morning" or "afternoon"
 
 
 class GetNextEventRequest(BaseModel):
@@ -2532,43 +2593,108 @@ def _search_availability_slots(
     org: Dict[str, Any],
     chat: Dict[str, Any],
 ) -> str:
+    from datetime import timedelta
+
     supabase = get_supabase_client()
-    print(f"[admissions] searching slots from {request.start_date} to {request.end_date}")
+    print(
+        f"[admissions] searching slots from {request.start_date} to {request.end_date}"
+        f" preferred_time={request.preferred_time}"
+    )
     
-    # Simple validation
+    # Validate dates
     try:
-        start_dt = datetime.fromisoformat(request.start_date).replace(tzinfo=timezone.utc)
-        end_dt = datetime.fromisoformat(request.end_date).replace(tzinfo=timezone.utc)
-        # Verify range is mostly valid for a query (ends at 23:59:59 usually externally but let's assume raw dates)
+        start_dt = datetime.fromisoformat(request.start_date)
+        end_dt = datetime.fromisoformat(request.end_date)
     except ValueError:
         return "Formato de fechas invalido. Usa YYYY-MM-DD."
 
-    # Query
+    # Don't allow past dates
+    today = datetime.utcnow().date()
+    if end_dt.date() < today:
+        return "Las fechas solicitadas ya pasaron. Busca con fechas futuras."
+    
+    # Don't allow same-day bookings
+    if start_dt.date() <= today:
+        start_dt = datetime(today.year, today.month, today.day) + timedelta(days=1)
+        request_start = start_dt.strftime("%Y-%m-%d")
+    else:
+        request_start = request.start_date
+
+    # Query all active slots in the date range
     response = (
         supabase.from_("availability_slots")
         .select("id, starts_at, ends_at, max_appointments, appointments_count")
         .eq("organization_id", org.get("id"))
         .eq("is_active", True)
         .eq("is_blocked", False)
-        .gte("starts_at", request.start_date)
+        .gte("starts_at", request_start)
         .lte("ends_at", f"{request.end_date} 23:59:59")
+        .order("starts_at", desc=False)
         .execute()
     )
     
     slots = get_supabase_data(response) or []
-    available_slots = []
     
+    # Torreón timezone offset (UTC-6, no DST in Coahuila)
+    utc_offset = timedelta(hours=-6)
+    
+    # Business hours: 8:00 AM - 3:00 PM local time
+    BUSINESS_HOUR_START = 8   # 8:00 AM
+    BUSINESS_HOUR_END = 15    # 3:00 PM
+    
+    # Morning/afternoon split at noon
+    MORNING_END = 12   # 12:00 PM
+    AFTERNOON_START = 12  # 12:00 PM
+    
+    available_slots = []
     for slot in slots:
+        # Check capacity
         count = slot.get("appointments_count", 0)
         max_app = slot.get("max_appointments", 1)
-        if count < max_app:
-            available_slots.append(slot)
-            
+        if count >= max_app:
+            continue
+        
+        # Parse start time and convert to local
+        starts_at = slot.get("starts_at")
+        if not starts_at:
+            continue
+        try:
+            start_utc = datetime.fromisoformat(starts_at.replace("+00", "+00:00"))
+            start_local = start_utc + utc_offset
+        except (ValueError, AttributeError):
+            continue
+        
+        # Exclude weekends (Saturday=5, Sunday=6)
+        if start_local.weekday() >= 5:
+            continue
+        
+        # Exclude outside business hours
+        if start_local.hour < BUSINESS_HOUR_START or start_local.hour >= BUSINESS_HOUR_END:
+            continue
+        
+        # Apply preferred_time filter
+        preferred = (request.preferred_time or "").lower().strip()
+        if preferred == "morning" and start_local.hour >= MORNING_END:
+            continue
+        if preferred == "afternoon" and start_local.hour < AFTERNOON_START:
+            continue
+        
+        available_slots.append(slot)
+    
     if not available_slots:
-        return "No hay horarios disponibles en esas fechas."
+        preferred_label = ""
+        if request.preferred_time == "morning":
+            preferred_label = " por la mañana"
+        elif request.preferred_time == "afternoon":
+            preferred_label = " por la tarde"
+        return (
+            f"No hay horarios disponibles{preferred_label} del {request.start_date} "
+            f"al {request.end_date}. Prueba con otras fechas o un horario diferente."
+        )
 
+    # Build options (max 8 to keep messages short for WhatsApp)
     options: List[Dict[str, Any]] = []
-    for idx, s in enumerate(available_slots[:10], start=1):
+    for idx, s in enumerate(available_slots[:8], start=1):
         options.append(
             {
                 "option": idx,
@@ -2578,6 +2704,7 @@ def _search_availability_slots(
             }
         )
 
+    # Save slot options to state
     slot_state = {
         "generated_at": datetime.utcnow().isoformat(),
         "options": options,
@@ -2585,6 +2712,7 @@ def _search_availability_slots(
     _set_chat_state_value(supabase, chat, "slot_options", slot_state)
     _pop_chat_state_value(supabase, chat, "pending_slot_option")
 
+    # Also save to lead metadata if available
     lead = _get_lead_by_chat(
         supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
     )
@@ -2595,8 +2723,9 @@ def _search_availability_slots(
             {"metadata": metadata, "updated_at": datetime.utcnow().isoformat()}
         ).eq("id", lead.get("id")).execute()
     
+    # Format results for the LLM to present to the user
     result_text = "Horarios disponibles (hora local Torreón):\n"
-    for idx, s in enumerate(available_slots[:10], start=1):
+    for idx, s in enumerate(available_slots[:8], start=1):
         start_str = s.get("starts_at")
         end_str = s.get("ends_at")
         formatted = _format_slot_window_local(start_str, end_str)
@@ -2604,7 +2733,8 @@ def _search_availability_slots(
             result_text += f"- Opción {idx}: {formatted}\n"
         else:
             result_text += f"- Opción {idx}: {start_str} - {end_str}\n"
-        
+    
+    result_text += "\nPregunta al usuario cuál opción prefiere (por número)."
     return result_text
 
 
