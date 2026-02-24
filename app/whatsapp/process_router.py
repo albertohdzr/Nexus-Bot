@@ -22,62 +22,73 @@ from app.whatsapp.outbound import (
     send_whatsapp_read,
 )
 
+# ── New modular imports ──────────────────────────────────────────
+from app.whatsapp.prompt import build_prompt
+from app.whatsapp.sanitizer import (
+    sanitize_response,
+    validate_and_fix_response,
+)
+from app.whatsapp.chat_state import (
+    compose_full_name,
+    get_chat_state,
+    set_chat_state_value,
+    pop_chat_state_value,
+    get_leads_by_chat,
+    get_lead_by_chat,
+    append_lead_note,
+    append_pending_note,
+    drain_pending_notes,
+    get_slot_options,
+    clear_slot_options,
+    slot_id_from_selection,
+    slot_id_allowed,
+    get_pending_event,
+    ensure_active_session,
+)
+from app.whatsapp.tools import (
+    CreateAdmissionsLeadRequest,
+    UpdateAdmissionsLeadRequest,
+    AddLeadNoteRequest,
+    CloseChatSessionRequest,
+    SearchSlotsRequest,
+    BookAppointmentRequest,
+    CancelAppointmentRequest,
+    GetNextEventRequest,
+    RegisterEventRequest,
+    GetRequirementsRequest,
+    build_tools_list,
+)
+
+# ── Backward-compatible aliases (used throughout this file) ──────
+# These allow the existing code (with underscore prefixes) to keep
+# working while we progressively migrate.  Remove once all internal
+# callers have been updated.
+
+_build_prompt = build_prompt
+_sanitize_assistant_response = sanitize_response
+_validate_and_fix_response = validate_and_fix_response
+_compose_full_name = compose_full_name
+_get_chat_state = get_chat_state
+_set_chat_state_value = set_chat_state_value
+_pop_chat_state_value = pop_chat_state_value
+_get_leads_by_chat = get_leads_by_chat
+_get_lead_by_chat = get_lead_by_chat
+_append_lead_note = append_lead_note
+_append_pending_note = append_pending_note
+_drain_pending_notes = drain_pending_notes
+_get_slot_options = get_slot_options
+_clear_slot_options = clear_slot_options
+_slot_id_from_selection = slot_id_from_selection
+_slot_id_allowed = slot_id_allowed
+_get_pending_event = get_pending_event
+_ensure_active_session = ensure_active_session
+
 router = APIRouter(prefix="/api/whatsapp", tags=["whatsapp"])
 
 
 class ProcessQueueRequest(BaseModel):
     chat_id: str
     final_message: Optional[str] = None
-
-
-class CreateAdmissionsLeadRequest(BaseModel):
-    student_first_name: str
-    student_middle_name: Optional[str] = None
-    student_last_name_paternal: str
-    student_last_name_maternal: Optional[str] = None
-    student_dob: Optional[str] = None
-    grade_interest: str
-    school_year: Optional[str] = None
-    current_school: str
-    contact_first_name: Optional[str] = None
-    contact_middle_name: Optional[str] = None
-    contact_last_name_paternal: Optional[str] = None
-    contact_last_name_maternal: Optional[str] = None
-    contact_email: Optional[str] = None
-    contact_phone: Optional[str] = None
-    relationship: Optional[str] = None
-    notes: Optional[str] = None
-
-
-class UpdateAdmissionsLeadRequest(BaseModel):
-    student_first_name: Optional[str] = None
-    student_middle_name: Optional[str] = None
-    student_last_name_paternal: Optional[str] = None
-    student_last_name_maternal: Optional[str] = None
-    student_dob: Optional[str] = None
-    grade_interest: Optional[str] = None
-    school_year: Optional[str] = None
-    current_school: Optional[str] = None
-    contact_first_name: Optional[str] = None
-    contact_middle_name: Optional[str] = None
-    contact_last_name_paternal: Optional[str] = None
-    contact_last_name_maternal: Optional[str] = None
-    contact_email: Optional[str] = None
-    contact_phone: Optional[str] = None
-    relationship: Optional[str] = None
-    relationship: Optional[str] = None
-    notes: Optional[str] = None
-    qualification_status: Optional[str] = None
-
-
-class AddLeadNoteRequest(BaseModel):
-    notes: str
-    subject: Optional[str] = None
-
-
-class CloseChatSessionRequest(BaseModel):
-    summary: str
-    reason: Optional[str] = None
 
 
 class CloseChatSessionEndpointRequest(BaseModel):
@@ -96,575 +107,10 @@ def _require_cron_secret(authorization: Optional[str]) -> None:
         raise HTTPException(status_code=403, detail="Forbidden")
 
 
-def _build_prompt(org: Dict[str, Any]) -> str:
-    bot_name = org.get("bot_name") or "Asistente"
-    instructions = org.get("bot_instructions") or ""
-    tone = org.get("bot_tone") or "amable"
-    language = org.get("bot_language") or "es"
-    school_name = org.get("name") or "el colegio"
-    
-    now_utc = datetime.utcnow()
-    current_date = now_utc.strftime("%Y-%m-%d")
-    current_time = now_utc.strftime("%H:%M:%S UTC")
-    # Day of week in Spanish
-    days_es = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
-    day_of_week = days_es[now_utc.weekday()]
+# ── Remaining inline helpers (not yet modularised) ───────────────
 
-    base_prompt = (
-        f"Eres {bot_name}, un asistente virtual de admisiones de {school_name}. "
-        f"Hoy es {day_of_week} {current_date} y la hora actual es {current_time}. "
-        f"Responde en {language} con un tono {tone}. "
-        "Tu objetivo es orientar a familias interesadas de forma natural y servicial. "
-        "En el primer mensaje, usa un saludo breve y claro como: "
-        f"'Hola, gracias por comunicarte al area de admisiones de {school_name}. "
-        "¿Como puedo ayudarte?' "
-        "No pidas datos personales (como nombre, correo o teléfono) de inmediato en el saludo. "
-        "Primero responde a las dudas del usuario o inicia la conversación de manera amigable. "
-        "Si el usuario solo saluda o no expresa intención, responde con un saludo breve y una pregunta abierta "
-        "como '¿Qué te gustaría conocer?' y NO preguntes por grado ni proceso en ese primer turno. "
-        "Ejemplos de primer turno cuando solo hay saludo: "
-        "1) '¡Hola! Soy Vale, del área de admisiones del Colegio Americano de Torreón. ¿Qué te gustaría conocer?' "
-        "2) '¡Hola! Con gusto te ayudo. ¿En qué puedo orientarte hoy?' "
-        "3) '¡Hola! Estoy para ayudarte con admisiones. ¿Qué información necesitas?' "
-        "Recaba los datos necesarios poco a poco y de forma integrada en la charla, no como un interrogatorio. "
-        "No inventes datos. "
-        "No inventes nombres de alumnos, padres o tutores. Si no tienes el nombre, usa 'tu hija' o 'tu hijo'. "
-        "Nunca compartas costos, colegiaturas, cuotas ni descuentos. "
-        "No hay becas ni descuentos por hermanos. Si preguntan por beca o descuentos, "
-        "explica amablemente que no hay y registra una nota en el lead: 'Solicita beca/descuento'. "
-        "Si preguntan por precios, explica amablemente que no puedes compartirlos por este medio y ofrece "
-        "que un asesor de admisiones los contactará para darles información personalizada. "
-        "Generalmente conversas con madres, padres o tutores. Usa un saludo neutro si no conoces su nombre. "
-        "No saludes de nuevo si ya la conversación está iniciada. "
-        "Solo di que actualizaste o guardaste datos cuando hayas ejecutado exitosamente una herramienta. "
-        "Valora la fluidez y la empatía por encima de capturar los datos rápido. "
-        "Datos objetivo a recolectar durante la charla (solo cuando el usuario ya mostró interés o hizo una pregunta concreta): "
-        "Nombre completo del alumno, Fecha de nacimiento, Grado de interés (kinder, primaria, secundaria, prepa), "
-        "Escuela actual, Nombre del tutor, Correo y Teléfono. "
-        "Si hay interes y aun no tienes la fecha de nacimiento, preguntala. Es obligatoria. "
-        "Si el usuario comparte intereses, preferencias o detalles relevantes (motivaciones, dudas, "
-        "condiciones, contexto familiar o cualquier informacion util), "
-        "SIEMPRE guarda una nota breve en el lead usando la herramienta 'add_lead_note'. "
-        "Es MUY IMPORTANTE documentar cualquier informacion relevante que comparta el usuario. "
-        "NUNCA digas que guardaste o actualizaste una nota si no ejecutaste 'add_lead_note'. "
-        "Ejemplos de cuando DEBES usar add_lead_note: "
-        "- 'Busca jornada extendida' "
-        "- 'Quiere visita con ambos padres' "
-        "- 'Esposa/esposo también asistirá a la visita' "
-        "- 'Nombre del otro padre/madre que asistirá' "
-        "- 'Preocupacion por adaptacion' "
-        "- 'Solicita beca/descuento' "
-        "- 'Viene del Colegio Britanico' "
-        "- 'Mama trabaja, necesita horario flexible' "
-        "- 'Le interesa robotica/natacion/danza' "
-        "- 'Tiene hermanos en otra escuela' "
-        "Si el usuario menciona algo que podria ser util para el asesor, USA add_lead_note inmediatamente. "
-        "Solo envia el documento de requisitos si el usuario lo pide expresamente. Si no lo pide, solo OFRECE enviarlo. "
-        "SÍ tienes acceso a información de requisitos. Si preguntan, responde con la información clave y OFRECE enviar el documento PDF oficial usando la herramienta 'get_admission_requirements'. "
-        "Si el usuario no pidio requisitos, NO uses 'get_admission_requirements'. "
-        "Si el usuario pide el PDF o la papeleria, envia el documento por WhatsApp con 'get_admission_requirements'. "
-        "Si el usuario pide el PDF o la papeleria, envia el documento por WhatsApp con 'get_admission_requirements'. "
-        "No digas que lo enviaste por correo ni inventes envios; solo confirma envio si la herramienta se ejecuto. "
-        "Cuando el usuario tiene VARIOS HIJOS: cada hijo debe registrarse como un LEAD DIFERENTE (usa 'create_admissions_lead' para cada uno). "
-        "Los leads de hermanos comparten el mismo contacto de padre/tutor y pueden asistir a la MISMA visita. "
-        "NO HAY TRANSPORTE ESCOLAR. "
-        "Los ciclos escolares son de agosto a junio. "
-        "Regla de ORO sobre Ciclos: Siempre asume que el interés es para el SIGUIENTE ciclo escolar (inicia Agosto 2026). "
-        "El ciclo ACTUAL (que inicio en 2025) es un caso especial ('late enrollment') con cupo muy limitado. "
-        "Si el usuario pregunta por el ciclo actual, advierte amablemente que es un caso especial sujeto a disponibilidad y evaluación, "
-        "pero NO lo ofrezcas como la opcion estandar ni digas que 'encaja perfectamente' sin esa advertencia. "
-        "Enfocate en promover el ingreso para Agosto 2026. "
-        "El preescolar (Early Childhood) incluye Prenursery y comienza desde los 2 años. Rangos de fechas de nacimiento para ciclo 2025-2026 (estrictos): "
-        "Prenursery: 01-Aug-2022 a 31-Jul-2023; Nursery: 01-Aug-2021 a 31-Jul-2022; "
-        "Preschool: 01-Aug-2020 a 31-Jul-2021; Kinder: 01-Aug-2019 a 31-Jul-2020; "
-        "Primaria 1: 01-Aug-2018 a 31-Jul-2019; Primaria 2: 01-Aug-2017 a 31-Jul-2018; "
-        "Primaria 3: 01-Aug-2016 a 31-Jul-2017; Primaria 4: 01-Aug-2015 a 31-Jul-2016; "
-        "Primaria 5: 01-Aug-2014 a 31-Jul-2015; Primaria 6: 01-Aug-2013 a 31-Jul-2014; "
-        "Secundaria 1: 01-Aug-2012 a 31-Jul-2013; Secundaria 2: 01-Aug-2011 a 31-Jul-2012; "
-        "Secundaria 3: 01-Aug-2010 a 31-Jul-2011; Bachillerato 1: 01-Aug-2009 a 31-Jul-2010; "
-        "Bachillerato 2: 01-Aug-2008 a 31-Jul-2009; Bachillerato 3: 01-Aug-2007 a 31-Jul-2008. "
-        "Para ciclo 2026-2027, incrementa todos los rangos de fechas un ano. "
-        "Se estricto con los rangos: si la fecha de nacimiento no cae en el rango del grado solicitado, explica y ofrece canalizar con un asesor. "
-        
-        "RESUMEN DE REQUISITOS (ten esto en contexto para dudas): "
-        "1. PRENURSERY (MATERNAL): 4 fotos, Acta nacimiento, Carta desempeño (si aplica), Curp, Carta solvencia (nuevos), Certificado salud, Cartilla vacunación, Formatos CAT. "
-        "2. EARLY CHILDHOOD (PREESCOLAR/KINDER): Similar a maternal + Reporte evaluación SEP y Carta conducta escuela anterior. "
-        "3. ELEMENTARY (PRIMARIA): Fotos, Acta, Calificaciones SEP (año en curso y 2 anteriores), Certificado Preescolar (para 1ro), Carta conducta, Curp, Solvencia, Cartas recomendación. "
-        "4. MIDDLE SCHOOL (SECUNDARIA): Similar primaria + Certificado Primaria. "
-        "5. HIGH SCHOOL (PREPARATORIA): Promedio mínimo 8.0, Conducta condicionante. Certificado Secundaria + Papelería estándar. "
-
-        "Para enviar el PDF usa 'get_admission_requirements' con la división correcta: "
-        "'prenursery', 'early_child' (para kinder/preescolar), 'elementary' (primaria), 'middle_school' (secundaria), 'high_school' (prepa). "
-        "Si no sabes la división, pregúntala antes de intentar enviar. "
-
-        "EVENTOS: "
-        "Cuando ya conozcas la division de interes, usa 'get_next_event' para revisar "
-        "si hay un evento proximo para esa division. "
-        "Solo ofrece el proximo evento disponible y nunca ofrezcas eventos de otra division. "
-        "Si el lead ya esta registrado, confirmalo y evita insistir. "
-        "Si el usuario acepta, usa 'register_event' para registrarlo. "
-        "Si no hay lead pero ya sabes la division y el usuario acepta, "
-        "recaba los datos para crear el lead y luego registra con 'register_event'. "
-        "Si hay documento del evento, el bot debe adjuntarlo (se envia desde 'register_event'). "
-        "No muestres IDs tecnicos de eventos al usuario. "
-        
-        "=== VISITAS AL CAMPUS (MUY IMPORTANTE) === "
-        "Una vez creado el lead, tu meta es agendar una visita al campus. "
-        "El horario de atención para visitas es de *8:00 AM a 3:00 PM* de lunes a viernes. "
-        "NO hay visitas los fines de semana. "
-        
-        "REGLA CRÍTICA #1 - NUNCA INVENTES HORARIOS: "
-        "SIEMPRE usa 'search_availability_slots' para buscar horarios disponibles. "
-        "NUNCA escribas una lista de horarios sin haber ejecutado 'search_availability_slots' primero. "
-        "Si el usuario pregunta por horarios, USA LA HERRAMIENTA. No inventes fechas ni horas. "
-        "Si el resultado dice que no hay horarios, NO inventes opciones: ofrece buscar en otros días. "
-        
-        "REGLA CRÍTICA #2 - CÓMO USAR LOS SLOTS: "
-        "- El sistema guarda las opciones internamente cuando llamas 'search_availability_slots'. "
-        "- Cuando el usuario elige una opción (ej: 'la 2', '2', 'la del jueves a las 9'), el sistema detecta automáticamente y agenda. "
-        "- Si el usuario elige y el sistema no lo detectó, NO inventes un slot_id. Pregunta nuevamente. "
-        "- NUNCA uses un UUID inventado. Solo usa los IDs reales del resultado de 'search_availability_slots'. "
-        
-        "REGLA CRÍTICA #3 - SI NO HAY OPCIONES GUARDADAS: "
-        "Si el usuario quiere agendar pero no hay opciones disponibles en el contexto, "
-        "pregunta qué días prefiere y USA 'search_availability_slots' para buscar. "
-        "Puedes usar el parámetro 'preferred_time' ('morning' o 'afternoon') si el usuario indicó preferencia. "
-        
-        "REGLA CRÍTICA #4 - CONFIRMAR ANTES DE AGENDAR: "
-        "Después de mostrar opciones, SIEMPRE espera a que el usuario CONFIRME cuál opción quiere. "
-        "NUNCA agendes automáticamente sin que el usuario elija explícitamente. "
-        
-        "=== CANCELACIÓN DE VISITAS === "
-        "REGLA CRÍTICA #5 - USA LA HERRAMIENTA PARA CANCELAR: "
-        "Si el usuario quiere cancelar o cambiar su cita: "
-        "1. Pregunta la razón si no la dio. "
-        "2. OBLIGATORIO: Llama 'cancel_appointment' con el motivo. "
-        "3. NUNCA digas que cancelaste si no ejecutaste 'cancel_appointment'. "
-        "4. Después de cancelar, pregunta qué días le convendrían mejor y busca opciones con 'search_availability_slots'. "
-
-        "REGLA CRÍTICA #6 - FECHAS DE CITAS: "
-        "- NO se pueden agendar citas para el mismo día ('hoy'). Si el usuario pide hoy, explica que deben programarse con antelación y ofrece fechas futuras. "
-        "- NO se pueden agendar citas en fechas pasadas. "
-        "- NO se pueden agendar citas los fines de semana (sábado y domingo). Si el usuario pide fin de semana, ofrece buscar entre semana. "
-        
-        "CAMPUS LIFE (información que SÍ puedes compartir): "
-        "⚠️ IMPORTANTE - ACTIVIDADES VESPERTINAS: Las actividades deportivas y artísticas por la tarde (after-school) comienzan a partir de PRESCHOOL. NO están disponibles para Prenursery ni Nursery. "
-        "🏅 DEPORTES (A partir de 1º Primaria): Soccer, Básquetbol, Natación, Tennis, Atletismo, Tae Kwon Do, Volley, Yoga, Tochito. "
-        "🎭 CENTRO DE ARTES (CVPA) (A partir de 1º Primaria): Piano, Pintura, Guitarra, Canto, Violín, Ballet, Baile moderno, Taller de escritura creativa, Percusiones, Batería, Alientos madera, Alientos metales, Guitarra y bajo eléctrico, Teatro, Animación digital. "
-        "Antes de 1º Primaria (Preschool/Kinder) hay iniciación deportiva/artística pero no toda la oferta completa. "
-        "📚 BIBLIOTECAS: 3 espacios (Early Childhood, Elementary, Middle/High). Luz natural, áreas colaborativas, recursos impresos y electrónicos en inglés y español. Enfoque en formar lectores apasionados. "
-        "🚀 CLUBES Y LIDERAZGO: "
-        "- Robótica FIRST: FLL Explore (1º-3º primaria), FLL Challenge (4º-6º primaria), FTC (secundaria), FRC (prepa). Competencias nacionales e internacionales. "
-        "- Robótica FIRST: Depende de la edad. "
-        "- Student Council: Representantes electos, eventos tradicionales (Halloween, Kermesse, Copa CAT, Art Fest, San Valentín). "
-        "- Copa CAT: Evento deportivo multidisciplinario. "
-        "- Art Fest: Semana cultural con talleres, shows, canto y baile. "
-        "- High School: National Honor Society (NHS), Student Council, Debate. "
-        "- Equipo de Debate. "
-        
-        "=== CIERRE DE SESIÓN === "
-        "Si el usuario indica que quiere terminar, finalizar o cerrar la conversación: "
-        "1. PRIMERO: Confirma amablemente. Pregunta algo como '¿Te gustaría finalizar esta conversación ahora? Generaré un resumen de nuestra charla.' "
-        "2. Solo si el usuario confirma (dice sí, adelante, ok, etc.), PROCEDE. "
-        "3. EJECUTA la herramienta 'close_chat_session'. "
-        "4. En el argumento 'summary', genera un resumen DETALLADO de todo lo hablado (temas, datos recolectados, citas agendadas, dudas resueltas). "
-        "5. Despídete cordialmente. "
-
-        "=== CASOS SENSIBLES O ESPECIALES === "
-        "Si detectas situaciones delicadas como: "
-        "- Alumno con edad muy mayor para el grado (ej. 18 años para secundaria). "
-        "- Alumno que ha reprobado o repetido años. "
-        "- Situaciones económicas complicadas (ej. mención de bajos ingresos). "
-        "ACTÚA CON EMPATÍA PERO FIRMEZA EN EL PROCESO: "
-        "1. NO prometas admisión ni visitas estándar de inmediato si el caso es evidentemente inviable bajo reglas normales. "
-        "2. EXPLICA que estos casos requieren una evaluación personalizada por el Comité de Admisiones. "
-        "3. OFRECE tomar los datos para canalizar el caso con un asesor especializado. "
-        "4. SIEMPRE usa 'add_lead_note' para registrar estos detalles críticos ('Reprobó año', 'Edad avanzada', 'Tema económico'). "
-        "5. En lugar de agendar visita automática, di algo como: 'Por la situación que comentas, lo ideal es que un asesor revise el caso primero para darte la mejor opción. ¿Me permites que te contacten directamente?' "
-        
-        "UBICACIÓN Y ACCESO: "
-        "Dirección exacta: C. P.º del Algodón 500, Los Viñedos, 27023 Torreón, Coah. "
-        "Entrada para visitas: Puerta 3 (por la caseta del reloj). "
-        "Ubicación en Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9 "
-        "Si el usuario pregunta dónde es o cómo llegar, comparte esta información exacta. "
-
-        "FORMATO DE MENSAJES (MUY IMPORTANTE): "
-        "Estás conversando por WhatsApp, NO por email ni web. "
-        "WhatsApp usa *asteriscos simples* para negritas (NO dobles **). "
-        "Usa _guiones bajos_ para itálicas. "
-        "Usa ~tilde~ para tachado. "
-        "NO uses encabezados markdown (###). "
-        "Mantén los mensajes concisos y naturales. "
-        "Evita listas largas de más de 5 puntos. "
-        "Usa saltos de línea para separar ideas en vez de listas numeradas largas. "
-
-        "TONO Y CALIDEZ: "
-        "Sé cálido y cercano, como un asesor amigable de admisiones. "
-        "Usa emojis con moderación (1-2 por mensaje máximo, NO en cada línea). "
-        "Evita sonar como un formulario o un interrogatorio. "
-        "Integra preguntas de forma natural en la conversación. "
-        "Si el usuario da varias respuestas a la vez, NO repitas todo de forma mecánica; integra todo fluidamente. "
-        "Evita mensajes demasiado largos — si tienes mucho que decir, prioriza lo más importante. "
-
-        "LÍMITES DEL BOT: "
-        "Si detectas que la intención del usuario NO es sobre admisiones (ej. quejas, pagos, calificaciones, situación de alumnos actuales, temas administrativos no relacionados), "
-        "responde amablemente que este canal es exclusivo para admisiones y ofrece el contacto general: "
-        "Teléfono: 8711123687 | Correo: contact@cat.mx"
-    )
-
-    if instructions:
-        base_prompt = f"{base_prompt}\nInstrucciones adicionales: {instructions}"
-
-    return base_prompt
-
-
-def _ensure_active_session(chat: Dict[str, Any], org_id: str) -> str:
-    supabase = get_supabase_client()
-    session_id = chat.get("active_session_id")
-
-    if session_id:
-        session_response = (
-            supabase.from_("chat_sessions")
-            .select("id, status, closed_at, last_response_at")
-            .eq("id", session_id)
-            .maybe_single()
-            .execute()
-        )
-        session_data = get_supabase_data(session_response)
-        if session_data and session_data.get("status") == "active" and not session_data.get(
-            "closed_at"
-        ):
-            return session_id
-
-    session_insert = (
-        supabase.from_("chat_sessions")
-        .insert(
-            {
-                "organization_id": org_id,
-                "chat_id": chat.get("id"),
-                "status": "active",
-                "ai_enabled": True,
-                "created_at": datetime.utcnow().isoformat(),
-                "updated_at": datetime.utcnow().isoformat(),
-            }
-        )
-        .execute()
-    )
-    session_error = get_supabase_error(session_insert)
-    if session_error:
-        raise HTTPException(status_code=500, detail="Failed to create chat session")
-
-    session_fetch = (
-        supabase.from_("chat_sessions")
-        .select("id")
-        .eq("chat_id", chat.get("id"))
-        .order("created_at", desc=True)
-        .limit(1)
-        .execute()
-    )
-    session_fetch_error = get_supabase_error(session_fetch)
-    session_rows = get_supabase_data(session_fetch) or []
-    session_data = session_rows[0] if session_rows else None
-    if session_fetch_error or not session_data:
-        raise HTTPException(status_code=500, detail="Failed to load chat session")
-
-    new_session_id = session_data.get("id")
-    supabase.from_("chats").update(
-        {
-            "active_session_id": new_session_id,
-            "last_session_closed_at": None,
-            "updated_at": datetime.utcnow().isoformat(),
-        }
-    ).eq("id", chat.get("id")).execute()
-
-    return new_session_id
-
-
-def _load_session_messages(
-    session_id: str,
-) -> List[Dict[str, Any]]:
-    supabase = get_supabase_client()
-    print("[admissions] loading session messages", {"session_id": session_id})
-    response = (
-        supabase.from_("messages")
-        .select("role, body, created_at, wa_timestamp")
-        .eq("chat_session_id", session_id)
-        .order("created_at", desc=True)
-        .execute()
-    )
-    data = get_supabase_data(response) or []
-    # print("[admissions] session messages data", data)
-    # print(
-    #     "[admissions] session messages fetched",
-    #     {"session_id": session_id, "count": len(data)},
-    # )
-
-    def _normalize_dt(value: str) -> str:
-        import re
-
-        normalized = value.strip()
-        if normalized.endswith("Z"):
-            normalized = normalized.replace("Z", "+00:00")
-        if len(normalized) >= 3 and normalized[-3] in {"+", "-"}:
-            normalized = f"{normalized}:00"
-        if len(normalized) >= 5 and normalized[-5] in {"+", "-"}:
-            normalized = f"{normalized[:-2]}:{normalized[-2:]}"
-
-        # Fix microseconds to be 3 or 6 digits for Python < 3.11 compatibility
-        match = re.search(r"\.(\d+)(?:([+-]\d{2}:\d{2})|$)", normalized)
-        if match:
-            us = match.group(1)
-            tz = match.group(2) or ""
-            if len(us) != 3 and len(us) != 6:
-                if len(us) < 6:
-                    new_us = us.ljust(6, "0")
-                else:
-                    new_us = us[:6]
-                normalized = normalized.replace(f".{us}{tz}", f".{new_us}{tz}")
-
-        return normalized
-
-    def _parse_dt(value: Optional[str]) -> Optional[datetime]:
-        if not value:
-            return None
-        try:
-            parsed = datetime.fromisoformat(_normalize_dt(value))
-            if parsed.tzinfo is None:
-                return parsed.replace(tzinfo=timezone.utc)
-            return parsed
-        except ValueError:
-            try:
-                parsed = datetime.fromisoformat(_normalize_dt(value.replace(" ", "T")))
-                if parsed.tzinfo is None:
-                    return parsed.replace(tzinfo=timezone.utc)
-                return parsed
-            except ValueError:
-                return None
-
-    def _sort_key(item: Dict[str, Any]) -> float:
-        role = item.get("role")
-        created_dt = _parse_dt(item.get("created_at"))
-        wa_dt = _parse_dt(item.get("wa_timestamp"))
-        if role == "user" and wa_dt:
-            dt = wa_dt
-        else:
-            dt = created_dt or wa_dt
-        return dt.timestamp() if dt else 0.0
-
-    ordered = sorted(data, key=_sort_key)
-    debug_order = [
-        {
-            "role": item.get("role"),
-            "created_at": item.get("created_at"),
-            "wa_timestamp": item.get("wa_timestamp"),
-            "key": _sort_key(item),
-            "body": (item.get("body") or "")[:60],
-        }
-        for item in ordered[:20]
-    ]
-    # print("[admissions] session messages ordered", debug_order)
-    return [
-        item
-        for item in ordered
-        if item.get("role") in {"user", "assistant"} and item.get("body")
-    ]
-
-
-def _compose_full_name(parts: List[Optional[str]]) -> Optional[str]:
-    cleaned = [part.strip() for part in parts if part and part.strip()]
-    return " ".join(cleaned) if cleaned else None
-
-
-def _get_chat_state(chat: Dict[str, Any]) -> Dict[str, Any]:
-    return chat.get("state_context") or {}
-
-
-def _set_chat_state_value(
-    supabase: Any,
-    chat: Dict[str, Any],
-    key: str,
-    value: Any,
-) -> None:
-    state = _get_chat_state(chat)
-    state[key] = value
-    supabase.from_("chats").update(
-        {"state_context": state, "updated_at": datetime.utcnow().isoformat()}
-    ).eq("id", chat.get("id")).execute()
-    chat["state_context"] = state
-
-
-def _pop_chat_state_value(
-    supabase: Any,
-    chat: Dict[str, Any],
-    key: str,
-) -> Optional[Any]:
-    state = _get_chat_state(chat)
-    if key not in state:
-        return None
-    value = state.pop(key)
-    supabase.from_("chats").update(
-        {"state_context": state, "updated_at": datetime.utcnow().isoformat()}
-    ).eq("id", chat.get("id")).execute()
-    chat["state_context"] = state
-    return value
-
-
-def _get_leads_by_chat(
-    supabase: Any,
-    org_id: str,
-    chat_id: str,
-    wa_id: Optional[str] = None,
-) -> List[Dict[str, Any]]:
-    # 1. Try by chat_id
-    response = (
-        supabase.from_("leads")
-        .select("id, lead_number, metadata, notes, student_first_name, student_last_name_paternal")
-        .eq("organization_id", org_id)
-        .eq("wa_chat_id", chat_id)
-        .order("created_at", desc=True)
-        .execute()
-    )
-    if not get_supabase_error(response):
-        leads = get_supabase_data(response)
-        if leads:
-            return leads
-
-    # 2. Fallback to wa_id
-    if wa_id:
-        fallback_response = (
-            supabase.from_("leads")
-            .select("id, lead_number, metadata, notes, student_first_name, student_last_name_paternal")
-            .eq("organization_id", org_id)
-            .eq("wa_id", wa_id)
-            .order("created_at", desc=True)
-            .execute()
-        )
-        if not get_supabase_error(fallback_response):
-            leads = get_supabase_data(fallback_response)
-            if leads:
-                return leads
-    
-    return []
-
-
-def _get_lead_by_chat(
-    supabase: Any,
-    org_id: str,
-    chat_id: str,
-    wa_id: Optional[str] = None,
-) -> Optional[Dict[str, Any]]:
-    leads = _get_leads_by_chat(supabase, org_id, chat_id, wa_id)
-    return leads[0] if leads else None
-
-
-def _append_lead_note(
-    supabase: Any,
-    lead: Dict[str, Any],
-    org_id: str,
-    note: str,
-    subject: Optional[str] = None,
-) -> None:
-    note = note.strip()
-    if not note:
-        return
-    existing_notes = (lead.get("notes") or "").strip()
-    if note in existing_notes:
-        return
-
-    supabase.from_("lead_activities").insert(
-        {
-            "organization_id": org_id,
-            "lead_id": lead.get("id"),
-            "type": "note",
-            "subject": (subject or note)[:120],
-            "notes": note,
-            "created_at": datetime.utcnow().isoformat(),
-        }
-    ).execute()
-
-    combined = f"{existing_notes}\n{note}" if existing_notes else note
-    supabase.from_("leads").update(
-        {"notes": combined, "updated_at": datetime.utcnow().isoformat()}
-    ).eq("id", lead.get("id")).execute()
-
-
-def _append_pending_note(
-    supabase: Any,
-    chat: Dict[str, Any],
-    note: str,
-) -> None:
-    note = note.strip()
-    if not note:
-        return
-    state = _get_chat_state(chat)
-    pending = state.get("pending_notes") or []
-    if note in pending:
-        return
-    pending.append(note)
-    _set_chat_state_value(supabase, chat, "pending_notes", pending)
-
-
-def _drain_pending_notes(
-    supabase: Any,
-    chat: Dict[str, Any],
-) -> List[str]:
-    notes = _get_chat_state(chat).get("pending_notes") or []
-    _pop_chat_state_value(supabase, chat, "pending_notes")
-    return [note for note in notes if note]
-
-
-def _get_slot_options(
-    lead: Optional[Dict[str, Any]],
-    chat: Dict[str, Any],
-) -> List[Dict[str, Any]]:
-    if lead:
-        metadata = lead.get("metadata") or {}
-        options = (metadata.get("slot_options") or {}).get("options") or []
-        if options:
-            return options
-    state = _get_chat_state(chat)
-    return (state.get("slot_options") or {}).get("options") or []
-
-
-def _clear_slot_options(
-    supabase: Any,
-    lead: Optional[Dict[str, Any]],
-    chat: Dict[str, Any],
-) -> None:
-    if lead:
-        metadata = lead.get("metadata") or {}
-        if "slot_options" in metadata:
-            metadata.pop("slot_options", None)
-            supabase.from_("leads").update(
-                {"metadata": metadata, "updated_at": datetime.utcnow().isoformat()}
-            ).eq("id", lead.get("id")).execute()
-    _pop_chat_state_value(supabase, chat, "slot_options")
-
-
-def _get_pending_event(chat: Dict[str, Any]) -> Dict[str, Any]:
-    return _get_chat_state(chat).get("pending_event") or {}
-
-
-def _slot_id_from_selection(
-    options: List[Dict[str, Any]],
-    selection: int,
-) -> Optional[Dict[str, Any]]:
-    return next(
-        (option for option in options if option.get("option") == selection),
-        None,
-    )
-
-
-def _slot_id_allowed(
-    slot_id: str,
-    lead: Optional[Dict[str, Any]],
-    chat: Dict[str, Any],
-) -> bool:
-    options = _get_slot_options(lead, chat)
-    if not options:
-        return True
-    return any(option.get("slot_id") == slot_id for option in options)
-
+# (prompt logic moved to app.whatsapp.prompt)
+# (continued prompt removal — see prompt.py)
 
 def _extract_interest_note(text: str) -> Optional[str]:
     lowered = text.lower()
@@ -1494,6 +940,21 @@ def _maybe_book_from_selection(
     if not lead or not lead.get("id"):
         # Save the pending selection so it can be booked after lead creation
         _set_chat_state_value(supabase, chat, "pending_slot_option", selection)
+        formatted = _format_slot_window_local(
+            match.get("starts_at"), match.get("ends_at")
+        )
+        slot_text = formatted or f"la opción {selection}"
+        # Tell the LLM what's happening so it can ask for data naturally
+        chat["_booking_context"] = (
+            f"El usuario eligió {slot_text} para su visita. "
+            "Para poder agendar necesito crear el registro de admisiones primero. "
+            "Pide de forma natural los datos faltantes para crear el lead: "
+            "nombre completo del alumno, nombre del tutor/padre, teléfono y correo electrónico. "
+            "NO menciones la palabra 'lead' ni 'registro de admisiones' al usuario. "
+            "Di algo como: 'Excelente elección. Para apartar ese horario necesito unos datos...' "
+            "Una vez que tengas los datos, usa 'create_admissions_lead' y el sistema "
+            "agendará la cita automáticamente."
+        )
         return None  # Let the LLM ask for lead data naturally
     
     # Book the selected slot
@@ -1511,10 +972,15 @@ def _maybe_book_from_selection(
         _clear_slot_options(supabase, lead, chat)
         _pop_chat_state_value(supabase, chat, "pending_slot_option")
         slot_text = formatted or "el horario seleccionado"
-        return (
-            f"¡Listo! Tu visita quedó agendada para {slot_text}. "
-            "Si necesitas cambiarla, solo dime. 😊"
+        # Inject booking context for the LLM to generate a natural response
+        chat["_booking_context"] = (
+            f"ACCIÓN COMPLETADA: La visita fue agendada exitosamente para {slot_text}. "
+            "La entrada es por Puerta 3 (caseta del reloj). "
+            "Confirma la cita al usuario de forma cálida y natural, menciona la fecha/hora, "
+            "ofrece la ubicación si no se la has dado, y pregunta si necesita algo más. "
+            "NO uses tools adicionales."
         )
+        return None  # Let the LLM craft a natural response
     return result
 
 
@@ -1522,6 +988,11 @@ def _maybe_book_pending_selection(
     org: Dict[str, Any],
     chat: Dict[str, Any],
 ) -> Optional[str]:
+    """Book a pending slot selection after lead creation.
+    
+    Returns a string message if something went wrong, None if booking
+    was handled (success injected via _booking_context) or nothing to do.
+    """
     supabase = get_supabase_client()
     pending = _get_chat_state(chat).get("pending_slot_option")
     if not pending:
@@ -1531,12 +1002,35 @@ def _maybe_book_pending_selection(
     )
     if not lead or not lead.get("id"):
         return None
+    
+    # Get slot options and validate they're not stale
     slot_options = _get_slot_options(lead, chat)
     if not slot_options:
+        # No options available — clear stale pending state
+        _pop_chat_state_value(supabase, chat, "pending_slot_option")
         return None
+    
+    # Check if slot_options are stale (older than 30 minutes)
+    state = _get_chat_state(chat)
+    slot_state = state.get("slot_options") or {}
+    generated_at = slot_state.get("generated_at")
+    if generated_at:
+        try:
+            gen_dt = datetime.fromisoformat(generated_at)
+            age_seconds = (datetime.utcnow() - gen_dt).total_seconds()
+            if age_seconds > 1800:  # 30 minutes
+                print(f"[admissions] stale slot_options ({age_seconds:.0f}s old), clearing")
+                _clear_slot_options(supabase, lead, chat)
+                _pop_chat_state_value(supabase, chat, "pending_slot_option")
+                return None
+        except ValueError:
+            pass
+    
     match = _slot_id_from_selection(slot_options, pending)
     if not match or not match.get("slot_id"):
+        _pop_chat_state_value(supabase, chat, "pending_slot_option")
         return None
+    
     result = _book_appointment(
         BookAppointmentRequest(slot_id=match.get("slot_id")),
         org=org,
@@ -1549,71 +1043,21 @@ def _maybe_book_pending_selection(
         _clear_slot_options(supabase, lead, chat)
         _pop_chat_state_value(supabase, chat, "pending_slot_option")
         slot_text = formatted or "el horario seleccionado"
-        return (
-            f"¡Listo! Tu visita quedó agendada para {slot_text}. "
-            "Si necesitas cambiarla, solo dime."
+        # Inject booking context for the LLM to generate a natural response
+        chat["_booking_context"] = (
+            f"ACCIÓN COMPLETADA: La visita fue agendada exitosamente para {slot_text}. "
+            "La entrada es por Puerta 3 (caseta del reloj). "
+            "Confirma la cita al usuario de forma cálida y natural, menciona la fecha/hora, "
+            "ofrece la ubicación si no se la has dado, y pregunta si necesita algo más. "
+            "NO uses tools adicionales."
         )
+        return None  # Let the LLM craft a natural response
+    
+    # Booking failed — clear pending state
+    _pop_chat_state_value(supabase, chat, "pending_slot_option")
     return result
 
 
-def _sanitize_assistant_response(text: str) -> str:
-    """
-    Sanitize assistant response to remove any LLM artifacts that might have leaked.
-    Common issues:
-    - "Human: ..." prefix (model confusion)
-    - "Assistant: ..." prefix
-    - Markdown code blocks with system content
-    - Empty or whitespace-only responses
-    """
-    import re
-    
-    if not text:
-        return ""
-    
-    sanitized = text.strip()
-    
-    # Remove "Human:" or "User:" prefixes and everything after on that line
-    # This catches cases where the model starts repeating user input
-    if re.match(r"^(?:Human|User|Usuario):\s*", sanitized, re.IGNORECASE):
-        # Log this anomaly for debugging
-        print(f"[admissions] WARNING: Response started with Human/User prefix: {sanitized[:100]}")
-        # Try to find actual assistant content after
-        lines = sanitized.split("\n")
-        filtered_lines = []
-        skip_human_block = False
-        for line in lines:
-            if re.match(r"^(?:Human|User|Usuario):\s*", line, re.IGNORECASE):
-                skip_human_block = True
-                continue
-            if re.match(r"^(?:Assistant|Asistente|Bot):\s*", line, re.IGNORECASE):
-                skip_human_block = False
-                line = re.sub(r"^(?:Assistant|Asistente|Bot):\s*", "", line, flags=re.IGNORECASE)
-            if not skip_human_block:
-                filtered_lines.append(line)
-        sanitized = "\n".join(filtered_lines).strip()
-    
-    # Remove "Assistant:" prefix if present at the start
-    sanitized = re.sub(r"^(?:Assistant|Asistente|Bot):\s*", "", sanitized, flags=re.IGNORECASE)
-    
-    # Remove thinking tags or internal markers
-    sanitized = re.sub(r"<thinking>.*?</thinking>", "", sanitized, flags=re.DOTALL | re.IGNORECASE)
-    sanitized = re.sub(r"\[thinking\].*?\[/thinking\]", "", sanitized, flags=re.DOTALL | re.IGNORECASE)
-    
-    # Remove any system/tool internal JSON that might have leaked
-    sanitized = re.sub(r"```(?:json|tool_call|system)?\s*\{.*?\}\s*```", "", sanitized, flags=re.DOTALL)
-    
-    # --- WhatsApp formatting conversion ---
-    # GPT outputs markdown **bold** but WhatsApp uses *bold* (single asterisk)
-    # Convert **text** → *text*  (must be done before other cleanup)
-    sanitized = re.sub(r"\*\*(.+?)\*\*", r"*\1*", sanitized)
-    
-    # Convert markdown headings (### Heading) to just *bold* text
-    sanitized = re.sub(r"^#{1,6}\s+(.+)$", r"*\1*", sanitized, flags=re.MULTILINE)
-    
-    # Clean up multiple newlines
-    sanitized = re.sub(r"\n{3,}", "\n\n", sanitized)
-    
-    return sanitized.strip()
 
 
 def _send_assistant_message(
@@ -1952,25 +1396,14 @@ def process_queue(
     lead_context = _load_lead_context(
         org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
     )
-    messages_payload = [
-        {"role": "system", "content": _build_prompt(org)},
-        *(
-            [
-                {
-                    "role": "system",
-                    "content": "El usuario ya fue saludado en esta conversacion.",
-                }
-            ]
-            if has_assistant_history
-            else []
-        ),
-        *(
-            [{"role": "system", "content": lead_context}]
-            if lead_context
-            else []
-        ),
-    ]
-    
+
+    # ── Build instructions (replaces system messages) ──────────────
+    instructions_parts = [_build_prompt(org)]
+    if has_assistant_history:
+        instructions_parts.append("El usuario ya fue saludado en esta conversacion.")
+    if lead_context:
+        instructions_parts.append(lead_context)
+
     # Add slot options context if available
     lead = _get_lead_by_chat(
         supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
@@ -1985,119 +1418,40 @@ def process_queue(
                     f"- Opción {opt.get('option')}: {formatted} (slot_id: {opt.get('slot_id')})"
                 )
         slot_context_lines.append("Si el usuario elige una opción, usa el slot_id correspondiente en book_appointment.")
-        messages_payload.append({
-            "role": "system",
-            "content": "\n".join(slot_context_lines)
-        })
-    
-    messages_payload.extend(history)
-    messages_payload.append({"role": "user", "content": combined_user})
+        instructions_parts.append("\n".join(slot_context_lines))
 
-    tools = [
-        {
-            "type": "function",
-            "function": {
-                "name": "create_admissions_lead",
-                "description": "Create an admissions lead once the required data is collected",
-                "parameters": CreateAdmissionsLeadRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "update_admissions_lead",
-                "description": "Update an admissions lead with additional details",
-                "parameters": UpdateAdmissionsLeadRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "add_lead_note",
-                "description": "Add a note to the lead activities for the current chat",
-                "parameters": AddLeadNoteRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "get_next_event",
-                "description": "Get the next upcoming event for a specific division.",
-                "parameters": GetNextEventRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "register_event",
-                "description": "Register the current lead for the selected event.",
-                "parameters": RegisterEventRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "get_admission_requirements",
-                "description": "Get and send the admission requirements document (PDF) for a specific school division. Use this when the user asks for requirements.",
-                "parameters": GetRequirementsRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "search_availability_slots",
-                "description": (
-                    "Search for available appointment slots within a date range. "
-                    "MUST be called before offering any schedule options to the user. "
-                    "Business hours are 8am-3pm Monday-Friday (Torreón time). "
-                    "Use 'preferred_time' to filter: 'morning' (8am-12pm) or 'afternoon' (12pm-3pm)."
-                ),
-                "parameters": SearchSlotsRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "book_appointment",
-                "description": (
-                    "Book an appointment slot for the current lead. "
-                    "The slot_id MUST come from a previous 'search_availability_slots' result. "
-                    "NEVER invent or guess a slot_id."
-                ),
-                "parameters": BookAppointmentRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "cancel_appointment",
-                "description": "Cancel an existing scheduled appointment. Requires a cancellation reason from the user.",
-                "parameters": CancelAppointmentRequest.model_json_schema(),
-            },
-        },
-        {
-            "type": "function",
-            "function": {
-                "name": "close_chat_session",
-                "description": "Close the current chat session and save a summary. Use ONLY after user confirmation.",
-                "parameters": CloseChatSessionRequest.model_json_schema(),
-            },
-        },
-    ]
+    # If a booking was just completed (by _maybe_book_from_selection),
+    # inject the context so the LLM generates a natural confirmation
+    booking_context = chat.get("_booking_context")
+    if booking_context:
+        instructions_parts.append(booking_context)
+        chat.pop("_booking_context", None)
+
+    full_instructions = "\n\n".join(instructions_parts)
+
+    # ── Build input (history + current user message) ──────────────
+    input_messages = []
+    input_messages.extend(history)
+    input_messages.append({"role": "user", "content": combined_user})
+
+    tools = build_tools_list()
 
     model = org.get("bot_model")
     if not isinstance(model, str) or not model.strip():
         model = DEFAULT_MODEL
     client = get_openai_client()
     try:
-        completion = client.chat.completions.create(
+        response = client.responses.create(
             model=model,
-            messages=messages_payload,
+            instructions=full_instructions,
+            input=input_messages,
             tools=tools,
         )
-        assistant_message = completion.choices[0].message
-        assistant_text = assistant_message.content or ""
-        tool_calls = assistant_message.tool_calls or []
+        assistant_text = response.output_text or ""
+        tool_calls = [
+            item for item in response.output
+            if item.type == "function_call"
+        ]
     except Exception as exc:
         print(
             "[admissions] OpenAI API error",
@@ -2114,22 +1468,16 @@ def process_queue(
         {"assistant_text": assistant_text, "tool_calls": len(tool_calls)},
     )
 
+
     lead_note_added = False
     booking_done = False
     booking_error_text: Optional[str] = None
     if tool_calls:
-        messages_payload.append(
-            {
-                "role": "assistant",
-                "content": assistant_text,
-                "tool_calls": [
-                    tool_call.model_dump() for tool_call in tool_calls
-                ],
-            }
-        )
+        # Collect tool outputs for the Responses API followup
+        tool_outputs = []
         for tool_call in tool_calls:
-            tool_name = tool_call.function.name
-            tool_args_json = tool_call.function.arguments
+            tool_name = tool_call.name
+            tool_args_json = tool_call.arguments
             tool_result = "No se pudo ejecutar la accion solicitada."
             print(
                 "[admissions] tool call received",
@@ -2293,13 +1641,11 @@ def process_queue(
                 "[admissions] tool result",
                 {"tool_name": tool_name, "result": tool_result},
             )
-            messages_payload.append(
-                {
-                    "role": "tool",
-                    "tool_call_id": tool_call.id,
-                    "content": tool_result,
-                }
-            )
+            tool_outputs.append({
+                "type": "function_call_output",
+                "call_id": tool_call.call_id,
+                "output": tool_result,
+            })
         if booking_error_text and not booking_done:
             assistant_text = booking_error_text
             booking_done = True
@@ -2308,21 +1654,41 @@ def process_queue(
             if pending_booking_text:
                 assistant_text = pending_booking_text
                 booking_done = True
+            elif chat.get("_booking_context"):
+                # _maybe_book_pending_selection injected booking_context
+                # Make a targeted LLM call with booking context so it confirms naturally
+                booking_ctx = chat.pop("_booking_context", "")
+                followup_instructions = full_instructions + "\n\n" + booking_ctx
+                try:
+                    followup = client.responses.create(
+                        model=model,
+                        instructions=followup_instructions,
+                        input=response.output + tool_outputs,
+                    )
+                    assistant_text = followup.output_text or ""
+                except Exception:
+                    # If LLM fails, use a simple confirmation
+                    assistant_text = (
+                        "¡Excelente! Ya quedaron registrados tus datos y tu visita fue agendada. "
+                        "Te esperamos. 😊"
+                    )
+                booking_done = True
         if not booking_done:
             try:
-                followup = client.chat.completions.create(
+                followup = client.responses.create(
                     model=model,
-                    messages=messages_payload,
+                    instructions=full_instructions,
+                    input=response.output + tool_outputs,
                     tools=tools,
                 )
-                assistant_text = followup.choices[0].message.content or ""
+                assistant_text = followup.output_text or ""
             except Exception as exc:
                 print(
                     "[admissions] OpenAI followup error",
                     {"error": str(exc), "chat_id": chat.get("id")},
                 )
                 # Build a context-aware fallback based on what tools ran
-                executed_tools = [t.function.name for t in tool_calls] if tool_calls else []
+                executed_tools = [t.name for t in tool_calls] if tool_calls else []
                 if "create_admissions_lead" in executed_tools:
                     assistant_text = (
                         "¡Excelente! Ya quedaron registrados tus datos en admisiones. 🎉 "
@@ -2347,7 +1713,7 @@ def process_queue(
 
             # Fallback for empty responses after tool execution
             if not assistant_text.strip() and tool_calls:
-                 executed_tools = [t.function.name for t in tool_calls]
+                 executed_tools = [t.name for t in tool_calls]
                  if "update_admissions_lead" in executed_tools:
                      assistant_text = (
                          "¡Listo, ya actualicé tu información! "
@@ -2398,126 +1764,6 @@ def process_queue(
 
     return _send_assistant_message(assistant_text, org, chat, session_id)
 
-
-def _validate_and_fix_response(
-    assistant_text: str,
-    combined_user: str,
-    tool_calls: list,
-    lead: Optional[Dict[str, Any]],
-    chat: Dict[str, Any],
-    org: Dict[str, Any],
-) -> str:
-    """
-    Validate the model's response and fix/replace if it contains invented data.
-    IMPORTANT: This should be very conservative and only catch clear violations.
-    """
-    import re
-    
-    lowered_text = assistant_text.lower()
-    lowered_user = combined_user.lower()
-    
-    # Get tool names that were actually called
-    called_tools = {tc.function.name for tc in tool_calls} if tool_calls else set()
-    
-    # Check 1: Model claims to have canceled but didn't call cancel_appointment
-    # Only trigger if user explicitly wanted to cancel
-    user_wants_cancel = any(phrase in lowered_user for phrase in [
-        "cancelar", "cancela mi cita", "cambiar la cita", "no se me acomoda la hora"
-    ])
-    
-    if user_wants_cancel:
-        cancel_claimed = any(phrase in lowered_text for phrase in [
-            "cita ha sido cancelada",
-            "cita fue cancelada", 
-            "cita cancelada exitosamente",
-            "he cancelado tu cita",
-            "queda cancelada"
-        ])
-        
-        if cancel_claimed and "cancel_appointment" not in called_tools:
-            print("[admissions] WARNING: Model claimed cancellation without calling tool")
-            return (
-                "Entiendo que quieres cambiar tu cita. Para hacerlo, "
-                "necesito saber la razón del cambio. ¿Podrías decirme por qué "
-                "ya no te funciona el horario? (ej: trabajo, agenda familiar, etc.)"
-            )
-    
-    # Check 2: Model claims to have added/updated notes but didn't call add_lead_note
-    note_claimed = any(phrase in lowered_text for phrase in [
-        "he actualizado la nota",
-        "he anotado",
-        "he registrado",
-        "he guardado",
-        "actualicé la nota",
-        "anoté",
-        "registré",
-        "guardé",
-        "lo registro",
-        "lo anoto",
-    ])
-    
-    if note_claimed and "add_lead_note" not in called_tools and "update_admissions_lead" not in called_tools:
-        print("[admissions] WARNING: Model claimed to add note without calling tool")
-        # Don't completely replace, but the note wasn't actually saved
-        # For now, we let it slide but log it - the model should be trained to use tools
-    
-    # Check 3: Model invented a schedule list without calling search_availability_slots
-    # If the model outputs 3+ time slots without calling the tool, it's ALWAYS invented.
-    # We don't need the user to have explicitly asked for times — if the bot lists slots, they must be real.
-    
-    if "search_availability_slots" not in called_tools:
-        # Pattern 1: "Opción X" format
-        option_count = len(re.findall(r'(?:opción|opcion)\s*\d+', lowered_text, re.IGNORECASE))
-        
-        # Pattern 2: Numbered list with AM/PM times (e.g. "1) 8:00–9:00 am", "2. 9:00 AM")
-        time_list_pattern = r'\d+[.):]+\s+[^\n]*(?:\d{1,2}:\d{2}|\d{1,2}\s*(?:am|pm|AM|PM))'
-        time_matches = len(re.findall(time_list_pattern, assistant_text))
-        
-        # Pattern 3: Time ranges like "8:00-9:00" or "8:00–9:00" (em dash)
-        time_range_pattern = r'\d{1,2}:\d{2}\s*[-–]\s*\d{1,2}:\d{2}'
-        time_range_matches = len(re.findall(time_range_pattern, assistant_text))
-        
-        has_invented_list = (option_count >= 3 or time_matches >= 3 or time_range_matches >= 3)
-        
-        if has_invented_list:
-            # Check if there are valid slot_options in context
-            slot_options = _get_slot_options(lead, chat)
-            if not slot_options:
-                print(
-                    f"[admissions] WARNING: Model invented schedule list "
-                    f"(options={option_count}, times={time_matches}, ranges={time_range_matches}) "
-                    f"without tool call"
-                )
-                return (
-                    "Déjame buscar los horarios disponibles en el sistema. "
-                    "¿Qué días y horarios te convendrían mejor? "
-                    "(ej: 'jueves o viernes por la mañana')"
-                )
-    
-    return assistant_text
-
-
-class SearchSlotsRequest(BaseModel):
-    start_date: str  # YYYY-MM-DD
-    end_date: str    # YYYY-MM-DD
-    preferred_time: Optional[str] = None  # "morning" or "afternoon"
-
-
-class GetNextEventRequest(BaseModel):
-    division: str
-
-
-class RegisterEventRequest(BaseModel):
-    event_id: Optional[str] = None
-
-
-class BookAppointmentRequest(BaseModel):
-    slot_id: str
-    notes: Optional[str] = None
-
-
-class CancelAppointmentRequest(BaseModel):
-    cancellation_reason: str
 
 
 def _cancel_appointment(
@@ -2837,9 +2083,6 @@ def _book_appointment(
 
     return "Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'."
 
-
-class GetRequirementsRequest(BaseModel):
-    division: str  # prenursery, early_child, elementary, middle_school, high_school
 
 
 def _get_next_event(
@@ -3312,26 +2555,22 @@ def close_chat_session_endpoint(request: CloseChatSessionEndpointRequest):
 
     messages = _load_session_messages(session_id)
     if messages:
-        summary_messages = [
-            {
-                "role": "system",
-                "content": (
-                    "Resume la conversacion en espanol. Incluye temas, datos clave, "
-                    "acuerdos y pendientes. Se claro y conciso."
-                ),
-            }
-        ]
-        summary_messages.extend(
+        summary_instructions = (
+            "Resume la conversacion en espanol. Incluye temas, datos clave, "
+            "acuerdos y pendientes. Se claro y conciso."
+        )
+        summary_input = [
             {"role": msg.get("role"), "content": msg.get("body") or ""}
             for msg in messages
-        )
+        ]
         client = get_openai_client()
         try:
-            completion = client.chat.completions.create(
+            summary_resp = client.responses.create(
                 model=request.model,
-                messages=summary_messages,
+                instructions=summary_instructions,
+                input=summary_input,
             )
-            summary = completion.choices[0].message.content or ""
+            summary = summary_resp.output_text or ""
         except Exception as exc:
             print(
                 "[admissions] OpenAI summary error",
