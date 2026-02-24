@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel
 
-from app.chat.service import get_grok_client
+from app.chat.service import get_openai_client, DEFAULT_MODEL
 from app.core.config import settings
 from app.core.supabase import (
     get_supabase_client,
@@ -83,7 +83,7 @@ class CloseChatSessionRequest(BaseModel):
 class CloseChatSessionEndpointRequest(BaseModel):
     chat_id: str
     org_id: str
-    model: str = "grok-4"
+    model: str = DEFAULT_MODEL
 
 
 def _require_cron_secret(authorization: Optional[str]) -> None:
@@ -1634,7 +1634,7 @@ def _send_assistant_message(
         "direction": "outbound",
         "role": "assistant",
         "payload": {
-            "source": "grok",
+            "source": "openai",
             "error": send_result.error,
         },
         "sender_name": org.get("bot_name"),
@@ -2061,19 +2061,31 @@ def process_queue(
     ]
 
     model = org.get("bot_model")
-    if not isinstance(model, str) or not model.startswith("grok"):
-        model = "grok-4"
-    grok_client = get_grok_client()
-    completion = grok_client.chat.completions.create(
-        model=model,
-        messages=messages_payload,
-        tools=tools,
-    )
-    assistant_message = completion.choices[0].message
-    assistant_text = assistant_message.content or ""
-    tool_calls = assistant_message.tool_calls or []
+    if not isinstance(model, str) or not model.strip():
+        model = DEFAULT_MODEL
+    client = get_openai_client()
+    try:
+        completion = client.chat.completions.create(
+            model=model,
+            messages=messages_payload,
+            tools=tools,
+        )
+        assistant_message = completion.choices[0].message
+        assistant_text = assistant_message.content or ""
+        tool_calls = assistant_message.tool_calls or []
+    except Exception as exc:
+        print(
+            "[admissions] OpenAI API error",
+            {"error": str(exc), "chat_id": chat.get("id"), "model": model},
+        )
+        return _send_assistant_message(
+            "Disculpa, estoy teniendo dificultades técnicas en este momento. "
+            "Por favor intenta de nuevo en unos minutos, o si prefieres, "
+            "puedes llamarnos al 8711123687.",
+            org, chat, session_id,
+        )
     print(
-        "[admissions] grok response",
+        "[admissions] llm response",
         {"assistant_text": assistant_text, "tool_calls": len(tool_calls)},
     )
 
@@ -2272,12 +2284,22 @@ def process_queue(
                 assistant_text = pending_booking_text
                 booking_done = True
         if not booking_done:
-            followup = grok_client.chat.completions.create(
-                model=model,
-                messages=messages_payload,
-                tools=tools,
-            )
-            assistant_text = followup.choices[0].message.content or ""
+            try:
+                followup = client.chat.completions.create(
+                    model=model,
+                    messages=messages_payload,
+                    tools=tools,
+                )
+                assistant_text = followup.choices[0].message.content or ""
+            except Exception as exc:
+                print(
+                    "[admissions] OpenAI followup error",
+                    {"error": str(exc), "chat_id": chat.get("id")},
+                )
+                assistant_text = (
+                    "¡Listo! He procesado tu solicitud. "
+                    "¿En qué más puedo apoyarte hoy?"
+                )
 
             # Fallback for empty responses after tool execution
             if not assistant_text.strip() and tool_calls:
@@ -3160,7 +3182,7 @@ def close_chat_session_endpoint(request: CloseChatSessionEndpointRequest):
 
     messages = _load_session_messages(session_id)
     if messages:
-        grok_messages = [
+        summary_messages = [
             {
                 "role": "system",
                 "content": (
@@ -3169,16 +3191,23 @@ def close_chat_session_endpoint(request: CloseChatSessionEndpointRequest):
                 ),
             }
         ]
-        grok_messages.extend(
+        summary_messages.extend(
             {"role": msg.get("role"), "content": msg.get("body") or ""}
             for msg in messages
         )
-        grok_client = get_grok_client()
-        completion = grok_client.chat.completions.create(
-            model=request.model,
-            messages=grok_messages,
-        )
-        summary = completion.choices[0].message.content or ""
+        client = get_openai_client()
+        try:
+            completion = client.chat.completions.create(
+                model=request.model,
+                messages=summary_messages,
+            )
+            summary = completion.choices[0].message.content or ""
+        except Exception as exc:
+            print(
+                "[admissions] OpenAI summary error",
+                {"error": str(exc), "chat_id": request.chat_id},
+            )
+            summary = "Error al generar resumen automático."
     else:
         summary = "No hay mensajes para resumir."
 

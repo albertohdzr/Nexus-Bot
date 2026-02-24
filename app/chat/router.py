@@ -11,7 +11,7 @@ from app.chat.service import (
     TOOLS,
     analyze_receipt_image,
     create_customer_ticket,
-    get_grok_client,
+    get_openai_client,
 )
 
 router = APIRouter(prefix="/chat", tags=["chat"])
@@ -29,12 +29,12 @@ ARGUMENTS = {
 
 @router.post("", response_model=ChatResponse)
 def chat(request: ChatRequest):
-    grok_client = get_grok_client()
+    client = get_openai_client()
     messages = [message.model_dump(exclude_none=True) for message in request.messages]
     if request.system_prompt:
         messages = [{"role": "system", "content": request.system_prompt}] + messages
 
-    completion = grok_client.chat.completions.create(
+    completion = client.chat.completions.create(
         model=request.model,
         messages=messages,
     )
@@ -45,12 +45,12 @@ def chat(request: ChatRequest):
 
 @router.post("/stream")
 def chat_stream(request: ChatRequest):
-    grok_client = get_grok_client()
+    client = get_openai_client()
     messages = [message.model_dump(exclude_none=True) for message in request.messages]
     if request.system_prompt:
         messages = [{"role": "system", "content": request.system_prompt}] + messages
 
-    stream = grok_client.chat.completions.create(
+    stream = client.chat.completions.create(
         model=request.model,
         messages=messages,
         stream=True,
@@ -67,12 +67,12 @@ def chat_stream(request: ChatRequest):
 
 @router.post("/tools", response_model=ChatResponse)
 def chat_with_tools(request: ChatRequest):
-    grok_client = get_grok_client()
+    client = get_openai_client()
     messages = [message.model_dump(exclude_none=True) for message in request.messages]
     if request.system_prompt:
         messages = [{"role": "system", "content": request.system_prompt}] + messages
 
-    completion = grok_client.chat.completions.create(
+    completion = client.chat.completions.create(
         model=request.model,
         messages=messages,
         tools=TOOLS,
@@ -106,7 +106,7 @@ def chat_with_tools(request: ChatRequest):
         )
 
     if tool_calls:
-        followup = grok_client.chat.completions.create(
+        followup = client.chat.completions.create(
             model=request.model,
             messages=messages,
             tools=TOOLS,

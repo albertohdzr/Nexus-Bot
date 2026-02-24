@@ -1,6 +1,6 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, HTTPException, Request, Response
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, Response
 
 from app.core.config import settings
 from app.whatsapp.processing import handle_incoming_messages
@@ -26,8 +26,30 @@ async def verify_webhook(request: Request):
     return Response(content="Bad Request", status_code=400)
 
 
+def _process_webhook_background(
+    value: Optional[Dict[str, Any]],
+    template_updates: List[Dict[str, Any]],
+) -> None:
+    """Runs in background after 200 OK is returned to WhatsApp."""
+    for update in template_updates:
+        try:
+            handle_template_updates(**update)
+        except Exception as exc:
+            print("[webhook] template update error", {"error": str(exc)})
+
+    if value:
+        try:
+            handle_incoming_messages(value)
+        except Exception as exc:
+            print("[webhook] incoming messages error", {"error": str(exc)})
+        try:
+            handle_status_updates(value)
+        except Exception as exc:
+            print("[webhook] status update error", {"error": str(exc)})
+
+
 @router.post("/webhook")
-async def receive_webhook(request: Request):
+async def receive_webhook(request: Request, background_tasks: BackgroundTasks):
     try:
         body: Dict[str, Any] = await request.json()
     except Exception as exc:
@@ -38,16 +60,17 @@ async def receive_webhook(request: Request):
 
     entries = body.get("entry") or []
     value: Optional[Dict[str, Any]] = None
+    template_updates: List[Dict[str, Any]] = []
 
     for entry in entries:
         changes = entry.get("changes") or []
         for change in changes:
             if is_template_change_field(change.get("field")):
-                handle_template_updates(
-                    entry_id=str(entry.get("id")) if entry.get("id") else None,
-                    entry_time=entry.get("time") if isinstance(entry.get("time"), int) else None,
-                    change=change,
-                )
+                template_updates.append({
+                    "entry_id": str(entry.get("id")) if entry.get("id") else None,
+                    "entry_time": entry.get("time") if isinstance(entry.get("time"), int) else None,
+                    "change": change,
+                })
                 continue
 
             if not value:
@@ -55,8 +78,12 @@ async def receive_webhook(request: Request):
                 if change_value and change_value.get("metadata", {}).get("phone_number_id"):
                     value = change_value
 
-    if value:
-        handle_incoming_messages(value)
-        handle_status_updates(value)
+    # Process in background — respond 200 immediately so WhatsApp
+    # doesn't retry the webhook due to timeout.
+    if value or template_updates:
+        background_tasks.add_task(
+            _process_webhook_background, value, template_updates
+        )
 
     return Response(content="EVENT_RECEIVED", status_code=200)
+

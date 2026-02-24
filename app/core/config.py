@@ -13,6 +13,7 @@ class Settings:
         self.supabase_storage_bucket = os.getenv("SUPABASE_STORAGE_BUCKET", "media")
         self.xai_api_key = os.getenv("XAI_API_KEY")
         self.xai_base_url = os.getenv("XAI_BASE_URL", "https://api.x.ai/v1")
+        self.openai_api_key = os.getenv("OPEN_AI_KEY")
         self.whatsapp_verify_token = os.getenv(
             "WHATSAPP_VERIFY_TOKEN", "my_secure_token"
         )

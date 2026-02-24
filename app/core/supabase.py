@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Any, Optional
 
 from fastapi import HTTPException
@@ -6,7 +7,9 @@ from supabase import Client, create_client
 from app.core.config import settings
 
 
+@lru_cache(maxsize=1)
 def get_supabase_client() -> Client:
+    """Singleton — creates the Supabase client once and reuses it."""
     if not settings.supabase_url:
         raise HTTPException(status_code=500, detail="Supabase is not configured")
     key = settings.supabase_service_key or settings.supabase_key

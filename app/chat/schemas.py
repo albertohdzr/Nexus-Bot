@@ -12,7 +12,7 @@ class ChatMessageInput(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: list[ChatMessageInput]
-    model: str = "grok-4"
+    model: str = "gpt-5.2-2025-12-11"
     system_prompt: Optional[str] = None
 
 

@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from fastapi import HTTPException
 from openai import OpenAI
 
@@ -8,11 +10,19 @@ from app.chat.schemas import (
     CreateCustomerTicketRequest,
 )
 
+DEFAULT_MODEL = "gpt-5.2-2025-12-11"
 
-def get_grok_client() -> OpenAI:
-    if not settings.xai_api_key:
-        raise HTTPException(status_code=500, detail="XAI_API_KEY is not set")
-    return OpenAI(base_url=settings.xai_base_url, api_key=settings.xai_api_key)
+
+@lru_cache(maxsize=1)
+def get_openai_client() -> OpenAI:
+    """Singleton with timeout and automatic retries (exponential backoff)."""
+    if not settings.openai_api_key:
+        raise HTTPException(status_code=500, detail="OPEN_AI_KEY is not set")
+    return OpenAI(
+        api_key=settings.openai_api_key,
+        timeout=30.0,
+        max_retries=3,
+    )
 
 
 def create_customer_ticket(request: CreateCustomerTicketRequest) -> str:
@@ -23,9 +33,9 @@ def create_customer_ticket(request: CreateCustomerTicketRequest) -> str:
 
 
 def analyze_receipt_image(request: AnalyzeReceiptImageRequest) -> str:
-    grok_client = get_grok_client()
-    response = grok_client.beta.chat.completions.parse(
-        model="grok-2-vision-latest",
+    client = get_openai_client()
+    response = client.beta.chat.completions.parse(
+        model=DEFAULT_MODEL,
         messages=[
             {
                 "role": "user",
