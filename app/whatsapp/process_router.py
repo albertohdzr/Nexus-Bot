@@ -1750,6 +1750,50 @@ def process_queue(
                     )
                 booking_done = True
         if not booking_done:
+            # ── Build tool dispatch table for followup rounds ──
+            tool_dispatch = {
+                "create_admissions_lead": (
+                    CreateAdmissionsLeadRequest,
+                    lambda args: _create_admissions_lead(args, org=org, chat=chat),
+                ),
+                "update_admissions_lead": (
+                    UpdateAdmissionsLeadRequest,
+                    lambda args: _update_admissions_lead(args, org=org, chat=chat),
+                ),
+                "add_lead_note": (
+                    AddLeadNoteRequest,
+                    lambda args: _add_lead_note(args, org=org, chat=chat),
+                ),
+                "get_next_event": (
+                    GetNextEventRequest,
+                    lambda args: _get_next_event(args, org=org, chat=chat),
+                ),
+                "register_event": (
+                    RegisterEventRequest,
+                    lambda args: _register_event(args, org=org, chat=chat, session_id=session_id),
+                ),
+                "get_admission_requirements": (
+                    GetRequirementsRequest,
+                    lambda args: _send_requirements(args, org=org, chat=chat, session_id=session_id),
+                ),
+                "search_availability_slots": (
+                    SearchSlotsRequest,
+                    lambda args: _search_availability_slots(args, org=org, chat=chat),
+                ),
+                "book_appointment": (
+                    BookAppointmentRequest,
+                    lambda args: _book_appointment(args, org=org, chat=chat),
+                ),
+                "cancel_appointment": (
+                    CancelAppointmentRequest,
+                    lambda args: _cancel_appointment(args, org=org, chat=chat),
+                ),
+                "close_chat_session": (
+                    CloseChatSessionRequest,
+                    lambda args: _close_chat_session(args, org=org, chat=chat, session_id=session_id),
+                ),
+            }
+
             # ── Agentic loop: keep executing tools until model responds ──
             MAX_TOOL_ROUNDS = 5
             accumulated_input = input_messages + list(response.output) + tool_outputs
