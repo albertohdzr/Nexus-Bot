@@ -11,6 +11,7 @@ from app.core.supabase import (
     get_supabase_client,
     get_supabase_data,
     get_supabase_error,
+    reset_supabase_client,
 )
 from app.whatsapp.outbound import (
     SendWhatsAppTextParams,
@@ -1342,9 +1343,25 @@ def _load_lead_context(
 def process_queue(
     payload: ProcessQueueRequest,
 ):
+    import httpx, httpcore
+
     print("[admissions] process_queue", {"chat_id": payload.chat_id})
 
-    supabase = get_supabase_client()
+    # Resilient Supabase client: retry once on stale-connection errors
+    _CONN_ERRORS = (
+        httpx.ReadError,
+        httpx.ConnectError,
+        httpx.RemoteProtocolError,
+        httpcore.ReadError,
+        httpcore.ConnectError,
+        OSError,
+    )
+    try:
+        supabase = get_supabase_client()
+    except _CONN_ERRORS as exc:
+        print(f"[admissions] supabase conn error on init, resetting: {exc}")
+        reset_supabase_client()
+        supabase = get_supabase_client()
     chat_response = (
         supabase.from_("chats")
         .select("id, wa_id, organization_id, active_session_id, state_context")

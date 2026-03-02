@@ -75,33 +75,52 @@ def get_leads_by_chat(
     wa_id: Optional[str] = None,
 ) -> List[Dict[str, Any]]:
     """Return all leads associated with a chat, newest first."""
-    response = (
-        supabase.from_("leads")
-        .select(_LEAD_SELECT_FIELDS)
-        .eq("organization_id", org_id)
-        .eq("wa_chat_id", chat_id)
-        .order("created_at", desc=True)
-        .execute()
-    )
-    if not get_supabase_error(response):
-        leads = get_supabase_data(response)
-        if leads:
-            return leads
+    import httpx, httpcore
+    from app.core.supabase import reset_supabase_client, get_supabase_client as _get_client
 
-    # Fallback: look up by WhatsApp ID
-    if wa_id:
-        fallback = (
-            supabase.from_("leads")
-            .select(_LEAD_SELECT_FIELDS)
-            .eq("organization_id", org_id)
-            .eq("wa_id", wa_id)
-            .order("created_at", desc=True)
-            .execute()
-        )
-        if not get_supabase_error(fallback):
-            leads = get_supabase_data(fallback)
-            if leads:
-                return leads
+    _CONN_ERRORS = (
+        httpx.ReadError, httpx.ConnectError, httpx.RemoteProtocolError,
+        httpcore.ReadError, httpcore.ConnectError, OSError,
+    )
+
+    for attempt in range(2):
+        try:
+            response = (
+                supabase.from_("leads")
+                .select(_LEAD_SELECT_FIELDS)
+                .eq("organization_id", org_id)
+                .eq("wa_chat_id", chat_id)
+                .order("created_at", desc=True)
+                .execute()
+            )
+            if not get_supabase_error(response):
+                leads = get_supabase_data(response)
+                if leads:
+                    return leads
+
+            # Fallback: look up by WhatsApp ID
+            if wa_id:
+                fallback = (
+                    supabase.from_("leads")
+                    .select(_LEAD_SELECT_FIELDS)
+                    .eq("organization_id", org_id)
+                    .eq("wa_id", wa_id)
+                    .order("created_at", desc=True)
+                    .execute()
+                )
+                if not get_supabase_error(fallback):
+                    leads = get_supabase_data(fallback)
+                    if leads:
+                        return leads
+
+            return []
+        except _CONN_ERRORS as exc:
+            if attempt == 0:
+                print(f"[chat_state] supabase conn error in get_leads_by_chat, resetting: {exc}")
+                reset_supabase_client()
+                supabase = _get_client()
+            else:
+                raise
 
     return []
 
