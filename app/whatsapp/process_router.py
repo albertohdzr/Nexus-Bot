@@ -1343,25 +1343,31 @@ def _load_lead_context(
 def process_queue(
     payload: ProcessQueueRequest,
 ):
-    import httpx, httpcore
+    """Top-level endpoint — wraps the implementation with connection-error retry."""
+    from app.core.supabase import CONN_ERRORS
 
     print("[admissions] process_queue", {"chat_id": payload.chat_id})
 
-    # Resilient Supabase client: retry once on stale-connection errors
-    _CONN_ERRORS = (
-        httpx.ReadError,
-        httpx.ConnectError,
-        httpx.RemoteProtocolError,
-        httpcore.ReadError,
-        httpcore.ConnectError,
-        OSError,
-    )
-    try:
-        supabase = get_supabase_client()
-    except _CONN_ERRORS as exc:
-        print(f"[admissions] supabase conn error on init, resetting: {exc}")
-        reset_supabase_client()
-        supabase = get_supabase_client()
+    for _attempt in range(2):
+        try:
+            return _process_queue_impl(payload)
+        except CONN_ERRORS as exc:
+            if _attempt == 0:
+                print(
+                    f"[admissions] connection error in process_queue, "
+                    f"resetting client and retrying: {exc}"
+                )
+                reset_supabase_client()
+                import time; time.sleep(0.5)
+            else:
+                print(f"[admissions] connection error on retry, giving up: {exc}")
+                raise
+
+
+def _process_queue_impl(
+    payload: ProcessQueueRequest,
+):
+    supabase = get_supabase_client()
     chat_response = (
         supabase.from_("chats")
         .select("id, wa_id, organization_id, active_session_id, state_context")

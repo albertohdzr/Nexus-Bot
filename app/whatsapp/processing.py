@@ -28,8 +28,26 @@ def _get_public_media_url(path: str) -> Optional[str]:
 
 
 def handle_incoming_messages(value: Dict[str, Any]) -> None:
-    import httpx, httpcore
+    """Top-level entry — wraps implementation with connection-error retry."""
+    from app.core.supabase import CONN_ERRORS
 
+    for _attempt in range(2):
+        try:
+            return _handle_incoming_messages_impl(value)
+        except CONN_ERRORS as exc:
+            if _attempt == 0:
+                print(
+                    f"[whatsapp] connection error in handle_incoming_messages, "
+                    f"resetting client and retrying: {exc}"
+                )
+                reset_supabase_client()
+                import time as _time; _time.sleep(0.5)
+            else:
+                print(f"[whatsapp] connection error on retry, giving up: {exc}")
+                raise
+
+
+def _handle_incoming_messages_impl(value: Dict[str, Any]) -> None:
     print("[whatsapp] webhook payload received")
     messages = list(value.get("messages") or [])
     if not messages:
@@ -45,38 +63,14 @@ def handle_incoming_messages(value: Dict[str, Any]) -> None:
         {"phone_number": phone_number, "phone_number_id": phone_number_id},
     )
 
-    _CONN_ERRORS = (
-        httpx.ReadError, httpx.ConnectError, httpx.RemoteProtocolError,
-        httpcore.ReadError, httpcore.ConnectError, OSError,
+    supabase = get_supabase_client()
+    org_response = (
+        supabase.from_("organizations")
+        .select("id, name")
+        .eq("phone_number_id", phone_number_id)
+        .limit(1)
+        .execute()
     )
-
-    # Get supabase client with retry on stale connection
-    try:
-        supabase = get_supabase_client()
-    except _CONN_ERRORS as exc:
-        print(f"[whatsapp] supabase conn error on init, resetting: {exc}")
-        reset_supabase_client()
-        supabase = get_supabase_client()
-
-    # Org lookup with retry
-    for attempt in range(2):
-        try:
-            org_response = (
-                supabase.from_("organizations")
-                .select("id, name")
-                .eq("phone_number_id", phone_number_id)
-                .limit(1)
-                .execute()
-            )
-            break
-        except _CONN_ERRORS as exc:
-            if attempt == 0:
-                print(f"[whatsapp] supabase conn error on org lookup, resetting: {exc}")
-                reset_supabase_client()
-                supabase = get_supabase_client()
-            else:
-                raise
-
     org_error = get_supabase_error(org_response)
     org_rows = get_supabase_data(org_response) or []
     org_data = org_rows[0] if org_rows else None
