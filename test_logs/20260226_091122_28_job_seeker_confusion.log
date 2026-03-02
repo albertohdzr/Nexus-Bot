@@ -1,0 +1,72 @@
+
+════════════════════════════════════════════════════════════════
+  [8/10] 28_job_seeker_confusion
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_091122_28_job_seeker_confusion.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Quiere trabajar como maestro (confusión)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 98a452fc… (wa_id=test3_job_seeker_39a9d34c)[0m
+[1m[32m👤 User:[0m Hola buenas tardes, estoy buscando trabajo como maestro de inglés. ¿Tienen vacantes?
+[admissions] loading session messages {'session_id': 'f084b951-5bb8-43fc-8764-02deac0ab3a1'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 532 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Este WhatsApp es
+  exclusivo para *admisiones de alumnos*, así que no tengo visibilidad
+  de vacantes o procesos de contratación.  Para temas de empleo te
+  recomiendo contactar directamente al área correspondiente por estos
+  medios: Teléfono: 8711123687   Correo: contact@cat.mx  Si me dices si
+  buscas puesto para *preescolar, primaria, secundaria o prepa*, también
+  puedo indicarte a qué división te convendría dirigir tu mensaje.
+[1m[32m👤 User:[0m Tengo 5 años de experiencia y certificación CELTA. ¿A quién le mando mi CV?
+[admissions] loading session messages {'session_id': 'f084b951-5bb8-43fc-8764-02deac0ab3a1'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 362 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para enviar tu CV, compártelo directamente a este contacto
+  institucional para que lo canalicen con el área correspondiente:
+  Correo: contact@cat.mx   Teléfono: 8711123687  Si quieres, en el
+  correo menciona en el asunto algo como: *“CV – Maestro(a) de Inglés
+  (CELTA)”* e incluye tu disponibilidad y el nivel que te interesa
+  (preescolar/primaria/secundaria/prepa).
+[1m[32m👤 User:[0m Ah ok, entonces este no es el contacto de recursos humanos? Bueno ya que estoy aquí, mi sobrina quie…
+[admissions] loading session messages {'session_id': 'f084b951-5bb8-43fc-8764-02deac0ab3a1'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 337 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Correcto, este WhatsApp es para *admisiones* (no es el contacto
+  directo de RH). 🙂  Con gusto te ayudo con lo de tu sobrina. ¿Qué te
+  gustaría saber: requisitos, proceso de admisión o agendar una visita
+  al campus?  Para orientarte mejor, ¿a qué grado quiere entrar (kinder,
+  primaria, secundaria o prepa) y cuál es su *fecha de nacimiento*?
+[1m[32m👤 User:[0m Se llama Ana Lucía Vega Ramos, nació 3 de septiembre de 2018, va en 1ro de primaria en el IEST. Su m…
+[admissions] loading session messages {'session_id': 'f084b951-5bb8-43fc-8764-02deac0ab3a1'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'Vega', 'grade_interest': 'Primaria', 'current_school': 'IEST', 'contact_email': 'patricia.vega@test.com', 'contact_phone': '871-111-3344'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_job_seeker_39a9d34c', 'contact_phone': '871-111-3344'}
+[admissions] contact created {'contact_id': '617ecb73-f7cc-4ec2-966e-99f5d23f0873'}
+[admissions] lead created {'lead_id': 'e5a3f433-4754-4ce8-ba78-0034907e81b8', 'lead_number': 120}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":"Lucía","student_last_name_paternal":"Vega","student_last_name_maternal":"Ramos","student_[0m
+[2m     Result: Lead creado con folio L-120.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés de ingreso para Ana Lucía Vega Ramos (DOB 03-Sep-2018), actualmente en 1° primaria en IEST. Contacto: madre Patricia Vega [0m
+[2m     Result: Nota agregada al lead L-120 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, ya *quedó registrado* el interés de tu sobrina Ana Lucía con
+  los datos de contacto de su mamá, Patricia. 🙂  Por la fecha de
+  nacimiento (03-sep-2018), para el ciclo *agosto 2026* normalmente le
+  corresponde *Primaria* (probablemente *2º de Primaria*, sujeto a
+  revisión final por admisiones y boleta).  El siguiente paso ideal es
+  *agendar una visita al campus* para que conozcan el colegio y les
+  expliquen el proceso.  ¿Qué días/horarios le convienen a Patricia para
+  la visita? (Atendemos de *lunes a viernes, 8:00 am a 3:00 pm*).
+  ¿Prefieren *mañana* o *tarde*?
+[2mℹ️  Chat ID: 98a452fc-55a8-44cf-be11-3c1007ffc046[0m

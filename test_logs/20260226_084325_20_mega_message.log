@@ -1,0 +1,96 @@
+
+════════════════════════════════════════════════════════════════
+  [10/10] 20_mega_message
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_084325_20_mega_message.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Todo en un solo mensaje masivo
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 030a18a9… (wa_id=test3_mega_message_a2930911)[0m
+[1m[32m👤 User:[0m Hola buenas tardes soy Fernanda Castillo mi tel es 871-888-5544 y mi correo es fer.castillo@test.com…
+[admissions] loading session messages {'session_id': '0d527960-31f4-45ff-a4db-3daa4ff616e3'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 3 tools[0m
+[admissions] create lead payload {'student_first_name': 'Santiago', 'student_last_name_paternal': 'Mejía', 'grade_interest': 'Primaria 5', 'current_school': 'IEST', 'contact_email': 'fer.castillo@test.com', 'contact_phone': '871-888-5544'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_mega_message_a2930911', 'contact_phone': '871-888-5544'}
+[admissions] contact created {'contact_id': '1779a550-2ace-4f06-a3ae-4b3526acfb3a'}
+[admissions] lead created {'lead_id': '7dbc1825-b47a-4ea1-91e1-decaecc5fb86', 'lead_number': 111}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Santiago","student_middle_name":null,"student_last_name_paternal":"Mejía","student_last_name_maternal":"Castillo","st[0m
+[2m     Result: Lead creado con folio L-111.[0m
+[admissions] create lead payload {'student_first_name': 'Luciana', 'student_last_name_paternal': 'Mejía', 'grade_interest': 'Primaria 2', 'current_school': 'IEST', 'contact_email': 'fer.castillo@test.com', 'contact_phone': '871-888-5544'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_mega_message_a2930911', 'contact_phone': '871-888-5544'}
+[admissions] contact found {'contact_id': '1779a550-2ace-4f06-a3ae-4b3526acfb3a'}
+[admissions] lead created {'lead_id': '30eefdc6-4b1e-400e-be13-1dc0b57bf9fa', 'lead_number': 112}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Luciana","student_middle_name":null,"student_last_name_paternal":"Mejía","student_last_name_maternal":"Castillo","stu[0m
+[2m     Result: Lead creado con folio L-112.[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia desea inscribir a 2 hijos. Prefiere visita jueves o viernes de la próxima semana por la mañana. Ambos vienen de IEST. Cont[0m
+[2m     Result: Nota agregada al lead L-112 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['get_admission_requirements', 'get_admission_requirements', 'search_availability_slots'][0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/elementary/1766895179881-03_Admission_Requirements_Elementary.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[admissions] fetching requirements for early_child
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/early_child/1766895158029-02_Admission_Requirements_Early_Childhood.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"early_child"}[0m
+[2m     Result: Documento de requisitos para early_child enviado exitosamente al usuario.[0m
+[admissions] searching slots from 2026-03-05 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-05","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Jueves 5 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Jueves 5 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Jueves 5 de marzo de 2026, 10:[0m
+[1m[34m🤖 Bot:[0m
+  ¡Gracias, Fernanda! Con gusto te apoyo. Ya quedaron registrados los
+  datos de *Santiago* y *Luciana* para el ciclo *2026-2027* y también el
+  contacto alterno de tu esposo *Eduardo Mejía*.  También ya te envié
+  por WhatsApp los *requisitos de Primaria* y los *requisitos de
+  Preescolar/Kínder* (PDF).  Para agendar *una sola visita* para ver
+  ambas secciones, tengo estas opciones por la mañana para la próxima
+  semana:  - *Jueves 5 de marzo* 8:00–9:00 / 9:00–10:00 / 10:00–11:00 /
+  11:00–12:00   - *Viernes 6 de marzo* 8:00–9:00 / 9:00–10:00 /
+  10:00–11:00 / 11:00–12:00  ¿Cuál te acomoda más? (Dime por ejemplo:
+  “jueves 9:00” o “opción 2”).
+[1m[32m👤 User:[0m ¿Hay lugar para los dos?
+[admissions] loading session messages {'session_id': '0d527960-31f4-45ff-a4db-3daa4ff616e3'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Pregunta si hay cupo para ambos hijos (Santiago Primaria 5 y Luciana Kínder/early childhood) para ciclo 2026-2027. Solicita confir[0m
+[2m     Result: Nota agregada al lead L-112 (y otros asociados si existen).[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés en visita jueves o viernes próxima semana por la mañana. Irían ambos hijos; contacto alterno esposo Eduardo Mejía (871-777[0m
+[2m     Result: Nota agregada al lead L-112 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Sí, Fernanda: *en este momento el proceso sigue abierto para ambos*
+  (Santiago en *5º de Primaria* y Luciana en *Kínder*), pero el *cupo se
+  confirma oficialmente* conforme avanzamos con la evaluación y
+  disponibilidad por grupo.  La buena noticia es que la *visita*
+  justamente nos ayuda a revisar espacios y el siguiente paso para cada
+  uno. ¿Qué horario prefieres para asegurarles su visita?   ¿*Jueves 5*
+  o *viernes 6* por la mañana, y a qué hora (8, 9, 10 u 11)?
+[1m[32m👤 User:[0m La primera opción que den
+[admissions] loading session messages {'session_id': '0d527960-31f4-45ff-a4db-3daa4ff616e3'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] booking appointment for slot 24e910f7-4104-4fdc-b104-9214575fe203
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"24e910f7-4104-4fdc-b104-9214575fe203","notes":"Visita campus para 2 hijos: Santiago Mejía Castillo (interés Primaria 5) y Lucian[0m
+[2m     Result: Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, Fernanda: ya quedó agendada la *primera opción disponible* 🗓️
+  *Jueves 5 de marzo de 2026*   *8:00 a 9:00 AM*   (Visita para
+  *Santiago* y *Luciana* en la misma cita)  Para ingresar, por favor
+  lleguen por *Puerta 3 (caseta del reloj)*.   Dirección: *C. P.º del
+  Algodón 500, Los Viñedos, Torreón*.  ¿Asistirán tú y tu esposo
+  Eduardo, o solo tú?
+[2mℹ️  Chat ID: 030a18a9-5a01-49f8-8f1e-7b41658a8a9e[0m

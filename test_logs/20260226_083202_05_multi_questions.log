@@ -1,0 +1,101 @@
+
+════════════════════════════════════════════════════════════════
+  [5/10] 05_multi_questions
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_05_multi_questions.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Bombardeo de preguntas en un mensaje
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 25eead9a… (wa_id=test3_multi_questions_8a276295)[0m
+[1m[32m👤 User:[0m Hola buenas tardes, tengo muchas preguntas: | 1. ¿Cuánto cuesta la inscripción? | 2. ¿Tienen descuen…
+[admissions] loading session messages {'session_id': '586c7738-1613-449c-b560-f1126ac0ac0f'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Pregunta por costos de inscripción, descuento por hermanos, horario de primaria, transporte escolar, requisitos de admisión y ubic[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. Con gusto te respondo punto por punto:  1)
+  *Costo de inscripción*   Por este medio no puedo compartir
+  costos/colegiaturas. Si gustas, puedo pedir que un asesor de
+  admisiones te contacte para darte la información personalizada.  2)
+  *¿Descuento por hermanos?*   No manejamos descuentos por hermanos ni
+  becas/descuentos.  3) *Horario de clases (Primaria)*   El horario
+  exacto puede variar por grado y actividades del campus. Si me dices
+  *¿a qué grado de primaria* te interesa (1° a 6°), te digo el esquema
+  general y lo revisamos para tu caso.  4) *Transporte escolar*   No
+  contamos con transporte escolar.  5) *Requisitos de admisión*   Sí,
+  tenemos requisitos por sección (Preescolar/Kinder, Primaria,
+  Secundaria, Prepa).   Si me confirmas que es *Primaria*, puedo
+  enviarte el *PDF oficial de requisitos por WhatsApp*.  6) *Ubicación*
+  Estamos en: *C. P.º del Algodón 500, Los Viñedos, 27023 Torreón,
+  Coah.*   Entrada para visitas: *Puerta 3 (por la caseta del reloj).*
+  Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  Para avanzar rápido:
+  ¿qué grado de primaria te interesa y para qué ciclo lo estás buscando
+  (lo más común es *Agosto 2026*)?
+[1m[32m👤 User:[0m Bueno, mi hija se llama Renata Soto Vega, nació el 22 de abril de 2016, está en 4to de primaria en e…
+[admissions] loading session messages {'session_id': '586c7738-1613-449c-b560-f1126ac0ac0f'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Renata', 'student_last_name_paternal': 'Soto', 'grade_interest': 'Primaria', 'current_school': 'TEC', 'contact_email': 'miguel.soto@test.com', 'contact_phone': '871-555-6677'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_multi_questions_8a276295', 'contact_phone': '871-555-6677'}
+[admissions] contact created {'contact_id': 'aa5b35c2-0d6f-4665-85b0-c5441acc4651'}
+[admissions] lead created {'lead_id': '0cd8cffd-fd3e-4c7d-884b-2d8f333c9699', 'lead_number': 98}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Renata","student_middle_name":null,"student_last_name_paternal":"Soto","student_last_name_maternal":"Vega","student_d[0m
+[2m     Result: Lead creado con folio L-98.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Papá Miguel Soto compartió datos de contacto. Preguntó por: costo de inscripción, descuento por hermanos, horario de primaria, tra[0m
+[2m     Result: Nota agregada al lead L-98 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias por los datos, Miguel. Ya quedó registrado el
+  interés de tu hija *Renata Soto Vega* (22/abr/2016), actualmente en
+  *4º de Primaria* en el TEC, para el ciclo *Agosto 2026*.  Sobre lo que
+  me preguntabas: - *Descuento por hermanos:* no manejamos descuentos
+  por hermanos (ni becas/descuentos). - *Transporte escolar:* no
+  contamos con transporte escolar. - *Ubicación:* C. P.º del Algodón
+  500, Los Viñedos, Torreón. Entrada visitas: *Puerta 3 (caseta del
+  reloj)*.   Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  Si gustas,
+  también puedo enviarte por aquí el *PDF oficial de requisitos de
+  admisión para Primaria*. ¿Te lo mando?  Y para el *horario de clases
+  de primaria* y una orientación más precisa: ¿a qué grado te interesa
+  que ingrese Renata en Agosto 2026 (¿5º de primaria?)?
+[1m[32m👤 User:[0m ¿Me pueden mandar los requisitos de primaria?
+[admissions] loading session messages {'session_id': '586c7738-1613-449c-b560-f1126ac0ac0f'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/elementary/1766895179881-03_Admission_Requirements_Elementary.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya te envié el *PDF oficial de requisitos de admisión para
+  Primaria* por WhatsApp.  Si quieres, también puedo apoyarte a agendar
+  una *visita al campus* (lun-vie, 8:00 am a 3:00 pm) para que conozcan
+  el área de Primaria. ¿Qué día y en qué horario te convendría más: por
+  la mañana o por la tarde?
+[1m[32m👤 User:[0m ¿Qué actividades extracurriculares tienen?
+[admissions] loading session messages {'session_id': '586c7738-1613-449c-b560-f1126ac0ac0f'}
+[2mℹ️  History: 7 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Pregunta por actividades extracurriculares (after-school) para Renata (Primaria).","subject":"Interés extracurricular"}[0m
+[2m     Result: Nota agregada al lead L-98 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Tenemos varias actividades _after-school_ (deportivas y artísticas).
+  Para Primaria, normalmente hay muy buenas opciones:  *Deportes* (a
+  partir de 1º de primaria): soccer, básquetbol, natación, tennis,
+  atletismo, tae kwon do, volley, yoga y tochito.  *Centro de Artes
+  (CVPA)* (a partir de 1º de primaria): piano, pintura, guitarra, canto,
+  violín, ballet, baile moderno, teatro, animación digital, escritura
+  creativa, percusiones/batería y alientos (madera y metales), entre
+  otras.  Si me dices qué le gusta más a Renata (por ejemplo: natación,
+  música, danza o robótica), te puedo orientar cuáles suelen ser las
+  opciones más buscadas para su edad. ¿A ella qué le interesa?
+[2mℹ️  Chat ID: 25eead9a-fadf-48e9-a51a-685511260841[0m

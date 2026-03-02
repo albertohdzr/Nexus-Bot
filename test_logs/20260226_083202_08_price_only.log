@@ -1,0 +1,70 @@
+
+════════════════════════════════════════════════════════════════
+  [8/10] 08_price_only
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_08_price_only.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Solo quiere precio, no da datos
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat cfe6f330… (wa_id=test3_price_only_d7f63b97)[0m
+[1m[32m👤 User:[0m Hola, ¿cuánto cuesta primaria?
+[admissions] loading session messages {'session_id': '367784ed-638f-4729-8569-0c0c1e6530e1'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 484 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Sobre *costos de
+  Primaria*, por este medio no puedo compartir colegiaturas/cuotas, ya
+  que la información se brinda de forma personalizada según el grado y
+  el ciclo escolar.  Si te parece, puedo pedir que un asesor de
+  admisiones te contacte para darte la información completa.   ¿Para qué
+  grado de Primaria sería tu hijo/a (1° a 6°) y para qué ciclo te
+  interesa: *agosto 2026*?
+[1m[32m👤 User:[0m No quiero dar mis datos, solo dime cuánto cuesta
+[admissions] loading session messages {'session_id': '367784ed-638f-4729-8569-0c0c1e6530e1'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 340 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo perfecto. Por este medio no me es posible compartir montos de
+  colegiatura/cuotas.  Si quieres, puedo orientarte con lo que sí puedo
+  compartir aquí: cómo es el proceso de admisión, rangos de edad por
+  grado, requisitos y opciones para agendar una visita al campus (sin
+  compromiso).  ¿Te interesa Primaria baja (1°-3°) o alta (4°-6°)?
+[1m[32m👤 User:[0m En el Cervantes me dieron el precio por WhatsApp sin problema
+[admissions] loading session messages {'session_id': '367784ed-638f-4729-8569-0c0c1e6530e1'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 554 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por comentarlo. Entiendo la comparación, pero en *Colegio
+  Americano de Torreón* la política es no enviar montos de
+  colegiaturas/cuotas por WhatsApp en este canal.  Lo que sí puedo hacer
+  para ayudarte sin pedirte datos personales:   - explicarte el proceso
+  de admisión para *Primaria* y los tiempos para ingreso a *agosto
+  2026*, y/o   - compartirte los *requisitos* (y si los quieres, te
+  envío el PDF oficial).  ¿Quieres que te comparta el resumen de
+  requisitos de *Primaria* o prefieres que te platique primero del
+  proceso y una visita al campus?
+[1m[32m👤 User:[0m Ok, ¿me pueden llamar entonces? Solo díganme el precio
+[admissions] loading session messages {'session_id': '367784ed-638f-4729-8569-0c0c1e6530e1'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 420 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Puedo pedir que te llamen, sí, pero para que un asesor pueda
+  contactarte necesito *al menos* un *teléfono* (y de preferencia un
+  correo y tu nombre).  Solo para aclararlo: aunque te llamen, por aquí
+  no puedo darte el precio por mensaje; el asesor te lo comparte
+  directamente en la llamada.  ¿Me regalas por favor? - Tu nombre -
+  Teléfono de contacto - Correo (opcional) - ¿Qué grado de Primaria te
+  interesa para tu hijo/a?
+[1m[32m👤 User:[0m Bueno dame el teléfono para yo llamar
+[admissions] loading session messages {'session_id': '367784ed-638f-4729-8569-0c0c1e6530e1'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 200 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Claro. Puedes comunicarte directamente a admisiones al *8711123687*.
+  Si me dices qué grado de Primaria te interesa, también puedo
+  orientarte con el proceso y requisitos para ingreso en *agosto 2026*.
+[2mℹ️  Chat ID: cfe6f330-2633-4a0c-961f-01b701bee6c1[0m

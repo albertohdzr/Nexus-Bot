@@ -1,0 +1,157 @@
+
+════════════════════════════════════════════════════════════════
+  [2/5] 32_cuatro_hijos
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_100220_32_cuatro_hijos.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO B: Familia con 4 hijos - registro completo (~20 msgs)
+════════════════════════════════════════════════════════════════[0m
+
+[31m❌ Chat creation failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Chat creation failed: Server disconnected without sending a response. — retrying in 10s[0m
+[2mℹ️  Created chat 8d949853… (wa_id=test3_cuatro_hijos_a419bc17)[0m
+[1m[32m👤 User:[0m Hola, tenemos 4 hijos y queremos cambiarlos de escuela todos juntos
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambio de escuela para 4 hijos (inscripción conjunta).","subject":"Interés general"}[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Soy Vale, del área de admisiones del Colegio Americano de
+  Torreón. Con gusto les ayudo 😊  ¡Qué bien que estén considerando el
+  cambio juntos! Para orientarles mejor (y proponerles una visita al
+  campus), ¿me comparten por favor de *cada hijo*:  - *Fecha de
+  nacimiento*   - *Grado actual* y el *grado al que desean ingresar en
+  agosto 2026*   - *Escuela actual*  Con eso les digo qué sección le
+  corresponde a cada uno (Early Childhood / Primaria / Secundaria /
+  Prepa) y cuáles serían los siguientes pasos para iniciar el proceso
+  todos en paralelo.
+[1m[32m👤 User:[0m Yo soy Rodrigo Méndez, 871-111-9988, rodrigo.mendez@test.com. Mi esposa es Ana García, 871-333-7766
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m El mayor se llama Santiago Méndez García, nació 15 de enero de 2010. Va en 2do de prepa en el TEC
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m La segunda es Isabella Méndez García, nació 3 de mayo de 2013. Va en 6to de primaria en el TEC tambi…
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 2 msgs | Pending: 2[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a 4 hijos al Colegio Americano de Torreón. Datos compartidos: 1) Santiago Méndez García, DOB 15-ene-[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por los datos.  Por la *fecha de nacimiento*:  - *Santiago
+  Méndez García* (15-ene-2010): para ingreso en *agosto 2026*
+  normalmente corresponde a *Bachillerato/Prepa*, pero por edad estaría
+  más alineado con *1° de prepa* (no 3°). Para ver el grado exacto, lo
+  ideal es que lo revise un asesor con su historial escolar. - *Isabella
+  Méndez García* (03-may-2013): para ingreso en *agosto 2026*
+  corresponde a *2° de Secundaria*.  Para completar a los 4 y poder
+  avanzar (y agendar visita si gustan), ¿me compartes los datos de los
+  otros dos hijos?   *Nombre completo + fecha de nacimiento + grado
+  actual + escuela actual.*  Y una pregunta rápida: ¿buscan entrar todos
+  en *agosto 2026* (próximo ciclo) o les interesa el *ciclo actual*? (El
+  actual es un caso especial y depende de cupo/valoración).
+[1m[32m👤 User:[0m El tercero es Mateo Méndez García, nació 20 de agosto de 2016. Está en 3ro de primaria en el TEC
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 5 msgs | Pending: 1[0m
+[2mℹ️  LLM: 431 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias.  *Mateo Méndez García* (20-ago-2016): para ingreso
+  en *agosto 2026* corresponde a *5° de Primaria*.  ¿Me compartes el/ la
+  cuarto(a) hijo(a) para dejar a los 4 ubicados? (nombre completo, fecha
+  de nacimiento y grado actual).  También, para ir preparando el
+  siguiente paso: ¿les gustaría *agendar una visita al campus* (lun-vie,
+  8:00 am a 3:00 pm) para conocer las secciones y resolver dudas del
+  cambio en familia?
+[1m[32m👤 User:[0m Y la más chica es Valentina Méndez García, nació 12 de diciembre de 2020. Está en kínder 2 en el TEC
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 7 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a 4 hijos desde el TEC: Santiago Méndez García (15-ene-2010, 2° prepa), Isabella Méndez García (03-m[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, ya con Valentina quedan los 4 ubicados 😊  Por *fecha de
+  nacimiento* de *Valentina Méndez García* (12-dic-2020), para ingreso
+  en *agosto 2026* le corresponde *Kinder* (etapa Early Childhood).
+  Para avanzar y poder *agendar una visita al campus* para ustedes
+  (pueden venir ambos papás si desean), necesito abrir el expediente de
+  cada hijo. ¿Me confirmas por favor:  1) ¿El ingreso que buscan es para
+  *agosto 2026*?   2) Datos del tutor(a) de contacto: *nombre completo*,
+  *teléfono* y *correo*.  Con eso creo los 4 registros y ya les propongo
+  horarios disponibles (lun-vie, 8:00 am a 3:00 pm).
+[1m[32m👤 User:[0m ¿Les toca a todos en secciones diferentes verdad?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Tienen descuento por meter a los 4?
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 9 msgs | Pending: 1[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 9 msgs | Pending: 2[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 9 msgs | Pending: 3[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿La visita puede ser para toda la familia? ¿O tenemos que ir a cada sección por separado?
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 9 msgs | Pending: 4[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a 4 hijos desde el TEC. Pregunta por descuento por inscribir a 4 (hermanos). Solicita visita familia[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 9 msgs | Pending: 5[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a 4 hijos (Santiago 15-ene-2010, Isabella 03-may-2013, Mateo 20-ago-2016, Valentina 12-dic-2020) des[0m
+[2m     Result: Error: Server disconnected without sending a response.[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Entendido. Quisiéramos ir el viernes. ¿Qué tienen?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m La primera que tengan
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[1m[32m👤 User:[0m ¿Hay estacionamiento suficiente? Vamos a ir mi esposa y yo con los 4 niños
+[31m❌ Attempt 1 failed: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''} — retrying in 5s[0m
+[31m❌ Attempt 2 failed: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''} — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 9 msgs | Pending: 6[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a 4 hijos (Santiago 15-ene-2010, Isabella 03-may-2013, Mateo 20-ago-2016, Valentina 12-dic-2020) del[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Nos pueden mandar los requisitos de todas las secciones? Preescolar, primaria, secundaria y prepa
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Una duda más: ¿el TEC les puede hacer transferencia directa del expediente o tenemos que empezar de …
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Ok, ya la última pregunta: ¿cuánto tiempo toma todo el proceso desde la visita hasta saber si los ac…
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '7c22293c-72e6-41ba-9e82-2f10a20621a9'}
+[2mℹ️  History: 9 msgs | Pending: 7[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a 4 hijos (Santiago 15-ene-2010, Isabella 03-may-2013, Mateo 20-ago-2016, Valentina 12-dic-2020; tod[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[2mℹ️  Chat ID: 8d949853-16a8-4159-bccb-22f3be607f76[0m

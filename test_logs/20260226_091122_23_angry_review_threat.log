@@ -1,0 +1,107 @@
+
+════════════════════════════════════════════════════════════════
+  [3/10] 23_angry_review_threat
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_091122_23_angry_review_threat.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Amenaza con reseña negativa
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat a513bfcc… (wa_id=test3_angry_review_b5c04b9d)[0m
+[1m[32m👤 User:[0m He mandado 3 mensajes y NADIE me contesta. Pésimo servicio.
+[admissions] loading session messages {'session_id': '977dbe5e-c812-4e6f-9d9b-efe66af73ff1'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 508 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Lamento mucho que hayas pasado por eso; entiendo perfecto la molestia.
+  Soy Vale del área de admisiones y estoy aquí para ayudarte por este
+  medio.  Para atenderte ya mismo, ¿me confirmas por favor qué
+  necesitabas? - Información general de admisiones -
+  Requisitos/papelería - Agendar una visita al campus - O si era otro
+  tema (pagos, alumnos actuales, etc.)  Y para ubicar tu conversación:
+  ¿aprox. a qué hora/día enviaste los mensajes y desde qué número de
+  WhatsApp nos escribes (solo los *últimos 4 dígitos*)?
+[1m[32m👤 User:[0m Si no me dan información AHORA les pongo una reseña de 1 estrella en Google
+[admissions] loading session messages {'session_id': '977dbe5e-c812-4e6f-9d9b-efe66af73ff1'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 488 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo tu urgencia y sí te doy información *ahora mismo*. Solo dime
+  qué necesitas exactamente para responderte al momento:  1) ¿Para qué
+  nivel buscas? *Maternal (2 años)/Preescolar-
+  Kinder/Primaria/Secundaria/Prepa*   2) ¿Qué es lo que quieres saber
+  hoy? (por ejemplo: *requisitos, fechas de admisión, actividades,
+  agendar visita, ubicación*).  Si me dices el nivel, te explico lo
+  principal en este chat y, si quieres, también te agendo una visita al
+  campus (lun–vie, 8:00 am a 3:00 pm).
+[1m[32m👤 User:[0m Quiero saber CUÁNTO CUESTA y si hay lugar para secundaria
+[admissions] loading session messages {'session_id': '977dbe5e-c812-4e6f-9d9b-efe66af73ff1'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 590 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  De secundaria sí puedo orientarte: normalmente el ingreso es para el
+  *siguiente ciclo escolar* (inicio *agosto 2026*). Sobre cupo, depende
+  del grado (1°, 2° o 3° de secundaria) y del avance del proceso, pero
+  sí estamos recibiendo solicitudes.  Sobre *cuánto cuesta*: por este
+  medio no puedo compartir colegiaturas/cuotas. Si te parece, un asesor
+  de admisiones puede darte la información completa y personalizada.
+  Para decirte disponibilidad más precisa y canalizarte con el asesor
+  correcto, ¿para qué grado de secundaria sería (1°, 2° o 3°) y cuál es
+  la *fecha de nacimiento* de tu hija/o?
+[1m[32m👤 User:[0m Me dicen o no?? ya me voy al TEC mejor
+[admissions] loading session messages {'session_id': '977dbe5e-c812-4e6f-9d9b-efe66af73ff1'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 524 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo, y lamento la frustración. Por WhatsApp *no tengo autorizado
+  compartir costos/colegiaturas*. Lo que sí puedo hacer es avanzar *ya*
+  con lo demás (cupo y agendar visita) y dejarte lista para que un
+  asesor te comparta el costo de forma directa y sin vueltas.  Para
+  decirte si hay lugar en *secundaria*, dime por favor: - ¿Es para *1°,
+  2° o 3°*? - *Fecha de nacimiento* de tu hija/o (es clave para validar
+  grado)  Y si quieres que el asesor te contacte hoy en cuanto sea
+  posible: ¿me compartes un *teléfono* y *correo*?
+[1m[32m👤 User:[0m Ok ya, mi hijo se llama Fernando Cruz Ávila, 13 años, nació 9 de marzo 2013. Va en 1ro de secundaria…
+[admissions] loading session messages {'session_id': '977dbe5e-c812-4e6f-9d9b-efe66af73ff1'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Fernando', 'student_last_name_paternal': 'Cruz', 'grade_interest': 'Secundaria 1', 'current_school': 'Escuela pública', 'contact_email': 'alejandra.avila@test.com', 'contact_phone': '871-999-0033'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_angry_review_b5c04b9d', 'contact_phone': '871-999-0033'}
+[admissions] contact created {'contact_id': '1cbe6f17-789d-4e73-a0a0-f2e1b93a82b3'}
+[admissions] lead created {'lead_id': 'a08e4821-dc44-4480-b4a2-3761a27c51e2', 'lead_number': 114}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Fernando","student_middle_name":null,"student_last_name_paternal":"Cruz","student_last_name_maternal":"Ávila","studen[0m
+[2m     Result: Lead creado con folio L-114.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia solicita conocer costos/colegiatura y disponibilidad de cupo para Secundaria. Alumno: Fernando Cruz Ávila (DOB 2013-03-[0m
+[2m     Result: Nota agregada al lead L-114 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya registré los datos de tu hijo *Fernando Cruz Ávila* y tu
+  contacto, Alejandra.  Sobre el grado: con fecha de nacimiento
+  *09/03/2013*, Fernando corresponde a *1° de Secundaria* para el ciclo
+  *2026–2027 (agosto 2026)*, así que por edad *sí aplica*.  De *costos*
+  no puedo enviarlos por este chat, pero ya dejé la solicitud registrada
+  para que un asesor te comparta la información completa de manera
+  directa.  Si te parece, avanzamos con lo más rápido para confirmar
+  cupo y conocer el colegio: ¿quieres agendar una *visita al campus*?
+  Dime qué días te acomodan (entre semana) y si prefieres *mañana
+  (8–12)* o *tarde (12–3)*, y te paso opciones disponibles.
+[1m[32m👤 User:[0m ¿Hay cupo o no? Contéstenme rápido
+[admissions] loading session messages {'session_id': '977dbe5e-c812-4e6f-9d9b-efe66af73ff1'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La mamá solicita confirmación rápida de cupo para Secundaria 1. También insiste en conocer costos; se explicó que no se comparten [0m
+[2m     Result: Nota agregada al lead L-114 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  El cupo *no puedo confirmarlo en tiempo real por WhatsApp* porque
+  depende del grupo y del avance de evaluación, pero *sí estamos
+  recibiendo solicitudes para Secundaria 1 (agosto 2026)* y el siguiente
+  paso para validarlo es la *visita + revisión*.  Para moverlo rápido:
+  ¿quieres que te agende visita al campus? Dime por favor: - ¿Qué día
+  entre semana te conviene más? - ¿Prefieres *mañana (8–12)* o *tarde
+  (12–3)*?  Con eso busco horarios disponibles y lo dejamos programado.
+[2mℹ️  Chat ID: a513bfcc-473f-4611-8af2-c6cd1a280889[0m

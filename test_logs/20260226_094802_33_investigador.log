@@ -1,0 +1,285 @@
+
+════════════════════════════════════════════════════════════════
+  [3/5] 33_investigador
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_094802_33_investigador.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO C: Padre investigador exhaustivo (~22 msgs)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat c480a549… (wa_id=test3_investigador_727829bb)[0m
+[1m[32m👤 User:[0m Buenas tardes, estoy haciendo una investigación muy detallada de escuelas para mi hijo. Tengo varias…
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 363 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Con gusto respondo todas
+  tus preguntas 😊. Para orientarte mejor, ¿qué es lo más importante para
+  ti en tu investigación: *modelo académico/bilingüismo*, *seguridad y
+  ambiente*, *actividades (deportes/arte)*, *apoyo socioemocional*, o
+  *proceso de admisión*?
+[1m[32m👤 User:[0m Primero: ¿cuál es el modelo pedagógico del colegio? ¿Es constructivista, tradicional, Montessori?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 563 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Nuestro enfoque es *formación integral y bilingüe*, con una enseñanza
+  *activa* centrada en el aprendizaje del alumno (más cercano a un
+  enfoque *constructivista* que a uno tradicional “memorístico”).
+  Trabajamos con desarrollo de habilidades, pensamiento crítico,
+  proyectos y trabajo colaborativo, cuidando también el área
+  socioemocional.  No somos un colegio Montessori.  Si me dices la *edad
+  o grado* de tu hijo (por ejemplo: Kinder, Primaria, Secundaria o
+  Prepa), te explico cómo se vive el modelo en esa etapa (metodología en
+  aula, evaluación y acompañamiento).
+[1m[32m👤 User:[0m ¿Qué porcentaje del día es en inglés vs español?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 503 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Depende de la *sección* (Early Childhood/Kinder, Primaria, Secundaria
+  o Prepa), porque el balance cambia conforme avanzan.  En general, el
+  colegio es *bilingüe*: hay materias y bloques impartidos en *inglés* y
+  otros en *español*, y el objetivo es que el alumno desarrolle dominio
+  académico en ambos idiomas (no solo “clases de inglés”).  Para darte
+  un porcentaje más preciso, ¿tu hijo va para *Kinder, Primaria,
+  Secundaria o Prepa* y para qué ciclo lo estás considerando (lo más
+  común es *Agosto 2026*)?
+[1m[32m👤 User:[0m ¿Los maestros tienen maestría o doctorado? ¿Cuál es el perfil promedio de sus profesores?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 865 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  El perfil del profesorado varía por sección, pero en general buscamos
+  docentes con:  - *Licenciatura* en su área (educación, pedagogía,
+  idiomas o disciplina específica). - *Certificación/competencia en
+  inglés* para las materias que se imparten en ese idioma (especialmente
+  en secciones bilingües). - *Formación continua* (cursos, talleres y
+  actualización pedagógica). - En *Secundaria y Prepa* es común
+  encontrar perfiles más especializados por materia, y sí hay docentes
+  con *posgrado* (maestría) en distintas áreas; *doctorado* puede haber
+  en casos puntuales, pero no es un requisito universal para todo el
+  staff.  Si quieres, puedo orientarte mejor con algo más concreto: 1)
+  ¿Para qué sección sería tu hijo (Primaria/Secundaria/Prepa)?   2) ¿Te
+  interesa más el perfil de *homeroom/elementary teacher* o de
+  *profesores por materia* (Math, Science, English, etc.)?
+[1m[32m👤 User:[0m ¿Cuántos alumnos por salón tienen en primaria?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 347 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  En *Primaria* el tamaño de grupo puede variar según el grado y la
+  generación, porque depende del cupo de ese año. Para darte un número
+  exacto necesitaría revisar el grado específico.  Dime por favor: ¿tu
+  hijo entraría a *qué grado de Primaria* (1º, 2º, 3º, etc.) y para
+  *Agosto 2026*? Con eso te respondo lo más cercano a la realidad de ese
+  nivel.
+[1m[32m👤 User:[0m ¿Qué protocolos de seguridad tienen? Cámaras, acceso controlado, etc.
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 761 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Contamos con medidas de *seguridad y control de acceso* enfocadas a
+  prevenir el ingreso no autorizado y a dar seguimiento dentro del
+  campus. De forma general, incluyen:  - *Acceso controlado* al campus y
+  registro/validación de visitantes. - *Cámaras de videovigilancia* en
+  zonas estratégicas. - Personal de *vigilancia* y supervisión en
+  horarios escolares. - Protocolos internos para *entrega y salida* de
+  alumnos (según sección) y atención de situaciones/incidencias.  Si me
+  dices la sección de tu hijo (*Primaria* y el grado), te explico cómo
+  se vive específicamente en entradas/salidas y en horarios de recreo.
+  Y para tu investigación: ¿tu prioridad es más *control de acceso*
+  (quién entra) o *seguridad operativa* (simulacros, protocolos ante
+  emergencias)?
+[1m[32m👤 User:[0m ¿La comida de la cafetería es nutritiva? ¿Tienen menú publicado?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 604 chars, 0 tools[0m
+[admissions] WARNING: Model claimed to add note without calling tool
+[1m[34m🤖 Bot:[0m
+  Sí, la cafetería está pensada para ofrecer opciones adecuadas para
+  niñas y niños, con alternativas de comida más completa además de
+  snacks.  Sobre el *menú publicado*: normalmente se comparte con las
+  familias por los canales internos del colegio (y puede variar por
+  temporada/semana). Si quieres, puedo pedir que un asesor te confirme
+  cómo lo comparten actualmente y si hay ejemplo de menú vigente.  Para
+  orientarte mejor, ¿tu hijo sería de *Primaria*? ¿Tiene alguna
+  necesidad alimentaria (alergias, restricciones, etc.) que te preocupe?
+  Si me dices, lo registro para que lo consideren en la orientación.
+[1m[32m👤 User:[0m ¿Qué tecnología usan en clase? ¿iPads, Chromebooks, pizarras inteligentes?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[2mℹ️  LLM: 808 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Usamos tecnología como apoyo al aprendizaje (no solo “pantallas”), y
+  el tipo de herramientas puede variar por sección y por grado.  En
+  general, es común ver: - Dispositivos para trabajo en aula y proyectos
+  (según nivel). - Plataformas educativas para tareas/seguimiento y
+  recursos digitales. - Recursos de proyección y apoyo audiovisual en
+  salones (por ejemplo, pantallas/proyectores; en algunos espacios
+  también se usan soluciones interactivas).  Para darte una respuesta
+  exacta (si es iPad/Chromebook 1:1, si lo trae el alumno o lo
+  proporciona el colegio, y en qué grados), dime por favor: 1) ¿Qué
+  grado de *Primaria* estás considerando?   2) ¿Buscas un esquema *1:1*
+  (un dispositivo por alumno) o más bien uso por
+  estaciones/laboratorios?  Si me confirmas eso, te lo aterrizo a lo que
+  aplica en ese nivel.
+[1m[32m👤 User:[0m ¿Participan en competencias académicas nacionales o internacionales?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 16 msgs | Pending: 1[0m
+[2mℹ️  LLM: 638 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí. Participamos en competencias y actividades académicas, y una de
+  las más destacadas es *Robótica FIRST*, que tiene participación a
+  nivel nacional e incluso con proyección internacional según categoría
+  y temporada:  - *FLL Explore* (1º a 3º de Primaria)   - *FLL
+  Challenge* (4º a 6º de Primaria)   - *FTC* (Secundaria)   - *FRC*
+  (Prepa)  Además, en *Prepa* hay espacios como *Debate* y *National
+  Honor Society (NHS)*, que impulsan desempeño académico y liderazgo.
+  Para decirte lo más relevante en tu caso, ¿tu hijo está en *Primaria*?
+  ¿Qué grado y qué le interesa más: *ciencias/robótica*, *matemáticas*,
+  *lectura* o *debate/oratoria*?
+[1m[32m👤 User:[0m ¿Tienen psicólogo escolar disponible para los niños?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 18 msgs | Pending: 1[0m
+[2mℹ️  LLM: 599 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, contamos con *apoyo psicológico/escolar* para acompañamiento y
+  orientación a los alumnos (y, cuando aplica, coordinación con
+  familias). El alcance exacto puede variar por sección: en Primaria
+  suele enfocarse en seguimiento socioemocional, hábitos, convivencia y
+  canalización cuando se requiere una atención externa más
+  especializada.  Para responderte con precisión: ¿tu hijo estaría en
+  *Primaria* y en qué grado?   Y si te preocupa algo en particular (por
+  ejemplo adaptación, ansiedad, conducta, atención), dímelo con
+  confianza y lo canalizo para que te expliquen cómo se atiende en el
+  colegio.
+[1m[32m👤 User:[0m Ok, ya ahora los datos: mi hijo se llama Leonardo Torres Vega, nació el 8 de noviembre de 2016, va e…
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 20 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Leonardo', 'student_last_name_paternal': 'Torres', 'grade_interest': 'Primaria 4', 'current_school': 'IMSS', 'contact_email': 'arturo.torres@test.com', 'contact_phone': '871-555-0099'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_investigador_727829bb', 'contact_phone': '871-555-0099'}
+[admissions] contact created {'contact_id': '75fd6be1-1bda-4d71-b779-b59f84950ba2'}
+[admissions] lead created {'lead_id': '563a38bf-631b-47cf-ab48-8ce96459412a', 'lead_number': 128}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Leonardo","student_middle_name":null,"student_last_name_paternal":"Torres","student_last_name_maternal":"Vega","stude[0m
+[2m     Result: Lead creado con folio L-128.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"El padre (Arturo Torres) está realizando una investigación detallada. Consultó: modelo pedagógico, % inglés/español, perfil docent[0m
+[2m     Result: Nota agregada al lead L-128 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias Arturo. Ya quedó registrado *Leonardo Torres Vega*
+  (08/nov/2016), actualmente en *3º de primaria* en el IMSS, con tu
+  teléfono y correo.  Para *Agosto 2026* (ciclo *2026-2027*), por su
+  fecha de nacimiento Leonardo corresponde a *4º de Primaria*.  ¿Te
+  gustaría que agendemos una *visita al campus* para que conozcan
+  Primaria y podamos resolver tus preguntas en sitio? Las visitas son de
+  *lunes a viernes de 8:00 am a 3:00 pm*.  ¿Qué días y horario te
+  convienen más: *por la mañana* o *por la tarde*?
+[1m[32m👤 User:[0m ¿Tienen algún programa de adaptación para niños nuevos? Me preocupa que le cueste trabajo integrarse
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 22 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Papá expresa preocupación por adaptación e integración de Leonardo (nuevo ingreso). Interés Primaria 4 para ciclo Ago 2026; actual[0m
+[2m     Result: Nota agregada al lead L-128 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Sí, y es una preocupación muy común cuando cambian de escuela.  En
+  *Primaria* solemos apoyar la integración de alumnos nuevos con
+  acompañamiento del equipo escolar (titular/coord.), observación en las
+  primeras semanas y seguimiento para asegurar que se sientan parte del
+  grupo. También se da orientación socioemocional cuando se necesita, y
+  comunicación con la familia para ir ajustando.  Para ayudarte mejor:
+  ¿a Leonardo qué le cuesta más normalmente: *hacer amigos*, *adaptarse
+  a reglas/rutinas*, o *el cambio académico/inglés*?  Y si te parece,
+  agendamos una *visita al campus* para que conozca el ambiente y
+  podamos platicar del plan de integración. ¿Qué te acomoda más: *mañana
+  (8–12)* o *tarde (12–3)*, y qué días entre semana?
+[1m[32m👤 User:[0m ¿Cuál es la tasa de retención? O sea, ¿qué porcentaje de familias se quedan año tras año?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 24 msgs | Pending: 1[0m
+[2mℹ️  LLM: 642 chars, 0 tools[0m
+[admissions] WARNING: Model claimed to add note without calling tool
+[1m[34m🤖 Bot:[0m
+  Es una muy buena métrica para evaluar estabilidad, pero ese dato suele
+  manejarse a nivel interno y puede variar por sección y generación; por
+  este medio no tengo un porcentaje oficial para compartirte sin riesgo
+  de darte una cifra inexacta.  Lo que sí puedo hacer es *dejarlo como
+  pregunta puntual* para que un asesor te lo responda con información
+  válida (por Primaria y, si aplica, por grado). También en una visita
+  pueden explicarte indicadores de permanencia y las principales razones
+  de continuidad.  Si te parece, lo registro y avanzamos a agendar tu
+  visita. ¿Qué te conviene más para venir: *mañana* o *tarde*, y qué
+  días entre semana?
+[1m[32m👤 User:[0m ¿Puedo hablar con algún papá actual del colegio que me cuente su experiencia de primera mano?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 26 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Padre solicita hablar con un papá/mamá actual para conocer experiencia de primera mano. También mostró preocupación por adaptación[0m
+[2m     Result: Nota agregada al lead L-128 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Sí, es posible. Podemos *canalizarte con una familia embajadora/comité
+  de padres* (según disponibilidad y sección) para que tengas una
+  conversación de primera mano, normalmente cuidando la privacidad y
+  coordinándolo por el área de admisiones.  Ya dejé registrada tu
+  solicitud para que el asesor lo gestione.  Para avanzar, ¿te gustaría
+  primero *agendar una visita al campus* y que ese mismo día te
+  conecten/te indiquen con quién podrías platicar, o prefieres que
+  intentemos coordinar la conversación *antes* de la visita?  Y para
+  proponerte horarios: ¿qué te conviene más, *mañana (8:00–12:00)* o
+  *tarde (12:00–3:00)*, y qué días entre semana?
+[1m[32m👤 User:[0m Ya para ir cerrando. ¿Me mandan los requisitos de primaria?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 28 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/elementary/1766895179881-03_Admission_Requirements_Elementary.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya te compartí por WhatsApp el *PDF de requisitos de Primaria*.
+  Si quieres, antes de cerrar también puedo ayudarte a agendar una
+  *visita al campus* (lun–vie, 8:00 am a 3:00 pm). ¿Prefieres *mañana* o
+  *tarde*, y qué día entre semana te queda mejor?
+[1m[32m👤 User:[0m Y quiero agendar visita. ¿El martes o miércoles tienen algo?
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 31 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-03 to 2026-03-04 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-03","end_date":"2026-03-04","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Martes 3 de marzo de 2026, 12:00 PM - 1:00 PM
+- Opción 2: Martes 3 de marzo de 2026, 1:00 PM - 2:00 PM
+- Opción 3: Miércoles 4 de marzo de 2026, [0m
+[1m[34m🤖 Bot:[0m
+  Sí, tengo disponibilidad *martes y miércoles*:  *Martes 3 de marzo* 1)
+  12:00–1:00 pm   2) 1:00–2:00 pm    *Miércoles 4 de marzo* 3) 8:00–9:00
+  am   4) 9:00–10:00 am   5) 10:00–11:00 am   6) 11:00–12:00 pm   7)
+  12:00–1:00 pm   8) 1:00–2:00 pm    ¿Cuál opción te gustaría apartar?
+  (puedes decirme “la 4”, por ejemplo)
+[1m[32m👤 User:[0m La primera
+[admissions] loading session messages {'session_id': 'b099c304-58b9-4fe8-9297-e8b9cb9d7c4a'}
+[2mℹ️  History: 33 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] booking appointment for slot a151e5a1-3880-4b13-a794-70b727176dd5
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"a151e5a1-3880-4b13-a794-70b727176dd5","notes":"Visita campus para admisiones. Alumno: Leonardo Torres Vega (DOB 2016-11-08), int[0m
+[2m     Result: Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia realizando investigación detallada. Preguntó sobre: modelo pedagógico, balance inglés/español, perfil docente (posgrados),[0m
+[2m     Result: Nota agregada al lead L-128 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Arturo. Tu visita quedó *agendada* para:  *Martes 3 de marzo
+  de 2026, 12:00–1:00 pm*  Cuando lleguen, la entrada para visitas es
+  por *Puerta 3 (caseta del reloj)*. Dirección: *C. P.º del Algodón 500,
+  Los Viñedos, Torreón*.  ¿Vendrás tú solo o te acompañará alguien más?
+[2mℹ️  Chat ID: c480a549-964e-4a8c-9064-32a1d4471f93[0m

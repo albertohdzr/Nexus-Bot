@@ -8,7 +8,6 @@ load_dotenv()
 class Settings:
     def __init__(self) -> None:
         self.supabase_url = os.getenv("SUPABASE_URL")
-        self.supabase_key = os.getenv("SUPABASE_KEY")
         self.supabase_service_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
         self.supabase_storage_bucket = os.getenv("SUPABASE_STORAGE_BUCKET", "media")
         self.xai_api_key = os.getenv("XAI_API_KEY")
@@ -18,7 +17,9 @@ class Settings:
             "WHATSAPP_VERIFY_TOKEN", "my_secure_token"
         )
         self.whatsapp_access_token = os.getenv("WHATSAPP_ACCESS_TOKEN")
+        self.whatsapp_app_secret = os.getenv("WHATSAPP_APP_SECRET")
         self.cron_secret = os.getenv("CRON_SECRET")
+        self.api_secret = os.getenv("API_SECRET")
 
 
 settings = Settings()

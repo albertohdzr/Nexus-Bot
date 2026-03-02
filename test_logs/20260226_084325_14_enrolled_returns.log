@@ -1,0 +1,99 @@
+
+════════════════════════════════════════════════════════════════
+  [4/10] 14_enrolled_returns
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_084325_14_enrolled_returns.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Lead enrolled regresa a agradecer
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 2510dfa6… (wa_id=test3_enrolled_thanks_5c53f614)[0m
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hija. Ana Torres Vega, nació 7 de junio 2016, está en 3ro primaria en el…
+[admissions] loading session messages {'session_id': '2b51ffd4-317a-4ee9-a98f-675e45405235'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado en inscribir a su hija Ana Torres Vega (07-jun-2016). Actualmente en 3º primaria en IEST. Tutor: Luis Torres. Tel: 871-[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'Torres', 'grade_interest': 'Primaria 4', 'current_school': 'IEST', 'contact_email': 'luis.torres@test.com', 'contact_phone': '871-444-8899'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_enrolled_thanks_5c53f614', 'contact_phone': '871-444-8899'}
+[admissions] contact created {'contact_id': '0b8023b3-117f-4ccc-90d1-4e2e282357ca'}
+[admissions] lead created {'lead_id': 'c729bfc8-f539-44d0-bd15-12b3eba82f7f', 'lead_number': 106}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":null,"student_last_name_paternal":"Torres","student_last_name_maternal":"Vega","student_do[0m
+[2m     Result: Lead creado con folio L-106.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. Con gusto te ayudo. 🙂  Ya registré la
+  información de tu hija *Ana Torres Vega* (07/06/2016), actualmente en
+  *3º de primaria en IEST*, y tus datos de contacto, *Luis Torres*.  Por
+  la fecha de nacimiento, para el ingreso en *agosto 2026* lo más
+  natural sería solicitar *Primaria 4*.  El siguiente paso ideal es
+  agendar una *visita al campus* (lun–vie, de 8:00 am a 3:00 pm). ¿Qué
+  día y horario te convienen más: *por la mañana* o *por la tarde*?
+[1m[32m👤 User:[0m Cierra la conversación
+[admissions] loading session messages {'session_id': '2b51ffd4-317a-4ee9-a98f-675e45405235'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 131 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría finalizar esta conversación ahora? Si me confirmas con un
+  *sí*, generaré un resumen de lo que vimos y cerraré el chat.
+[1m[32m👤 User:[0m ok
+[admissions] loading session messages {'session_id': '2b51ffd4-317a-4ee9-a98f-675e45405235'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'El tutor Luis Torres (871-444-8899, luis.torres@test.com) solicita información para inscripción de su hija Ana Torres Vega. Alumna: Ana Torres Vega, fecha de nacimiento 07/06/2016, actualmente cursa 3º de primaria en IEST. Interés: ingreso para ciclo escolar agosto 2026, grado sugerido/compatible Primaria 4. Se recomendó como siguiente paso agendar una visita al campus (lun-vie 8:00 am a 3:00 pm) y se preguntó preferencia de día/horario (mañana o tarde). No se agendó cita todavía.', 'reason': 'Usuario solicitó cerrar la conversación.'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"El tutor Luis Torres (871-444-8899, luis.torres@test.com) solicita información para inscripción de su hija Ana Torres Vega. Alum[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya cerré la conversación y dejé el resumen registrado.  Cuando
+  gustes retomamos para agendar la visita al campus. Buen día.
+  [test] Set lead c729bfc8… → enrolled
+[1m[32m👤 User:[0m ¡Hola! Ya nos aceptaron, ¡muchas gracias por toda la ayuda! 🎉
+[admissions] loading session messages {'session_id': '8b3267d0-cc7b-47f3-af16-64ccf823e24a'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia confirma que ya fue aceptada y agradece el apoyo.","subject":"Confirmación de aceptación"}[0m
+[2m     Result: Nota agregada al lead L-106 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  ¡Qué alegría! Muchas felicidades a tu familia y a *Ana* por la
+  aceptación. 🎉  Si te parece, también puedo apoyarte con lo que sigue
+  (por ejemplo: próximos pasos, fechas importantes o a quién contactar).
+  ¿Te gustaría finalizar esta conversación ahora? Si me confirmas,
+  genero un resumen de lo que platicamos y la cierro.
+[1m[32m👤 User:[0m ¿Cuándo empiezan las clases en agosto?
+[admissions] loading session messages {'session_id': '8b3267d0-cc7b-47f3-af16-64ccf823e24a'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 633 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! El ciclo escolar normalmente inicia en *agosto* (nuestros
+  ciclos van de agosto a junio), pero la *fecha exacta de arranque*
+  puede variar cada año según el calendario oficial del colegio.  Para
+  darte el día preciso, lo ideal es confirmarlo directamente con el área
+  administrativa del colegio (este WhatsApp es solo para admisiones).
+  Puedes contactarlos aquí: Tel: *8711123687*   Correo: *contact@cat.mx*
+  Si me dices si se trata de *Early Childhood, Primaria, Secundaria o
+  Prepa*, también puedo orientarte con el contexto general (por ejemplo,
+  si hay inducción/primeros días) aunque la fecha exacta la confirma
+  administración.
+[1m[32m👤 User:[0m ¿Necesitamos comprar uniforme antes? ¿Dónde lo venden?
+[admissions] loading session messages {'session_id': '8b3267d0-cc7b-47f3-af16-64ccf823e24a'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 630 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, normalmente conviene tener el uniforme listo *antes del inicio de
+  clases*, porque los primeros días ya lo suelen solicitar.  Sobre
+  *dónde lo venden* y los *modelos exactos* (por grado y si es
+  diario/deportivo), esa información la confirma el área administrativa
+  o la tienda/proveedor autorizado del colegio. Como este canal es solo
+  de admisiones, te recomiendo pedirles el dato directo aquí:  Tel:
+  *8711123687*   Correo: *contact@cat.mx*  Si me dices en qué sección
+  entra tu hija (Primaria / Secundaria / Prepa), te digo qué piezas
+  suelen pedir primero (por ejemplo, el uniforme diario vs. el
+  deportivo) para que te organices.
+[2mℹ️  Chat ID: 2510dfa6-53c4-47cb-83ad-c6053d1bda69[0m

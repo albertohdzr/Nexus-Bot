@@ -1,0 +1,130 @@
+
+════════════════════════════════════════════════════════════════
+  [6/10] 26_custody_fight
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_091122_26_custody_fight.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Pleito de custodia - padres contradictorios
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 40276fee… (wa_id=test3_custody_fight_15b082de)[0m
+
+  ╔══ SESSION 1: Papá quiere inscribir ══╗
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hijo Rodrigo Salinas Pérez, nació 5 de mayo de 2014, va en 5to de primar…
+[admissions] loading session messages {'session_id': '9f2f8d7c-ae75-40c9-a791-d406034e8ad5'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado en inscribir a su hijo Rodrigo Salinas Pérez. Nació 05-may-2014. Actualmente cursa 5º de primaria en el Colegio Lancast[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Rodrigo', 'student_last_name_paternal': 'Salinas', 'grade_interest': 'Primaria 6', 'current_school': 'Colegio Lancaster', 'contact_email': 'pedro.salinas@test.com', 'contact_phone': '871-555-1234'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_custody_fight_15b082de', 'contact_phone': '871-555-1234'}
+[admissions] contact found {'contact_id': '8d16c0d6-8992-4ae6-b3a5-ed6f2447969e'}
+[admissions] lead created {'lead_id': '2b2ab547-ab0a-48ba-a91c-b0ea8159d212', 'lead_number': 118}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Rodrigo","student_middle_name":null,"student_last_name_paternal":"Salinas","student_last_name_maternal":"Pérez","stud[0m
+[2m     Result: Lead creado con folio L-118.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. Con gusto te ayudo. 😊  Ya registré la
+  información de tu hijo: - *Rodrigo Salinas Pérez*, *05/mayo/2014* -
+  Actualmente en *5º de primaria* en *Lancaster* Para el ingreso de
+  *agosto 2026* (ciclo *2026-2027*), por su fecha de nacimiento le
+  corresponde *6º de Primaria*.  El siguiente paso ideal es agendar una
+  *visita al campus* (lun–vie, 8:00 am a 3:00 pm).  ¿Qué días y en qué
+  horario te conviene más venir: *por la mañana* (8–12) o *por la tarde*
+  (12–3)?
+[1m[32m👤 User:[0m Cierra por favor
+[admissions] loading session messages {'session_id': '9f2f8d7c-ae75-40c9-a791-d406034e8ad5'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'El tutor Pedro Salinas (871-555-1234, pedro.salinas@test.com) solicita inscripción para su hijo Rodrigo Salinas Pérez, fecha de nacimiento 05-mayo-2014. Alumno actualmente cursa 5º de primaria en Lancaster. Se orientó que el interés se asume para el siguiente ciclo (agosto 2026, ciclo 2026-2027) y que por fecha de nacimiento corresponde 6º de Primaria. Se propuso como siguiente paso agendar una visita al campus en horario de atención lun-vie 8:00 a 15:00 y se preguntó preferencia de días/horario (mañana o tarde), sin llegar a agendar cita.', 'reason': 'Usuario solicitó cerrar la conversación.'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"El tutor Pedro Salinas (871-555-1234, pedro.salinas@test.com) solicita inscripción para su hijo Rodrigo Salinas Pérez, fecha de [0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, cierro la conversación. ✅  Resumen: Pedro Salinas solicitó
+  información para inscribir a su hijo *Rodrigo Salinas Pérez* (nac.
+  *05/mayo/2014*), actualmente en *5º de primaria* en *Lancaster*, con
+  interés para *agosto 2026 (ciclo 2026-2027)*; se indicó que
+  corresponde a *6º de Primaria* y quedó pendiente definir día/horario
+  para agendar una visita al campus.  Cuando gustes, me escribes y lo
+  retomamos para agendar tu visita.
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': 'c15cd3fc-bf85-4be9-9e14-c80527e21f89'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 351 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Perfecto! Para orientarte bien, ¿me confirmas qué es lo que quieres
+  hacer?  A) *Agendar una visita al campus*   B) *Recibir
+  requisitos/papelería de admisión*   C) *Resolver una duda del proceso*
+  (por ejemplo, grado, fechas, actividades, etc.)  Y solo para ubicarme:
+  ¿esto es para *Rodrigo Salinas Pérez* (interés *6º de primaria* para
+  *Agosto 2026*)?
+
+  ╔══ SESSION 2: Mamá dice que NO lo inscriban ══╗
+[1m[32m👤 User:[0m Buenas tardes, soy la mamá de Rodrigo Salinas. NO autorizo que lo inscriban. Su papá no tiene la cus…
+[admissions] loading session messages {'session_id': 'c15cd3fc-bf85-4be9-9e14-c80527e21f89'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La mamá de Rodrigo Salinas indica que NO autoriza la inscripción; menciona que el papá no tiene la custodia legal. Solicita no con[0m
+[2m     Result: Nota agregada al lead L-118 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por avisarnos. Este canal es de admisiones, pero *sí podemos
+  dejarlo documentado* para que el equipo lo atienda correctamente.  Ya
+  quedó registrada tu indicación de que *no autorizas la inscripción de
+  Rodrigo* y que comentas que su papá *no cuenta con custodia legal*.
+  Para proceder de forma adecuada y proteger a Rodrigo, ¿me ayudas con
+  dos cosas? 1) ¿Quieres que *detengamos por completo* cualquier
+  trámite/seguimiento de admisiones a nombre de Rodrigo hasta que haya
+  autorización por escrito de quien tenga la custodia? 2) ¿Deseas que el
+  equipo de admisiones te contacte para indicarte el *procedimiento y la
+  documentación* que se requiere en estos casos? (puede ser por esta
+  misma vía)  Si prefieres, también puedes comunicarte directo a
+  *8711123687* o *contact@cat.mx*.
+[1m[32m👤 User:[0m ¿Quién autorizó esto? Voy a tomar acciones legales
+[admissions] loading session messages {'session_id': 'c15cd3fc-bf85-4be9-9e14-c80527e21f89'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La mamá de Rodrigo indica que NO autoriza la inscripción; afirma que el papá no tiene custodia legal. Pregunta quién autorizó y me[0m
+[2m     Result: Nota agregada al lead L-118 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo tu preocupación y lo tomo con mucha seriedad.  Por este chat
+  no tengo visibilidad de “quién autorizó” ni acceso a documentos
+  legales; además, aquí no podemos validar custodias. Lo que sí puedo
+  hacer es *detener el seguimiento de admisiones por este medio* y
+  dejarlo *escalado* para revisión interna.  Para que el equipo
+  correspondiente lo atienda de inmediato, ¿me confirmas por favor? 1)
+  Tu nombre completo (mamá de Rodrigo)   2) Si deseas que *se bloquee
+  cualquier trámite* relacionado con Rodrigo hasta que se acredite
+  custodia/consentimiento   3) Si cuentas con algún documento (por
+  ejemplo, resolución de custodia) para presentarlo al colegio  Si
+  prefieres hablar directo hoy, te comparto el contacto general del
+  colegio: *8711123687* | *contact@cat.mx*.
+[1m[32m👤 User:[0m Mi nombre es Sofía Pérez, 871-666-4321, sofia.perez@test.com
+[admissions] loading session messages {'session_id': 'c15cd3fc-bf85-4be9-9e14-c80527e21f89'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La mamá del alumno contacta: Sofía Pérez (tel 871-666-4321, correo sofia.perez@test.com). Indica: NO autoriza inscripción de Rodri[0m
+[2m     Result: Nota agregada al lead L-118 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, Sofía Pérez. Ya quedó *documentado* en el expediente de
+  admisiones de Rodrigo tu aviso (incluyendo tu teléfono y correo) y tu
+  solicitud de *detener cualquier trámite* hasta aclarar el tema de
+  custodia/consentimiento.  Sobre tu pregunta de “¿quién autorizó
+  esto?”: por este chat no puedo ver ni confirmar autorizaciones
+  legales. Lo correcto es que el *equipo de admisiones/dirección* revise
+  internamente el origen del registro y te contacte para seguimiento
+  formal.  Para escalarlo correctamente, ¿me confirmas por favor una
+  cosa? ¿Deseas que se *bloquee totalmente* cualquier avance (visitas,
+  evaluaciones, inscripción) hasta que el colegio reciba documentación
+  que acredite quién tiene la custodia y/o autorización por escrito?  Si
+  me dices “sí, bloquear”, lo dejamos como instrucción explícita para el
+  equipo.
+[2mℹ️  Chat ID: 40276fee-f6e8-4e72-8211-5a4b3fb7dba0[0m

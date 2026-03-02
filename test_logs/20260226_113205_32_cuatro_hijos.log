@@ -1,0 +1,106 @@
+
+════════════════════════════════════════════════════════════════
+  [2/4] 32_cuatro_hijos
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_113205_32_cuatro_hijos.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO B: Familia con 4 hijos (~20 msgs)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat c81e7e69… (wa_id=test3_cuatro_hijos_v2_4eb51c92)[0m
+[1m[32m👤 User:[0m Hola, tenemos 4 hijos y queremos cambiarlos de escuela todos juntos
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Yo soy Rodrigo Méndez, 871-111-9988, rodrigo.mendez@test.com. Mi esposa es Ana García, 871-333-7766
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 2[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m El mayor se llama Santiago Méndez García, nació 15 de enero de 2010. Va en 2do de prepa en el TEC
+[31m❌ Retry 1/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 3/3: Server disconnected without sending a response.[0m
+[31m❌ FAILED after 3 retries: Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m La segunda es Isabella Méndez García, nació 3 de mayo de 2013. Va en 6to de primaria en el TEC tambi…
+[31m❌ Retry 1/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 3/3: Server disconnected without sending a response.[0m
+[31m❌ FAILED after 3 retries: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[1m[32m👤 User:[0m El tercero es Mateo Méndez García, nació 20 de agosto de 2016. Está en 3ro de primaria en el TEC
+[31m❌ Retry 1/3: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[31m❌ Retry 2/3: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 3[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Y la más chica es Valentina Méndez García, nació 12 de diciembre de 2020. Está en kínder 2 en el TEC
+[31m❌ Retry 1/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 3/3: Server disconnected without sending a response.[0m
+[31m❌ FAILED after 3 retries: Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Les toca a todos en secciones diferentes verdad?
+[31m❌ Retry 1/3: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 3/3: Server disconnected without sending a response.[0m
+[31m❌ FAILED after 3 retries: Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Tienen descuento por meter a los 4?
+[31m❌ Retry 1/3: Server disconnected without sending a response.[0m
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 4[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 5[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿La visita puede ser para toda la familia? ¿O tenemos que ir a cada sección por separado?
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 6[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Entendido. Quisiéramos ir el viernes. ¿Qué tienen?
+[31m❌ Retry 1/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 3/3: Server disconnected without sending a response.[0m
+[31m❌ FAILED after 3 retries: Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m La primera que tengan
+[31m❌ Retry 1/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 3/3: Server disconnected without sending a response.[0m
+[31m❌ FAILED after 3 retries: Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Hay estacionamiento suficiente? Vamos a ir mi esposa y yo con los 4 niños
+[31m❌ Retry 1/3: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[31m❌ Retry 2/3: Server disconnected without sending a response.[0m
+[31m❌ Retry 3/3: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 7[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿Nos pueden mandar los requisitos de todas las secciones? Preescolar, primaria, secundaria y prepa
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 8[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Una duda más: ¿el TEC les puede hacer transferencia directa del expediente o tenemos que empezar de …
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 9[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Ok, ya la última pregunta: ¿cuánto tiempo toma todo el proceso desde la visita hasta saber si los ac…
+[admissions] loading session messages {'session_id': '2923cc0e-526b-414d-930d-7775cf81d12e'}
+[2mℹ️  History: 0 msgs | Pending: 10[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[2mℹ️  Chat ID: c81e7e69-906b-44f2-b308-aec8a197cbb8[0m

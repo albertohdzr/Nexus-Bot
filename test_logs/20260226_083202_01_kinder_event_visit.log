@@ -1,0 +1,160 @@
+
+════════════════════════════════════════════════════════════════
+  [1/10] 01_kinder_event_visit
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_01_kinder_event_visit.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Kinder: Evento + Visita + Transporte
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 5142bc8e… (wa_id=test3_kinder_full_b0c8940f)[0m
+[1m[32m👤 User:[0m Buenas tardes, quiero inscribir a mi hija en kínder
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 349 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Buenas tardes! Con gusto te ayudo con el proceso de admisión para
+  *kínder* en el Colegio Americano de Torreón. 🙂  Para orientarte bien
+  (y confirmar el grado correcto para el ciclo que inicia en *agosto
+  2026*), ¿me compartes por favor la *fecha de nacimiento* de tu hija
+  (día/mes/año)?  Y si ya lo tienes a la mano: ¿en qué escuela está
+  actualmente?
+[1m[32m👤 User:[0m Se llama Isabella Flores Martínez, nació el 3 de agosto de 2021. Está en guardería ahorita.
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés: inscribir a su hija en kínder para próximo ciclo (asumir ago 2026). Alumna: Isabella Flores Martínez. Fecha de nacimiento[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Con la fecha de nacimiento *03/08/2021*, para el ciclo que
+  inicia en *agosto 2026* Isabella quedaría en *Preschool (Preescolar)*,
+  no en kínder, por rango de edad.  Si tu intención es *kínder*,
+  normalmente corresponde a peques nacidos entre *01-ago-2020 y
+  31-jul-2021* (para el ciclo 2026-2027). Por eso Isabella entraría un
+  nivel antes, en Preschool.    ¿Te gustaría que avancemos con
+  *Preschool* para agosto 2026? Si sí, dime por favor: - ¿En qué
+  guardería está actualmente? (nombre) - ¿Qué nombre tiene
+  mamá/papá/tutor que llevará el proceso?  Después de eso, si te
+  interesa, también podemos agendar una *visita al campus* (lun-vie,
+  8:00 am a 3:00 pm).
+[1m[32m👤 User:[0m Yo soy Mónica Martínez, 871-222-1100, monica.martinez@test.com
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Isabella', 'student_last_name_paternal': 'Flores', 'grade_interest': 'Preschool (Preescolar)', 'current_school': 'Guardería (por confirmar)', 'contact_email': 'monica.martinez@test.com', 'contact_phone': '871-222-1100'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_kinder_full_b0c8940f', 'contact_phone': '871-222-1100'}
+[admissions] contact created {'contact_id': '17063d1a-59c8-4f85-804d-0de7fda47d70'}
+[admissions] lead created {'lead_id': 'a321f817-441a-4799-8cfb-cf5b7f54b9d6', 'lead_number': 94}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Isabella","student_middle_name":null,"student_last_name_paternal":"Flores","student_last_name_maternal":"Martínez","s[0m
+[2m     Result: Lead creado con folio L-94.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia solicitó inicialmente inscripción a kínder; se orientó que por DOB 03/08/2021 corresponde a Preschool (Preescolar) para[0m
+[2m     Result: Nota agregada al lead L-94 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Mónica. Ya quedó registrado el interés de Isabella (folio
+  *L-94*) con ingreso para *agosto 2026* en *Preschool (Preescolar)*.
+  Solo me falta un dato para completar el perfil: ¿cómo se llama la
+  *guardería* en la que está actualmente?  Y para agendar su *visita al
+  campus* (lun-vie, 8:00 am a 3:00 pm), ¿qué días y horario te convienen
+  más: por la *mañana* o por la *tarde*?
+[1m[32m👤 User:[0m ¿Tienen algún evento próximo para preescolar?
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"early_child"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia pregunta por evento próximo para Preescolar (Early Childhood).","subject":"Interés en evento"}[0m
+[2m     Result: Nota agregada al lead L-94 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Por el momento no me aparece *ningún evento próximo* programado para
+  *Early Childhood (Preescolar/Kínder)*.  Si gustas, lo mejor es agendar
+  una *visita al campus* para que conozcan el área de preescolar, el
+  modelo y puedan resolver dudas en persona. Es de *lunes a viernes,
+  8:00 am a 3:00 pm*.  ¿Te conviene más *mañana* o *tarde* y qué días
+  entre semana se te facilitan?
+[1m[32m👤 User:[0m ¿Tienen transporte escolar?
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 256 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Por el momento *no contamos con transporte escolar*.  Si te parece,
+  para ayudarte a planear mejor: ¿desde qué zona o colonia se
+  trasladarían normalmente? Y si aún te interesa, también podemos
+  agendar una *visita al campus* entre semana (8:00 am a 3:00 pm).
+[1m[32m👤 User:[0m Ok, ¿me pueden agendar una visita? Cualquier día de la próxima semana por la mañana
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-02 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-02","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 2 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Lunes 2 de marzo de 2026, 10:00 [0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Para la próxima semana por la mañana tengo estos horarios
+  disponibles:  - *1)* Lun 2 mar, 8:00–9:00 am   - *2)* Lun 2 mar,
+  9:00–10:00 am   - *3)* Lun 2 mar, 10:00–11:00 am   - *4)* Lun 2 mar,
+  11:00 am–12:00 pm   - *5)* Mar 3 mar, 8:00–9:00 am   - *6)* Mar 3 mar,
+  9:00–10:00 am   - *7)* Mar 3 mar, 10:00–11:00 am   - *8)* Mar 3 mar,
+  11:00 am–12:00 pm    ¿Cuál opción te agendo? (respóndeme con el
+  número)
+[1m[32m👤 User:[0m La opción 2
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[admissions] booking appointment for slot e7032455-f170-4f6d-a9c7-e67ff34ebbfa
+[2mℹ️  LLM: 451 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Listo, Mónica: tu visita quedó *agendada para el lunes 2 de marzo de
+  2026, de 9:00 a 10:00 AM* para conocer *Preescolar (Preschool)*.
+  Para ingresar, por favor lleguen a *Puerta 3 (por la caseta del
+  reloj)*.   Dirección: *C. P.º del Algodón 500, Los Viñedos, 27023
+  Torreón, Coah.*   Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9
+  Antes de su visita, solo para completar el expediente: ¿cómo se llama
+  la *guardería* donde está Isabella actualmente?
+[1m[32m👤 User:[0m ¿Qué tengo que llevar a la visita?
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[2mℹ️  LLM: 440 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para la *visita al campus* no necesitas llevar papelería; con que
+  llegues unos minutos antes y te identifiques en *Puerta 3* es
+  suficiente.  Si quieres aprovechar para avanzar, puedes llevar
+  (opcional): - *Acta de nacimiento* y *CURP* de tu hija (copia o foto).
+  - Datos de su guardería actual (nombre).  Si también te interesa,
+  puedo enviarte el *PDF oficial de requisitos* para *Preescolar/Kínder
+  (Early Childhood)*. ¿Te lo mando por aquí?
+[1m[32m👤 User:[0m Cierra por favor
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 16 msgs | Pending: 1[0m
+[2mℹ️  LLM: 126 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría finalizar esta conversación ahora? En cuanto me
+  confirmes, generaré un resumen de lo que vimos y cerraré el chat.
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': 'ba11e67a-14e3-4f07-9f71-8105bdbdd73a'}
+[2mℹ️  History: 18 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'La familia solicita información para inscribir a su hija. Alumna: Isabella Flores Martínez, fecha de nacimiento 03-ago-2021. Se explicó que para el ciclo que inicia en agosto 2026 corresponde a Preschool (Preescolar) y no a Kinder por rango de edad. Escuela actual: en guardería (nombre pendiente). Tutor: Mónica Martínez, tel 871-222-1100, correo monica.martinez@test.com. Se confirmó que no hay transporte escolar. Se consultó por eventos próximos para Early Childhood y no se encontró evento próximo. Se agendó visita al campus: lunes 2 de marzo de 2026, 9:00 AM–10:00 AM (Puerta 3, caseta del reloj; dirección C. P.º del Algodón 500, Los Viñedos, Torreón; se compartió link de Maps). Usuario preguntó qué llevar a la visita: se indicó que no requiere papelería; opcional acta, CURP y datos de guardería. Se ofreció enviar PDF de requisitos para Early Childhood (usuario no lo solicitó).', 'reason': 'Usuario solicitó cerrar la conversación y confirmó.'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"La familia solicita información para inscribir a su hija. Alumna: Isabella Flores Martínez, fecha de nacimiento 03-ago-2021. Se [0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Hecho, la conversación quedó cerrada.  Resumen: - Alumna: *Isabella
+  Flores Martínez* (03-ago-2021). Para *agosto 2026* corresponde a
+  *Preschool (Preescolar)*. - Tutor: *Mónica Martínez* | 871-222-1100 |
+  monica.martinez@test.com - Confirmamos que *no hay transporte
+  escolar*. - Visita agendada: *lunes 2 de marzo 2026, 9:00–10:00 am*
+  (entrada por *Puerta 3*, caseta del reloj).   - Quedó pendiente el
+  *nombre de la guardería* actual.  Cuando gustes retomar, aquí estaré
+  para ayudarte.
+[2mℹ️  Chat ID: 5142bc8e-4039-47cf-a485-5e3bdf631f27[0m

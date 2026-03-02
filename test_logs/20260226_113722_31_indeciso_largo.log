@@ -1,0 +1,169 @@
+
+════════════════════════════════════════════════════════════════
+  [1/4] 31_indeciso_largo
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_113722_31_indeciso_largo.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO A: Padre indeciso (~25 msgs, 3 sesiones)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 4095e66e… (wa_id=test3_indeciso_v2_1f3978c0)[0m
+
+  ╔══ SESSION 1: Discovery + indecision ══╗
+[1m[32m👤 User:[0m Hola buenas tardes
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Quiero información, estoy viendo opciones de colegio para mi hija
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 2[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Tiene 11 años, nació el 20 de marzo de 2015. Está en 5to de primaria
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 3[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m No, espera, está en 6to, no en 5to. Perdón me confundí
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 4[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Bueno la verdad no sé si meterla ahora a 6to o esperar a agosto para que entre a 1ro de secundaria. …
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 5[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Se llama Fernanda Moreno Castillo, viene del Cervantes. Yo soy Gabriela Castillo, tel 871-222-5566, …
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 6[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿Qué actividades tienen en secundaria? A mi hija le gusta mucho el arte y la pintura
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 7[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿Y deportes? Porque también le gusta la natación
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 8[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Ay me quedé pensando... ¿qué pasa si la meto ahorita a 6to? ¿Pierde la opción de entrar a 1ro de sec…
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 9[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Ya platiqué con mi esposo y dice que mejor esperemos a agosto. Cierra la conversación por favor
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 10[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 11[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+
+  ╔══ SESSION 2: Cambia de opinión, quiere visita ══╗
+[1m[32m👤 User:[0m Hola, soy Gabriela otra vez. Ya cambiamos de opinión, sí queremos meterla para agosto en secundaria
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 12[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Pero quisiera antes ir a conocer. ¿Qué horarios tienen?
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 13[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Mmm, ¿tienen algo en la tarde? Yo trabajo en la mañana
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 14[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Ah no, mejor en la mañana, puedo pedir permiso. ¿El jueves?
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 15[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Hmm, ¿pero no tienen algo más tempranito? Como a las 7?
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 16[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Ok la primera opción de la mañana que tengan
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 17[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Cierra por favor
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 18[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 19[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+
+  ╔══ SESSION 3: Día de la visita + preguntas ══╗
+[1m[32m👤 User:[0m Hola, ya vamos para allá pero no encuentro la entrada. ¿Es por el estacionamiento grande o por la ot…
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 20[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Gracias, ya llegamos. Otra pregunta: ¿los uniformes los venden aquí mismo?
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 21[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿Y los libros? ¿Usan tablets o cuadernos?
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 22[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Una última cosa, ¿cuándo son las inscripciones formales para agosto?
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 23[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Perfecto, muchas gracias por toda la paciencia. Cierra la conversación
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 24[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': 'cae56c7c-65c3-449c-9b0a-b56d7a279706'}
+[2mℹ️  History: 0 msgs | Pending: 25[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[2mℹ️  Chat ID: 4095e66e-21a2-4939-86fa-0c04f4c6c1fd[0m

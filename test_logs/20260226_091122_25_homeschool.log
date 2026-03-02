@@ -1,0 +1,125 @@
+
+════════════════════════════════════════════════════════════════
+  [5/10] 25_homeschool
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_091122_25_homeschool.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Niño homeschool sin historial escolar
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat b0a4bc18… (wa_id=test3_homeschool_39ae616a)[0m
+[1m[32m👤 User:[0m Hola, mi hijo ha sido educado en casa (homeschool) desde siempre y queremos que entre al colegio por…
+[admissions] loading session messages {'session_id': 'c8c05e53-fe32-44dd-bfdf-5811735de591'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 686 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Soy Vale, del área de admisiones del Colegio Americano de
+  Torreón. Con gusto te ayudo 😊  Sí es posible ingresar viniendo de
+  *homeschool*; solo que el proceso suele requerir una *revisión
+  académica* para ubicarlo en el grado que le corresponde y ver qué
+  documentación equivalente pueden presentar.  Para orientarte bien, ¿me
+  dices por favor? - ¿Qué edad tiene tu hijo y cuál es su *fecha de
+  nacimiento*? - ¿A qué *grado* les gustaría que ingrese (primaria,
+  secundaria o prepa)? - ¿Sería para el ciclo que inicia en *agosto
+  2026*?  Con eso te digo el grado que le tocaría por edad y el
+  siguiente paso más recomendable (normalmente una visita y una
+  valoración/entrevista académica).
+[1m[32m👤 User:[0m Tiene 10 años, nació 14 de febrero de 2016. Se llama Sebastián Mora Torres. No tiene boletas ni cali…
+[admissions] loading session messages {'session_id': 'c8c05e53-fe32-44dd-bfdf-5811735de591'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado en ingreso para hijo con homeschool desde siempre. Alumno: Sebastián Mora Torres, DOB 14-feb-2016, 10 años. No cuenta c[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por los datos. Con fecha de nacimiento *14 de febrero de
+  2016*, para el ciclo que inicia en *agosto 2026* normalmente
+  corresponde a *5º de Primaria* (por rango de edad).  Sobre las
+  boletas: *no necesariamente es un problema*, pero sí es un caso que se
+  revisa de forma más personalizada. Cuando no hay calificaciones
+  oficiales, usualmente el colegio solicita evidencia alternativa y/o
+  aplica una *valoración académica* para ubicarlo en el grado adecuado y
+  definir si requiere algún apoyo o nivelación.  Para decirte
+  exactamente cómo lo manejaríamos en su caso: - ¿Buscan ingresar en
+  *agosto 2026* o todavía en el ciclo actual? - ¿En qué ciudad/país han
+  hecho el homeschool y con qué programa (SEP, US curriculum, otra
+  plataforma), si lo usaron?  Si te parece, el siguiente paso ideal es
+  agendar una *visita al campus* y que un asesor revise el caso de
+  Sebastián. Cuando me confirmes el ciclo, te pido un par de datos
+  (escuela actual: homeschool, y datos de contacto del tutor) para poder
+  programarla.
+[1m[32m👤 User:[0m Yo soy Verónica Torres, 871-444-6677, veronica.torres@test.com
+[admissions] loading session messages {'session_id': 'c8c05e53-fe32-44dd-bfdf-5811735de591'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés en ingreso desde homeschool (sin boletas/calificaciones oficiales). Alumno: Sebastián Mora Torres, DOB 2016-02-14 (aprox. [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Sebastián', 'student_last_name_paternal': 'Mora', 'grade_interest': 'Primaria 5', 'current_school': 'Homeschool', 'contact_email': 'veronica.torres@test.com', 'contact_phone': '871-444-6677'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_homeschool_39ae616a', 'contact_phone': '871-444-6677'}
+[admissions] contact created {'contact_id': '15e6dc95-6db0-4148-b33f-8fd7def89bd6'}
+[admissions] lead created {'lead_id': 'c8bc95d3-bbec-44bc-a03b-61300f88e44f', 'lead_number': 117}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Sebastián","student_middle_name":null,"student_last_name_paternal":"Mora","student_last_name_maternal":"Torres","stud[0m
+[2m     Result: Lead creado con folio L-117.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Verónica. Ya *registré los datos de Sebastián* y tu
+  información de contacto para darles seguimiento.  Sobre lo de no tener
+  boletas: en casos de *homeschool* normalmente lo resolvemos con una
+  *valoración académica* y revisión de evidencia alternativa (por
+  ejemplo: portafolio de trabajos, temario/currículum que siguieron,
+  constancias si existen, etc.). Un asesor te indicará exactamente qué
+  aplicar en su caso.  ¿Te gustaría que agendemos una *visita al campus*
+  para conocer primaria y que el asesor los oriente?   ¿Qué días te
+  acomodan más entre semana y en qué horario: *mañana (8:00-12:00)* o
+  *tarde (12:00-3:00)*.
+[1m[32m👤 User:[0m ¿Le harían algún examen de colocación para ver en qué grado va?
+[admissions] loading session messages {'session_id': 'c8c05e53-fe32-44dd-bfdf-5811735de591'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia confirma homeschool sin boletas oficiales. Pregunta si se aplicará examen/valoración de colocación para determinar grado. [0m
+[2m     Result: Nota agregada al lead L-117 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Sí, en la mayoría de los casos como *homeschool* se realiza una
+  *valoración de colocación* para confirmar el grado y el nivel
+  académico.  No siempre es “un solo examen” estandarizado; puede
+  incluir: - evaluación de habilidades básicas (lectura, escritura,
+  matemáticas), - revisión de evidencia/portafolio, - y a veces
+  entrevista académica (según el grado).  Con la fecha de nacimiento de
+  Sebastián, lo esperado para *agosto 2026* es *5º de Primaria*, y la
+  valoración ayuda a confirmarlo y definir si requiere nivelación.  ¿Les
+  interesa que iniciemos con una *visita al campus*? Dime qué días te
+  funcionan (lunes a viernes) y si prefieres *mañana* o *tarde* (8:00 am
+  a 3:00 pm).
+[1m[32m👤 User:[0m ¿Cuál sería el proceso diferente para un niño homeschool?
+[admissions] loading session messages {'session_id': 'c8c05e53-fe32-44dd-bfdf-5811735de591'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en ingreso por primera vez desde homeschool. Alumno Sebastián Mora Torres (14-feb-2016, 10 años). No cuenta con[0m
+[2m     Result: Nota agregada al lead L-117 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Para un alumno que viene de *homeschool*, el proceso es muy parecido
+  al de cualquier aspirante, pero con un par de pasos extra para
+  *documentar el historial académico* y *confirmar colocación*. En
+  general queda así:  - *Entrevista/visita inicial*: vienen al campus,
+  conocen primaria y platican con admisiones sobre el contexto del
+  homeschool (cómo han trabajado, materiales, rutina, etc.). - *Revisión
+  de evidencia académica*: como no hay boletas oficiales, se sustituye
+  con alternativas (por ejemplo: portafolio de trabajos, lista de
+  contenidos/temario cubierto, reportes de plataforma si usaron alguna,
+  lecturas, proyectos). - *Valoración de colocación*: evaluación para
+  confirmar el *grado* (por edad a Sebastián le correspondería *5º de
+  Primaria* para agosto 2026) y detectar si requiere nivelación en
+  alguna materia. - *Documentación general*: acta de nacimiento, CURP,
+  etc. (la parte “escolar” es la que se ajusta en homeschool). -
+  *Resolución del comité/admision*: con los resultados, se define el
+  grado y los siguientes pasos.  Si me confirmas: ¿lo buscan para
+  *agosto 2026*?   Y para avanzar, ¿te gustaría agendar una *visita al
+  campus*? Dime qué día(s) te acomoda(n) entre semana y si prefieres
+  *mañana* o *tarde*.
+[2mℹ️  Chat ID: b0a4bc18-1358-4434-820c-ef4276798c5c[0m

@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+from app.core.auth import require_api_key
 from app.whatsapp.outbound import (
     SendWhatsAppAudioParams,
     SendWhatsAppDocumentParams,
@@ -16,7 +17,11 @@ from app.whatsapp.outbound import (
     upload_whatsapp_media,
 )
 
-router = APIRouter(prefix="/whatsapp", tags=["whatsapp"])
+router = APIRouter(
+    prefix="/whatsapp",
+    tags=["whatsapp"],
+    dependencies=[Depends(require_api_key)],
+)
 
 
 @router.post("/send/text", response_model=WhatsAppResponse)

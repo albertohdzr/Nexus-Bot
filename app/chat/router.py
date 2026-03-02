@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
 from app.chat.schemas import (
@@ -13,8 +13,13 @@ from app.chat.service import (
     create_customer_ticket,
     get_openai_client,
 )
+from app.core.auth import require_api_key
 
-router = APIRouter(prefix="/chat", tags=["chat"])
+router = APIRouter(
+    prefix="/chat",
+    tags=["chat"],
+    dependencies=[Depends(require_api_key)],
+)
 
 EXECUTABLES = {
     "create_customer_ticket": create_customer_ticket,

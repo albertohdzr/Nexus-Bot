@@ -7,15 +7,31 @@ from supabase import Client, create_client
 from app.core.config import settings
 
 
+from httpx import Timeout
+
 @lru_cache(maxsize=1)
 def get_supabase_client() -> Client:
     """Singleton — creates the Supabase client once and reuses it."""
     if not settings.supabase_url:
-        raise HTTPException(status_code=500, detail="Supabase is not configured")
-    key = settings.supabase_service_key or settings.supabase_key
-    if not key:
-        raise HTTPException(status_code=500, detail="Supabase key is not configured")
-    return create_client(settings.supabase_url, key)
+        raise HTTPException(status_code=500, detail="SUPABASE_URL is not configured")
+    if not settings.supabase_service_key:
+        raise HTTPException(status_code=500, detail="SUPABASE_SERVICE_ROLE_KEY is not configured")
+
+    from supabase.lib.client_options import SyncClientOptions
+    from postgrest import SyncPostgrestClient
+
+    opts = SyncClientOptions(
+        postgrest_client_timeout=30,
+    )
+    client = create_client(settings.supabase_url, settings.supabase_service_key, options=opts)
+
+    # Set explicit timeouts on the underlying httpx client to avoid
+    # hanging on stale keep-alive connections (common with local Kong proxy).
+    timeout = Timeout(10.0, connect=5.0, read=30.0, write=10.0)
+    if hasattr(client, 'postgrest') and hasattr(client.postgrest, 'session'):
+        client.postgrest.session.timeout = timeout
+
+    return client
 
 
 def get_supabase_error(response: Any) -> Optional[object]:

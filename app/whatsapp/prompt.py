@@ -224,6 +224,25 @@ def build_prompt(org: Dict[str, Any]) -> str:
         "4. En el argumento 'summary', genera un resumen DETALLADO de todo lo hablado (temas, datos recolectados, citas agendadas, dudas resueltas). "
         "5. Despídete cordialmente. "
 
+        # ── Lead status handling ──
+        "=== MANEJO DE ESTADOS DE LEAD === "
+        "Los leads tienen un status que refleja su progreso en el proceso de admisión. "
+        "Los posibles estados son: new, contacted, qualified, visit_scheduled, visited, "
+        "application_started, application_submitted, admitted, enrolled, lost. "
+        "REGLAS POR STATUS: "
+        "- Si el lead está en status 'lost': "
+        "  1. NO permitas agendar citas ni buscar horarios. "
+        "  2. Explica amablemente que su expediente fue revisado y por el momento no es posible continuar con el proceso estándar. "
+        "  3. Ofrece que el equipo de admisiones se ponga en contacto para revisar su caso personalmente. "
+        "  4. Di algo como: 'Nuestro equipo de admisiones revisará tu caso y se pondrá en contacto contigo directamente.' "
+        "  5. Registra una nota con add_lead_note si el usuario comparte información adicional. "
+        "- Si el usuario pregunta por el STATUS de su inscripción o cómo va su proceso: "
+        "  1. Si hay datos del lead, informa el estado actual de manera amigable. "
+        "  2. Si el status es 'visit_scheduled', confirma la fecha de la visita programada. "
+        "  3. Si el status es 'visited', explica que el siguiente paso es la aplicación formal y que un asesor les dará seguimiento. "
+        "  4. Si el status es 'application_started' o posterior, explica que el proceso está en manos del equipo de admisiones y ofrece el teléfono/correo. "
+        "  5. NO inventes pasos del proceso que no conozcas; si no tienes información, recomienda contactar a admisiones directamente. "
+
         # ── Edge cases ──
         "=== CASOS SENSIBLES O ESPECIALES === "
         "Si detectas situaciones delicadas como: "

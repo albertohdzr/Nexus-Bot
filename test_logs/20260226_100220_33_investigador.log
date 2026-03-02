@@ -1,0 +1,157 @@
+
+════════════════════════════════════════════════════════════════
+  [3/5] 33_investigador
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_100220_33_investigador.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO C: Padre investigador exhaustivo (~22 msgs)
+════════════════════════════════════════════════════════════════[0m
+
+[31m❌ Chat creation failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Chat creation failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Chat creation failed: Server disconnected without sending a response. — retrying in 15s[0m
+[2mℹ️  Created chat b4b7363f… (wa_id=test3_investigador_18da9621)[0m
+[1m[32m👤 User:[0m Buenas tardes, estoy haciendo una investigación muy detallada de escuelas para mi hijo. Tengo varias…
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Primero: ¿cuál es el modelo pedagógico del colegio? ¿Es constructivista, tradicional, Montessori?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Qué porcentaje del día es en inglés vs español?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Los maestros tienen maestría o doctorado? ¿Cuál es el perfil promedio de sus profesores?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 895 chars, 0 tools[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Cuántos alumnos por salón tienen en primaria?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Qué protocolos de seguridad tienen? Cámaras, acceso controlado, etc.
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 0 msgs | Pending: 3[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿La comida de la cafetería es nutritiva? ¿Tienen menú publicado?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 0 msgs | Pending: 4[0m
+[2mℹ️  LLM: 1872 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, con gusto te platico. 🙂  *Perfil de maestros (maestría/doctorado)*
+  En general, nuestro profesorado cuenta con formación universitaria en
+  su área (Licenciatura) y preparación pedagógica continua. Hay docentes
+  que *sí* tienen *maestría* y algunos con estudios de posgrado
+  adicionales; el nivel exacto (maestría/doctorado) puede variar según
+  la sección (Early Childhood, Primaria, Secundaria o Prepa) y la
+  materia.  Lo que normalmente caracteriza el “perfil promedio” es: -
+  Experiencia frente a grupo y capacitación constante. - Manejo de
+  metodologías actuales y enfoque bilingüe (dependiendo de la sección).
+  - Acompañamiento y desarrollo profesional durante el ciclo escolar.
+  Si me dices *para qué sección te interesa* (Preescolar/Kínder,
+  Primaria, Secundaria o Prepa), puedo orientarte con más precisión
+  sobre el tipo de perfiles que suelen impartir clases en ese nivel.
+  *Protocolos de seguridad (cámaras, acceso, etc.)* Contamos con medidas
+  de seguridad y control de acceso en campus (por ejemplo, *accesos
+  controlados* y apoyo de vigilancia). Sobre el detalle puntual de
+  “cuántas cámaras”, ubicaciones específicas o configuraciones, por
+  seguridad no lo compartimos por este medio; pero en una visita al
+  campus te explican el esquema general y cómo se gestiona el acceso de
+  familias y visitantes.  *Comida de cafetería (nutritiva / menú)* La
+  cafetería busca ofrecer opciones adecuadas para alumnos y familias.
+  Sobre si hay *menú publicado* y cómo se comparte (por semana/mes),
+  depende del esquema vigente y la sección; en admisiones te lo pueden
+  mostrar y explicar opciones.  Si te parece, dime: 1) ¿Para qué *grado
+  o sección* estás buscando?   2) ¿Tu principal prioridad es *academia*,
+  *seguridad* o *alimentación/servicios*?  Con eso te recomiendo el
+  mejor siguiente paso (idealmente una visita) para que también puedas
+  ver el ambiente y resolver todo con detalle.
+[1m[32m👤 User:[0m ¿Qué tecnología usan en clase? ¿iPads, Chromebooks, pizarras inteligentes?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Participan en competencias académicas nacionales o internacionales?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Tienen psicólogo escolar disponible para los niños?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[1m[32m👤 User:[0m Ok, ya ahora los datos: mi hijo se llama Leonardo Torres Vega, nació el 8 de noviembre de 2016, va e…
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 5 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Leonardo', 'student_last_name_paternal': 'Torres', 'grade_interest': 'Primaria 4', 'current_school': 'IMSS', 'contact_email': 'arturo.torres@test.com', 'contact_phone': '871-555-0099'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_investigador_18da9621', 'contact_phone': '871-555-0099'}
+[admissions] contact found {'contact_id': '75fd6be1-1bda-4d71-b779-b59f84950ba2'}
+[admissions] lead created {'lead_id': 'ae855add-0f4a-41ad-8176-f5aefcc7a388', 'lead_number': 130}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Leonardo","student_middle_name":null,"student_last_name_paternal":"Torres","student_last_name_maternal":"Vega","stude[0m
+[2m     Result: Lead creado con folio L-130.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Papá Arturo Torres solicita información sobre: perfil de profesores (maestría/doctorado), protocolos de seguridad (cámaras/acceso)[0m
+[2m     Result: Nota agregada al lead L-130 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias por los datos. Ya quedó registrado el interés de tu
+  hijo *Leonardo Torres Vega* (08/nov/2016) y tus datos de contacto,
+  Arturo.  Por la fecha de nacimiento, para el ciclo *agosto 2026–junio
+  2027* a Leonardo le corresponde *4º de Primaria*.  ¿Te gustaría
+  agendar una *visita al campus* para que conozcan Primaria y ahí mismo
+  les expliquen a detalle temas de *seguridad*, *perfil de docentes* y
+  *cafetería/menú*?  Para buscar horarios disponibles (lun–vie, 8:00 am
+  a 3:00 pm), dime por favor: - ¿Qué días te acomodan más la próxima
+  semana? - ¿Prefieres *mañana* (8–12) o *tarde* (12–3)?
+[1m[32m👤 User:[0m ¿Tienen algún programa de adaptación para niños nuevos? Me preocupa que le cueste trabajo integrarse
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 7 msgs | Pending: 1[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Cuál es la tasa de retención? O sea, ¿qué porcentaje de familias se quedan año tras año?
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 7 msgs | Pending: 2[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Puedo hablar con algún papá actual del colegio que me cuente su experiencia de primera mano?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 7 msgs | Pending: 3[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Tutor expresa preocupación por adaptación e integración de Leonardo (nuevo ingreso). Pregunta por tasa de retención y solicita hab[0m
+[2m     Result: Nota agregada al lead L-130 (y otros asociados si existen).[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Ya para ir cerrando. ¿Me mandan los requisitos de primaria?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Y quiero agendar visita. ¿El martes o miércoles tienen algo?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m La primera
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '5a8ac288-3cf5-40e6-b7a7-9d66d5f05858'}
+[2mℹ️  History: 7 msgs | Pending: 4[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Tutor expresa preocupación por adaptación e integración de alumno nuevo. Pregunta por tasa de retención anual y solicita posibilid[0m
+[2m     Result: Nota agregada al lead L-130 (y otros asociados si existen).[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[2mℹ️  Chat ID: b4b7363f-1329-4d8b-8692-d5ede34cefaf[0m

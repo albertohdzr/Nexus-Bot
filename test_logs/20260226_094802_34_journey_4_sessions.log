@@ -1,0 +1,36 @@
+
+════════════════════════════════════════════════════════════════
+  [4/5] 34_journey_4_sessions
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_094802_34_journey_4_sessions.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO D: Jornada completa en 4 sesiones (~24 msgs)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 9d7aeeb8… (wa_id=test3_journey_full_649c5570)[0m
+
+  ╔══ SESSION 1: Descubrimiento y registro ══╗
+[1m[32m👤 User:[0m Hola, un amigo me recomendó el colegio americano. ¿Me pueden dar información para preescolar?
+[admissions] loading session messages {'session_id': '7f1fd83a-8dc8-4d67-871c-94b4747527ab'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '7f1fd83a-8dc8-4d67-871c-94b4747527ab'}
+[2mℹ️  History: 0 msgs | Pending: 2[0m
+[2mℹ️  LLM: 736 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. Con gusto te comparto información de
+  *Preescolar* 🙂  En nuestro *Early Childhood* (Preescolar/Kínder)
+  trabajamos con un enfoque bilingüe (inglés-español) y mucho
+  aprendizaje por medio de juego, proyectos y desarrollo socioemocional,
+  cuidando de cerca la adaptación de cada niña/niño.  Para orientarte
+  mejor y decirte exactamente *qué grado le corresponde para el ingreso
+  de Agosto 2026*, ¿me compartes por favor: - ¿Qué edad tiene tu hijo/a
+  o *su fecha de nacimiento*? - ¿Actualmente en qué escuela está (si
+  aplica)?  Si te interesa, también puedo ayudarte a *agendar una visita
+  al campus* para que conozcan salones y el ambiente de Early Childhood.
+[1m[32m👤 User:[0m Mi hija se llama Camila Reyes Ortiz, nació 15 de septiembre de 2021. Actualmente está en una guarder…
+[admissions] loading session messages {'session_id': '7f1fd83a-8dc8-4d67-871c-94b4747527ab'}
+[2mℹ️  History: 3 msgs | Pending: 1[0m

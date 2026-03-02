@@ -1,0 +1,151 @@
+
+════════════════════════════════════════════════════════════════
+  [3/10] 03_cancel_rebook
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_03_cancel_rebook.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Cancela y reagenda
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat bf2887a5… (wa_id=test3_cancel_rebook_3b8aa774)[0m
+
+  ╔══ SESSION 1: Book ══╗
+[1m[32m👤 User:[0m Hola, quiero agendar visita para primaria. Mi hijo se llama Mateo Herrera Ríos, nació 15 de enero de…
+[admissions] loading session messages {'session_id': '4fa40d1a-1ce1-4960-a6fd-f29430cc59ca'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Mateo', 'student_last_name_paternal': 'Herrera', 'grade_interest': 'Primaria', 'current_school': 'Lancaster', 'contact_email': 'ale.rios@test.com', 'contact_phone': '871-999-1122'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_cancel_rebook_3b8aa774', 'contact_phone': '871-999-1122'}
+[admissions] contact created {'contact_id': '8b2c906f-4fdf-40c5-b07b-267f2d38d92c'}
+[admissions] lead created {'lead_id': '8f21348c-2ddd-4d98-9b8f-b30c983bfdf7', 'lead_number': 97}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Mateo","student_middle_name":null,"student_last_name_paternal":"Herrera","student_last_name_maternal":"Ríos","student[0m
+[2m     Result: Lead creado con folio L-97.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita agendar visita para Primaria. Alumno Mateo Herrera Ríos (15-ene-2018) actualmente en 1ro de kínder en Lancaster. Contacto[0m
+[2m     Result: Nota agregada al lead L-97 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. Con gusto te ayudo a agendar la visita. 🙂  Ya
+  quedó registrado el interés de *Mateo Herrera Ríos* (15/ene/2018) para
+  *Primaria* y tus datos de contacto, Alejandra.  Para proponerte
+  horarios disponibles, ¿qué te acomoda más para la visita entre semana
+  (8:00 am a 3:00 pm)? - ¿Qué días te vienen mejor: lunes a viernes? -
+  ¿Prefieres *mañana* (8-12) o *tarde* (12-3)?
+[1m[32m👤 User:[0m ¿Qué có tienen para el jueves?
+[admissions] loading session messages {'session_id': '4fa40d1a-1ce1-4960-a6fd-f29430cc59ca'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 2 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Lunes 2 de marzo de 2026, 11:00[0m
+[1m[34m🤖 Bot:[0m
+  Para *este jueves* no me aparecen espacios disponibles para visita.
+  Lo más cercano disponible es: - *Lunes 2 de marzo*: 8:00, 10:00,
+  11:00, 12:00 o 1:00   - *Martes 3 de marzo*: 8:00, 9:00 o 10:00  ¿Cuál
+  horario te acomoda y te lo aparto? (dime la *opción* o la *hora*)
+[1m[32m👤 User:[0m La primera opción
+[admissions] loading session messages {'session_id': '4fa40d1a-1ce1-4960-a6fd-f29430cc59ca'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] booking appointment for slot 558b3d87-9092-4939-a819-44b90fb0b50f
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"558b3d87-9092-4939-a819-44b90fb0b50f","notes":"Visita campus Primaria. Alumno: Mateo Herrera Ríos (DOB 15/01/2018), actualmente [0m
+[2m     Result: Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, tu visita quedó agendada ✅  *Lunes 2 de marzo de 2026, 8:00 AM
+  – 9:00 AM* (Primaria)  Ubicación: *Colegio Americano de Torreón*, C.
+  P.º del Algodón 500, Los Viñedos, Torreón.   Entrada para visitas:
+  *Puerta 3 (por la caseta del reloj)*.   Maps:
+  https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  ¿Asistirás tú sola o te
+  acompañará alguien más?
+[1m[32m👤 User:[0m Cierra por favor
+[admissions] loading session messages {'session_id': '4fa40d1a-1ce1-4960-a6fd-f29430cc59ca'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'La tutora Alejandra Ríos (871-999-1122, ale.rios@test.com) solicitó agendar visita para Primaria para su hijo Mateo Herrera Ríos, fecha de nacimiento 15/ene/2018, actualmente en 1ro de kínder en Lancaster. Se ofrecieron horarios disponibles (2 y 3 de marzo 2026) y eligió la primera opción. Se confirmó cita para Lunes 2 de marzo de 2026 de 8:00 a 9:00 AM y se compartió dirección, entrada Puerta 3 y liga de Maps. Pendiente confirmar si asistirá acompañada.', 'reason': 'Usuario solicita cerrar la conversación'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"La tutora Alejandra Ríos (871-999-1122, ale.rios@test.com) solicitó agendar visita para Primaria para su hijo Mateo Herrera Ríos[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, ya cerré la conversación.  Resumen: agendamos tu visita para
+  *Primaria* para *Mateo Herrera Ríos* el *lunes 2 de marzo de 2026,
+  8:00–9:00 am*. Te compartí la ubicación y que la entrada es por
+  *Puerta 3 (caseta del reloj)*. Quedó pendiente confirmar si asistirás
+  acompañada.  Que tengas excelente día.
+[1m[32m👤 User:[0m Si
+[admissions] loading session messages {'session_id': 'a59b39a0-6955-4fc0-918f-33b3e56684c3'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 260 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Perfecto! 😊  Tu visita para *Primaria* ya está programada para *lunes
+  2 de marzo de 2026, de 8:00 a 9:00 AM*.  ¿Deseas *mantener ese
+  horario* o prefieres que la movamos a otro? Tengo disponibilidad el
+  mismo lunes más tarde y también el martes 3 por la mañana.
+
+  ╔══ SESSION 2: Cancel + rebook ══╗
+[1m[32m👤 User:[0m Hola, necesito cancelar mi cita. Me surgió un viaje de trabajo.
+[admissions] loading session messages {'session_id': 'a59b39a0-6955-4fc0-918f-33b3e56684c3'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] cancelling appointment, reason: Le surgió un viaje de trabajo.
+[admissions] appointment c4be2d08-8922-4b14-9b7e-97a0740a28fc cancelled successfully
+[33m  🔧 cancel_appointment[0m
+[2m     Args: {"cancellation_reason":"Le surgió un viaje de trabajo."}[0m
+[2m     Result: Cita cancelada exitosamente. El lead ha sido actualizado. Intenta convencer al usuario de agendar otra visita preguntando qué fechas le convendrían mejor.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, tu cita quedó *cancelada* por tu viaje de trabajo.  ¿Te
+  gustaría reagendar? Dime por favor qué día(s) entre semana te
+  convienen y si prefieres *mañana (8:00–12:00)* o *tarde (12:00–3:00)*
+  para buscar opciones.
+[1m[32m👤 User:[0m ¿Tienen algo para la próxima semana? De preferencia el martes o miércoles por la mañana
+[admissions] loading session messages {'session_id': 'a59b39a0-6955-4fc0-918f-33b3e56684c3'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] cancelling appointment, reason: Viaje de trabajo
+[33m  🔧 cancel_appointment[0m
+[2m     Args: {"cancellation_reason":"Viaje de trabajo"}[0m
+[2m     Result: No encontré una cita activa para cancelar.[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-03-02 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-02","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 2 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Lunes 2 de marzo de 2026, 11:00[0m
+[1m[34m🤖 Bot:[0m
+  Sí, para *la próxima semana* tengo disponibilidad por la mañana 😊
+  *Martes 3 de marzo*   - Opción 4: 8:00–9:00 AM   - Opción 5:
+  9:00–10:00 AM   - Opción 6: 10:00–11:00 AM   - Opción 7: 11:00–12:00
+  PM    *Miércoles 4 de marzo*   - Opción 8: 8:00–9:00 AM    ¿Cuál
+  opción te acomoda? (dime el número, por ejemplo “opción 5”).    Nota:
+  intenté cancelar tu cita por “viaje de trabajo”, pero el sistema me
+  indica que *no hay una cita activa* registrada para cancelar en este
+  momento. Si me confirmas cuál horario quieres, con gusto la agendamos.
+[1m[32m👤 User:[0m La opción 1
+[admissions] loading session messages {'session_id': 'a59b39a0-6955-4fc0-918f-33b3e56684c3'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[admissions] booking appointment for slot 558b3d87-9092-4939-a819-44b90fb0b50f
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-02 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-02","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 2: Lunes 2 de marzo de 2026, 11:00 AM - 12:00 PM
+- Opción 3: Martes 3 de marzo de 2026, 8:[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Solo para confirmar: en el sistema, la *Opción 1* es *lunes 2
+  de marzo de 2026, 10:00–11:00 AM*.  ¿Te la agendo en ese horario? Si
+  prefieres *martes o miércoles por la mañana*, también tengo: - *Martes
+  3*: 8:00–12:00 (opciones 3–6) - *Miércoles 4*: 8:00–10:00 (opciones
+  7–8)
+[2mℹ️  Chat ID: bf2887a5-73f7-41da-9dfe-e5ce78e0988b[0m

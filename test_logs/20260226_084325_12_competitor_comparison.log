@@ -1,0 +1,180 @@
+
+════════════════════════════════════════════════════════════════
+  [2/10] 12_competitor_comparison
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_084325_12_competitor_comparison.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Compara con competencia
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 1e0d05bb… (wa_id=test3_competitor_da37037c)[0m
+[1m[32m👤 User:[0m Hola. Estoy comparando entre el CAT, el Cervantes y el TEC. ¿Qué hace diferente al CAT?
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 1426 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Para compararlo de forma
+  clara: lo que suele hacer *diferente* al CAT es la combinación de
+  *formación bilingüe fuerte + enfoque internacional + mucha vida
+  estudiantil* en un solo campus.  Algunas diferencias que familias
+  suelen valorar:  - *Bilingüismo real en el día a día*: muchas materias
+  y recursos académicos se trabajan en inglés (además de español), con
+  un enfoque constante en lectura, escritura y pensamiento crítico. -
+  *Trayectoria completa en un mismo campus*: desde Early Childhood
+  (desde 2 años) hasta Prepa, con bibliotecas por divisiones y espacios
+  diseñados por etapa. - *Robótica y STEM muy activos*: programas FIRST
+  (FLL en primaria, FTC en secundaria, FRC en prepa) con participación
+  competitiva. - *Artes y deportes con mucha oferta*: a partir de 1º de
+  primaria hay deportes como natación, soccer, básquet, tennis, etc., y
+  el Centro de Artes (CVPA) con opciones como piano, violín, teatro,
+  danza, pintura, animación digital, entre otras. - *Comunidad y
+  liderazgo*: Student Council, eventos tradicionales (Copa CAT, Art
+  Fest, etc.) y espacios de participación estudiantil.  Si me dices un
+  poquito de tu contexto, te lo comparo “a tu medida”: ¿Para qué
+  *grado/edad* estás buscando y qué es lo más importante para tu familia
+  (inglés, nivel académico, deportes, robótica, ambiente,
+  ubicación/horarios)?
+[1m[32m👤 User:[0m El Cervantes me ofrece beca del 30% y el TEC tiene mejor laboratorio. ¿Ustedes qué ofrecen?
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Comparando CAT vs Cervantes y TEC. Menciona que Cervantes le ofrece beca 30% y percibe que TEC tiene mejor laboratorio; pregunta q[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  En el CAT *no contamos con becas ni descuentos* (tampoco por
+  hermanos). Entiendo perfecto que sea un factor importante en su
+  comparación.  Sobre “qué ofrecemos” vs. otras opciones, te comparto lo
+  más relevante (sin entrar a costos por este medio):  - *Enfoque
+  bilingüe e internacional* en el trabajo académico diario (inglés y
+  español), con énfasis en lectura, escritura, análisis y proyectos. -
+  *Robótica FIRST* y proyectos STEM como parte fuerte de la vida escolar
+  (desde primaria y creciendo hasta secundaria/prepa). - *Oferta sólida
+  de artes y deportes*: natación, soccer, básquet, tennis, etc., y el
+  Centro de Artes (CVPA) con música, danza, teatro, artes visuales y más
+  (la oferta completa empieza desde 1º de primaria). - *Acompañamiento y
+  comunidad*: liderazgo estudiantil y eventos que dan mucha identidad y
+  participación.  Sobre el tema de *laboratorios*: depende mucho de la
+  etapa (primaria vs secundaria/prepa) y del tipo de laboratorio que
+  estén buscando (ciencias, makerspace/STEAM, robótica, cómputo). Si me
+  dices *qué grado* es para tu hijo/a y qué tipo de laboratorio te
+  interesa, te lo describo con precisión.  Y si te parece, también
+  podemos agendar una *visita al campus* (lun–vie, 8:00 am a 3:00 pm)
+  para que lo veas en persona y compares mejor. ¿Para qué grado están
+  buscando?
+[1m[32m👤 User:[0m ¿Cuántos idiomas enseñan? El TEC tiene francés y mandarín
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 462 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  En el CAT el enfoque principal es *bilingüe (inglés y español)*, y
+  toda la experiencia académica está diseñada para fortalecer ambos
+  idiomas de manera constante.  Sobre *tercer idioma* (como francés o
+  mandarín): puede variar por etapa y oferta vigente. Para decirte algo
+  100% preciso, ¿para qué *grado* estás buscando (kinder, primaria,
+  secundaria o prepa)?  Si me dices el grado, te confirmo exactamente
+  qué idiomas se ofrecen en esa sección y cómo se integran.
+[1m[32m👤 User:[0m Mi hija se llama Sofía Herrera Ortiz, nació 5 de enero de 2012, va en 1ro de secundaria en el Cervan…
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Comparando CAT vs Cervantes vs TEC. Cervantes ofrece beca 30%. Percibe que TEC tiene mejor laboratorio. Interés en idiomas (mencio[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Sofía', 'student_last_name_paternal': 'Herrera', 'grade_interest': 'Secundaria 1', 'current_school': 'Colegio Cervantes', 'contact_email': 'roberto.herrera@test.com', 'contact_phone': '871-111-5555'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_competitor_da37037c', 'contact_phone': '871-111-5555'}
+[admissions] contact created {'contact_id': 'd8e0eebd-3dd8-4ef7-af93-13f2b1977d92'}
+[admissions] lead created {'lead_id': '546ed581-40fd-44e6-ba1f-b6913a4d22cf', 'lead_number': 104}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Sofía","student_middle_name":null,"student_last_name_paternal":"Herrera","student_last_name_maternal":"Ortiz","studen[0m
+[2m     Result: Lead creado con folio L-104.[0m
+[2mℹ️  Followup round 2: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias por los datos. Ya quedó registrado el interés de
+  *Sofía Herrera Ortiz* (05/ene/2012) para *Secundaria* (ciclo *agosto
+  2026*), y tus datos de contacto, Roberto.  Por edad, Sofía *sí
+  corresponde a 1° de Secundaria* para el ciclo 2026–2027.  Sobre tu
+  pregunta de *idiomas*: en CAT el modelo es *bilingüe (inglés y
+  español)* como base. Para un *tercer idioma* (por ejemplo francés), la
+  disponibilidad depende del programa de la sección y del ciclo; para
+  confirmártelo tal cual para *Middle School (Secundaria)* te lo puede
+  precisar el asesor de admisiones en una visita o llamada breve.  Si te
+  parece, lo mejor para comparar “laboratorios/instalaciones” vs. TEC y
+  el enfoque académico es agendar una *visita al campus* y que veas
+  áreas de Secundaria.   Tenemos visitas *lunes a viernes de 8:00 am a
+  3:00 pm* (no fines de semana). ¿Qué día te conviene más y prefieres
+  *mañana* o *tarde*?
+[1m[32m👤 User:[0m ¿Pueden igualar la beca del Cervantes?
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Pregunta si podemos igualar beca del Cervantes (30%). Sensible a tema económico/beneficio y comparando con Cervantes y TEC.","subj[0m
+[2m     Result: Nota agregada al lead L-104 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  No, en el CAT *no igualamos becas ni ofrecemos descuentos* (incluyendo
+  igualar el 30% que te ofrece Cervantes).  Si te sirve para tomar la
+  decisión, lo que sí podemos hacer es ayudarte a comparar por *valor
+  académico y experiencia*: nivel de inglés, acompañamiento, vida
+  estudiantil, robótica/STEM, artes/deportes e instalaciones (incluidos
+  laboratorios) según *Secundaria*.  ¿Te gustaría agendar una *visita al
+  campus* para que veas Middle School y podamos resolver ahí lo del tema
+  de laboratorios y programa? ¿Qué día te acomoda y prefieres *mañana* o
+  *tarde*?
+[1m[32m👤 User:[0m Bueno, quiero agendar una visita para comparar en persona
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia comparando CAT vs Cervantes vs TEC. Cervantes ofrece beca 30% y preguntan si CAT la iguala; se informa que CAT no ofrece b[0m
+[2m     Result: Nota agregada al lead L-104 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 1:00 PM - 2:00 PM
+- Opción 2: Martes 3 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Martes 3 de marzo de 2026, 10:0[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro, Roberto! Con gusto agendamos una visita para que compares en
+  persona. Ya dejé nota de que estás comparando con Cervantes y TEC
+  (beca/laboratorios/idiomas).  Estos son los horarios disponibles (hora
+  Torreón):  1) *Lun 2 de marzo* 1:00–2:00 pm   2) *Mar 3 de marzo*
+  9:00–10:00 am   3) *Mar 3 de marzo* 10:00–11:00 am   4) *Mar 3 de
+  marzo* 11:00 am–12:00 pm   5) *Mar 3 de marzo* 12:00–1:00 pm   6) *Mar
+  3 de marzo* 1:00–2:00 pm   7) *Mié 4 de marzo* 8:00–9:00 am   8) *Mié
+  4 de marzo* 9:00–10:00 am    ¿Cuál opción te acomoda? Respóndeme con
+  el número y la aparto.
+[1m[32m👤 User:[0m Cualquiera de la próxima semana en la mañana
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] booking appointment for slot 7bd9a212-2837-4b7a-806a-bc099732951c
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"7bd9a212-2837-4b7a-806a-bc099732951c","notes":"Visita solicitada por Roberto Herrera para comparar CAT vs Cervantes vs TEC. Inte[0m
+[2m     Result: Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia comparando CAT vs Cervantes vs TEC. Cervantes ofrece beca 30% (preguntó si CAT iguala beca; se informó que no hay becas/de[0m
+[2m     Result: Nota agregada al lead L-104 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Listo, Roberto: *tu visita quedó agendada* para el *martes 3 de marzo
+  de 2026, de 9:00 a 10:00 am*.  Para llegar: *C. P.º del Algodón 500,
+  Los Viñedos, Torreón* — entrada de visitas por *Puerta 3 (caseta del
+  reloj)*   Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  ¿Vendrás
+  solo o te acompañará alguien más? Así lo anotamos para recibirlos.
+[1m[32m👤 User:[0m La 2
+[admissions] loading session messages {'session_id': 'ebbaf796-712b-4ead-b9ea-b1740c6c2540'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[admissions] booking appointment for slot 7bd9a212-2837-4b7a-806a-bc099732951c
+[1m[34m🤖 Bot:[0m
+  El horario seleccionado ya esta lleno.
+[2mℹ️  Chat ID: 1e0d05bb-8ea1-473d-9bbd-0242a64c57d1[0m

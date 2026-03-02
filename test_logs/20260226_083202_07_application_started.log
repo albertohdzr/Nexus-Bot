@@ -1,0 +1,103 @@
+
+════════════════════════════════════════════════════════════════
+  [7/10] 07_application_started
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_07_application_started.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Lead en application_started pregunta progreso
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 831ffde0… (wa_id=test3_app_started_c77e99e3)[0m
+
+  ╔══ SESSION 1: Quick registration ══╗
+[1m[32m👤 User:[0m Hola quiero inscribir a mi hija María Fernández López, nació 1 de julio de 2015, va en 4to primaria …
+[admissions] loading session messages {'session_id': '0f86fa9b-957b-4aeb-922f-9f7a405c61df'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'María', 'student_last_name_paternal': 'Fernández', 'grade_interest': 'Primaria 4', 'current_school': 'IEST', 'contact_email': 'roberto.fz@test.com', 'contact_phone': '871-111-2233'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_app_started_c77e99e3', 'contact_phone': '871-111-2233'}
+[admissions] contact created {'contact_id': 'c9152929-4d7e-4348-ad35-fab78386afa4'}
+[admissions] lead created {'lead_id': '5ea25407-b814-4a87-87df-1b12a91904f8', 'lead_number': 100}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"María","student_middle_name":null,"student_last_name_paternal":"Fernández","student_last_name_maternal":"López","stud[0m
+[2m     Result: Lead creado con folio L-100.[0m
+[admissions] WARNING: Model claimed to add note without calling tool
+[1m[34m🤖 Bot:[0m
+  ¡Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón! Con gusto te apoyo. 😊  Listo, ya registré la
+  información de tu hija *María Fernández López* (01/jul/2015), para *4º
+  de Primaria* y ciclo *Agosto 2026* (2026–2027), actualmente en *IEST*,
+  con tus datos de contacto (Roberto Fernández).  El siguiente paso
+  ideal es agendar una *visita al campus* para que conozcan el modelo y
+  las instalaciones.  ¿En qué días y horario te acomoda más venir?
+  (Atendemos de *lunes a viernes, 8:00 am a 3:00 pm*).   Si prefieres,
+  dime 2–3 opciones de día y si te conviene más *mañana* o *tarde*.
+[1m[32m👤 User:[0m Cierra por favor
+[admissions] loading session messages {'session_id': '0f86fa9b-957b-4aeb-922f-9f7a405c61df'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 94 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Claro. ¿Te gustaría finalizar esta conversación ahora y que genere un
+  resumen de lo que vimos?
+[1m[32m👤 User:[0m sí
+[admissions] loading session messages {'session_id': '0f86fa9b-957b-4aeb-922f-9f7a405c61df'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'El tutor Roberto Fernández (871-111-2233, roberto.fz@test.com) solicita inscripción para su hija María Fernández López, fecha de nacimiento 01-jul-2015. Interés: 4º Primaria. Escuela actual: IEST. Se le indicó que el ciclo de ingreso estándar es Agosto 2026 (2026–2027) y se propuso como siguiente paso agendar una visita al campus (L-V 8:00 am a 3:00 pm). El usuario pidió cerrar la conversación.', 'reason': 'Usuario solicitó cierre'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"El tutor Roberto Fernández (871-111-2233, roberto.fz@test.com) solicita inscripción para su hija María Fernández López, fecha de[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya cerré la conversación y quedó guardado el resumen.  Cuando
+  gustes retomar, con gusto te ayudo a agendar la visita al campus para
+  María.
+
+  [test] Setting lead to 'application_started'...
+  [test] Set lead 5ea25407… → application_started
+
+  ╔══ SESSION 2: Asks about application status ══╗
+[1m[32m👤 User:[0m Hola soy Roberto. ¿Cómo va el proceso de inscripción de mi hija María?
+[admissions] loading session messages {'session_id': '0808a5d9-1d93-47dd-9af1-37aeeeb8abde'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 702 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola Roberto, con gusto te ayudo.  En el sistema, el proceso de tu
+  hija *María Fernández López* aparece en estatus *application_started*
+  (solicitud iniciada). Esto normalmente significa que ya comenzaron la
+  aplicación, pero aún faltan pasos para completar y/o enviar la
+  documentación final para revisión.  Si me dices qué es lo que te
+  preocupa en específico (por ejemplo: si ya subieron documentos, si ya
+  hicieron evaluación/entrevista, o si están esperando respuesta), te
+  oriento mejor.   Y si prefieres, también puedo canalizar tu caso para
+  que un asesor de admisiones te confirme el avance exacto.  Si
+  necesitas contacto directo del área, te lo comparto: Tel. *8711123687*
+  | Correo: *contact@cat.mx*
+[1m[32m👤 User:[0m ¿Ya revisaron sus documentos?
+[admissions] loading session messages {'session_id': '0808a5d9-1d93-47dd-9af1-37aeeeb8abde'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 565 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Aquí en WhatsApp solo puedo ver el *estatus general* y por eso te
+  confirmo que sigue como *application_started*; no me aparece el
+  detalle de “documentos revisados/aprobados” en tiempo real.  Para
+  confirmarte con exactitud si *ya revisaron* los documentos de María,
+  lo ideal es que el equipo de admisiones lo valide directamente en tu
+  expediente. Puedes contactarlos en: Tel. *8711123687* | Correo:
+  *contact@cat.mx*  Si me dices *qué documentos* entregaron/subieron y
+  *cuándo*, también puedo dejarlo registrado como nota para que el
+  asesor lo identifique más rápido.
+[1m[32m👤 User:[0m ¿Nos van a avisar por teléfono o por correo cuando esté lista la resolución?
+[admissions] loading session messages {'session_id': '0808a5d9-1d93-47dd-9af1-37aeeeb8abde'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 464 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Normalmente el equipo de admisiones les da seguimiento por *correo*
+  y/o *teléfono* (a veces también por WhatsApp) cuando hay una
+  actualización o cuando ya está la resolución.  Para tu expediente, lo
+  más importante es que tus datos de contacto estén correctos: - Tel:
+  *871-111-2233* - Correo: *roberto.fz@test.com*  ¿Prefieres que te
+  contacten principalmente por *correo* o por *teléfono*? Si me dices tu
+  preferencia, la dejo registrada para que lo tomen en cuenta.
+[2mℹ️  Chat ID: 831ffde0-9bb7-4cbc-8bde-bd5aa7c9404f[0m

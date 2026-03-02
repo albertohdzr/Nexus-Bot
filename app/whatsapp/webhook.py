@@ -1,7 +1,8 @@
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, Response
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, Response
 
+from app.core.auth import verify_webhook_signature
 from app.core.config import settings
 from app.whatsapp.processing import handle_incoming_messages
 from app.whatsapp.status import handle_status_updates
@@ -12,6 +13,7 @@ router = APIRouter(prefix="/whatsapp", tags=["whatsapp"])
 
 @router.get("/webhook")
 async def verify_webhook(request: Request):
+    """Meta verification handshake — no HMAC needed here (GET)."""
     params = request.query_params
     mode = params.get("hub.mode")
     token = params.get("hub.verify_token")
@@ -48,7 +50,7 @@ def _process_webhook_background(
             print("[webhook] status update error", {"error": str(exc)})
 
 
-@router.post("/webhook")
+@router.post("/webhook", dependencies=[Depends(verify_webhook_signature)])
 async def receive_webhook(request: Request, background_tasks: BackgroundTasks):
     try:
         body: Dict[str, Any] = await request.json()

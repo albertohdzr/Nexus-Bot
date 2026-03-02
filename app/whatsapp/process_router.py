@@ -1,10 +1,11 @@
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException
 from pydantic import BaseModel
 
 from app.chat.service import get_openai_client, DEFAULT_MODEL
+from app.core.auth import require_api_key, require_cron_secret
 from app.core.config import settings
 from app.core.supabase import (
     get_supabase_client,
@@ -97,14 +98,7 @@ class CloseChatSessionEndpointRequest(BaseModel):
     model: str = DEFAULT_MODEL
 
 
-def _require_cron_secret(authorization: Optional[str]) -> None:
-    if not settings.cron_secret:
-        raise HTTPException(status_code=500, detail="CRON_SECRET is not set")
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    token = authorization.split("Bearer ", 1)[1].strip()
-    if token != settings.cron_secret:
-        raise HTTPException(status_code=403, detail="Forbidden")
+# _require_cron_secret was moved to app.core.auth.require_cron_secret
 
 
 # ── Remaining inline helpers (not yet modularised) ───────────────
@@ -1220,7 +1214,7 @@ def _load_lead_context(
     response = (
         supabase.from_("leads")
         .select(
-            "id, lead_number, student_first_name, student_middle_name, "
+            "id, lead_number, status, student_first_name, student_middle_name, "
             "student_last_name_paternal, student_last_name_maternal, student_dob, "
             "grade_interest, current_school, contact_name, contact_email, contact_phone, notes"
         )
@@ -1236,7 +1230,7 @@ def _load_lead_context(
         fallback_response = (
             supabase.from_("leads")
             .select(
-                "id, lead_number, student_first_name, student_middle_name, "
+                "id, lead_number, status, student_first_name, student_middle_name, "
                 "student_last_name_paternal, student_last_name_maternal, student_dob, "
                 "grade_interest, current_school, contact_name, contact_email, contact_phone, notes"
             )
@@ -1314,9 +1308,11 @@ def _load_lead_context(
                 appointment_text = "Cita programada (fecha pendiente)"
 
         # Format block for this lead
+        lead_status = lead_data.get("status") or "new"
         block = (
             f"LEAD {i} ({lead_label}):\n"
             f"  Alumno: {student_name}\n"
+            f"  Status: {lead_status}\n"
             f"  Interés: {lead_data.get('grade_interest') or 'N/A'}\n"
             f"  Datos faltantes: {missing_text}\n"
         )
@@ -1342,12 +1338,10 @@ def _load_lead_context(
     )
 
 
-@router.post("/process")
+@router.post("/process", dependencies=[Depends(require_cron_secret)])
 def process_queue(
     payload: ProcessQueueRequest,
-    authorization: Optional[str] = Header(default=None),
 ):
-    _require_cron_secret(authorization)
     print("[admissions] process_queue", {"chat_id": payload.chat_id})
 
     supabase = get_supabase_client()
@@ -2513,7 +2507,7 @@ def _send_requirements(
         return "Error inesperado al enviar requisitos."
 
 
-@router.get("/chats/{chat_id}/history")
+@router.get("/chats/{chat_id}/history", dependencies=[Depends(require_api_key)])
 def get_chat_history_endpoint(chat_id: str):
     """
     Retrieves the chat history for a given chat_id using the active session or the latest one.
@@ -2578,7 +2572,7 @@ def get_chat_history_endpoint(chat_id: str):
     }
 
 
-@router.post("/chats/close-session")
+@router.post("/chats/close-session", dependencies=[Depends(require_api_key)])
 def close_chat_session_endpoint(request: CloseChatSessionEndpointRequest):
     supabase = get_supabase_client()
     chat_response = (

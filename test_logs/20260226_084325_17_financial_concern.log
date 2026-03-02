@@ -1,0 +1,95 @@
+
+════════════════════════════════════════════════════════════════
+  [7/10] 17_financial_concern
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_084325_17_financial_concern.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Preocupación económica - caso sensible
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat f69173f2… (wa_id=test3_financial_10b48edf)[0m
+[1m[32m👤 User:[0m Buenas tardes, me interesa mucho el colegio para mi hijo pero la verdad nuestra situación económica …
+[admissions] loading session messages {'session_id': 'c2522072-7dd2-4b79-acef-37b7b4ca00b2'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en el colegio; comenta situación económica complicada actualmente (preocupación por costos).","subject":"Situac[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por contármelo. Entiendo perfecto que la parte económica pesa
+  mucho en la decisión, y con gusto te oriento para que puedas evaluar
+  si es una opción viable para tu familia.  Solo para que lo tengas
+  claro desde el inicio: *en el Colegio Americano de Torreón no
+  manejamos becas ni descuentos* (tampoco por hermanos).   Sobre
+  *costos/colegiaturas*, por este medio no puedo compartirlos, pero sí
+  puedo pedir que *un asesor de admisiones* te dé la información
+  completa y personalizada y te explique las opciones de pago/fechas.
+  Para canalizarte correctamente, ¿tu hijo entraría a *kínder, primaria,
+  secundaria o prepa* (aprox. qué edad tiene)? Y si te parece, también
+  dime qué es lo más importante para ustedes: ¿presupuesto, horarios,
+  nivel de inglés, o algún apoyo específico?
+[1m[32m👤 User:[0m ¿Tienen algún tipo de apoyo o plan de pagos?
+[admissions] loading session messages {'session_id': 'c2522072-7dd2-4b79-acef-37b7b4ca00b2'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia comenta situación económica complicada. Pregunta por apoyo/beca y plan de pagos.","subject":"Economía/Apoyos"}[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo totalmente. Te comento lo que sí y lo que no para evitarte
+  vueltas:  - *Apoyos/becas/descuentos:* no manejamos becas ni
+  descuentos (tampoco por hermanos). - *Plan de pagos:* normalmente el
+  equipo de admisiones/administración puede explicarte las *modalidades
+  y calendario de pagos* según el grado y el ciclo. Esa información la
+  brinda un asesor de manera personalizada.  Si quieres, te canalizo
+  para que te compartan las opciones oficiales. Para eso solo necesito
+  dos datos rápidos: 1) ¿Para qué nivel sería tu hijo
+  (kínder/primaria/secundaria/prepa) y qué edad tiene?   2) ¿Prefieres
+  que te contacten por *WhatsApp o llamada*? (y me compartes el número)
+[1m[32m👤 User:[0m Mi hijo es muy bueno en la escuela, tiene promedio de 9.8 y le encanta la robótica. Se llama Emilian…
+[admissions] loading session messages {'session_id': 'c2522072-7dd2-4b79-acef-37b7b4ca00b2'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés: alumno con promedio 9.8 y le encanta la robótica. Familia pregunta por apoyo/plan de pagos; no hay becas/descuentos. Alum[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Qué bien! Con ese promedio y gusto por la robótica, a Emiliano podría
+  interesarle mucho el programa de *Robótica FIRST* que tenemos (en
+  secundaria hay equipos y retos más avanzados).  Por la fecha de
+  nacimiento (03-mar-2013), para el siguiente ciclo que inicia en
+  *agosto 2026* a Emiliano le correspondería *1º de secundaria (Middle
+  School)*.  Sobre tu pregunta: *no contamos con becas ni descuentos*,
+  pero para *planes/modalidades de pago* sí es mejor que un asesor te lo
+  explique de forma personalizada según el nivel.  Para poder
+  canalizarte y también avanzar si quieres con una visita al campus, ¿me
+  compartes por favor los datos del tutor? - Nombre completo del
+  papá/mamá/tutor - Teléfono - Correo electrónico  Y dime: ¿les gustaría
+  agendar una visita entre semana (8:00 am a 3:00 pm) para conocer
+  secundaria y el área de robótica?
+[1m[32m👤 User:[0m Yo soy Martha Fuentes, 871-444-0022, martha.fuentes@test.com
+[admissions] loading session messages {'session_id': 'c2522072-7dd2-4b79-acef-37b7b4ca00b2'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Emiliano', 'student_last_name_paternal': 'Rojas', 'grade_interest': 'Secundaria 1', 'current_school': 'Escuela Pública #12', 'contact_email': 'martha.fuentes@test.com', 'contact_phone': '871-444-0022'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_financial_10b48edf', 'contact_phone': '871-444-0022'}
+[admissions] contact created {'contact_id': 'a82e361a-8838-4e38-8d8f-46c62ead6087'}
+[admissions] lead created {'lead_id': '7f4e9d08-9e20-4c66-9d4b-67901097a92a', 'lead_number': 108}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emiliano","student_middle_name":null,"student_last_name_paternal":"Rojas","student_last_name_maternal":"Fuentes","stu[0m
+[2m     Result: Lead creado con folio L-108.[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia comenta situación económica complicada; pregunta por apoyo/plan de pagos. Alumno Emiliano Rojas Fuentes: promedio 9.8, le [0m
+[2m     Result: Nota agregada al lead L-108 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias Martha. Ya quedó registrado el interés de Emiliano
+  (folio *L-108*) y también anoté su interés en *robótica* y tu duda
+  sobre *plan de pagos* para que el asesor lo retome contigo.  ¿Te
+  gustaría que agendemos una *visita al campus* para conocer
+  *Secundaria*?   Las visitas son de *lunes a viernes, 8:00 am a 3:00
+  pm*.  Dime por favor: - ¿Qué días te convienen más (por ejemplo, mar-
+  jue o lun-mié)?   - ¿Prefieres en la *mañana* (8–12) o en la *tarde*
+  (12–3)?
+[2mℹ️  Chat ID: f69173f2-9cee-4a98-b83b-e241b1fbc7d8[0m

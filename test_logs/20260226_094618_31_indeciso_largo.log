@@ -1,0 +1,60 @@
+
+════════════════════════════════════════════════════════════════
+  [1/5] 31_indeciso_largo
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_094618_31_indeciso_largo.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO A: Padre indeciso - cambios constantes (~25 msgs, 3 sesiones)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat b1cfbb57… (wa_id=test3_indeciso_largo_02fc7325)[0m
+
+  ╔══ SESSION 1: Discovery + indecision ══╗
+[1m[32m👤 User:[0m Hola buenas tardes
+[admissions] loading session messages {'session_id': 'ace35a31-bc7a-47a3-91ae-02f5d504c477'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': 'ace35a31-bc7a-47a3-91ae-02f5d504c477'}
+[2mℹ️  History: 0 msgs | Pending: 2[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Quiero información, estoy viendo opciones de colegio para mi hija
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': 'ace35a31-bc7a-47a3-91ae-02f5d504c477'}
+[2mℹ️  History: 0 msgs | Pending: 3[0m
+[2mℹ️  LLM: 407 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Con gusto te comparto
+  información 😊 Para orientarte mejor, ¿qué te gustaría conocer primero:
+  el modelo académico, el idioma, el proceso de admisión o agendar una
+  visita al campus?  Y para ubicar la etapa de tu hija: ¿qué edad tiene
+  o a qué grado entraría (maternal/kínder/primaria/secundaria/prepa)?
+[1m[32m👤 User:[0m Tiene 11 años, nació el 20 de marzo de 2015. Está en 5to de primaria
+[admissions] loading session messages {'session_id': 'ace35a31-bc7a-47a3-91ae-02f5d504c477'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesada en opciones de colegio para su hija. Alumna: 11 años, DOB 20-mar-2015. Actualmente en 5° de primaria.","subject":"Inter[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por los datos. Con la fecha de nacimiento *20/mar/2015*, para
+  ingreso en *agosto 2026* (siguiente ciclo) a tu hija normalmente le
+  correspondería *6° de Primaria*.  Como me comentas que ahorita está en
+  *5°*, suena alineado (pasaría a 6° el próximo ciclo). Para confirmarlo
+  al 100% solo me faltaría saber: ¿en qué escuela está actualmente?  Si
+  te parece, también te puedo contar lo más importante de *Elementary
+  (Primaria)* en CAT (programa bilingüe, actividades, acompañamiento), o
+  si prefieres, avanzamos a *agendar una visita al campus* para que
+  conozcan instalaciones y el ambiente. ¿Qué te gustaría primero?
+[1m[32m👤 User:[0m No, espera, está en 6to, no en 5to. Perdón me confundí
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Bueno la verdad no sé si meterla ahora a 6to o esperar a agosto para que entre a 1ro de secundaria. …
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m

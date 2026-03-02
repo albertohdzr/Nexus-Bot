@@ -1,0 +1,146 @@
+
+════════════════════════════════════════════════════════════════
+  [9/10] 29_allergies_medical
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_091122_29_allergies_medical.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Alergias severas y emergencias médicas
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat cffcbe57… (wa_id=test3_allergies_b415ec0c)[0m
+[1m[32m👤 User:[0m Hola, antes de inscribir a mi hijo necesito saber si pueden manejar alergias severas. Mi hijo es alé…
+[admissions] loading session messages {'session_id': 'eeb332fa-3743-47fb-bc68-c1448c6538d8'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Pregunta por manejo de alergia severa: hijo con anafilaxia a cacahuate y requiere portar EpiPen.","subject":"Salud / alergias"}[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, lo podemos manejar, y gracias por comentarlo desde el inicio
+  porque es un tema *muy importante*.  En el colegio podemos recibir
+  alumnos con alergias severas, pero se trabaja con *protocolos y
+  coordinación* entre familia–enfermería–maestros. En casos como
+  anafilaxia a cacahuate normalmente se considera:  - Que tu hijo
+  *siempre* traiga su *EpiPen* (y, si la familia lo autoriza,
+  normalmente se recomienda contar también con uno de respaldo en
+  enfermería). - Plan de acción por escrito (indicaciones médicas:
+  síntomas, pasos, dosis, teléfonos de emergencia). -
+  Capacitación/indicaciones claras para el personal que convive con él
+  (titular, auxiliares, after-school si aplica). - Lineamientos para
+  alimentos en salón y eventos (para minimizar riesgos de exposición).
+  Para orientarte mejor y decirte cómo lo aplicamos según la edad (por
+  ejemplo, en preescolar es más supervisado que en grados mayores): ¿qué
+  edad tiene tu hijo o a qué *grado* entraría?  Y si te parece, también
+  podemos agendar una visita breve para que platiques directamente con
+  enfermería y coordinación sobre el protocolo de anafilaxia y EpiPen.
+[1m[32m👤 User:[0m ¿Tienen enfermería? ¿El personal sabe usar un autoinyector de epinefrina?
+[admissions] loading session messages {'session_id': 'eeb332fa-3743-47fb-bc68-c1448c6538d8'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia consulta manejo de alergia severa a cacahuate (anafilaxia). Alumno requiere portar EpiPen/autoinyector de epinefrina. Preg[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, contamos con *enfermería* en el colegio.  Sobre el *autoinyector
+  de epinefrina (EpiPen)*: el manejo de una alergia con riesgo de
+  anafilaxia se realiza con un *protocolo* y coordinación directa con la
+  familia. De forma general, *enfermería es el punto central* para
+  resguardo/administración de medicamentos y para guiar al personal que
+  convive con el alumno.  Para responderte con total precisión (porque
+  depende de la edad del alumno, en qué áreas está, si se queda a after-
+  school, etc.), lo ideal es que te pongamos en contacto o agendemos una
+  visita para que lo revises directamente con *enfermería y
+  coordinación* y vean el plan de acción médico.  ¿Tu hijo entraría a
+  *preescolar, primaria, secundaria o prepa*? Y, si gustas, ¿se quedaría
+  a actividades por la tarde?
+[1m[32m👤 User:[0m También es alérgico al látex y a los mariscos. ¿La cafetería puede garantizar que no haya contaminac…
+[admissions] loading session messages {'session_id': 'eeb332fa-3743-47fb-bc68-c1448c6538d8'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia consulta manejo de alergias severas: anafilaxia a cacahuate (requiere EpiPen), además alergia a látex y mariscos. Pregunta[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  En un caso como el que describes (cacahuate con anafilaxia + látex +
+  mariscos), lo más responsable es ser muy clara: la *cafetería y
+  cualquier servicio de alimentos no puede “garantizar” al 100% cero
+  contaminación cruzada*, porque siempre existe riesgo por manejo,
+  proveedores, superficies y trazas.  Lo que sí se puede hacer es
+  trabajar con *medidas de control y un plan* para reducir al máximo el
+  riesgo, por ejemplo: - Lineamientos específicos para alimentos (y, en
+  muchos casos, se recomienda que el alumno lleve su lunch). -
+  Comunicación y acuerdos con cafetería sobre ingredientes/etiquetado y
+  prácticas para minimizar contacto cruzado. - Protocolos de respuesta
+  ante exposición (plan médico + EpiPen) y coordinación con *enfermería*
+  y el equipo del grado.  Para orientarte según la operación real del
+  día a día: ¿tu hijo entraría a *qué nivel/grado* y suele comer en
+  cafetería o normalmente lleva lunch?  Si te parece, también podemos
+  agendar una visita para que lo veas con coordinación y enfermería y
+  revisen el *plan de anafilaxia* y las restricciones (incluyendo
+  látex).
+[1m[32m👤 User:[0m Se llama Miguel Ángel Fuentes Rivas, nació 8 de abril de 2015, va en 4to de primaria en el Cervantes…
+[admissions] loading session messages {'session_id': 'eeb332fa-3743-47fb-bc68-c1448c6538d8'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Caso médico relevante: hijo con alergias severas. Anafilaxia a cacahuate (requiere EpiPen), alergia a látex y a mariscos. Pregunta[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Miguel Ángel', 'student_last_name_paternal': 'Fuentes', 'grade_interest': 'Primaria 5', 'current_school': 'Cervantes', 'contact_email': 'sandra.rivas@test.com', 'contact_phone': '871-777-9988'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_allergies_b415ec0c', 'contact_phone': '871-777-9988'}
+[admissions] contact created {'contact_id': '5ee8abb2-c996-4ee5-9efb-d3c91eccb02d'}
+[admissions] lead created {'lead_id': '0c6b5c21-16cc-4d4b-9ee3-29afce3635a9', 'lead_number': 121}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Miguel Ángel","student_middle_name":null,"student_last_name_paternal":"Fuentes","student_last_name_maternal":"Rivas",[0m
+[2m     Result: Lead creado con folio L-121.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, Sandra. Ya registré los datos de tu hijo *Miguel Ángel
+  Fuentes Rivas* (08/abr/2015), actualmente en *Cervantes*, para ingreso
+  a *Primaria (ciclo Ago 2026–Jun 2027)*, y también dejé anotadas sus
+  alergias (cacahuate con anafilaxia/EpiPen, látex y mariscos).  Sobre
+  tu pregunta de cafetería: por seguridad, *no es posible garantizar 0%
+  contaminación cruzada*. Lo que normalmente se hace en estos casos es
+  definir un *plan individual* con enfermería y coordinación (qué
+  alimentos puede consumir, si traerá lunch, lineamientos para
+  salón/eventos y protocolo de emergencia).  Si te parece, el mejor
+  siguiente paso es agendar una *visita* para que hables directamente
+  con coordinación y enfermería y revisen el protocolo específico para
+  Miguel Ángel.  ¿Qué días te convienen para venir? (Lun–Vie, entre
+  *8:00 am y 3:00 pm*) y si prefieres en la mañana o en la tarde.
+[1m[32m👤 User:[0m ¿Podemos agendar una visita? Necesito ver la enfermería y hablar con la nutrióloga de la cafetería
+[admissions] loading session messages {'session_id': 'eeb332fa-3743-47fb-bc68-c1448c6538d8'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita agendar visita para ver enfermería y hablar con la nutrióloga de cafetería por alergias severas (anafilaxia a cacahuate c[0m
+[2m     Result: Nota agregada al lead L-121 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Claro que sí, Sandra. Ya dejé anotado que en la visita quieres *ver
+  enfermería* y *hablar con la nutrióloga de la cafetería* por el tema
+  de alergias.  Para agendarla, dime por favor: 1) ¿Qué día(s) te
+  convienen la próxima semana o la siguiente? (Lun–Vie)   2) ¿Prefieres
+  *mañana* (8:00–12:00) o *tarde* (12:00–3:00)?  Con eso busco los
+  horarios disponibles y te paso opciones para que elijas.
+[1m[32m👤 User:[0m La primera que tengan
+[admissions] loading session messages {'session_id': 'eeb332fa-3743-47fb-bc68-c1448c6538d8'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"En visita solicita ver enfermería y hablar con nutrióloga de cafetería por alergias severas (anafilaxia a cacahuate con EpiPen, al[0m
+[2m     Result: Nota agregada al lead L-121 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-02-27 to 2026-03-13 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-13","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Martes 3 de marzo de 2026, 12:00 PM - 1:00 PM
+- Opción 2: Martes 3 de marzo de 2026, 1:00 PM - 2:00 PM
+- Opción 3: Miércoles 4 de marzo de 2026, [0m
+[1m[34m🤖 Bot:[0m
+  Perfecto. La *primera disponible* es:  *Opción 1:* Martes 3 de marzo
+  de 2026, *12:00 pm a 1:00 pm*   También hay ese mismo día *1:00 pm a
+  2:00 pm*, y el miércoles 4 de marzo desde *8:00 am*.  ¿Cuál prefieres?
+  Respóndeme con el número de opción (1–8) y la agendo.
+[2mℹ️  Chat ID: cffcbe57-6b09-4c05-bfe3-5925ba261fd3[0m

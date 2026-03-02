@@ -1,0 +1,142 @@
+
+════════════════════════════════════════════════════════════════
+  [10/10] 10_location_then_interested
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_10_location_then_interested.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Pregunta ubicación y luego se interesa
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 76997c0f… (wa_id=test3_ubicacion_interes_957e79ac)[0m
+[1m[32m👤 User:[0m Hola, ¿dónde queda el Colegio Americano?
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 449 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al area de admisiones de Colegio
+  Americano de Torreón. ¿Como puedo ayudarte?  El Colegio Americano de
+  Torreón está en:  *C. P.º del Algodón 500, Los Viñedos, 27023 Torreón,
+  Coah.*   Para visitas, la entrada es por *Puerta 3* (por la caseta del
+  reloj).  Ubicación en Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9
+  ¿Te gustaría que también te comparta cómo llegar desde tu zona (por
+  ejemplo, desde Gómez, Centro, etc.)?
+[1m[32m👤 User:[0m Ah está cerquita de mi casa. ¿Tienen prepa?
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 311 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, sí tenemos *Prepa (High School)* en el Colegio Americano de
+  Torreón.  Si me dices la *fecha de nacimiento* de tu hijo/a (y si
+  sería para *Agosto 2026*, que es el siguiente ciclo), te confirmo el
+  *grado* que le corresponde y te orientó con los siguientes pasos.
+  También, ¿viene de alguna escuela actualmente?
+[1m[32m👤 User:[0m Mi hija va a entrar a 1ro de prepa el próximo año. Se llama Daniela Navarro Ruiz, nació 2 de octubre…
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés: ingreso a 1° de Prepa (Agosto 2026). Alumna: Daniela Navarro Ruiz, DOB 02-oct-2010. Actualmente 3° de secundaria en IEST.[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por la info. Con la fecha de nacimiento *02/oct/2010*, para
+  *Agosto 2026* normalmente le correspondería ingresar a *Secundaria 3*,
+  no a *1° de Prepa* (1° de Prepa suele ser para alumnos nacidos aprox.
+  entre *01-ago-2010 y 31-jul-2011*).  Aun así, como ya estaría cursando
+  *3° de secundaria* este año, lo mejor es que un asesor lo revise
+  contigo para confirmarlo según su historial escolar.    ¿Me confirmas,
+  por favor: 1) ¿En qué *ciclo* quiere entrar Daniela: *Agosto 2026*?
+  2) ¿Tu nombre completo (mamá/papá/tutor) y tu *teléfono y correo* para
+  que el asesor de Prepa te contacte y lo validen?  Si gustas, también
+  podemos agendar una *visita al campus* (lun-vie, 8:00 am a 3:00 pm).
+[1m[32m👤 User:[0m Yo soy Fernando Navarro, 871-111-5566, fer.navarro@test.com
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés: Prepa para su hija. Alumna: Daniela Navarro Ruiz, DOB 02-oct-2010. Actualmente 3° secundaria en IEST. Tutor: Fernando Nav[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Daniela', 'student_last_name_paternal': 'Navarro', 'grade_interest': 'high_school', 'current_school': 'IEST', 'contact_email': 'fer.navarro@test.com', 'contact_phone': '871-111-5566'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_ubicacion_interes_957e79ac', 'contact_phone': '871-111-5566'}
+[admissions] contact created {'contact_id': 'a7a98e1e-5251-4c9e-92c4-2a6a8af833ec'}
+[admissions] lead created {'lead_id': '84f0266b-1877-4c6c-9287-28747b5b8214', 'lead_number': 102}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Daniela","student_middle_name":null,"student_last_name_paternal":"Navarro","student_last_name_maternal":"Ruiz","stude[0m
+[2m     Result: Lead creado con folio L-102.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Fernando. Ya quedó registrado el interés de tu hija *Daniela
+  Navarro Ruiz* (02/oct/2010), actualmente en *IEST*, para el siguiente
+  ciclo (*Agosto 2026*), junto con tus datos de contacto.  Sobre el
+  grado: por fecha de nacimiento, *en regla general* para Agosto 2026 le
+  correspondería *Secundaria 3*, pero como ya me comentas que va en *3°
+  de secundaria*, lo correcto es que un asesor lo valide con su
+  historial para confirmarte si procede *1° de Prepa*.  Si te parece,
+  agendamos una *visita al campus* para que conozcan Prepa y resuelvan
+  todo en una asesoría (lun-vie, *8:00 am a 3:00 pm*).   ¿Qué día y
+  horario te conviene más: *por la mañana* o *por la tarde*?
+[1m[32m👤 User:[0m ¿Qué promedio necesita? Tiene 8.5
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 375 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para *Prepa* pedimos *promedio mínimo de 8.0*. Con *8.5* está dentro
+  del requisito académico.    También es importante que la *conducta* en
+  su escuela actual sea adecuada, ya que puede ser un criterio
+  condicionante.  Si quieres, puedo agendarles una visita para
+  platicarlo en persona. ¿Prefieres *mañana* (8:00–12:00) o *tarde*
+  (12:00–3:00) y qué día entre semana te acomoda?
+[1m[32m👤 User:[0m ¿Tienen club de debate? Daniela está en el equipo de debate de su escuela
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés en Prepa. Daniela participa en equipo de debate en su escuela actual; preguntan por club de debate.","subject":"Intereses/[0m
+[2m     Result: Nota agregada al lead L-102 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Sí, en *Prepa* contamos con *equipo de Debate*, además de espacios de
+  liderazgo como *Student Council* y *National Honor Society (NHS)*. 🙌
+  Qué padre que Daniela ya esté en debate; eso ayuda mucho para
+  integrarse y crecer en esa área.  ¿Les gustaría venir a una *visita al
+  campus* para conocer el área de Prepa y platicar del programa/co-
+  curriculares? ¿Qué día entre semana y en qué horario te conviene más:
+  *mañana* o *tarde* (8:00 am a 3:00 pm)?
+[1m[32m👤 User:[0m Quiero visita, ¿qué tienen para el viernes por la tarde?
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"El tutor solicita visita al campus para Prepa. Preferencia: viernes por la tarde. Alumna Daniela participa en equipo de debate en [0m
+[2m     Result: Nota agregada al lead L-102 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=afternoon
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":"afternoon"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 12:00 PM - 1:00 PM
+- Opción 2: Lunes 2 de marzo de 2026, 1:00 PM - 2:00 PM
+- Opción 3: Martes 3 de marzo de 2026, 12:00[0m
+[1m[34m🤖 Bot:[0m
+  Para *viernes por la tarde* no me aparecen espacios disponibles en
+  este momento. Lo más cercano que tengo en *tarde (12:00–2:00 pm)* es:
+  - *Opción 1:* Lun 2 de marzo, 12:00–1:00 pm   - *Opción 2:* Lun 2 de
+  marzo, 1:00–2:00 pm   - *Opción 3:* Mar 3 de marzo, 12:00–1:00 pm   -
+  *Opción 4:* Mar 3 de marzo, 1:00–2:00 pm   - *Opción 5:* Mié 4 de
+  marzo, 12:00–1:00 pm   - *Opción 6:* Mié 4 de marzo, 1:00–2:00 pm   -
+  *Opción 7:* Jue 5 de marzo, 12:00–1:00 pm   - *Opción 8:* Jue 5 de
+  marzo, 1:00–2:00 pm    ¿Cuál te gustaría apartar? Dime el número de
+  opción.
+[1m[32m👤 User:[0m La 1
+[admissions] loading session messages {'session_id': 'e8b605ac-f1f7-473b-9e0f-1e5fab9d7277'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[admissions] booking appointment for slot 4c12c759-882a-488c-8448-d7781c4f0b07
+[2mℹ️  LLM: 366 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Listo, Fernando: su visita quedó confirmada para *lunes 2 de marzo de
+  2026, de 12:00 PM a 1:00 PM* para ver *Prepa*.    La entrada para
+  visitas es por *Puerta 3* (caseta del reloj).   Dirección: *C. P.º del
+  Algodón 500, Los Viñedos, 27023 Torreón, Coah.*   Maps:
+  https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  ¿Asistirás tú solamente o
+  también te acompañará alguien más?
+[2mℹ️  Chat ID: 76997c0f-141e-4f70-b099-8ed907da6733[0m

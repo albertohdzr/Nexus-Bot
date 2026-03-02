@@ -1,0 +1,124 @@
+
+════════════════════════════════════════════════════════════════
+  [6/10] 16_teacher_referral
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_084325_16_teacher_referral.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Referido por maestro del colegio
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat cfb840e9… (wa_id=test3_teacher_ref_688c2467)[0m
+[1m[32m👤 User:[0m Hola, la maestra Jessica de preescolar me recomendó el colegio. Somos vecinas y me habló muy bien de…
+[admissions] loading session messages {'session_id': '487fcc84-c680-4994-af3e-723548474afd'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Referencia: maestra Jessica de preescolar (vecina). Le habló muy bien del programa; muestra interés inicial.","subject":"Referenci[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Soy Vale, del área de admisiones del Colegio Americano de
+  Torreón. Gracias por escribirnos 😊   Qué gusto que la maestra Jessica
+  se los haya recomendado.  Para orientarte mejor, ¿qué es lo que más te
+  interesa conocer del colegio: el *programa académico*, *idioma*,
+  *horarios* o te gustaría *agendar una visita* para conocer el campus?
+[1m[32m👤 User:[0m Mi hija se llama Ximena Vargas Coronado, nació 14 de mayo de 2021, está en un maternal particular aq…
+[admissions] loading session messages {'session_id': '487fcc84-c680-4994-af3e-723548474afd'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Refiere recomendación de maestra Jessica de preescolar (vecina). Hija: Ximena Vargas Coronado, F.N. 14-may-2021. Actualmente en ma[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por compartirlo. Con la fecha de nacimiento *14 de mayo de
+  2021*, para el ingreso de *agosto 2026* Ximena estaría en edad para
+  *Kinder* (Early Childhood).  Qué padre que ya viene de un maternal
+  particular en Viñedos; eso ayuda mucho en la adaptación.  ¿Te gustaría
+  que lo veamos para: 1) *Agendar una visita al campus* (entre semana,
+  8:00 am a 3:00 pm), o   2) Que te cuente primero un poco del programa
+  de *Early Childhood (Kinder)* y cómo es un día típico?  Si te interesa
+  la visita, solo me faltaría saber: ¿en qué *maternal* está actualmente
+  Ximena (nombre de la escuela) y qué días/horario te convienen más?
+[1m[32m👤 User:[0m Yo soy Alejandra Coronado, 871-555-9911, ale.coronado@test.com
+[admissions] loading session messages {'session_id': '487fcc84-c680-4994-af3e-723548474afd'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Ximena', 'student_last_name_paternal': 'Vargas', 'grade_interest': 'Kinder', 'current_school': 'Maternal particular en Viñedos (por confirmar nombre)', 'contact_email': 'ale.coronado@test.com', 'contact_phone': '871-555-9911'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_teacher_ref_688c2467', 'contact_phone': '871-555-9911'}
+[admissions] contact created {'contact_id': '2b807eaa-04a6-419a-b232-283fbac74ff8'}
+[admissions] lead created {'lead_id': 'd1389189-4150-4f0c-9ea6-b38d7bfbdcac', 'lead_number': 107}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ximena","student_middle_name":null,"student_last_name_paternal":"Vargas","student_last_name_maternal":"Coronado","stu[0m
+[2m     Result: Lead creado con folio L-107.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Referencia por maestra Jessica de preescolar (vecina). Interés en programa para su hija Ximena. Alumna actualmente en maternal par[0m
+[2m     Result: Nota agregada al lead L-107 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Alejandra—ya quedó registrado el interés de Ximena y tus
+  datos de contacto. Gracias.  Para agendar su *visita al campus* (lun-
+  vie, 8:00 am a 3:00 pm), dime por favor: - ¿Qué *día(s)* te convienen
+  más? (por ejemplo: martes o jueves) - ¿Prefieres *mañana* (8–12) o
+  *tarde* (12–3)? - Y solo para completar: ¿cómo se llama el *maternal*
+  donde está actualmente en Viñedos?
+[1m[32m👤 User:[0m ¿Qué me recomienda la maestra Jessica? ¿Preescolar o maternal?
+[admissions] loading session messages {'session_id': '487fcc84-c680-4994-af3e-723548474afd'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Pregunta orientación sobre grado adecuado para Ximena: preescolar vs maternal; recomendada por maestra Jessica (vecina).","subject[0m
+[2m     Result: Nota agregada al lead L-107 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Por la *edad* de Ximena (14-may-2021), lo adecuado es *Preescolar*, no
+  maternal.  En nuestro esquema: - *Maternal* suele ser para peques más
+  chiquitos (2–3 años, según el grupo). - Para Ximena, lo que
+  corresponde es *Preschool* (dentro de Early Childhood) y después
+  avanzaría a *Kinder*.  Si me confirmas si tu interés es para *agosto
+  2026*, puedo decirte con toda precisión el grado con el que iniciaría
+  (y en cuál campus/área la recibiríamos).  ¿Te gustaría que agendemos
+  una visita para que veas salones, materiales y rutina? ¿Qué días te
+  acomodan y si prefieres mañana o tarde?
+[1m[32m👤 User:[0m Quiero agendar visita, de preferencia tempranito
+[admissions] loading session messages {'session_id': '487fcc84-c680-4994-af3e-723548474afd'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Desea agendar visita al campus; prefiere horario temprano (mañana). Refiere recomendación de maestra Jessica (vecina) y buena refe[0m
+[2m     Result: Nota agregada al lead L-107 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Martes 3 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 2: Martes 3 de marzo de 2026, 11:00 AM - 12:00 PM
+- Opción 3: Miércoles 4 de marzo de 202[0m
+[1m[34m🤖 Bot:[0m
+  ¡Listo, Alejandra! Para visita *tempranito* tengo estos horarios
+  disponibles (hora Torreón):  1) Mar 3 marzo, 10:00–11:00 am   2) Mar 3
+  marzo, 11:00–12:00 pm   3) Mié 4 marzo, 8:00–9:00 am   4) Mié 4 marzo,
+  9:00–10:00 am   5) Jue 5 marzo, 8:00–9:00 am   6) Jue 5 marzo,
+  9:00–10:00 am    ¿Cuál opción te gustaría elegir? (respóndeme con el
+  número).
+[1m[32m👤 User:[0m La primera
+[admissions] loading session messages {'session_id': '487fcc84-c680-4994-af3e-723548474afd'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] booking appointment for slot 765f7da1-2404-45b7-9b37-d7e846ad1d17
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"765f7da1-2404-45b7-9b37-d7e846ad1d17","notes":"Visita campus para Ximena Vargas Coronado (F.N. 14-may-2021). Interés: Early Chil[0m
+[2m     Result: Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Referida por maestra Jessica de preescolar (vecina). Interesada en visita, prefiere temprano. Ximena Vargas Coronado, FN 14-may-20[0m
+[2m     Result: Nota agregada al lead L-107 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Alejandra: tu visita quedó agendada para *martes 3 de marzo
+  de 2026 de 10:00 a 11:00 am* ✅  Para que llegues sin problema:
+  *Colegio Americano de Torreón*   C. P.º del Algodón 500, Los Viñedos,
+  27023 Torreón, Coah.   Entrada para visitas: *Puerta 3* (por la caseta
+  del reloj)   Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  Solo me
+  falta un dato para completar el expediente: ¿cómo se llama el
+  *maternal* particular donde está actualmente Ximena?
+[2mℹ️  Chat ID: cfb840e9-53e5-496e-b709-3483e1657318[0m

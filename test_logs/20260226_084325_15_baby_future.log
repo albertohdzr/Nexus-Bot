@@ -1,0 +1,96 @@
+
+════════════════════════════════════════════════════════════════
+  [5/10] 15_baby_future
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_084325_15_baby_future.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Bebé de 1 año - pregunta a futuro
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 75aafee4… (wa_id=test3_baby_future_564a32ae)[0m
+[1m[32m👤 User:[0m Hola, mi bebé tiene 1 año y medio. ¿A qué edad pueden entrar?
+[admissions] loading session messages {'session_id': 'a6a6db10-6980-4d93-8b72-649f873f9c8a'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 332 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  ¡Qué bonito! En CAT
+  pueden ingresar desde *los 2 años* en *Prenursery (Maternal)*.  Para
+  decirte exactamente *en qué ciclo* podría entrar tu bebé (y a partir
+  de qué mes), ¿me compartes su *fecha de nacimiento* (día/mes/año)?
+[1m[32m👤 User:[0m Se llama Emiliano Rivas López, nació 7 de septiembre de 2024
+[admissions] loading session messages {'session_id': 'a6a6db10-6980-4d93-8b72-649f873f9c8a'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés inicial: ingreso desde 2 años (Prenursery/Maternal). Alumno: Emiliano Rivas López. Fecha de nacimiento: 07-sep-2024.","sub[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por el dato.  Con fecha de nacimiento *7 de septiembre de
+  2024*, Emiliano podría ingresar a *Prenursery (Maternal)* a partir del
+  ciclo que inicia en *agosto 2027* (porque para agosto 2026 todavía no
+  tendría 2 años).  Si quieres, te explico el proceso y podemos ir
+  viendo una *visita al campus* más adelante.   ¿Actualmente Emiliano
+  está en guardería o en casa?
+[1m[32m👤 User:[0m Yo soy Daniela López, 871-333-0011, daniela.lopez@test.com
+[admissions] loading session messages {'session_id': 'a6a6db10-6980-4d93-8b72-649f873f9c8a'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Emiliano', 'student_last_name_paternal': 'Rivas', 'grade_interest': 'Prenursery', 'current_school': None, 'contact_email': 'daniela.lopez@test.com', 'contact_phone': '871-333-0011'}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emiliano","student_middle_name":null,"student_last_name_paternal":"Rivas","student_last_name_maternal":"López","stude[0m
+[2m     Result: No se pudo crear el lead porque faltan datos obligatorios del alumno, el colegio de procedencia o el grado de interes.[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Madre: Daniela López. Tel: 871-333-0011. Email: daniela.lopez@test.com. Alumno: Emiliano Rivas López (DOB 07-sep-2024). Interés: i[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, Daniela. Ya tengo tu teléfono y correo para seguimiento.
+  Para poder registrar correctamente la solicitud de Emiliano en el
+  sistema me falta un dato:  ¿Me confirmas el *grado de interés* para
+  Emiliano? - *Prenursery (Maternal)* (ingreso desde 2 años), o -
+  ¿buscas otra opción?  Y también: ¿Emiliano está actualmente en
+  *guardería*? Si sí, ¿cuál es el nombre? (si está en casa, me dices “en
+  casa” y listo).
+[1m[32m👤 User:[0m ¿Tienen lista de espera para cuando le toque?
+[admissions] loading session messages {'session_id': 'a6a6db10-6980-4d93-8b72-649f873f9c8a'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Emiliano', 'student_last_name_paternal': 'Rivas', 'grade_interest': 'prenursery', 'current_school': None, 'contact_email': 'daniela.lopez@test.com', 'contact_phone': '871-333-0011'}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emiliano","student_middle_name":null,"student_last_name_paternal":"Rivas","student_last_name_maternal":"López","stude[0m
+[2m     Result: No se pudo crear el lead porque faltan datos obligatorios del alumno, el colegio de procedencia o el grado de interes.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Pregunta si existe lista de espera para cuando le corresponda ingresar (Emiliano, DOB 07-Sep-2024).","subject":"Lista de espera / [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, podemos ir *dando seguimiento desde ahora* para que cuando se
+  acerque su etapa de ingreso (en su caso, *Prenursery a partir de
+  agosto 2027*) ya estén considerados y con el proceso encaminado. La
+  disponibilidad/cupo se confirma conforme se acerca el ciclo y se
+  completa la evaluación correspondiente.  Para dejarlo correctamente
+  registrado en nuestro sistema (y poderte avisar de aperturas y pasos),
+  me falta un dato muy puntual:  ¿Me confirmas que el *grado de interés*
+  es *Prenursery (Maternal)*?   Y también, ¿Emiliano está actualmente en
+  *guardería*? Si sí, ¿cómo se llama? (si está en casa, solo dime “en
+  casa”).
+[1m[32m👤 User:[0m ¿Cuáles son los requisitos para Maternal?
+[admissions] loading session messages {'session_id': 'a6a6db10-6980-4d93-8b72-649f873f9c8a'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for prenursery
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/prenursery/1766895136674-01_Admission_Requirements_Prenursery.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"prenursery"}[0m
+[2m     Result: Documento de requisitos para prenursery enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Para *Maternal (Prenursery)* los requisitos principales son:  - *Acta
+  de nacimiento* - *CURP* - *Cartilla de vacunación* - *Certificado de
+  salud* - *4 fotos* del alumno - *Carta de desempeño* (si aplica) -
+  *Carta de solvencia* (alumnos nuevos) - Llenado de *formatos CAT*
+  También te puedo compartir el documento oficial con la lista completa
+  y formatos. Ya te lo envié por aquí.
+[2mℹ️  Chat ID: 75aafee4-4627-4fc2-8e52-59f90c2f447c[0m

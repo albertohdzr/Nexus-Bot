@@ -1,0 +1,96 @@
+
+════════════════════════════════════════════════════════════════
+  [3/10] 13_media_mention
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_084325_13_media_mention.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Menciona media (foto/audio)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat c6f3f46a… (wa_id=test3_media_mention_cd7b6243)[0m
+[1m[32m👤 User:[0m Hola, le mando la foto del acta de nacimiento de mi hijo
+[admissions] loading session messages {'session_id': '0190036f-3c94-4037-8ee8-3071b4962f12'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 331 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  ¡Claro! Puedes enviarla
+  por aquí.  Antes de revisarla, solo para asegurarme: ¿la estás
+  compartiendo como parte del *proceso de admisión* (papelería), o solo
+  quieres que confirme si se ve legible/si trae los datos completos?
+[1m[32m👤 User:[0m ¿Ya la vieron? ¿Está bien?
+[admissions] loading session messages {'session_id': '0190036f-3c94-4037-8ee8-3071b4962f12'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 309 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Aún no me aparece la imagen aquí en el chat. 🙌  ¿Me la puedes
+  reenviar, por favor?   Y si puedes, procura que se vea completa, sin
+  reflejos y con buena luz (especialmente el nombre y la fecha de
+  nacimiento).  En cuanto la reciba te confirmo si se alcanza a leer
+  bien y si parece estar correcta para papelería.
+[1m[32m👤 User:[0m Ahh ok. Bueno, mi hijo se llama Carlos Medina Soto, nació 12 de enero de 2015, va en 4to en el Monte…
+[admissions] loading session messages {'session_id': '0190036f-3c94-4037-8ee8-3071b4962f12'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Carlos', 'student_last_name_paternal': 'Medina', 'grade_interest': 'Primaria 4', 'current_school': 'Montessori', 'contact_email': 'ana.soto@test.com', 'contact_phone': '871-666-7700'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_media_mention_cd7b6243', 'contact_phone': '871-666-7700'}
+[admissions] contact created {'contact_id': '61378a31-d7e1-4f4d-82a3-46598e519bf1'}
+[admissions] lead created {'lead_id': '801e41e1-55fb-41da-874f-17459dd69d07', 'lead_number': 105}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Carlos","student_middle_name":null,"student_last_name_paternal":"Medina","student_last_name_maternal":"Soto","student[0m
+[2m     Result: Lead creado con folio L-105.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Datos recibidos: Alumno Carlos Medina Soto (DOB 12/ene/2015), actualmente 4º en Montessori. Tutor: Ana Soto, tel 871-666-7700, cor[0m
+[2m     Result: Nota agregada al lead L-105 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias por los datos, Ana. Ya quedó *registrado* Carlos
+  Medina Soto (12/ene/2015) y tus datos de contacto. ✅  Sobre el acta:
+  todavía no la he recibido en este chat. ¿Me la puedes reenviar en foto
+  por aquí?  Para que salga “bien”: - que se vea *completa* (sin
+  recortes), - sin reflejo/sombra, - y que se lean claramente *nombre* y
+  *fecha de nacimiento*.  En cuanto entre la imagen, te confirmo si está
+  legible y adecuada para papelería.
+[1m[32m👤 User:[0m ¿Me agendan visita? Lo que sea de esta semana
+[admissions] loading session messages {'session_id': '0190036f-3c94-4037-8ee8-3071b4962f12'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita agendar visita esta semana (cualquier horario). Alumno Carlos Medina Soto, DOB 2015-01-12, actualmente 4to en Montessori.[0m
+[2m     Result: Nota agregada al lead L-105 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 1:00 PM - 2:00 PM
+- Opción 2: Martes 3 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Martes 3 de marzo de 2026, 11:[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro, Ana! Ya vi que buscas *visita esta semana*; con gusto la
+  agendamos. 🙌  Tengo estos horarios disponibles (hora Torreón): 1) Lun
+  2/mar 1:00–2:00 pm   2) Mar 3/mar 10:00–11:00 am   3) Mar 3/mar 11:00
+  am–12:00 pm   4) Mar 3/mar 12:00–1:00 pm   5) Mar 3/mar 1:00–2:00 pm
+  6) Mié 4/mar 8:00–9:00 am   7) Mié 4/mar 9:00–10:00 am   8) Mié 4/mar
+  10:00–11:00 am    ¿Cuál opción eliges? (respóndeme con el número)
+[1m[32m👤 User:[0m La primera
+[admissions] loading session messages {'session_id': '0190036f-3c94-4037-8ee8-3071b4962f12'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] booking appointment for slot 495f75c4-4aa0-4ea5-b738-47b30994bd06
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"495f75c4-4aa0-4ea5-b738-47b30994bd06","notes":"Visita para Carlos Medina Soto (DOB 12-ene-2015), interés Primaria 4. Tutor: Ana [0m
+[2m     Result: Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicitan agendar visita esta semana. Escuela actual: Montessori. Enviará foto de acta de nacimiento para revisar legibilidad/pape[0m
+[2m     Result: Nota agregada al lead L-105 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Listo, Ana: *tu visita quedó agendada* ✅  *Lunes 2 de marzo de 2026,
+  1:00–2:00 pm*.  Te esperamos en *Puerta 3 (por la caseta del reloj)*,
+  en *C. P.º del Algodón 500, Los Viñedos, Torreón*.  Cuando puedas,
+  reenvíame por aquí la *foto del acta de nacimiento* y te confirmo si
+  se ve legible y completa para papelería.
+[2mℹ️  Chat ID: c6f3f46a-f166-4144-9941-8086e1adbe42[0m

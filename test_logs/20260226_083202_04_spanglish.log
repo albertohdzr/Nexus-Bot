@@ -1,0 +1,118 @@
+
+════════════════════════════════════════════════════════════════
+  [4/10] 04_spanglish
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_04_spanglish.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Spanglish / Code-switching
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat f4849dcb… (wa_id=test3_spanglish_f8f83464)[0m
+[1m[32m👤 User:[0m Hi! Quiero info del colegio for my son
+[admissions] loading session messages {'session_id': '465ee0ef-4998-4b64-8403-f9f3e01735af'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 420 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Con gusto te comparto
+  info. Para orientarte mejor, ¿qué te gustaría conocer primero: el
+  *programa académico*, *idioma/ambiente bilingüe*, *actividades*
+  (deportes/arte/robótica) o el *proceso de admisión*?  Y para ubicar a
+  tu hijo en la sección correcta, ¿qué edad tiene o en qué grado estaría
+  para *agosto 2026*?
+[1m[32m👤 User:[0m Se llama Daniel, tiene eight years old, born on June 15 2017. Está en third grade en una escuela her…
+[admissions] loading session messages {'session_id': '465ee0ef-4998-4b64-8403-f9f3e01735af'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado para su hijo Daniel. Fecha de nacimiento: 15-jun-2017 (8 años). Actualmente en 3rd grade en Instituto Francés (Torreón)[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por la info. Por la fecha de nacimiento *15 de junio de 2017*,
+  para el ciclo que inicia en *agosto 2026* a Daniel normalmente le
+  corresponde *4º de Primaria (Elementary)*.  Viniendo del Instituto
+  Francés, lo más común es que hagamos un proceso de admisión con
+  evaluación acorde al grado y una visita al campus para que conozcan el
+  ambiente y el programa.  ¿Te gustaría que agendemos una *visita al
+  campus*? (Son de lunes a viernes entre *8:00 am y 3:00 pm*).  Para
+  poder apartar un horario y avanzar con el proceso, solo me faltaría: -
+  Nombre completo de Daniel (¿tiene segundo nombre y apellidos?) - Tu
+  nombre (mamá/papá/tutor), *teléfono* y *correo* - Confirmar: ¿buscan
+  ingreso para *agosto 2026* o para este ciclo actual?
+[1m[32m👤 User:[0m I'm Carlos García, phone ocho setenta y uno, cuatro cuatro cuatro, once once. Email carlos.garcia@te…
+[admissions] loading session messages {'session_id': '465ee0ef-4998-4b64-8403-f9f3e01735af'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado para su hijo Daniel (nac. 15-jun-2017), actualmente en 3rd grade en Instituto Francés (Torreón). Tutor: Carlos García. [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Perfect, Carlos—thanks! (Tel: *871 444 1111* | Email:
+  *carlos.garcia@test.com*).  Para poder *crear el registro de
+  admisiones* y ya apartarte una visita, solo me falta el *nombre
+  completo* del alumno:  - ¿Daniel tiene segundo nombre? - ¿Cuáles son
+  sus apellidos (paterno y materno)?  Y para confirmar: ¿buscan ingreso
+  para *agosto 2026* (lo más común) o para este ciclo actual?
+[1m[32m👤 User:[0m What sports do you have? A mi hijo le gusta mucho el soccer y el swimming
+[admissions] loading session messages {'session_id': '465ee0ef-4998-4b64-8403-f9f3e01735af'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 673 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  We have a strong after-school athletics program. For sports, we offer
+  (among others): *Soccer* and *Swimming*, plus Basketball, Tennis,
+  Track & Field, Tae Kwon Do, Volleyball, Yoga and Flag Football.
+  Important note: the full sports program is available starting in *1st
+  grade of Elementary*, so Daniel (going into *4th grade*) is perfectly
+  within the range to participate.  Since he’s especially into *soccer
+  and swimming*, I’ll leave that noted for the admissions team.    To
+  move forward and book a campus visit, can you share Daniel’s *full
+  name* (does he have a middle name + his paternal and maternal last
+  names)? And confirm if you’re aiming for *August 2026* entry.
+[1m[32m👤 User:[0m Awesome, do you have robotics too? He loves coding
+[admissions] loading session messages {'session_id': '465ee0ef-4998-4b64-8403-f9f3e01735af'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado en deportes: soccer y natación. También le interesa robótica/coding.","subject":"Intereses del alumno"}[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Yes—we do have robotics, and it’s one of our strongest programs.  We
+  participate in *FIRST Robotics* with levels by grade: - *FLL Explore*
+  (1st–3rd grade) - *FLL Challenge* (4th–6th grade) - *FTC* (Middle
+  School) - *FRC* (High School)  So if Daniel will enter *4th grade in
+  August 2026*, he would fit right into *FLL Challenge*, which aligns
+  great with coding/programming.  If you’d like, we can schedule a
+  campus visit so you can see the Elementary area and ask about robotics
+  + sports.  To book it, I just need Daniel’s *full name* (middle name
+  if any + paternal and maternal last names) and to confirm: are you
+  aiming for *August 2026* entry?
+[1m[32m👤 User:[0m Can we schedule a visit? Any day next week works for me
+[admissions] loading session messages {'session_id': '465ee0ef-4998-4b64-8403-f9f3e01735af'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés: Daniel (DOB 2017-06-15), viene del Instituto Francés (Torreón). Le interesan Soccer, Natación y Robótica/Coding. Tutor: C[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro, Carlos! Con gusto la agendamos para la próxima semana.  Antes
+  de poder *apartar un horario* en el sistema, necesito crear el
+  registro de Daniel. Me falta solo esto:  1) Nombre completo de tu
+  hijo: - ¿Daniel tiene segundo nombre? - ¿Cuáles son sus apellidos
+  *paterno* y *materno*?  2) Confirmación rápida: - ¿Buscan ingreso para
+  *agosto 2026*?  Y para buscarte opciones: ¿prefieres *mañana
+  (8:00–12:00)* o *tarde (12:00–3:00)*?
+[1m[32m👤 User:[0m La 3 please
+[admissions] loading session messages {'session_id': '465ee0ef-4998-4b64-8403-f9f3e01735af'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 430 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te refieres a la *opción 3 de horarios*? 🙂   Aún no te he enviado una
+  lista de opciones (todavía no he buscado disponibilidad en el
+  sistema), por eso necesito confirmar primero:  1) ¿Cuáles son los
+  apellidos de Daniel (*paterno* y *materno*) y si tiene segundo nombre?
+  2) ¿Prefieres visita en la *mañana (8–12)* o en la *tarde (12–3)* la
+  próxima semana?  Con eso ya puedo buscarte 3 horarios disponibles y me
+  dices cuál eliges.
+[2mℹ️  Chat ID: f4849dcb-6eaa-4aaa-bddd-b243baf812c8[0m

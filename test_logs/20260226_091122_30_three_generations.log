@@ -1,0 +1,121 @@
+
+════════════════════════════════════════════════════════════════
+  [10/10] 30_three_generations
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_091122_30_three_generations.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  3 generaciones - abuela exalumna del CAT
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 7b1104a1… (wa_id=test3_three_gen_5d3098fc)[0m
+[1m[32m👤 User:[0m ¡Hola! Yo fui alumna del CAT hace 40 años, mi hija también fue al CAT, y ahora quiero inscribir a mi…
+[admissions] loading session messages {'session_id': '0acfed49-21da-4487-beb1-31a2381d45db'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 423 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Soy Vale, del área de admisiones del Colegio Americano de
+  Torreón. Qué bonito saber que son *familia CAT* y que ahora viene tu
+  nieta 😊  Con gusto te oriento. Para empezar, ¿qué te gustaría conocer:
+  el proceso de admisión, requisitos, o agendar una visita al campus?  Y
+  para ubicarla mejor (sin hacerlo largo): ¿qué edad tiene tu nieta o en
+  qué grado te interesa inscribirla para el ciclo que inicia en *agosto
+  2026*?
+[1m[32m👤 User:[0m Mi nieta se llama Ximena Ochoa Delgado, nació 22 de junio de 2020, está en kínder en el Lancaster. Y…
+[admissions] loading session messages {'session_id': '0acfed49-21da-4487-beb1-31a2381d45db'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesada en inscripción para su nieta. Familia CAT (abuela exalumna; hija también fue alumna). Alumna: Ximena Ochoa Delgado, DOB[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Ximena', 'student_last_name_paternal': 'Ochoa', 'grade_interest': 'Kinder', 'current_school': 'Lancaster', 'contact_email': 'paulina.delgado@test.com', 'contact_phone': '871-555-8899'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_three_gen_5d3098fc', 'contact_phone': '871-555-8899'}
+[admissions] contact created {'contact_id': '0c800059-52dd-436c-a55e-67b196674b30'}
+[admissions] lead created {'lead_id': '9b39608f-c840-45bf-84eb-327bbac7ccd3', 'lead_number': 122}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ximena","student_middle_name":null,"student_last_name_paternal":"Ochoa","student_last_name_maternal":"Delgado","stude[0m
+[2m     Result: Lead creado con folio L-122.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Gracias por compartir toda la info! Ya quedó *registrado el interés*
+  de tu nieta.  Por la fecha de nacimiento de Ximena (22/jun/2020), para
+  el ciclo que inicia en *agosto 2026* le corresponde *1º de Primaria
+  (Elementary)*.  El siguiente paso ideal es *agendar una visita al
+  campus* para que conozcan el nivel, programa y resolver dudas en
+  persona. 🙂  Antes de buscar horarios, solo para completar el registro:
+  ¿me confirmas el *nombre completo de la mamá* (¿Paulina tiene segundo
+  apellido además de Delgado?) y si ella sería quien asista a la visita?
+  Y ya con eso: ¿qué días les acomodan más para venir entre semana (8:00
+  am a 3:00 pm), por la mañana o por la tarde?
+[1m[32m👤 User:[0m ¿Siguen teniendo el festival de primavera? Me acuerdo mucho de eso 😊
+[admissions] loading session messages {'session_id': '0acfed49-21da-4487-beb1-31a2381d45db'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia CAT multigeneracional (abuela exalumna hace 40 años, madre exalumna). Interés en inscribir a nieta Ximena; recuerda con ca[0m
+[2m     Result: Nota agregada al lead L-122 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Sí, seguimos teniendo eventos y celebraciones a lo largo del ciclo, y
+  el *Festival de Primavera* (o actividades de temporada) sigue siendo
+  parte de la vida escolar; puede variar un poco el formato según el
+  nivel y la planeación del año, pero la idea de celebrar y que las
+  familias participen se mantiene. 😊  Si quieres, cuando vengan a la
+  visita les compartimos cómo se vive actualmente en *Elementary* (1º de
+  Primaria) y qué eventos suelen tener durante el año.  ¿Te gustaría que
+  agendemos una visita al campus para Paulina (y si tú también quieres
+  acompañarla, son bienvenidas)?   Díganme qué día entre semana les
+  conviene más y si prefieren *mañana* (8-12) o *tarde* (12-3).
+[1m[32m👤 User:[0m ¿Cuánto ha cambiado el colegio? ¿Ya tienen tecnología en los salones?
+[admissions] loading session messages {'session_id': '0acfed49-21da-4487-beb1-31a2381d45db'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 760 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Ha cambiado bastante, pero conservando muchas tradiciones y el sentido
+  de comunidad. En general, sí: hoy el colegio integra *tecnología en el
+  aula* como parte del aprendizaje (por ejemplo, recursos digitales,
+  herramientas para trabajo colaborativo y apoyo para proyectos), además
+  de espacios actualizados como bibliotecas por divisiones y áreas para
+  actividades académicas y co-curriculares.  Para decirte algo 100%
+  aterrizado a lo que vería Ximena en *1º de Primaria*, lo mejor es en
+  una visita: ahí pueden ver salones, recursos y resolver dudas
+  específicas (qué plataformas usan, cómo se maneja el uso de
+  dispositivos, etc.).  ¿Quieren que lo agendemos?   Dime por favor 2-3
+  opciones de día entre semana que les funcionen (y si prefieren
+  *mañana* o *tarde*).
+[1m[32m👤 User:[0m Quiero llevar a mi nieta a conocer. ¿Cuándo puedo ir?
+[admissions] loading session messages {'session_id': '0acfed49-21da-4487-beb1-31a2381d45db'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Abuela exalumna hace 40 años; hija (madre) exalumna. Quiere llevar a su nieta Ximena a conocer el campus. Ximena (22-jun-2020) act[0m
+[2m     Result: Nota agregada al lead L-122 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Con gusto les agendo una visita al campus. 😊   Las visitas son
+  *de lunes a viernes* entre *8:00 am y 3:00 pm* (no fines de semana).
+  Para decirte *fechas y horas exactas disponibles*, dime por favor: 1)
+  ¿Qué días entre semana te acomodan más (por ejemplo:
+  lunes/miércoles/viernes)?   2) ¿Prefieren *mañana* (8–12) o *tarde*
+  (12–3)?   3) ¿Irá Paulina (mamá) también a la visita o tú la
+  llevarías?  En cuanto me confirmes eso, busco los horarios disponibles
+  y te paso opciones para que elijan.
+[1m[32m👤 User:[0m La primera de la mañana
+[admissions] loading session messages {'session_id': '0acfed49-21da-4487-beb1-31a2381d45db'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Miércoles 4 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Miércoles 4 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Miércoles 4 de marzo de [0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, encontré disponibilidad en la mañana. La *primera*
+  disponible es:  1) *Miércoles 4 de marzo, 8:00–9:00 am*   También
+  están:   2) Miércoles 4 de marzo, 9:00–10:00 am   3) Jueves 5 de
+  marzo, 9:00–10:00 am   4) Viernes 6 de marzo, 8:00–9:00 am  ¿Cuál
+  opción eligen? (puedes responder “la 1”, “la del miércoles 8:00”,
+  etc.)  Para dejarla a tu nombre correctamente: ¿iría Paulina (mamá)
+  también a la visita, o vas tú con Ximena?
+[2mℹ️  Chat ID: 7b1104a1-54cb-4e6b-8af5-20464738ff09[0m

@@ -1,0 +1,110 @@
+
+════════════════════════════════════════════════════════════════
+  [2/10] 22_diplomat_family
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_091122_22_diplomat_family.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Familia diplomática - hijo en 4 países
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat 5165d04f… (wa_id=test3_diplomat_04277411)[0m
+[1m[32m👤 User:[0m Good morning. My husband works at the US Consulate in Monterrey and we're being reassigned to Torreó…
+[admissions] loading session messages {'session_id': 'b5d60405-cef2-4475-bfa2-3be51bfa2ba2'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Family relocating to Torreón; father works at the US Consulate in Monterrey. Looking for a bilingual school for their daughter.","[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Good morning—thanks for reaching out to the Admissions Office at
+  *Colegio Americano de Torreón*. How can I help you today?  We’re a
+  bilingual (Spanish/English) school, and we often support families
+  relocating to Torreón. To point you in the right direction, what grade
+  would your daughter be entering in *August 2026* (or what’s her date
+  of birth)?
+[1m[32m👤 User:[0m She's attended schools in Germany, Japan, and Brazil before this. Her name is Sophia Chen-Williams, …
+[admissions] loading session messages {'session_id': 'b5d60405-cef2-4475-bfa2-3be51bfa2ba2'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Family relocating from Monterrey (US Consulate). Student Sophia Chen-Williams; international schooling experience (Germany, Japan,[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Thanks—this is very helpful.  With Sophia’s DOB (*April 22, 2013*),
+  for the *2026–2027* school year (starting *August 2026*) she fits in
+  *6th Grade / Elementary*. Since she’s currently in 6th grade at the
+  American School of Monterrey, our admissions team may want to review
+  the best placement (especially if you’re looking to join before
+  August).  Would you like to aim for *August 2026* start, or are you
+  considering a move *during the current school year* (late
+  enrollment—very limited availability)?  To help you quickly, I can
+  also schedule a campus visit. What current school is she attending
+  right now (American School of Monterrey), and would you prefer a
+  *morning* or *afternoon* visit on a weekday?
+[1m[32m👤 User:[0m I'm Catherine Williams, phone +1-555-234-5678, email c.williams@state.gov. We'd need to start mid-Ma…
+[admissions] loading session messages {'session_id': 'b5d60405-cef2-4475-bfa2-3be51bfa2ba2'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Family relocating from Monterrey (US Consulate assignment). Student: Sophia Chen-Williams, DOB 2013-04-22. Multilingual (English/M[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Sophia', 'student_last_name_paternal': 'Chen-Williams', 'grade_interest': 'Elementary - Grade 6', 'current_school': 'American School of Monterrey', 'contact_email': 'c.williams@state.gov', 'contact_phone': '+1-555-234-5678'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_diplomat_04277411', 'contact_phone': '+1-555-234-5678'}
+[admissions] contact created {'contact_id': '8441e0a0-acd2-460c-b188-ff3e97a165f1'}
+[admissions] lead created {'lead_id': '26db8ce4-fecf-4e3a-8c14-53daa12606df', 'lead_number': 113}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Sophia","student_middle_name":null,"student_last_name_paternal":"Chen-Williams","student_last_name_maternal":null,"st[0m
+[2m     Result: Lead creado con folio L-113.[0m
+[1m[34m🤖 Bot:[0m
+  Thanks, Catherine. I’ve saved Sophia’s information and created her
+  admissions file.  Starting *mid-March* would be considered *late
+  enrollment*, and availability is usually very limited and subject to
+  review—but we can absolutely evaluate Sophia’s case.  The best next
+  step is a *campus visit* (Mon–Fri, *8:00am–3:00pm*, Torreón time).
+  What day(s) work best for you, and do you prefer *morning* or
+  *afternoon*?
+[1m[32m👤 User:[0m Is the IB program available? We need something internationally recognized for when we transfer again…
+[admissions] loading session messages {'session_id': 'b5d60405-cef2-4475-bfa2-3be51bfa2ba2'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Family relocating due to US Consulate reassignment. Needs bilingual school with internationally recognized program; asks about IB.[0m
+[2m     Result: Nota agregada al lead L-113 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Yes—we do offer an *International Baccalaureate (IB)* pathway.  At
+  CAT, *IB is offered in High School (Prepa)* as the IB Diploma
+  Programme. For *Elementary / Grade 6*, Sophia would follow our
+  bilingual curriculum that builds the academic skills and profile
+  students typically need to transition smoothly into IB later on.
+  Since you expect another transfer in 2–3 years, I can have our team
+  focus the conversation on *international continuity* (transcripts,
+  English support, and the best pathway toward IB).  Would you like me
+  to share how the *Middle School → High School → IB* track works here,
+  or would you prefer to schedule a campus visit first so you can see
+  the academic model in person?
+[1m[32m👤 User:[0m What about college counseling? She'll likely apply to universities in the US and UK
+[admissions] loading session messages {'session_id': 'b5d60405-cef2-4475-bfa2-3be51bfa2ba2'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Family expects another international transfer in 2–3 years. Interested in IB (for later years) and asks about college counseling; [0m
+[2m     Result: Nota agregada al lead L-113 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  We do have *college counseling* to support students who plan to apply
+  internationally, including the *US and UK*.  In general terms, our
+  counseling team guides students through: - academic planning (course
+  selection and rigor over time) - university research and building a
+  balanced list - application timelines and requirements (US/UK
+  processes) - recommendation coordination and school
+  documents/transcripts support  Because Sophia is currently in *6th
+  grade*, college counseling becomes more structured in the later
+  grades, but we can definitely discuss the long-term pathway
+  now—especially given your family’s likely relocation timeline.  Would
+  you like your main focus to be *a smooth transfer in March* (late
+  enrollment) and then planning toward *US/UK applications*, or are you
+  mostly looking ahead to the *IB + college counseling track* for high
+  school?
+[2mℹ️  Chat ID: 5165d04f-f50b-4391-a731-991c3b612f81[0m

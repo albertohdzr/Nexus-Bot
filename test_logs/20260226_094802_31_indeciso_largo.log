@@ -1,0 +1,297 @@
+
+════════════════════════════════════════════════════════════════
+  [1/5] 31_indeciso_largo
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_094802_31_indeciso_largo.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO A: Padre indeciso - cambios constantes (~25 msgs, 3 sesiones)
+════════════════════════════════════════════════════════════════[0m
+
+[31m❌ Chat creation failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Chat creation failed: Server disconnected without sending a response. — retrying in 10s[0m
+[2mℹ️  Created chat bc4fc2e6… (wa_id=test3_indeciso_largo_376d28a5)[0m
+
+  ╔══ SESSION 1: Discovery + indecision ══╗
+[1m[32m👤 User:[0m Hola buenas tardes
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Quiero información, estoy viendo opciones de colegio para mi hija
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[2mℹ️  History: 0 msgs | Pending: 2[0m
+[2mℹ️  LLM: 538 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte? 😊  Con gusto te comparto
+  información. Para orientarte mejor, ¿qué es lo más importante para ti
+  al elegir colegio: *nivel académico/bilingüe*, *seguridad y ambiente*,
+  *deportes/actividades*, o *acompañamiento socioemocional*?  Y para
+  ubicar a tu hija en el grado correcto, ¿me dices por favor: - ¿qué
+  edad tiene (o su fecha de nacimiento)? - ¿a qué grado buscarían entrar
+  (kínder, primaria, secundaria o prepa) para *Agosto 2026*?
+[1m[32m👤 User:[0m Tiene 11 años, nació el 20 de marzo de 2015. Está en 5to de primaria
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[2mℹ️  History: 3 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesada en opciones de colegio para su hija. Hija: 11 años, DOB 20-mar-2015. Actualmente en 5º de primaria.","subject":"Datos i[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m No, espera, está en 6to, no en 5to. Perdón me confundí
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Bueno la verdad no sé si meterla ahora a 6to o esperar a agosto para que entre a 1ro de secundaria. …
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Se llama Fernanda Moreno Castillo, viene del Cervantes. Yo soy Gabriela Castillo, tel 871-222-5566, …
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[2mℹ️  History: 3 msgs | Pending: 2[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesada en admisiones para su hija Fernanda Moreno Castillo (Nac. 20/03/2015), actualmente en 5º primaria en Colegio Cervantes.[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Fernanda', 'student_last_name_paternal': 'Moreno', 'grade_interest': 'Elementary - 6th Grade', 'current_school': 'Colegio Cervantes', 'contact_email': 'gabriela.castillo@test.com', 'contact_phone': '871-222-5566'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_indeciso_largo_376d28a5', 'contact_phone': '871-222-5566'}
+[admissions] contact created {'contact_id': '672bf54b-8843-44bd-9bca-349e07c6b8a6'}
+[admissions] lead created {'lead_id': '296cd694-c8b6-4671-bcc4-ac40e41092da', 'lead_number': 123}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Fernanda","student_middle_name":null,"student_last_name_paternal":"Moreno","student_last_name_maternal":"Castillo","s[0m
+[2m     Result: Lead creado con folio L-123.[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Qué actividades tienen en secundaria? A mi hija le gusta mucho el arte y la pintura
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m ¿Y deportes? Porque también le gusta la natación
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[2mℹ️  History: 3 msgs | Pending: 3[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Ay me quedé pensando... ¿qué pasa si la meto ahorita a 6to? ¿Pierde la opción de entrar a 1ro de sec…
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[2mℹ️  History: 3 msgs | Pending: 4[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia está comparando opciones de colegio. Interés en deportes; a Fernanda le gusta la natación. Pregunta por posible ingreso[0m
+[2m     Result: Nota agregada al lead L-123 (y otros asociados si existen).[0m
+[admissions] update lead payload {'student_first_name': 'Fernanda', 'student_last_name_paternal': 'Moreno', 'student_last_name_maternal': 'Castillo', 'student_dob': '2015-03-20', 'grade_interest': 'Elementary - 6th Grade', 'school_year': '2026-2027', 'current_school': 'Colegio Cervantes', 'contact_first_name': 'Gabriela', 'contact_last_name_paternal': 'Castillo', 'contact_email': 'gabriela.castillo@test.com', 'contact_phone': '871-222-5566'}
+[admissions] lead updated {'lead_id': '296cd694-c8b6-4671-bcc4-ac40e41092da', 'updates': {'student_first_name': 'Fernanda', 'student_last_name_paternal': 'Moreno', 'student_last_name_maternal': 'Castillo', 'student_dob': '2015-03-20', 'grade_interest': 'Elementary - 6th Grade', 'student_grade_interest': 'Elementary - 6th Grade', 'school_year': '2026-2027', 'current_school': 'Colegio Cervantes', 'contact_email': 'gabriela.castillo@test.com', 'contact_phone': '871-222-5566', 'contact_first_name': 'Gabriela', 'contact_last_name_paternal': 'Castillo', 'contact_name': 'Gabriela Castillo'}}
+[admissions] contact updated {'contact_id': '672bf54b-8843-44bd-9bca-349e07c6b8a6', 'updates': {'first_name': 'Gabriela', 'last_name_paternal': 'Castillo', 'email': 'gabriela.castillo@test.com', 'phone': '871-222-5566', 'whatsapp_wa_id': 'test3_indeciso_largo_376d28a5'}}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":"Fernanda","student_middle_name":null,"student_last_name_paternal":"Moreno","student_last_name_maternal":"Castillo","s[0m
+[2m     Result: Lead L-123 actualizado.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, Gaby. Ya quedó actualizada la información de Fernanda
+  (20/mar/2015, 5º en Colegio Cervantes, interés para *6º de primaria* y
+  contacto).    Sobre *deportes*: sí contamos con *natación* dentro de
+  nuestras actividades deportivas (a partir de *1º de primaria*), además
+  de opciones como soccer, básquetbol, tennis, atletismo, taekwondo y
+  volley, entre otras.  Y sobre tu duda de “meterla ahorita a 6º”: - El
+  ingreso “ahorita” sería un *late enrollment* (cupo limitado y sujeto a
+  disponibilidad/evaluación). - En general, *no pierde* la opción de
+  entrar a *1º de secundaria en agosto*; si entra ahora a 6º, lo natural
+  es que continúe a secundaria en el siguiente ciclo (Agosto 2026),
+  siempre cumpliendo con el proceso de admisión y la evaluación
+  correspondiente. - Si *no* hubiera cupo para entrar ahorita, lo más
+  recomendable sería enfocarnos directo en su ingreso para *Agosto
+  2026*.  Para orientarte con total precisión: ¿te refieres a
+  inscribirla *en este ciclo actual* para que curse 6º “ya”, o para que
+  inicie *6º en Agosto 2026*?
+[1m[32m👤 User:[0m Ya platiqué con mi esposo y dice que mejor esperemos a agosto. Cierra la conversación por favor
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia (mamá Gabriela Castillo) decide esperar para ingreso en agosto 2026. Interés: Fernanda Moreno Castillo, nac. 20-mar-201[0m
+[2m     Result: Nota agregada al lead L-123 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría finalizar esta conversación ahora? Generaré un resumen
+  breve de lo que vimos (Fernanda, Agosto 2026 y natación) y la cerraré.
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': '6a72ca5d-7a05-4c09-a65a-ae2ab84c6057'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': "Familia: Gabriela Castillo (tel 871-222-5566, correo gabriela.castillo@test.com). Alumna: Fernanda Moreno Castillo, nacida 20/03/2015, actualmente en 5º de primaria en Colegio Cervantes. Interés: ingreso a 6º de primaria en Colegio Americano de Torreón, idealmente para Agosto 2026. Consulta sobre deportes; se informó que hay natación y otras actividades deportivas (natación disponible a partir de 1º de primaria). Duda sobre inscribir 'ahorita' a 6º: se explicó que sería late enrollment con cupo limitado y evaluación, y que generalmente no impide ingresar a 1º de secundaria en Agosto 2026. Decisión final: tras hablar con su esposo, prefieren esperar a Agosto 2026 y solicitaron cerrar la conversación.", 'reason': 'Usuario solicitó cierre de conversación'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"Familia: Gabriela Castillo (tel 871-222-5566, correo gabriela.castillo@test.com). Alumna: Fernanda Moreno Castillo, nacida 20/03[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya cerré la conversación y quedó el resumen registrado.
+  Gracias por escribirnos, Gaby. Cuando gusten, con gusto retomamos para
+  coordinar una visita al campus para Fernanda rumbo a *Agosto 2026*.
+
+  ╔══ SESSION 2: Cambia de opinión, quiere visita ══╗
+[1m[32m👤 User:[0m Hola, soy Gabriela otra vez. Ya cambiamos de opinión, sí queremos meterla para agosto en secundaria
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La tutora Gabriela indica cambio de plan: ahora desea ingreso para agosto en Secundaria (en lugar de 6th grade Elementary).","subj[0m
+[2m     Result: Nota agregada al lead L-123 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['update_admissions_lead'][0m
+[admissions] update lead payload {'grade_interest': 'Middle School - 1st Grade (Secundaria 1)', 'school_year': '2026-2027', 'notes': 'Actualización: familia cambia interés a Secundaria para ingreso en agosto 2026.'}
+[admissions] lead updated {'lead_id': '296cd694-c8b6-4671-bcc4-ac40e41092da', 'updates': {'grade_interest': 'Middle School - 1st Grade (Secundaria 1)', 'student_grade_interest': 'Middle School - 1st Grade (Secundaria 1)', 'school_year': '2026-2027'}}
+[admissions] contact updated {'contact_id': '672bf54b-8843-44bd-9bca-349e07c6b8a6', 'updates': {'whatsapp_wa_id': 'test3_indeciso_largo_376d28a5'}}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":null,"student_middle_name":null,"student_last_name_paternal":null,"student_last_name_maternal":null,"student_dob":null[0m
+[2m     Result: Lead L-123 actualizado.[0m
+[2mℹ️  Followup round 2: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola, Gabriela! Gracias por avisarme. Perfecto, entonces sería para
+  *Secundaria* en *agosto 2026*.  Ya actualicé el interés de Fernanda a
+  *Secundaria (1º)* para el ciclo *2026–2027* y dejé nota del cambio.
+  Para avanzar, ¿me confirmas por favor si Fernanda ingresaría a *1º de
+  Secundaria* (7th grade)? (Solo para asegurar que sea el grado
+  correcto.)  Si te parece, el siguiente paso ideal es agendar una
+  *visita al campus* (lun–vie de 8:00 am a 3:00 pm). ¿Qué días y en qué
+  horario les conviene más: *mañana* o *tarde*?
+[1m[32m👤 User:[0m Pero quisiera antes ir a conocer. ¿Qué horarios tienen?
+[31m❌ Attempt 1 failed: {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''} — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Mmm, ¿tienen algo en la tarde? Yo trabajo en la mañana
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Ah no, mejor en la mañana, puedo pedir permiso. ¿El jueves?
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): {'message': 'JSON could not be generated', 'code': 500, 'hint': 'Refer to full message for details', 'details': 'b\'{\\n  "message":"An unexpected error occurred"\\n}\''}[0m
+[1m[32m👤 User:[0m Hmm, ¿pero no tienen algo más tempranito? Como a las 7?
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 378 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Nuestro horario de visitas es de *8:00 am a 3:00 pm* (lunes a
+  viernes). Antes de las *8:00 am* no tenemos atención para visitas, así
+  que *7:00 am* no estaría disponible.  Si te funciona, puedo buscarte
+  opciones *a primera hora*, por ejemplo *8:00 am* o cerca de esa hora.
+  ¿Prefieres que sea *mañana* (8–12) y qué días te vienen mejor: *lunes
+  a miércoles* o *jueves y viernes*?
+[1m[32m👤 User:[0m Ok la primera opción de la mañana que tengan
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Error: Server disconnected without sending a response.[0m
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Cierra por favor
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[31m❌ Error (all retries exhausted): Server disconnected without sending a response.[0m
+[1m[32m👤 User:[0m Sí
+[31m❌ Attempt 1 failed: Server disconnected without sending a response. — retrying in 5s[0m
+[31m❌ Attempt 2 failed: Server disconnected without sending a response. — retrying in 10s[0m
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 4 msgs | Pending: 2[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Miércoles 4 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Miércoles 4 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Miércoles 4 de marzo de [0m
+[1m[34m🤖 Bot:[0m
+  ¡Perfecto! La *más tempranita* disponible en la mañana es:  *Opción
+  1:* *Miércoles 4 de marzo*, *8:00–9:00 am*   También está: *Viernes 6
+  de marzo*, *8:00–9:00 am* (Opción 8)  ¿Cuál prefieres, *la 1* o *la
+  8*?
+
+  ╔══ SESSION 3: Día de la visita + preguntas ══╗
+[1m[32m👤 User:[0m Hola, ya vamos para allá pero no encuentro la entrada. ¿Es por el estacionamiento grande o por la ot…
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 7 msgs | Pending: 1[0m
+[2mℹ️  LLM: 340 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Es por *Puerta 3* (la de *la caseta del reloj*), no por el
+  estacionamiento grande.  La dirección es: *C. P.º del Algodón 500, Los
+  Viñedos, 27023 Torreón, Coah.*   Maps:
+  https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  Si me dices en qué punto
+  vas (por ejemplo, si vienes por Viñedos/Algodón) te digo exactamente
+  por cuál calle te conviene entrar.
+[1m[32m👤 User:[0m Gracias, ya llegamos. Otra pregunta: ¿los uniformes los venden aquí mismo?
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 9 msgs | Pending: 1[0m
+[2mℹ️  LLM: 433 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Qué bueno que ya llegaron!  Sobre los uniformes: normalmente *sí se
+  gestionan a través del colegio/proveedor autorizado*, pero la venta no
+  siempre es “en ventanilla” en ese momento (depende de fechas y del
+  punto de venta).  Para orientarte bien: ¿Fernanda entraría a
+  *Secundaria*? Si estás ya en campus, lo más rápido es que en recepción
+  de *Puerta 3* te indiquen el *proveedor/punto de compra* y tallas
+  disponibles para Secundaria.
+[1m[32m👤 User:[0m ¿Y los libros? ¿Usan tablets o cuadernos?
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 11 msgs | Pending: 1[0m
+[2mℹ️  LLM: 658 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  En general, en CAT se trabaja con una combinación de recursos:
+  *libros/plataformas*, *cuadernos* y también *herramientas digitales*
+  según la materia y el grado.  En *Secundaria* normalmente sí se usan
+  recursos digitales (en algunos casos con dispositivo tipo
+  tablet/laptop) además de cuadernos; el detalle exacto (lista de
+  libros, plataformas y si el dispositivo es requerido o recomendado) se
+  confirma cada ciclo en la *lista oficial* que comparte la división.
+  Si me confirmas: ¿Fernanda entra a *1º de Secundaria (agosto 2026)*? Y
+  si quieres, dime si prefieren enfoque más digital o más tradicional,
+  para dejarlo anotado y que el asesor lo tome en cuenta.
+[1m[32m👤 User:[0m Una última cosa, ¿cuándo son las inscripciones formales para agosto?
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 13 msgs | Pending: 1[0m
+[2mℹ️  LLM: 688 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para ingreso en *agosto 2026*, las *inscripciones formales* se van
+  abriendo conforme la familia completa el proceso de admisión
+  (solicitud y entrega de documentación) y conforme se confirma
+  disponibilidad.  Lo más común es: - Primero: visita/entrevista y
+  revisión del caso - Luego: se habilita la *aplicación/inscripción* con
+  el equipo de admisiones - Y se confirma el calendario específico para
+  su grado  Como ya están en campus, lo ideal es que hoy mismo les
+  compartan las *fechas exactas* para Secundaria y los siguientes pasos
+  para Fernanda.  ¿Quieres que también lo deje registrado para que el
+  asesor les mande por WhatsApp el calendario/fechas en cuanto quede
+  definido para su caso?
+[1m[32m👤 User:[0m Perfecto, muchas gracias por toda la paciencia. Cierra la conversación
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 15 msgs | Pending: 1[0m
+[2mℹ️  LLM: 127 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría finalizar esta conversación ahora? Si me confirmas con un
+  “sí”, genero un resumen de lo que vimos hoy y la cierro.
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': '318a2709-20b9-41f8-9ae8-5bc0c6d49741'}
+[2mℹ️  History: 17 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'Familia: Tutor Gabriela Castillo (gabriela.castillo@test.com | 871-222-5566). Alumna: Fernanda Moreno Castillo. Se confirmó interés de ingreso para Agosto 2026 a Secundaria (1º de Secundaria / Middle School 1). Se explicó que no hay visitas antes de las 8:00 am; se ofrecieron opciones tempranas y se compartieron dos horarios disponibles: Mié 4-mar-2026 8:00–9:00 y Vie 6-mar-2026 8:00–9:00 (pendiente de elección/agenda). Se brindó orientación de llegada al campus: dirección C. P.º del Algodón 500, Los Viñedos, Torreón; entrada por Puerta 3 (caseta del reloj) y link de Maps. Consultas adicionales: uniformes (venta/gestión con colegio/proveedor autorizado; se sugirió confirmar en recepción al estar en campus), libros y uso de recursos digitales (combinación de libros/plataformas, cuadernos y herramientas digitales en Secundaria; lista oficial por ciclo). Pregunta sobre inscripciones formales para agosto: se explicó que se abren conforme avance el proceso de admisión (visita/entrevista, revisión, aplicación y confirmación de calendario por división).', 'reason': 'Usuario solicitó cerrar la conversación'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"Familia: Tutor Gabriela Castillo (gabriela.castillo@test.com | 871-222-5566). Alumna: Fernanda Moreno Castillo. Se confirmó inte[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, Gabriela: ya cerré la conversación y quedó guardado el resumen
+  con lo que revisamos (ingreso a *Secundaria 1* para *agosto 2026*,
+  indicaciones de acceso por *Puerta 3*, dudas de uniformes/libros y el
+  tema de inscripciones).  Cuando gustes, aquí estoy para ayudarte.
+[2mℹ️  Chat ID: bc4fc2e6-3bc9-4748-9bdf-5cdc4638e433[0m

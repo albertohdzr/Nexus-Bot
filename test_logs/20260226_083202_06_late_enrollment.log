@@ -1,0 +1,150 @@
+
+════════════════════════════════════════════════════════════════
+  [6/10] 06_late_enrollment
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260226_083202_06_late_enrollment.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Inscripción ciclo actual (late enrollment)
+════════════════════════════════════════════════════════════════[0m
+
+[2mℹ️  Created chat b094bcb8… (wa_id=test3_late_enroll_b60a727f)[0m
+[1m[32m👤 User:[0m Hola, necesitamos meter a mi hijo YA, no puede esperar a agosto. Nos acabamos de mudar de Guadalajar…
+[admissions] loading session messages {'session_id': 'f8714b12-4b7f-438f-8b4d-4bae4aacaa5d'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia recién mudada de Guadalajara; solicita ingreso inmediato (ciclo en curso), no quiere esperar a agosto.","subject":"Interés[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por escribirnos. Entiendo perfecto la urgencia por el cambio
+  de ciudad.  Solo para ser transparente: el ingreso *en este momento
+  (ciclo en curso)* se maneja como *alta extemporánea* y depende de
+  *disponibilidad de cupo* y una *evaluación*; no es el camino estándar.
+  Lo más común es ingresar para el siguiente ciclo que inicia en *agosto
+  2026*, pero sí podemos *revisar tu caso* para ver si es posible entrar
+  ya.  Para orientarte bien, ¿me dices por favor? - ¿Qué edad tiene tu
+  hijo y su *fecha de nacimiento*? - ¿Qué *grado* está cursando
+  actualmente en Guadalajara (o cuál necesita aquí)? - ¿De qué escuela
+  viene?  Con eso te confirmo en qué sección correspondería y el
+  siguiente paso para avanzar lo más rápido posible (idealmente una
+  visita/entrevista entre semana).
+[1m[32m👤 User:[0m Se llama Santiago Méndez Cruz, tiene 11 años, nació 8 de septiembre de 2014. Iba en 5to de primaria …
+[admissions] loading session messages {'session_id': 'f8714b12-4b7f-438f-8b4d-4bae4aacaa5d'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia recién se mudó de Guadalajara y solicita ingreso inmediato (alta extemporánea). Alumno: Santiago Méndez Cruz, 11 años, DOB[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por los datos.  Por la *fecha de nacimiento (08-sep-2014)*,
+  para el ciclo *agosto 2026* Santiago correspondería a *6° de
+  primaria*. Como ahorita cursaba *5°*, lo que me pides sería una *alta
+  extemporánea* (entrar ya al ciclo en curso) y eso sí depende de *cupo
+  en el grado* y de una *evaluación académica*.  Para poder avanzar y
+  que un asesor lo revise *lo más rápido posible*, solo me faltan estos
+  datos del tutor:  - Nombre completo del papá/mamá/tutor - Teléfono -
+  Correo electrónico  Y una confirmación rápida: - ¿Están buscando
+  entrar *a 5° primaria ahora mismo* (en cuanto se pueda), verdad?  En
+  cuanto me lo compartas, registro la solicitud y te propongo una
+  *visita al campus* (lunes a viernes de 8:00 am a 3:00 pm).
+[1m[32m👤 User:[0m Yo soy Paola Cruz, 871-777-4455, paola.cruz@test.com. El papá es Eduardo Méndez, 33-1234-5678
+[admissions] loading session messages {'session_id': 'f8714b12-4b7f-438f-8b4d-4bae4aacaa5d'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Santiago', 'student_last_name_paternal': 'Méndez', 'grade_interest': '5° Primaria (alta extemporánea)', 'current_school': 'Colegio Finlandés de Guadalajara', 'contact_email': 'paola.cruz@test.com', 'contact_phone': '871-777-4455'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_late_enroll_b60a727f', 'contact_phone': '871-777-4455'}
+[admissions] contact created {'contact_id': 'afa65893-160a-4540-acc8-2de5fd06f1af'}
+[admissions] lead created {'lead_id': 'af1e8cda-8bd2-486a-87bd-52a737550e6e', 'lead_number': 99}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Santiago","student_middle_name":null,"student_last_name_paternal":"Méndez","student_last_name_maternal":"Cruz","stude[0m
+[2m     Result: Lead creado con folio L-99.[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia recién mudada de Guadalajara. Solicitan ingreso inmediato (alta extemporánea) para Santiago (actualmente 5° primaria). Vie[0m
+[2m     Result: Nota agregada al lead L-99 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Paola. Ya quedó *registrada la solicitud* de Santiago (folio
+  *L-99*) y anoté que se mudaron de Guadalajara y que buscan *ingreso
+  inmediato*.  Siguiente paso: agendar una *visita al campus* (lun-vie,
+  8:00 am a 3:00 pm) para revisar disponibilidad y aplicar la evaluación
+  correspondiente.  ¿Qué días te acomodan más para venir: *viernes*,
+  *lunes* o *martes*?   ¿Preferirías *mañana (8-12)* o *tarde (12-3)*?
+[1m[32m👤 User:[0m ¿Hay cupo para este ciclo? Es urgente, no puede perder el año
+[admissions] loading session messages {'session_id': 'f8714b12-4b7f-438f-8b4d-4bae4aacaa5d'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia solicita ingreso inmediato (alta extemporánea) por mudanza; expresa urgencia: no quiere que el alumno pierda el año. Tutor[0m
+[2m     Result: Nota agregada al lead L-99 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo totalmente la urgencia, Paola.  El *cupo para este ciclo*
+  (alta extemporánea) no lo puedo confirmar por WhatsApp sin que el
+  equipo revise *disponibilidad real en el grado* y el resultado de la
+  *evaluación/entrevista*; puede haber lugares, pero es *muy limitado* y
+  cambia según el grupo.  Lo más rápido para destrabarlo es agendar su
+  *visita al campus* cuanto antes (lun-vie, 8:00 am a 3:00 pm). Si me
+  dices: - ¿Te conviene más *mañana* o *tarde*? - ¿Qué días puedes entre
+  *viernes, lunes o martes*?  Con eso busco los horarios disponibles y
+  te paso opciones para que elijas.
+[1m[32m👤 User:[0m ¿Qué documentos necesitan para procesar la entrada inmediata?
+[admissions] loading session messages {'session_id': 'f8714b12-4b7f-438f-8b4d-4bae4aacaa5d'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/elementary/1766895179881-03_Admission_Requirements_Elementary.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Para una *alta extemporánea en Primaria* normalmente les pedimos (en
+  copia y/o digital):  - *Acta de nacimiento* y *CURP* del alumno   -
+  *Boletas/calificaciones SEP* del año en curso y *2 ciclos anteriores*
+  - *Carta de conducta* de la escuela anterior   - *Carta de
+  solvencia/no adeudo* (escuela de procedencia)   - *Fotos* tamaño
+  infantil   - (Si aplica) *certificados* correspondientes según el
+  grado  De cualquier forma, lo más importante para poder avanzar rápido
+  es contar con sus calificaciones y la carta de conducta/solvencia,
+  porque ayudan a la revisión de ingreso inmediato.  Ya te envié por
+  WhatsApp el *PDF oficial de requisitos de Primaria* para que lo tengas
+  a la mano.
+[1m[32m👤 User:[0m ¿Puedo ir mañana a dejar los papeles?
+[admissions] loading session messages {'session_id': 'f8714b12-4b7f-438f-8b4d-4bae4aacaa5d'}
+[2mℹ️  History: 11 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia solicita alta extemporánea (ingreso inmediato) y pregunta si puede ir mañana a dejar papeles; urgencia por no perder el añ[0m
+[2m     Result: Nota agregada al lead L-99 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-02-27 to 2026-03-06 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-02-27","end_date":"2026-03-06","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 2 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 2: Lunes 2 de marzo de 2026, 11:00 AM - 12:00 PM
+- Opción 3: Lunes 2 de marzo de 2026, 12:[0m
+[1m[34m🤖 Bot:[0m
+  Sí puedes acercarte, Paola, solo que para *recibirlos y orientarles
+  bien* lo ideal es que sea con *cita* (y además así avanzamos con el
+  proceso de alta extemporánea).  Para *mañana viernes* ya no tengo
+  espacios disponibles en agenda. Los horarios más próximos que sí están
+  disponibles son:  1) *Lun 2 de marzo* 10:00–11:00   2) *Lun 2 de
+  marzo* 11:00–12:00   3) *Lun 2 de marzo* 12:00–1:00   4) *Lun 2 de
+  marzo* 1:00–2:00   5) *Mar 3 de marzo* 8:00–9:00   6) *Mar 3 de marzo*
+  9:00–10:00   7) *Mar 3 de marzo* 10:00–11:00   8) *Mar 3 de marzo*
+  11:00–12:00    ¿Cuál opción prefieres? (dime el número)    Cuando
+  vengan, la entrada para visitas es por *Puerta 3 (caseta del reloj)*.
+[1m[32m👤 User:[0m La 1
+[admissions] loading session messages {'session_id': 'f8714b12-4b7f-438f-8b4d-4bae4aacaa5d'}
+[2mℹ️  History: 13 msgs | Pending: 1[0m
+[admissions] booking appointment for slot 5f005e1b-6873-41f3-967b-f409953410df
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] booking appointment for slot slot_1
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"slot_1","notes":"Alta extemporánea solicitada. Santiago Méndez Cruz (DOB 2014-09-08), viene de Colegio Finlandés de Guadalajara.[0m
+[2m     Result: El horario seleccionado no es valido. Indica el numero de la opcion.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, Paola. Para poder apartarla, solo necesito confirmarlo tal
+  cual aparece en las opciones:  ¿Te refieres a *Lun 2 de marzo,
+  10:00–11:00 am*?  Respóndeme *sí* para agendarla, por favor.
+[2mℹ️  Chat ID: b094bcb8-d712-470e-993a-dcdc200899b7[0m
