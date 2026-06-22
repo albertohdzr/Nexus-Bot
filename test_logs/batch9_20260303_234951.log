@@ -1,0 +1,79 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:49:51.952273
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234951.log
+================================================================
+
+  Running only scenario: 10-bombardment
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 10: Question bombardment
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 94bc885b… (wa_id=test3_bombardment_1af58ff0)[0m
+[1m[32m👤 User:[0m Hola, tengo muchas preguntas: ¿Qué horarios manejan? ¿Tienen transporte? ¿Cuánto cuesta la inscripci…
+[admissions] loading session messages {'session_id': '7d6fda39-6801-49f1-8781-0089400d9994'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 1350 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte? 🙂  Te respondo punto por
+  punto:  *Horarios*   Manejamos horario escolar de lunes a viernes
+  (varía por división: preescolar/primaria/secundaria/prepa).   Si me
+  dices *qué grado* buscas para tu hijo(a), te digo el horario
+  correspondiente.  *Transporte*   No, *no contamos con transporte
+  escolar*.  *Costo de inscripción / colegiaturas*   Por este medio no
+  puedo compartir *montos exactos*. Si gustas, puedo canalizarte con un
+  asesor de admisiones para darte la información *personalizada*.
+  *Uniformes*   Sí, *sí manejamos uniforme*. (El detalle de piezas y
+  proveedores te lo comparten en admisiones según la división.)
+  *Actividades deportivas*   Sí. A partir de *1º de Primaria*: Soccer,
+  Básquetbol, Natación, Tennis, Atletismo, Tae Kwon Do, Volley, Yoga y
+  Tochito.   En Preschool/Kinder hay iniciación deportiva (no toda la
+  oferta completa).  *Actividades artísticas (Centro de Artes / CVPA)*
+  Sí. A partir de *1º de Primaria*: Piano, Pintura, Guitarra, Canto,
+  Violín, Ballet, Baile moderno, Teatro, Animación digital, entre otras.
+  En Preschool/Kinder también hay iniciación artística.  Para orientarte
+  mejor, ¿qué grado y edad (o fecha de nacimiento) tiene tu hijo(a) y
+  para qué ciclo te interesa? (Normalmente sería para *agosto 2026*).
+[2mℹ️  ASSERT PASS [bombardment-multi-topic]: Found ['horario', 'transporte', 'arte', 'actividad'][0m
+[2mℹ️  ASSERT PASS [bombardment-no-transport]: Found ['no', 'transporte'][0m
+[1m[32m👤 User:[0m Mi hijo se llama Andrés Torres Salazar, nació el 8 de julio de 2017, va en 3ro primaria en el San Ro…
+[admissions] loading session messages {'session_id': '7d6fda39-6801-49f1-8781-0089400d9994'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado en cambio de escuela para su hijo Andrés Torres Salazar (08-jul-2017), actualmente 3º primaria en Colegio San Roberto. [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por la info. Con la fecha de nacimiento de tu hijo
+  (08-jul-2017), para el ciclo que inicia en *agosto 2026* le
+  corresponde *4º de Primaria* (por rango 01-ago-2016 a 31-jul-2017).
+  Como actualmente va en 3º, el cambio para agosto quedaría alineado.
+  *Becas / descuentos*   Sí contamos con apoyos, por ejemplo: -
+  *Descuento por hermanos inscritos simultáneamente*: 3er hijo 10% (al
+  mayor), 4º 15% (al mayor), 5º 100% en colegiatura. - *Beca de
+  Continuidad*: 20% si el alumno ingresó en kínder y continúa hasta
+  secundaria.  Para orientarte cuál aplicaría, ¿tu hijo tendría hermanos
+  inscritos al mismo tiempo en el CAT? ¿Cuántos en total serían?
+  *Agendar visita al campus (todo en uno)*   Con gusto te la agendo.
+  Para apartar un horario necesito los datos del tutor y confirmar
+  algunos del alumno:  1) ¿Me confirmas si Andrés tiene *segundo
+  nombre*? (si no, no pasa nada)   2) Nombre del tutor (como aparece en
+  INE)   3) *Teléfono* y *correo* de contacto   4) ¿El ingreso sería a
+  *4º de Primaria*? (por agosto 2026)    En cuanto me compartas eso, te
+  pregunto qué días/horario te convienen (mañana o tarde) y busco
+  opciones disponibles para la visita (lun-vie, 8:00 am a 3:00 pm).
+[2mℹ️  Chat ID: 94bc885b-2426-4946-8fc9-b2bcc4542b1a[0m
+
+================================================================
+  TEST SUMMARY: 3/3 passed, 0 failed
+================================================================
+  ✅ [bombardment-multi-topic]: Found: ['horario', 'transporte', 'arte', 'actividad']
+  ✅ [bombardment-no-transport]: Found: ['no', 'transporte']
+  ✅ [bombardment-no-error]: Clean
+================================================================
+

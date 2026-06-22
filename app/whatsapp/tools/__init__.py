@@ -78,6 +78,11 @@ class BookAppointmentRequest(BaseModel):
     notes: Optional[str] = None
 
 
+class RescheduleAppointmentRequest(BaseModel):
+    slot_id: str
+    notes: Optional[str] = None
+
+
 class CancelAppointmentRequest(BaseModel):
     cancellation_reason: str
 
@@ -98,6 +103,13 @@ class RegisterEventRequest(BaseModel):
 
 class GetRequirementsRequest(BaseModel):
     division: str
+
+
+# ── Status tools ────────────────────────────────────────────────
+
+
+class GetLeadStatusRequest(BaseModel):
+    pass
 
 
 # ── OpenAI Responses API function-calling descriptors ────────────
@@ -169,6 +181,17 @@ def build_tools_list():
         },
         {
             "type": "function",
+            "name": "reschedule_appointment",
+            "description": (
+                "Move the current lead's existing scheduled appointment to a new slot. "
+                "Use this when the user wants to change, move, or reschedule an existing visit. "
+                "The slot_id MUST come from a previous 'search_availability_slots' result. "
+                "NEVER cancel first unless the user explicitly wants to cancel."
+            ),
+            "parameters": RescheduleAppointmentRequest.model_json_schema(),
+        },
+        {
+            "type": "function",
             "name": "cancel_appointment",
             "description": (
                 "Cancel an existing scheduled appointment. "
@@ -185,5 +208,15 @@ def build_tools_list():
             ),
             "parameters": CloseChatSessionRequest.model_json_schema(),
         },
+        {
+            "type": "function",
+            "name": "get_lead_status",
+            "description": (
+                "Check the current admissions status for the user. "
+                "Returns lead status, upcoming appointments, and recent history. "
+                "Use when the user asks about their application status, progress, "
+                "or how their admissions process is going."
+            ),
+            "parameters": GetLeadStatusRequest.model_json_schema(),
+        },
     ]
-

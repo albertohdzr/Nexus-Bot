@@ -1,0 +1,87 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: competition_comparison
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 6852a11d… (wa_id=test3_competition_comparison_aa09e737)[0m
+
+[35m── Step 1/3 ──[0m
+[1m[32m👤 User:[0m Estoy entre el CAT y el Cumbres, ¿por qué debería elegir el CAT?
+[admissions] loading session messages {'session_id': 'c09ba366-c936-4269-82db-c2ce9aeec2dc'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 948 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Entiendo que estás evaluando opciones para la educación de tu
+  hijo. Elegir el CAT tiene varias ventajas:  1. *Enfoque Holístico*: El
+  CAT se centra en el desarrollo integral de los estudiantes, no solo en
+  lo académico, sino también en habilidades sociales y emocionales.  2.
+  *Actividades Extracurriculares Ricas*: Ofrecemos diversas actividades
+  deportivas y artísticas que fomentan el liderazgo y la creatividad en
+  nuestros alumnos.  3. *Infraestructura Moderna*: Contamos con
+  instalaciones bien equipadas que permiten a los estudiantes aprender
+  en un ambiente estimulante.  4. *Enfoque Personalizado*: Sabemos que
+  cada niño es único, por lo que ofrecemos un enfoque adaptado a las
+  necesidades de cada estudiante.  5. *Comunidad Inclusiva*: Fomentamos
+  un ambiente familiar y acogedor donde todos se sienten bienvenidos y
+  apoyados.  Si deseas más información específica o detalles sobre algún
+  aspecto en particular, ¡hazmelo saber! 😊
+
+
+[35m── Step 2/3 ──[0m
+[1m[32m👤 User:[0m ¿Qué diferencia al CAT de otros colegios en Torreón?
+[admissions] loading session messages {'session_id': 'c09ba366-c936-4269-82db-c2ce9aeec2dc'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 1058 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  El CAT se diferencia de otros colegios en Torreón por varios aspectos
+  clave:  1. _Enfoque Educativo Integral_: Nos enfocamos en la formación
+  académica, social y emocional de los estudiantes, promoviendo un
+  desarrollo holístico.  2. _Participación Familiar_: Fomentamos la
+  inclusión de las familias en el proceso educativo, creando un ambiente
+  colaborativo entre padres, estudiantes y docentes.  3. _Currículo
+  Innovador_: Implementamos metodologías modernas que fomentan el
+  pensamiento crítico y la creatividad, preparando a los alumnos para
+  los retos del futuro.  4. _Actividades Especializadas_: Ofrecemos una
+  variedad de actividades extraescolares, incluyendo programas de
+  deportes, artes y tecnología, que enriquecen la experiencia educativa.
+  5. _Compromiso con el Bienestar_: Priorizamos la salud y el bienestar
+  de nuestros estudiantes a través de programas de apoyo emocional y
+  actividades que promueven un estilo de vida saludable.  Si deseas
+  profundizar en alguno de estos puntos o consultar sobre algún otro
+  aspecto, ¡estaré encantado de ayudarte! 😊
+
+
+[35m── Step 3/3 ──[0m
+[1m[32m👤 User:[0m Mi hijo está ahorita en el Pereyra y nos gusta mucho. ¿Qué ofrecen ustedes que no?
+[admissions] loading session messages {'session_id': 'c09ba366-c936-4269-82db-c2ce9aeec2dc'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 1178 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo que el Pereyra tiene muchas cualidades valiosas. Aquí te
+  menciono algunas de las características que podrían diferenciar al
+  CAT:  1. _Métodos Activos de Aprendizaje_: En el CAT, utilizamos
+  técnicas innovadoras que promueven la participación activa y el
+  aprendizaje práctico en el aula.  2. _Énfasis en la Formación
+  Integral_: No solo nos enfocamos en lo académico, sino que también
+  promovemos el desarrollo emocional y social, preparando a los alumnos
+  para enfrentar retos en todas las áreas de su vida.  3. _Diversidad de
+  Actividades Extracurriculares_: Ofrecemos una gama amplia de
+  actividades artísticas y deportivas que permiten a los estudiantes
+  descubrir y desarrollar sus talentos.  4. _Comunicación Continua con
+  Padres_: Fomentamos un vínculo cercano entre la escuela y las
+  familias, asegurando que los padres estén involucrados en el proceso
+  educativo de sus hijos.  5. _Impacto en la Comunidad_: Nuestro
+  compromiso se extiende más allá de las aulas, involucrándonos en
+  proyectos que benefician a la comunidad, enseñando a los estudiantes
+  la importancia del servicio.  Si hay algo en particular que te
+  gustaría comparar o conocer más a fondo, ¡házmelo saber! 😊
+
+[2mℹ️  Chat ID: 6852a11d-77a4-4800-bfab-125dd16d7215 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'competition_comparison' complete
+════════════════════════════════════════════════════════════════[0m
+

@@ -303,6 +303,7 @@ def _handle_incoming_messages_impl(value: Dict[str, Any]) -> None:
                     "[whatsapp] process-whatsapp-queue error",
                     {"chat_id": chat_id, "error": invoke_error},
                 )
+                _process_chat_directly(chat_id)
             else:
                 print(
                     "[whatsapp] process-whatsapp-queue ok",
@@ -313,3 +314,34 @@ def _handle_incoming_messages_impl(value: Dict[str, Any]) -> None:
                 "[whatsapp] process-whatsapp-queue exception",
                 {"chat_id": chat_id, "error": str(exc)},
             )
+            _process_chat_directly(chat_id)
+
+
+def _process_chat_directly(chat_id: str) -> None:
+    """Fallback when Supabase Edge Function invocation fails."""
+    try:
+        supabase = get_supabase_client()
+        queue_response = (
+            supabase.from_("message_queue")
+            .select("combined_text")
+            .eq("chat_id", chat_id)
+            .maybe_single()
+            .execute()
+        )
+        queue = get_supabase_data(queue_response)
+        final_message = (queue or {}).get("combined_text") or ""
+        if not final_message:
+            print("[whatsapp] direct fallback skipped; empty queue", {"chat_id": chat_id})
+            return
+
+        from app.whatsapp.process_router import ProcessQueueRequest, _process_queue_impl
+
+        print("[whatsapp] direct fallback processing", {"chat_id": chat_id})
+        result = _process_queue_impl(
+            ProcessQueueRequest(chat_id=chat_id, final_message=final_message)
+        )
+        if isinstance(result, dict) and result.get("status") in {"sent", "skipped"}:
+            supabase.from_("message_queue").delete().eq("chat_id", chat_id).execute()
+            print("[whatsapp] direct fallback queue cleared", {"chat_id": chat_id})
+    except Exception as exc:
+        print("[whatsapp] direct fallback error", {"chat_id": chat_id, "error": str(exc)})

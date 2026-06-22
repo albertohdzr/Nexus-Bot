@@ -1,0 +1,65 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: price_seeker
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 11d74444… (wa_id=test3_price_seeker_d4a5a265)[0m
+
+[35m── Step 1/4 ──[0m
+[1m[32m👤 User:[0m Hola, ¿cuánto cuesta inscribir a un niño en primaria?
+[admissions] loading session messages {'session_id': 'c5913811-e706-47ca-8767-b0b87396a7b4'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 376 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones de Nexus Core. No
+  puedo compartir montos exactos de colegiatura, pero puedo informarte
+  sobre los descuentos disponibles.   Si tienes más hijos interesados,
+  hay descuentos para hermanos inscritos simultáneamente. ¿Te gustaría
+  que un asesor de admisiones se ponga en contacto contigo para
+  brindarte información personalizada?
+
+
+[35m── Step 2/4 ──[0m
+[1m[32m👤 User:[0m Pero más o menos cuánto es la colegiatura mensual?
+[admissions] loading session messages {'session_id': 'c5913811-e706-47ca-8767-b0b87396a7b4'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 264 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo tu interés, pero no puedo proporcionar montos específicos por
+  este medio. Lo mejor será que un asesor de admisiones se comunique
+  contigo para ofrecerte la información completa y personalizada sobre
+  colegiaturas y descuentos. ¿Te gustaría que te contacten?
+
+
+[35m── Step 3/4 ──[0m
+[1m[32m👤 User:[0m ¿Y la inscripción? Necesito saber si me alcanza antes de hacer trámites
+[admissions] loading session messages {'session_id': 'c5913811-e706-47ca-8767-b0b87396a7b4'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 272 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Comprendo que es importante para ti. Sin embargo, tampoco puedo
+  compartir detalles sobre la inscripción. Te recomiendo que un asesor
+  de admisiones te contacte para discutir todos los aspectos financieros
+  y responder a tus preguntas. ¿Te gustaría que te envíen información?
+
+
+[35m── Step 4/4 ──[0m
+[1m[32m👤 User:[0m Ok entonces ¿cómo puedo saber los costos?
+[admissions] loading session messages {'session_id': 'c5913811-e706-47ca-8767-b0b87396a7b4'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 262 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para obtener información detallada sobre los costos, la mejor opción
+  es que un asesor de admisiones se comunique directamente contigo.
+  Ellos podrán proporcionarte información específica sobre colegiaturas,
+  inscripción y descuentos. ¿Te gustaría que te contacten?
+
+[2mℹ️  Chat ID: 11d74444-6304-44c5-8572-4553724bf185 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'price_seeker' complete
+════════════════════════════════════════════════════════════════[0m
+

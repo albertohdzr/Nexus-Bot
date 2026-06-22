@@ -18,6 +18,11 @@ class Settings:
         )
         self.whatsapp_access_token = os.getenv("WHATSAPP_ACCESS_TOKEN")
         self.whatsapp_app_secret = os.getenv("WHATSAPP_APP_SECRET")
+        self.whatsapp_dry_run = os.getenv("WHATSAPP_DRY_RUN", "").lower() in {
+            "1",
+            "true",
+            "yes",
+        }
         self.cron_secret = os.getenv("CRON_SECRET")
         self.api_secret = os.getenv("API_SECRET")
 

@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+import unicodedata
+from typing import Any, Dict, List, Optional, Tuple
 
-from fastapi import APIRouter, Depends, Header, HTTPException
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from pydantic import BaseModel
 
 from app.chat.service import get_openai_client, DEFAULT_MODEL
@@ -54,10 +55,12 @@ from app.whatsapp.tools import (
     CloseChatSessionRequest,
     SearchSlotsRequest,
     BookAppointmentRequest,
+    RescheduleAppointmentRequest,
     CancelAppointmentRequest,
     GetNextEventRequest,
     RegisterEventRequest,
     GetRequirementsRequest,
+    GetLeadStatusRequest,
     build_tools_list,
 )
 
@@ -360,6 +363,213 @@ def _format_slot_window_local(starts_at: str, ends_at: str) -> Optional[str]:
     return f"{day_name.capitalize()} {date_str}, {start_time} - {end_time}"
 
 
+def _first_response_row(response: Any) -> Optional[Dict[str, Any]]:
+    data = get_supabase_data(response)
+    if isinstance(data, list):
+        return data[0] if data else None
+    if isinstance(data, dict):
+        return data
+    return None
+
+
+def _looks_like_reschedule_request(text: str) -> bool:
+    lowered = text.lower()
+    reschedule_terms = [
+        "reagendar",
+        "reprogramar",
+        "cambiar mi cita",
+        "cambiar la cita",
+        "cambiar mi visita",
+        "cambiar la visita",
+        "mover mi cita",
+        "mover la cita",
+        "mover mi visita",
+        "mover la visita",
+        "cambiar el horario",
+        "cambiar la fecha",
+        "otro horario",
+        "otra fecha",
+        "posponer",
+        "adelantar",
+    ]
+    if any(term in lowered for term in reschedule_terms):
+        return True
+
+    cancel_terms = ["cancelar", "cancela", "anular", "ya no voy", "no voy a asistir"]
+    if any(term in lowered for term in cancel_terms):
+        return False
+
+    return False
+
+
+def _looks_like_cancel_request(text: str) -> bool:
+    lowered = text.lower()
+    return any(
+        term in lowered
+        for term in ["cancelar", "cancela", "anular", "ya no voy", "no voy a asistir"]
+    )
+
+
+def _looks_like_next_week_request(text: str) -> bool:
+    lowered = unicodedata.normalize("NFKD", text.lower())
+    lowered = "".join(char for char in lowered if not unicodedata.combining(char))
+    return any(
+        term in lowered
+        for term in [
+            "proxima semana",
+            "siguiente semana",
+            "semana que viene",
+        ]
+    )
+
+
+def _preferred_time_from_text(text: str) -> Optional[str]:
+    lowered = text.lower()
+    if any(term in lowered for term in ["mañana", "manana", "temprano", "matutino"]):
+        return "morning"
+    if any(term in lowered for term in ["tarde", "vespertino"]):
+        return "afternoon"
+    return None
+
+
+def _looks_like_slot_search_request(text: str) -> bool:
+    lowered = text.lower()
+    wants_visit = any(
+        term in lowered
+        for term in [
+            "visita",
+            "cita",
+            "campus",
+            "horario",
+            "horarios",
+            "disponibilidad",
+            "agendar",
+            "reagendar",
+            "reprogramar",
+            "cambiar",
+            "mover",
+        ]
+    )
+    wants_search = any(
+        term in lowered
+        for term in [
+            "ver",
+            "buscar",
+            "revisar",
+            "disponible",
+            "disponibles",
+            "puedo",
+            "quiero",
+            "gustaria",
+            "gustaría",
+        ]
+    )
+    return wants_visit and wants_search
+
+
+def _maybe_auto_search_slots(
+    combined_user: str,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> Optional[str]:
+    if not _looks_like_slot_search_request(combined_user):
+        return None
+    if _looks_like_next_week_request(combined_user):
+        _set_chat_state_value(
+            get_supabase_client(),
+            chat,
+            "appointment_date_window",
+            {"kind": "next_week", "created_at": datetime.utcnow().isoformat()},
+        )
+
+    if not (_get_chat_state(chat).get("appointment_date_window") or {}).get("kind"):
+        return None
+
+    today = datetime.utcnow().date()
+    result = _search_availability_slots(
+        SearchSlotsRequest(
+            start_date=today.strftime("%Y-%m-%d"),
+            end_date=today.strftime("%Y-%m-%d"),
+            preferred_time=_preferred_time_from_text(combined_user),
+        ),
+        org=org,
+        chat=chat,
+    )
+    return result.split("\nPregunta al usuario", 1)[0].strip()
+
+
+def _get_scheduled_appointment_for_chat(
+    supabase: Any,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> Tuple[Optional[Dict[str, Any]], List[Dict[str, Any]]]:
+    leads = _get_leads_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+    if not leads:
+        return None, []
+
+    lead_ids = [lead["id"] for lead in leads if lead.get("id")]
+    if not lead_ids:
+        return None, leads
+
+    appt_response = (
+        supabase.from_("appointments")
+        .select("id, lead_id, slot_id, starts_at, ends_at")
+        .in_("lead_id", lead_ids)
+        .eq("organization_id", org.get("id"))
+        .eq("status", "scheduled")
+        .order("starts_at", desc=False)
+        .limit(1)
+        .execute()
+    )
+    appointments = get_supabase_data(appt_response) or []
+    return (appointments[0] if appointments else None), leads
+
+
+def _get_slot_state(
+    lead: Optional[Dict[str, Any]],
+    chat: Dict[str, Any],
+) -> Dict[str, Any]:
+    if lead:
+        metadata = lead.get("metadata") or {}
+        slot_state = metadata.get("slot_options") or {}
+        if slot_state:
+            return slot_state
+    return (_get_chat_state(chat).get("slot_options") or {})
+
+
+def _update_appointment_flow_from_user_text(
+    combined_user: str,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> None:
+    supabase = get_supabase_client()
+    if _looks_like_next_week_request(combined_user):
+        _set_chat_state_value(
+            supabase,
+            chat,
+            "appointment_date_window",
+            {"kind": "next_week", "created_at": datetime.utcnow().isoformat()},
+        )
+
+    if _looks_like_reschedule_request(combined_user):
+        appointment, _ = _get_scheduled_appointment_for_chat(supabase, org, chat)
+        if appointment:
+            lead = _get_lead_by_chat(
+                supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+            )
+            slot_state = _get_slot_state(lead, chat)
+            if slot_state.get("flow") != "reschedule":
+                _clear_slot_options(supabase, lead, chat)
+                _pop_chat_state_value(supabase, chat, "pending_slot_option")
+            _set_chat_state_value(supabase, chat, "appointment_flow", "reschedule")
+        return
+
+    if _looks_like_cancel_request(combined_user):
+        _pop_chat_state_value(supabase, chat, "appointment_flow")
+
+
 def _normalize_event_division(division: str) -> Optional[str]:
     if not division:
         return None
@@ -372,6 +582,136 @@ def _normalize_event_division(division: str) -> Optional[str]:
         "high_school",
     }
     return value if value in valid_divisions else None
+
+
+def _division_from_text(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    lowered = value.lower()
+    if any(term in lowered for term in ["prenursery", "maternal", "nursery"]):
+        return "prenursery"
+    if any(term in lowered for term in ["early_child", "preescolar", "preschool", "kinder", "kindergarten"]):
+        return "early_child"
+    if any(term in lowered for term in ["elementary", "primaria"]):
+        return "elementary"
+    if any(term in lowered for term in ["middle_school", "secundaria"]):
+        return "middle_school"
+    if any(term in lowered for term in ["high_school", "prepa", "preparatoria", "bachillerato"]):
+        return "high_school"
+    return None
+
+
+def _explicit_requirements_document_request(text: str) -> bool:
+    lowered = text.lower()
+    asks_requirements = any(
+        term in lowered
+        for term in [
+            "requisito",
+            "requisitos",
+            "documento",
+            "documentos",
+            "papeleria",
+            "papelería",
+            "papeles",
+        ]
+    )
+    asks_send = any(
+        term in lowered
+        for term in [
+            "pdf",
+            "mandar",
+            "manda",
+            "manden",
+            "enviar",
+            "envia",
+            "envía",
+            "envien",
+            "envíen",
+            "compartir",
+            "comparte",
+        ]
+    )
+    return asks_requirements and asks_send
+
+
+def _infer_requirement_divisions(
+    combined_user: str,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> List[str]:
+    divisions: List[str] = []
+
+    text_division = _division_from_text(combined_user)
+    if text_division:
+        divisions.append(text_division)
+
+    supabase = get_supabase_client()
+    leads = _get_leads_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+    for lead in leads:
+        division = _normalize_event_division(str(lead.get("division") or ""))
+        if not division:
+            division = _division_from_text(lead.get("grade_interest"))
+        if division:
+            divisions.append(division)
+
+    unique: List[str] = []
+    for division in divisions:
+        if division not in unique:
+            unique.append(division)
+    return unique
+
+
+def _tool_names(tool_calls: Optional[List[Any]]) -> set:
+    names = set()
+    for tool_call in tool_calls or []:
+        name = getattr(tool_call, "name", None)
+        if not name:
+            function = getattr(tool_call, "function", None)
+            name = getattr(function, "name", None)
+        if name:
+            names.add(name)
+    return names
+
+
+def _maybe_send_requested_requirements(
+    combined_user: str,
+    tool_calls: Optional[List[Any]],
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+    session_id: str,
+) -> Optional[str]:
+    if "get_admission_requirements" in _tool_names(tool_calls):
+        return None
+    if not _explicit_requirements_document_request(combined_user):
+        return None
+
+    divisions = _infer_requirement_divisions(combined_user, org, chat)
+    if not divisions:
+        return (
+            "Con gusto te envío el PDF de requisitos. "
+            "¿Para qué división lo necesitas: preescolar, primaria, secundaria o preparatoria?"
+        )
+
+    results = [
+        _send_requirements(
+            GetRequirementsRequest(division=division),
+            org=org,
+            chat=chat,
+            session_id=session_id,
+        )
+        for division in divisions
+    ]
+    failed = [result for result in results if "enviado exitosamente" not in result.lower()]
+    if failed:
+        return (
+            "Intenté enviar el documento de requisitos, pero no pude completarlo en este momento. "
+            "Un asesor puede ayudarte con la papelería."
+        )
+    if len(divisions) == 1:
+        return "Te acabo de enviar el documento de requisitos por WhatsApp."
+    return "Te acabo de enviar los documentos de requisitos solicitados por WhatsApp."
 
 
 def _find_or_create_contact(
@@ -448,6 +788,96 @@ def _find_or_create_contact(
     return contact_row["id"]
 
 
+def _same_student_from_create_request(
+    lead: Dict[str, Any],
+    request: CreateAdmissionsLeadRequest,
+) -> bool:
+    requested_first = (request.student_first_name or "").strip().lower()
+    requested_paternal = (request.student_last_name_paternal or "").strip().lower()
+    requested_maternal = (request.student_last_name_maternal or "").strip().lower()
+    requested_surnames = {value for value in [requested_paternal, requested_maternal] if value}
+
+    existing_first = (lead.get("student_first_name") or "").strip().lower()
+    existing_paternal = (lead.get("student_last_name_paternal") or "").strip().lower()
+    existing_maternal = (lead.get("student_last_name_maternal") or "").strip().lower()
+    existing_surnames = {value for value in [existing_paternal, existing_maternal] if value}
+
+    if requested_first != existing_first:
+        return False
+
+    if request.student_dob and lead.get("student_dob") == request.student_dob:
+        return True
+
+    return bool(requested_surnames and existing_surnames and requested_surnames.intersection(existing_surnames))
+
+
+def _merge_existing_lead_from_create_request(
+    supabase: Any,
+    lead: Dict[str, Any],
+    org_id: str,
+    wa_id: Optional[str],
+    request: CreateAdmissionsLeadRequest,
+    chat: Dict[str, Any],
+) -> None:
+    lead_updates: Dict[str, Any] = {"updated_at": datetime.utcnow().isoformat()}
+    if request.student_middle_name and not lead.get("student_middle_name"):
+        lead_updates["student_middle_name"] = request.student_middle_name
+    if request.student_last_name_paternal and not lead.get("student_last_name_paternal"):
+        lead_updates["student_last_name_paternal"] = request.student_last_name_paternal
+    if request.student_last_name_maternal and not lead.get("student_last_name_maternal"):
+        lead_updates["student_last_name_maternal"] = request.student_last_name_maternal
+    if request.student_dob and not lead.get("student_dob"):
+        lead_updates["student_dob"] = request.student_dob
+    if request.grade_interest:
+        lead_updates["grade_interest"] = request.grade_interest
+        lead_updates["student_grade_interest"] = request.grade_interest
+    if request.school_year:
+        lead_updates["school_year"] = request.school_year
+    if request.current_school:
+        lead_updates["current_school"] = request.current_school
+
+    contact_name = _compose_full_name(
+        [
+            request.contact_first_name,
+            request.contact_middle_name,
+            request.contact_last_name_paternal,
+            request.contact_last_name_maternal,
+        ]
+    )
+    if contact_name:
+        lead_updates["contact_name"] = contact_name
+    for field in [
+        "contact_first_name",
+        "contact_middle_name",
+        "contact_last_name_paternal",
+        "contact_last_name_maternal",
+        "contact_email",
+    ]:
+        value = getattr(request, field)
+        if value:
+            lead_updates[field] = value
+    if request.contact_phone:
+        lead_updates["contact_phone"] = request.contact_phone
+
+    if len(lead_updates) > 1:
+        supabase.from_("leads").update(lead_updates).eq("id", lead.get("id")).execute()
+
+    contact_id = lead.get("contact_id")
+    contact_updates: Dict[str, Any] = {"updated_at": datetime.utcnow().isoformat()}
+    contact_field_map = {
+        "first_name": request.contact_first_name,
+        "middle_name": request.contact_middle_name,
+        "last_name_paternal": request.contact_last_name_paternal,
+        "last_name_maternal": request.contact_last_name_maternal,
+        "email": request.contact_email,
+        "phone": request.contact_phone,
+        "whatsapp_wa_id": wa_id,
+    }
+    contact_updates.update({key: value for key, value in contact_field_map.items() if value})
+    if contact_id and len(contact_updates) > 1:
+        supabase.from_("crm_contacts").update(contact_updates).eq("id", contact_id).execute()
+
+
 def _create_admissions_lead(
     request: CreateAdmissionsLeadRequest,
     org: Dict[str, Any],
@@ -484,23 +914,25 @@ def _create_admissions_lead(
 
     existing_leads = _get_leads_by_chat(supabase, org_id, chat_id, wa_id)
     
-    # Check if a lead exists for THIS student
-    normalized_first = request.student_first_name.strip().lower()
-    normalized_last = request.student_last_name_paternal.strip().lower()
-    
     for lead in existing_leads:
-        l_first = (lead.get("student_first_name") or "").strip().lower()
-        l_last = (lead.get("student_last_name_paternal") or "").strip().lower()
-        if l_first == normalized_first and l_last == normalized_last:
+        if _same_student_from_create_request(lead, request):
+            _merge_existing_lead_from_create_request(
+                supabase,
+                lead,
+                org_id,
+                wa_id,
+                request,
+                chat,
+            )
             lead_number = lead.get("lead_number")
             print(
                 "[admissions] lead exists for student",
                 {"lead_id": lead.get("id"), "lead_number": lead_number},
             )
             return (
-                f"Lead ya existente con folio L-{lead_number} para {request.student_first_name}."
+                f"Lead ya existente con folio L-{lead_number} para {request.student_first_name}; datos actualizados."
                 if lead_number
-                else f"Lead ya existente para {request.student_first_name}."
+                else f"Lead ya existente para {request.student_first_name}; datos actualizados."
             )
 
     contact_id = _find_or_create_contact(org_id, wa_id, request)
@@ -907,37 +1339,21 @@ def _maybe_auto_cancel(
     appt_id = appt.get("id")
     slot_id = appt.get("slot_id")
     
-    # Execute cancellation
+    # Execute cancellation atomically in Postgres so slot capacity stays correct.
     print(f"[admissions] auto-canceling appointment {appt_id}, reason: {combined_user}")
-    
-    supabase.from_("appointments").update({
-        "status": "cancelled",
-        "notes": f"Cancelado por usuario. Razón: {combined_user}",
-        "updated_at": datetime.utcnow().isoformat(),
-    }).eq("id", appt_id).execute()
-    
-    # Free up the slot
-    if slot_id:
-        slot_response = (
-            supabase.from_("availability_slots")
-            .select("appointments_count")
-            .eq("id", slot_id)
-            .single()
-            .execute()
-        )
-        slot = get_supabase_data(slot_response)
-        if slot:
-            new_count = max(0, slot.get("appointments_count", 1) - 1)
-            supabase.from_("availability_slots").update({
-                "appointments_count": new_count,
-                "updated_at": datetime.utcnow().isoformat(),
-            }).eq("id", slot_id).execute()
-    
-    # Update lead status
-    supabase.from_("leads").update({
-        "status": "contacted",
-        "updated_at": datetime.utcnow().isoformat(),
-    }).eq("id", lead_id).execute()
+
+    cancel_response = supabase.rpc(
+        "cancel_admission_appointment",
+        {
+            "p_org_id": org.get("id"),
+            "p_appointment_id": appt_id,
+            "p_reason": combined_user,
+        },
+    ).execute()
+    cancel_row = _first_response_row(cancel_response)
+    if get_supabase_error(cancel_response) or not cancel_row or not cancel_row.get("success"):
+        message = (cancel_row or {}).get("message") or "No pude cancelar la cita en este momento."
+        return f"{message} Por favor intenta de nuevo o contacta a admisiones."
     
     # Clear any stored slot options
     _clear_slot_options(supabase, lead, chat)
@@ -952,6 +1368,121 @@ def _maybe_auto_cancel(
         "¿Qué días y horarios de la próxima semana te funcionarían mejor? "
         "(Por ejemplo: 'jueves o viernes por la mañana')"
     )
+
+
+def _get_lead_status(
+    request: GetLeadStatusRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> str:
+    """Retrieve current lead status, appointments, and recent history."""
+    supabase = get_supabase_client()
+    org_id = org.get("id")
+    chat_id = chat.get("id")
+    wa_id = chat.get("wa_id")
+
+    # Query leads with status fields (not using _get_leads_by_chat which omits status)
+    _status_fields = (
+        "id, lead_number, status, student_first_name, "
+        "student_last_name_paternal, grade_interest"
+    )
+    resp = (
+        supabase.from_("leads")
+        .select(_status_fields)
+        .eq("organization_id", org_id)
+        .eq("wa_chat_id", chat_id)
+        .order("created_at", desc=True)
+        .execute()
+    )
+    leads = get_supabase_data(resp) or []
+    if not leads and wa_id:
+        resp2 = (
+            supabase.from_("leads")
+            .select(_status_fields)
+            .eq("organization_id", org_id)
+            .eq("wa_id", wa_id)
+            .order("created_at", desc=True)
+            .execute()
+        )
+        leads = get_supabase_data(resp2) or []
+    if not leads:
+        return (
+            "No encontré un registro de admisiones asociado a este chat. "
+            "Si ya iniciaste un proceso, contacta a admisiones directamente."
+        )
+
+    status_descriptions = {
+        "new": "Registro recibido, pendiente de contacto",
+        "contacted": "El equipo ya te contactó, en espera de avanzar",
+        "qualified": "Perfil validado, listo para agendar visita",
+        "visit_scheduled": "Visita al campus programada",
+        "visited": "Visita realizada, siguiente paso: aplicación formal",
+        "application_started": "Aplicación iniciada, en revisión",
+        "application_submitted": "Aplicación enviada, en evaluación",
+        "admitted": "¡Admitido! Pendiente de inscripción formal",
+        "enrolled": "Inscrito oficialmente",
+        "lost": "Proceso pausado - contacta a admisiones para reactivar",
+    }
+
+    results = []
+    for lead in leads:
+        lead_id = lead.get("id")
+        student_name = _compose_full_name([
+            lead.get("student_first_name"),
+            lead.get("student_last_name_paternal"),
+        ]) or "Alumno"
+
+        status = lead.get("status", "unknown")
+        lead_number = lead.get("lead_number")
+        status_text = status_descriptions.get(status, f"Estado: {status}")
+
+        # Upcoming appointment
+        appt_resp = (
+            supabase.from_("appointments")
+            .select("id, starts_at, ends_at, status")
+            .eq("lead_id", lead_id)
+            .eq("status", "scheduled")
+            .order("starts_at", desc=False)
+            .limit(1)
+            .execute()
+        )
+        appts = get_supabase_data(appt_resp) or []
+        appt_text = ""
+        if appts:
+            formatted = _format_slot_window_local(
+                appts[0].get("starts_at"), appts[0].get("ends_at")
+            )
+            appt_text = f"Cita programada: {formatted}" if formatted else ""
+
+        # Recent status history (last 3)
+        history_resp = (
+            supabase.from_("lead_status_history")
+            .select("previous_status, new_status, created_at")
+            .eq("lead_id", lead_id)
+            .order("created_at", desc=True)
+            .limit(3)
+            .execute()
+        )
+        history = get_supabase_data(history_resp) or []
+        history_text = ""
+        if history:
+            lines = [
+                f"{h.get('previous_status', 'inicio')} → {h.get('new_status')}"
+                for h in history
+            ]
+            history_text = "Historial reciente: " + ", ".join(lines)
+
+        block = f"Alumno: {student_name}"
+        if lead_number:
+            block += f" (Folio L-{lead_number})"
+        block += f"\nEstado actual: {status_text}"
+        if appt_text:
+            block += f"\n{appt_text}"
+        if history_text:
+            block += f"\n{history_text}"
+        results.append(block)
+
+    return "\n---\n".join(results)
 
 
 def _close_chat_session(
@@ -990,13 +1521,39 @@ def _maybe_book_from_selection(
         supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
     )
     slot_options = _get_slot_options(lead, chat)
-    
+
+    selection = _parse_slot_selection(combined_user, allow_bare=True)
+
     # Only parse selection if there are real slot options to match against
     if not slot_options:
+        if selection:
+            appointment, _ = _get_scheduled_appointment_for_chat(supabase, org, chat)
+            if appointment:
+                formatted = _format_slot_window_local(
+                    appointment.get("starts_at"), appointment.get("ends_at")
+                )
+                appointment_text = (
+                    f" para {formatted}" if formatted else ""
+                )
+                return (
+                    f"Tu visita ya está programada{appointment_text}. "
+                    "Si quieres cambiarla, dime qué día y horario prefieres "
+                    "y reviso nuevas opciones."
+                )
         return None
-    
-    allow_bare = True
-    selection = _parse_slot_selection(combined_user, allow_bare=allow_bare)
+
+    flow = _get_chat_state(chat).get("appointment_flow")
+    expected_flow = "reschedule" if flow == "reschedule" else "book"
+    slot_state = _get_slot_state(lead, chat)
+    slot_flow = slot_state.get("flow")
+    if slot_flow and slot_flow != expected_flow:
+        print(
+            "[admissions] slot_options flow mismatch, clearing",
+            {"expected": expected_flow, "actual": slot_flow},
+        )
+        _clear_slot_options(supabase, lead, chat)
+        _pop_chat_state_value(supabase, chat, "pending_slot_option")
+        return None
     
     # If no numeric selection, try matching by date text
     if not selection:
@@ -1034,30 +1591,42 @@ def _maybe_book_from_selection(
         )
         return None  # Let the LLM ask for lead data naturally
     
-    # Book the selected slot
-    result = _book_appointment(
-        BookAppointmentRequest(slot_id=match.get("slot_id")),
-        org=org,
-        chat=chat,
-    )
+    if flow == "reschedule":
+        result = _reschedule_appointment(
+            RescheduleAppointmentRequest(slot_id=match.get("slot_id")),
+            org=org,
+            chat=chat,
+        )
+        success_prefix = "cita reagendada exitosamente"
+    else:
+        result = _book_appointment(
+            BookAppointmentRequest(slot_id=match.get("slot_id")),
+            org=org,
+            chat=chat,
+        )
+        success_prefix = "cita agendada exitosamente"
+
     if not result:
         return None
-    if result.lower().startswith("cita agendada exitosamente"):
+    if result.lower().startswith(success_prefix):
         formatted = _format_slot_window_local(
             match.get("starts_at"), match.get("ends_at")
         )
         _clear_slot_options(supabase, lead, chat)
         _pop_chat_state_value(supabase, chat, "pending_slot_option")
+        _pop_chat_state_value(supabase, chat, "appointment_flow")
         slot_text = formatted or "el horario seleccionado"
-        # Inject booking context for the LLM to generate a natural response
-        chat["_booking_context"] = (
-            f"ACCIÓN COMPLETADA: La visita fue agendada exitosamente para {slot_text}. "
+        if flow == "reschedule":
+            return (
+                f"¡Listo! Tu visita quedó reagendada para {slot_text}. "
+                "La entrada es por Puerta 3 (caseta del reloj). "
+                "¿Necesitas algo más?"
+            )
+        return (
+            f"¡Listo! Tu visita quedó agendada para {slot_text}. "
             "La entrada es por Puerta 3 (caseta del reloj). "
-            "Confirma la cita al usuario de forma cálida y natural, menciona la fecha/hora, "
-            "ofrece la ubicación si no se la has dado, y pregunta si necesita algo más. "
-            "NO uses tools adicionales."
+            "¿Necesitas algo más?"
         )
-        return None  # Let the LLM craft a natural response
     return result
 
 
@@ -1086,6 +1655,19 @@ def _maybe_book_pending_selection(
         # No options available — clear stale pending state
         _pop_chat_state_value(supabase, chat, "pending_slot_option")
         return None
+
+    flow = _get_chat_state(chat).get("appointment_flow")
+    expected_flow = "reschedule" if flow == "reschedule" else "book"
+    slot_state = _get_slot_state(lead, chat)
+    slot_flow = slot_state.get("flow")
+    if slot_flow and slot_flow != expected_flow:
+        print(
+            "[admissions] pending slot_options flow mismatch, clearing",
+            {"expected": expected_flow, "actual": slot_flow},
+        )
+        _clear_slot_options(supabase, lead, chat)
+        _pop_chat_state_value(supabase, chat, "pending_slot_option")
+        return None
     
     # Check if slot_options are stale (older than 30 minutes)
     state = _get_chat_state(chat)
@@ -1108,21 +1690,34 @@ def _maybe_book_pending_selection(
         _pop_chat_state_value(supabase, chat, "pending_slot_option")
         return None
     
-    result = _book_appointment(
-        BookAppointmentRequest(slot_id=match.get("slot_id")),
-        org=org,
-        chat=chat,
-    )
-    if result.lower().startswith("cita agendada exitosamente"):
+    if flow == "reschedule":
+        result = _reschedule_appointment(
+            RescheduleAppointmentRequest(slot_id=match.get("slot_id")),
+            org=org,
+            chat=chat,
+        )
+        success_prefix = "cita reagendada exitosamente"
+        context_action = "La visita fue reagendada exitosamente"
+    else:
+        result = _book_appointment(
+            BookAppointmentRequest(slot_id=match.get("slot_id")),
+            org=org,
+            chat=chat,
+        )
+        success_prefix = "cita agendada exitosamente"
+        context_action = "La visita fue agendada exitosamente"
+
+    if result.lower().startswith(success_prefix):
         formatted = _format_slot_window_local(
             match.get("starts_at"), match.get("ends_at")
         )
         _clear_slot_options(supabase, lead, chat)
         _pop_chat_state_value(supabase, chat, "pending_slot_option")
+        _pop_chat_state_value(supabase, chat, "appointment_flow")
         slot_text = formatted or "el horario seleccionado"
         # Inject booking context for the LLM to generate a natural response
         chat["_booking_context"] = (
-            f"ACCIÓN COMPLETADA: La visita fue agendada exitosamente para {slot_text}. "
+            f"ACCIÓN COMPLETADA: {context_action} para {slot_text}. "
             "La entrada es por Puerta 3 (caseta del reloj). "
             "Confirma la cita al usuario de forma cálida y natural, menciona la fecha/hora, "
             "ofrece la ubicación si no se la has dado, y pregunta si necesita algo más. "
@@ -1472,6 +2067,14 @@ def _process_queue_impl(
     if preferred_date:
         _set_chat_state_value(supabase, chat, "preferred_date", preferred_date)
 
+    _update_appointment_flow_from_user_text(combined_user, org, chat)
+
+    forced_slots = _maybe_auto_search_slots(
+        combined_user=combined_user, org=org, chat=chat
+    )
+    if forced_slots:
+        return _send_assistant_message(forced_slots, org, chat, session_id)
+
     forced_text = _maybe_book_from_selection(
         combined_user=combined_user, org=org, chat=chat
     )
@@ -1509,14 +2112,23 @@ def _process_queue_impl(
     )
     slot_options = _get_slot_options(lead, chat)
     if slot_options:
-        slot_context_lines = ["OPCIONES DE HORARIOS DISPONIBLES (usa estos IDs exactos para book_appointment):"]
+        appointment_flow = _get_chat_state(chat).get("appointment_flow")
+        slot_tool_name = (
+            "reschedule_appointment"
+            if appointment_flow == "reschedule"
+            else "book_appointment"
+        )
+        slot_context_lines = [f"OPCIONES DE HORARIOS DISPONIBLES (usa estos IDs exactos para {slot_tool_name}):"]
         for opt in slot_options:
             formatted = _format_slot_window_local(opt.get("starts_at"), opt.get("ends_at"))
             if formatted:
                 slot_context_lines.append(
                     f"- Opción {opt.get('option')}: {formatted} (slot_id: {opt.get('slot_id')})"
                 )
-        slot_context_lines.append("Si el usuario elige una opción, usa el slot_id correspondiente en book_appointment.")
+        if appointment_flow == "reschedule":
+            slot_context_lines.append("Si el usuario elige una opción, usa el slot_id correspondiente en reschedule_appointment.")
+        else:
+            slot_context_lines.append("Si el usuario elige una opción, usa el slot_id correspondiente en book_appointment.")
         instructions_parts.append("\n".join(slot_context_lines))
 
     # If a booking was just completed (by _maybe_book_from_selection),
@@ -1715,6 +2327,25 @@ def _process_queue_impl(
                         )
                 except Exception as exc:
                     tool_result = f"Error al agendar cita: {str(exc)}"
+            elif tool_name == "reschedule_appointment":
+                try:
+                    tool_args = RescheduleAppointmentRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _reschedule_appointment(
+                        tool_args, org=org, chat=chat
+                    )
+                    if tool_result.lower().startswith("cita reagendada exitosamente"):
+                        booking_done = True
+                        assistant_text = "¡Tu visita ha sido reagendada exitosamente! Te esperamos con gusto."
+                    elif tool_result.lower().startswith("el horario seleccionado"):
+                        booking_error_text = (
+                            "Para reagendar necesito que elijas una opcion "
+                            "de la lista enviada. Si no tienes opciones, "
+                            "dime que dias te convienen."
+                        )
+                except Exception as exc:
+                    tool_result = f"Error al reagendar cita: {str(exc)}"
             elif tool_name == "cancel_appointment":
                 try:
                     tool_args = CancelAppointmentRequest.model_validate_json(
@@ -1735,6 +2366,16 @@ def _process_queue_impl(
                     )
                 except Exception as exc:
                     tool_result = f"Error al cerrar la sesión: {str(exc)}"
+            elif tool_name == "get_lead_status":
+                try:
+                    tool_args = GetLeadStatusRequest.model_validate_json(
+                        tool_args_json
+                    )
+                    tool_result = _get_lead_status(
+                        tool_args, org=org, chat=chat
+                    )
+                except Exception as exc:
+                    tool_result = f"Error al consultar estado: {str(exc)}"
 
             print(
                 "[admissions] tool result",
@@ -1807,6 +2448,10 @@ def _process_queue_impl(
                     BookAppointmentRequest,
                     lambda args: _book_appointment(args, org=org, chat=chat),
                 ),
+                "reschedule_appointment": (
+                    RescheduleAppointmentRequest,
+                    lambda args: _reschedule_appointment(args, org=org, chat=chat),
+                ),
                 "cancel_appointment": (
                     CancelAppointmentRequest,
                     lambda args: _cancel_appointment(args, org=org, chat=chat),
@@ -1814,6 +2459,10 @@ def _process_queue_impl(
                 "close_chat_session": (
                     CloseChatSessionRequest,
                     lambda args: _close_chat_session(args, org=org, chat=chat, session_id=session_id),
+                ),
+                "get_lead_status": (
+                    GetLeadStatusRequest,
+                    lambda args: _get_lead_status(args, org=org, chat=chat),
                 ),
             }
 
@@ -1841,7 +2490,7 @@ def _process_queue_impl(
                             "El siguiente paso es conocer el campus, ¿te gustaría que busque "
                             "horarios disponibles para una visita?"
                         )
-                    elif "book_appointment" in executed_tools:
+                    elif "book_appointment" in executed_tools or "reschedule_appointment" in executed_tools:
                         assistant_text = "Tu solicitud de cita fue procesada. ¿Necesitas algo más?"
                     else:
                         assistant_text = "Tu solicitud fue procesada correctamente. ¿En qué más puedo ayudarte?"
@@ -1902,6 +2551,16 @@ def _process_queue_impl(
     if not lead_note_added:
         _maybe_auto_add_notes(combined_user, org=org, chat=chat)
 
+    requirements_text = _maybe_send_requested_requirements(
+        combined_user=combined_user,
+        tool_calls=tool_calls,
+        org=org,
+        chat=chat,
+        session_id=session_id,
+    )
+    if requirements_text:
+        assistant_text = requirements_text
+
     # Post-response validation: detect invented responses
     assistant_text = _validate_and_fix_response(
         assistant_text, combined_user, tool_calls, lead, chat
@@ -1929,7 +2588,7 @@ def _cancel_appointment(
     # 2. Find scheduled appointment for ANY of these leads
     appt_response = (
         supabase.from_("appointments")
-        .select("id, slot_id")
+        .select("id")
         .in_("lead_id", lead_ids)
         .eq("status", "scheduled")
         .order("created_at", desc=True)
@@ -1942,33 +2601,21 @@ def _cancel_appointment(
     
     appt = appts[0]
     appt_id = appt.get("id")
-    slot_id = appt.get("slot_id")
     
-    # 3. Update appointment to cancelled with reason
-    supabase.from_("appointments").update({
-        "status": "cancelled",
-        "notes": f"Cancelado por usuario. Razón: {request.cancellation_reason}",
-        "updated_at": datetime.utcnow().isoformat(),
-    }).eq("id", appt_id).execute()
-    
-    # 4. Free up the slot (decrement count)
-    if slot_id:
-        slot_response = (
-            supabase.from_("availability_slots")
-            .select("appointments_count")
-            .eq("id", slot_id)
-            .single()
-            .execute()
-        )
-        slot = get_supabase_data(slot_response)
-        if slot:
-            new_count = max(0, slot.get("appointments_count", 1) - 1)
-            supabase.from_("availability_slots").update({
-                "appointments_count": new_count,
-                "updated_at": datetime.utcnow().isoformat(),
-            }).eq("id", slot_id).execute()
-    
-    # 5. Update leads status back to contacted (ALL associated leads)
+    # 3. Cancel atomically in Postgres so slot capacity stays correct.
+    cancel_response = supabase.rpc(
+        "cancel_admission_appointment",
+        {
+            "p_org_id": org.get("id"),
+            "p_appointment_id": appt_id,
+            "p_reason": request.cancellation_reason,
+        },
+    ).execute()
+    cancel_row = _first_response_row(cancel_response)
+    if get_supabase_error(cancel_response) or not cancel_row or not cancel_row.get("success"):
+        return (cancel_row or {}).get("message") or "No se pudo cancelar la cita."
+
+    # 4. Update leads status back to contacted (ALL associated leads)
     supabase.from_("leads").update({
         "status": "contacted",
         "updated_at": datetime.utcnow().isoformat(),
@@ -1977,6 +2624,59 @@ def _cancel_appointment(
     print(f"[admissions] appointment {appt_id} cancelled successfully")
     
     return "Cita cancelada exitosamente. El lead ha sido actualizado. Intenta convencer al usuario de agendar otra visita preguntando qué fechas le convendrían mejor."
+
+
+def _reschedule_appointment(
+    request: RescheduleAppointmentRequest,
+    org: Dict[str, Any],
+    chat: Dict[str, Any],
+) -> str:
+    supabase = get_supabase_client()
+    print(f"[admissions] rescheduling appointment to slot {request.slot_id}")
+    try:
+        import uuid
+
+        uuid.UUID(request.slot_id)
+    except ValueError:
+        return "El horario seleccionado no es valido. Indica el numero de la opcion."
+
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+    if not _slot_id_allowed(request.slot_id, lead, chat):
+        return "El horario seleccionado no corresponde a las opciones enviadas. Elige una opcion de la lista."
+
+    appointment, leads = _get_scheduled_appointment_for_chat(supabase, org, chat)
+    if not appointment:
+        return "No encontré una cita activa para reagendar. Primero necesitamos agendar una visita."
+
+    response = supabase.rpc(
+        "reschedule_admission_appointment",
+        {
+            "p_org_id": org.get("id"),
+            "p_appointment_id": appointment.get("id"),
+            "p_new_slot_id": request.slot_id,
+            "p_notes": request.notes,
+            "p_type": "Campus visit",
+        },
+    ).execute()
+    result = _first_response_row(response)
+    if get_supabase_error(response) or not result:
+        return "Error al reagendar la cita en base de datos."
+    if not result.get("success"):
+        return result.get("message") or "El nuevo horario ya no está disponible."
+
+    for lead_row in leads:
+        lead_id = lead_row.get("id")
+        if lead_id:
+            supabase.from_("leads").update(
+                {"status": "visit_scheduled", "updated_at": datetime.utcnow().isoformat()}
+            ).eq("id", lead_id).execute()
+
+    _clear_slot_options(supabase, lead, chat)
+    _pop_chat_state_value(supabase, chat, "pending_slot_option")
+    _pop_chat_state_value(supabase, chat, "appointment_flow")
+    return "Cita reagendada exitosamente. El lead ha sido actualizado a 'visit_scheduled'."
 
 
 def _search_availability_slots(
@@ -2001,15 +2701,27 @@ def _search_availability_slots(
 
     # Don't allow past dates
     today = datetime.utcnow().date()
+    request_end = request.end_date
+
+    date_window = _get_chat_state(chat).get("appointment_date_window") or {}
+    if date_window.get("kind") == "next_week":
+        days_until_next_monday = (7 - today.weekday()) % 7
+        if days_until_next_monday == 0:
+            days_until_next_monday = 7
+        next_monday = today + timedelta(days=days_until_next_monday)
+        next_friday = next_monday + timedelta(days=4)
+        start_dt = datetime(next_monday.year, next_monday.month, next_monday.day)
+        end_dt = datetime(next_friday.year, next_friday.month, next_friday.day)
+        request_end = next_friday.strftime("%Y-%m-%d")
+        _pop_chat_state_value(supabase, chat, "appointment_date_window")
+
     if end_dt.date() < today:
         return "Las fechas solicitadas ya pasaron. Busca con fechas futuras."
     
     # Don't allow same-day bookings
     if start_dt.date() <= today:
         start_dt = datetime(today.year, today.month, today.day) + timedelta(days=1)
-        request_start = start_dt.strftime("%Y-%m-%d")
-    else:
-        request_start = request.start_date
+    request_start = start_dt.strftime("%Y-%m-%d")
 
     # Query all active slots in the date range
     response = (
@@ -2019,7 +2731,7 @@ def _search_availability_slots(
         .eq("is_active", True)
         .eq("is_blocked", False)
         .gte("starts_at", request_start)
-        .lte("ends_at", f"{request.end_date} 23:59:59")
+        .lte("ends_at", f"{request_end} 23:59:59")
         .order("starts_at", desc=False)
         .execute()
     )
@@ -2072,7 +2784,13 @@ def _search_availability_slots(
         
         available_slots.append(slot)
     
+    lead = _get_lead_by_chat(
+        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
+    )
+
     if not available_slots:
+        _clear_slot_options(supabase, lead, chat)
+        _pop_chat_state_value(supabase, chat, "pending_slot_option")
         preferred_label = ""
         if request.preferred_time == "morning":
             preferred_label = " por la mañana"
@@ -2080,7 +2798,7 @@ def _search_availability_slots(
             preferred_label = " por la tarde"
         return (
             f"No hay horarios disponibles{preferred_label} del {request.start_date} "
-            f"al {request.end_date}. Prueba con otras fechas o un horario diferente."
+            f"al {request_end}. Prueba con otras fechas o un horario diferente."
         )
 
     # Build options (max 8 to keep messages short for WhatsApp)
@@ -2096,17 +2814,17 @@ def _search_availability_slots(
         )
 
     # Save slot options to state
+    appointment_flow = _get_chat_state(chat).get("appointment_flow")
+    slot_flow = "reschedule" if appointment_flow == "reschedule" else "book"
     slot_state = {
         "generated_at": datetime.utcnow().isoformat(),
+        "flow": slot_flow,
         "options": options,
     }
     _set_chat_state_value(supabase, chat, "slot_options", slot_state)
     _pop_chat_state_value(supabase, chat, "pending_slot_option")
 
     # Also save to lead metadata if available
-    lead = _get_lead_by_chat(
-        supabase, org.get("id"), chat.get("id"), wa_id=chat.get("wa_id")
-    )
     if lead and lead.get("id"):
         metadata = lead.get("metadata") or {}
         metadata["slot_options"] = slot_state
@@ -2115,7 +2833,10 @@ def _search_availability_slots(
         ).eq("id", lead.get("id")).execute()
     
     # Format results for the LLM to present to the user
-    result_text = "Horarios disponibles (hora local Torreón):\n"
+    if appointment_flow == "reschedule":
+        result_text = "Horarios disponibles para reagendar la visita (hora local Torreón):\n"
+    else:
+        result_text = "Horarios disponibles (hora local Torreón):\n"
     for idx, s in enumerate(available_slots[:8], start=1):
         start_str = s.get("starts_at")
         end_str = s.get("ends_at")
@@ -2125,7 +2846,10 @@ def _search_availability_slots(
         else:
             result_text += f"- Opción {idx}: {start_str} - {end_str}\n"
     
-    result_text += "\nPregunta al usuario cuál opción prefiere (por número)."
+    if appointment_flow == "reschedule":
+        result_text += "\nPregunta al usuario cuál opción prefiere para mover su cita (por número)."
+    else:
+        result_text += "\nPregunta al usuario cuál opción prefiere (por número)."
     return result_text
 
 
@@ -2149,22 +2873,7 @@ def _book_appointment(
     if not _slot_id_allowed(request.slot_id, lead, chat):
         return "El horario seleccionado no corresponde a las opciones enviadas. Elige una opcion de la lista."
     
-    # 1. Verify Slot
-    slot_response = (
-        supabase.from_("availability_slots")
-        .select("*")
-        .eq("id", request.slot_id)
-        .maybe_single()
-        .execute()
-    )
-    slot = get_supabase_data(slot_response)
-    if not slot:
-        return "El horario seleccionado no existe."
-        
-    if slot.get("appointments_count", 0) >= slot.get("max_appointments", 1):
-        return "El horario seleccionado ya esta lleno."
-        
-    # 2. Get Lead ID (Required)
+    # 1. Get Lead ID (Required)
     if not lead:
         lead_response = (
             supabase.from_("leads")
@@ -2185,30 +2894,24 @@ def _book_appointment(
     primary_lead = leads[0]
     lead_id = primary_lead.get("id")
 
-    # 3. Create Appointment (linked to primary lead)
-    appt_payload = {
-        "organization_id": org.get("id"),
-        "lead_id": lead_id,
-        "slot_id": request.slot_id,
-        "starts_at": slot.get("starts_at"),
-        "ends_at": slot.get("ends_at"),
-        "status": "scheduled",
-        "notes": request.notes or "Agendado via WhatsApp Bot",
-        "created_at": datetime.utcnow().isoformat(),
-        "updated_at": datetime.utcnow().isoformat(),
-    }
-    
-    appt_insert = supabase.from_("appointments").insert(appt_payload).execute()
-    if get_supabase_error(appt_insert):
+    booking_response = supabase.rpc(
+        "book_admission_appointment",
+        {
+            "p_org_id": org.get("id"),
+            "p_lead_id": lead_id,
+            "p_slot_id": request.slot_id,
+            "p_notes": request.notes or "Agendado via WhatsApp Bot",
+            "p_type": "Campus visit",
+            "p_created_by_profile_id": None,
+        },
+    ).execute()
+    booking_row = _first_response_row(booking_response)
+    if get_supabase_error(booking_response) or not booking_row:
         return "Error al crear la cita en base de datos."
-        
-    # 4. Update Slot Count
-    new_count = slot.get("appointments_count", 0) + 1
-    supabase.from_("availability_slots").update(
-        {"appointments_count": new_count}
-    ).eq("id", request.slot_id).execute()
-    
-    # 5. Update Lead Status (For ALL leads sharing this contact)
+    if not booking_row.get("success"):
+        return booking_row.get("message") or "El horario seleccionado ya no está disponible."
+
+    # 2. Update Lead Status (For ALL leads sharing this contact)
     for l in leads:
         lid = l.get("id")
         # Update status
@@ -2222,7 +2925,7 @@ def _book_appointment(
                 supabase,
                 l,
                 org.get("id"),
-                f"Visita agendada (compartida con lead {primary_lead.get('lead_number')}) para {slot.get('starts_at')}",
+                f"Visita agendada (compartida con lead {primary_lead.get('lead_number')}) para {booking_row.get('starts_at')}",
                 subject="Cita Agendada"
             )
 
@@ -2636,6 +3339,91 @@ def get_chat_history_endpoint(chat_id: str):
         "session_id": session_id,
         "count": len(history),
         "history": history,
+    }
+
+
+@router.get("/requirements/health", dependencies=[Depends(require_api_key)])
+def requirements_health_endpoint(
+    org_slug: str = Query(default="nexus-core"),
+    division: Optional[str] = Query(default=None),
+) -> Dict[str, Any]:
+    """Verify admission requirement PDF configuration without sending WhatsApp."""
+    supabase = get_supabase_client()
+    org_response = (
+        supabase.from_("organizations")
+        .select("id, slug, name")
+        .eq("slug", org_slug)
+        .maybe_single()
+        .execute()
+    )
+    org = get_supabase_data(org_response)
+    if not org:
+        raise HTTPException(status_code=404, detail=f"Organization not found: {org_slug}")
+
+    valid_divisions = [
+        "prenursery",
+        "early_child",
+        "elementary",
+        "middle_school",
+        "high_school",
+    ]
+    divisions = [division] if division else valid_divisions
+    invalid = [value for value in divisions if value not in valid_divisions]
+    if invalid:
+        raise HTTPException(status_code=400, detail=f"Invalid division: {invalid[0]}")
+
+    checks: List[Dict[str, Any]] = []
+    for current_division in divisions:
+        doc_response = (
+            supabase.from_("admission_requirement_documents")
+            .select("*")
+            .eq("organization_id", org.get("id"))
+            .eq("division", current_division)
+            .eq("is_active", True)
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+        )
+        docs = get_supabase_data(doc_response) or []
+        if not docs:
+            checks.append({
+                "division": current_division,
+                "configured": False,
+                "downloadable": False,
+                "error": "No active document configured",
+            })
+            continue
+
+        doc = docs[0]
+        file_path = doc.get("file_path")
+        bucket = doc.get("storage_bucket")
+        downloadable = False
+        size = 0
+        error = None
+        try:
+            if not file_path or not bucket:
+                raise ValueError("Missing storage bucket or file path")
+            file_bytes = supabase.storage.from_(bucket).download(file_path)
+            size = len(file_bytes or b"")
+            downloadable = size > 0
+        except Exception as exc:
+            error = str(exc)
+
+        checks.append({
+            "division": current_division,
+            "configured": True,
+            "downloadable": downloadable,
+            "file_name": doc.get("file_name"),
+            "file_path": file_path,
+            "storage_bucket": bucket,
+            "size_bytes": size,
+            "error": error,
+        })
+
+    return {
+        "organization": org,
+        "ok": all(item["configured"] and item["downloadable"] for item in checks),
+        "checks": checks,
     }
 
 

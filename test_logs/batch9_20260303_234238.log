@@ -1,0 +1,78 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:42:38.464476
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234238.log
+================================================================
+
+  Running only scenario: 4-grade-calc
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 4: Grade calculation from DOB
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 05d5c337… (wa_id=test3_grade_calc_f6712bb8)[0m
+[1m[32m👤 User:[0m Hola, quiero saber en qué grado le tocaría a mi hijo para agosto 2026
+[admissions] loading session messages {'session_id': '0db5fea5-5b33-450d-baf3-40d04599ed6c'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 295 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al area de admisiones de Colegio
+  Americano de Torreón. ¿Como puedo ayudarte?  Para decirte
+  *exactamente* qué grado le corresponde para *agosto 2026 (ciclo
+  2026–2027)*, necesito la *fecha de nacimiento completa* de tu hijo
+  (día/mes/año). ¿Me la compartes, por favor?
+[1m[32m👤 User:[0m Nació el 1 de agosto de 2020
+[admissions] loading session messages {'session_id': '0db5fea5-5b33-450d-baf3-40d04599ed6c'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 379 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Con fecha de nacimiento *1 de agosto de 2020*, para el ciclo
+  que inicia en *agosto 2026* le corresponde:  *Kínder (Kindergarten)*.
+  Esto es porque Kindergarten para 2026–2027 es del *01-ago-2020 al
+  31-jul-2021* (incluye el 01-ago-2020).  ¿Te gustaría que te platique
+  un poco del área de *Early Childhood* (kínder) o quieres que te ayude
+  a *agendar una visita al campus*?
+[2mℹ️  ASSERT PASS [grade-aug1-2020]: Found ['kinder', 'kindergarten'][0m
+[1m[32m👤 User:[0m Tengo otro hijo que nació el 15 de enero de 2024
+[admissions] loading session messages {'session_id': '0db5fea5-5b33-450d-baf3-40d04599ed6c'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 421 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto. Para el ciclo que inicia en *agosto 2026 (2026–2027)*, con
+  fecha de nacimiento *15 de enero de 2024*, a tu hijo le corresponde:
+  *Prenursery (Maternal)*  Porque Prenursery es para nacidos del
+  *01-ago-2023 al 31-jul-2024*, y *15-ene-2024* cae dentro de ese rango.
+  ¿Te interesa que ambos entren en *agosto 2026*? Si quieres, también
+  puedo apoyarte a *agendar una visita al campus* para conocer las dos
+  secciones.
+[2mℹ️  ASSERT PASS [grade-jan-2024]: Found ['prenursery', 'maternal'][0m
+[1m[32m👤 User:[0m ¿Y si quiero meterlo a preparatoria? El que nació en 2020
+[admissions] loading session messages {'session_id': '0db5fea5-5b33-450d-baf3-40d04599ed6c'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 574 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para el ciclo *agosto 2026*, tu hijo que nació el *01-ago-2020* no
+  podría ingresar a *preparatoria* por edad.  Con esa fecha de
+  nacimiento, el grado que le corresponde por rango es *Kínder
+  (Kindergarten)* en 2026–2027. *Prepa* es para alumnos nacidos aprox.
+  entre *01-ago-2010 y 31-jul-2009* (dependiendo del año de prepa), así
+  que es un rango completamente distinto.  Si me cuentas un poquito el
+  contexto: ¿te referías a *preparatoria para ti* (adulto) o para *otro
+  hijo*? Si es para otro hijo, dime su *fecha de nacimiento* y con gusto
+  te digo qué año de prepa le tocaría.
+[2mℹ️  ASSERT PASS [grade-mismatch]: Found ['no', 'rango', 'corresponde', 'kinder', 'kindergarten'][0m
+[2mℹ️  Chat ID: 05d5c337-313a-444d-91e9-bf43c2b68791[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 3/3 passed, 0 failed
+================================================================
+  ✅ [grade-aug1-2020]: Found: ['kinder', 'kindergarten']
+  ✅ [grade-jan-2024]: Found: ['prenursery', 'maternal']
+  ✅ [grade-mismatch]: Found: ['no', 'rango', 'corresponde', 'kinder', 'kindergarten']
+================================================================
+

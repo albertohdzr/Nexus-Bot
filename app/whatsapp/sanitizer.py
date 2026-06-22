@@ -130,28 +130,32 @@ def validate_and_fix_response(
                 "ya no te funciona el horario? (ej: trabajo, agenda familiar, etc.)"
             )
 
-    # ── Check 2: fake note claim (log only) ──
-    note_claimed = any(
-        phrase in lowered_text
-        for phrase in [
-            "he actualizado la nota",
-            "he anotado",
-            "he registrado",
-            "he guardado",
-            "actualicé la nota",
-            "anoté",
-            "registré",
-            "guardé",
-            "lo registro",
-            "lo anoto",
-        ]
+    # ── Check 2: fake note claim ──
+    note_claim_pattern = re.compile(
+        r"("
+        r"he\s+(?:actualizado|guardado|registrado|anotado)\s+(?:una\s+)?(?:nota|anotaci[oó]n|informaci[oó]n|esto)"
+        r"|(?:actualic[eé]|guard[eé]|registr[eé]|anot[eé])\s+(?:una\s+)?(?:nota|anotaci[oó]n|informaci[oó]n|esto)"
+        r"|lo\s+(?:registro|anoto|guardo)"
+        r")",
+        re.IGNORECASE,
     )
+    note_claimed = bool(note_claim_pattern.search(assistant_text))
     if (
         note_claimed
         and "add_lead_note" not in called_tools
         and "update_admissions_lead" not in called_tools
     ):
         print("[admissions] WARNING: Model claimed to add note without calling tool")
+        sentences = re.split(r"(?<=[.!?])\s+", assistant_text)
+        filtered = [
+            sentence
+            for sentence in sentences
+            if not note_claim_pattern.search(sentence)
+        ]
+        cleaned = " ".join(sentence.strip() for sentence in filtered if sentence.strip())
+        if cleaned:
+            return cleaned
+        return "Gracias por compartirlo. ¿Te gustaría que un asesor te dé más información?"
 
     # ── Check 3: invented schedule list ──
     if "search_availability_slots" not in called_tools:

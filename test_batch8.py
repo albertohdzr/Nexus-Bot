@@ -11,7 +11,7 @@ load_dotenv()
 from test_chat import (
     create_test_chat, simulate_message, _h, _user, _bot, _info, _err,
 )
-from app.core.supabase import get_supabase_client
+from app.core.supabase import get_supabase_client, reset_supabase_client
 
 TEST_ORG_ID = os.getenv("TEST_ORG_ID", "726f0ce2-edd0-4319-a7fd-7d0bfc4161aa")
 LOG_DIR = os.path.join(os.path.dirname(__file__), "test_logs")
@@ -28,12 +28,13 @@ class Tee:
         self.file.write(d)
     def flush(self):
         self.stdout.flush()
-        self.file.flush()
+        if not self.file.closed:
+            self.file.flush()
 
 
 def fresh_client():
     """Force a brand new Supabase client with fresh HTTP connections."""
-    get_supabase_client.cache_clear()
+    reset_supabase_client()
     gc.collect()
     return get_supabase_client()
 

@@ -1,0 +1,76 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: info_only
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 2c0940f9… (wa_id=test3_info_only_f0fd8125)[0m
+
+[35m── Step 1/5 ──[0m
+[1m[32m👤 User:[0m Buenas tardes
+[admissions] loading session messages {'session_id': 'd406f935-7c3d-4b66-8633-4012eafc08ce'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 75 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Estoy aquí para ayudarte con admisiones. ¿Qué información
+  necesitas?
+
+
+[35m── Step 2/5 ──[0m
+[1m[32m👤 User:[0m ¿Qué planes de estudio manejan en preparatoria?
+[admissions] loading session messages {'session_id': 'd406f935-7c3d-4b66-8633-4012eafc08ce'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 388 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  En la preparatoria, ofrecemos un enfoque integral que incluye
+  diferentes áreas de estudio. Los estudiantes pueden elegir entre
+  diversas materias que abarcan ciencias, artes y humanidades, además de
+  inglés y deportes. También contamos con programas de liderazgo y
+  clubes como el debate y robótica.  Si quieres más detalles específicos
+  o sobre algún programa en particular, házmelo saber. 😊
+
+
+[35m── Step 3/5 ──[0m
+[1m[32m👤 User:[0m ¿Tienen clases de inglés o es bilingüe?
+[admissions] loading session messages {'session_id': 'd406f935-7c3d-4b66-8633-4012eafc08ce'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 367 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, contamos con un programa bilingüe en la preparatoria. Las clases
+  de inglés son parte fundamental del currículo, lo que permite a los
+  estudiantes desarrollar habilidades en ambos idiomas. Esto les prepara
+  para un mundo globalizado y diversas oportunidades académicas.  Si
+  tienes más preguntas sobre el programa o cualquier otro aspecto, estoy
+  aquí para ayudarte. 😊
+
+
+[35m── Step 4/5 ──[0m
+[1m[32m👤 User:[0m ¿A qué hora entran y salen los de primaria?
+[admissions] loading session messages {'session_id': 'd406f935-7c3d-4b66-8633-4012eafc08ce'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 255 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  El horario para los estudiantes de primaria suele ser de 8:00 AM a
+  2:30 PM. Durante este tiempo, los alumnos participan en diversas
+  actividades académicas y recreativas.  Si quieres saber más sobre
+  otros grados o tienes más dudas, no dudes en preguntar. 😊
+
+
+[35m── Step 5/5 ──[0m
+[1m[32m👤 User:[0m Ok gracias, lo voy a pensar y les aviso
+[admissions] loading session messages {'session_id': 'd406f935-7c3d-4b66-8633-4012eafc08ce'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 140 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Tómate tu tiempo. Si necesitas más información o tienes
+  preguntas adicionales, aquí estaré para ayudarte. ¡Que tengas un buen
+  día! 😊
+
+[2mℹ️  Chat ID: 2c0940f9-3344-45df-b4b7-c5889c082e93 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'info_only' complete
+════════════════════════════════════════════════════════════════[0m
+

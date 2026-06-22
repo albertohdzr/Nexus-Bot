@@ -1,0 +1,98 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: data_correction
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 700fa552… (wa_id=test3_data_correction_f1ea3873)[0m
+
+[35m── Step 1/5 ──[0m
+[1m[32m👤 User:[0m Hola quiero informes para primaria
+[admissions] loading session messages {'session_id': 'de9c9a94-cc41-444d-87c4-865059c36c15'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 95 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Con gusto te ayudo. ¿Qué información específica te gustaría
+  conocer sobre la primaria? 😊
+
+
+[35m── Step 2/5 ──[0m
+[1m[32m👤 User:[0m Mi hijo se llama Emilio Garza Treviño, nació el 5 de febrero de 2018. Está en kínder 3 en el colegio…
+[admissions] loading session messages {'session_id': 'de9c9a94-cc41-444d-87c4-865059c36c15'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 304 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias por la información sobre Emilio. Con su fecha de
+  nacimiento, él es elegible para ingresar a Primaria 1 en el ciclo
+  escolar 2026-2027.   Voy a crear su registro de admisión y, mientras
+  tanto, ¿puedes proporcionarme el nombre completo del tutor, así como
+  su correo y teléfono de contacto?
+
+
+[35m── Step 3/5 ──[0m
+[1m[32m👤 User:[0m Soy Roberto Garza, 8719998877, roberto.garza@test.com
+[admissions] loading session messages {'session_id': 'de9c9a94-cc41-444d-87c4-865059c36c15'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Emilio', 'student_last_name_paternal': 'Garza', 'grade_interest': 'Primaria 1', 'current_school': 'Colegio Vilaseca', 'contact_email': 'roberto.garza@test.com', 'contact_phone': '8719998877'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_data_correction_f1ea3873', 'contact_phone': '8719998877'}
+[admissions] contact created {'contact_id': '282d0f84-6e85-455a-bca7-d34518be92a1'}
+[admissions] lead created {'lead_id': '226011e8-634a-4e2c-997e-e40ef88263f7', 'lead_number': 96}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emilio","student_middle_name":null,"student_last_name_paternal":"Garza","student_last_name_maternal":"Treviño","stude[0m
+[2m     Result: Lead creado con folio L-96.[0m
+[1m[34m🤖 Bot:[0m
+  He creado el registro de admisión para Emilio con folio L-96.   Ahora,
+  ¿te gustaría conocer los requisitos de admisión para Primaria? También
+  puedo informarte sobre próximos eventos o visitas al campus. ¿Qué
+  prefieres? 😊
+
+
+[35m── Step 4/5 ──[0m
+[1m[32m👤 User:[0m Perdón me equivoqué, no se llama Emilio, se llama Emiliano. ¿Puedes corregirlo?
+[admissions] loading session messages {'session_id': 'de9c9a94-cc41-444d-87c4-865059c36c15'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] update lead payload {'student_first_name': 'Emiliano', 'student_last_name_paternal': 'Garza', 'student_last_name_maternal': 'Treviño', 'student_dob': '2018-02-05', 'grade_interest': 'Primaria 1', 'school_year': '2026-2027', 'current_school': 'Vilaseca', 'contact_first_name': 'Roberto', 'contact_last_name_paternal': 'Garza', 'contact_email': 'roberto.garza@test.com', 'contact_phone': '8719998877', 'relationship': 'Padre'}
+[admissions] lead updated {'lead_id': '226011e8-634a-4e2c-997e-e40ef88263f7', 'updates': {'student_first_name': 'Emiliano', 'student_last_name_paternal': 'Garza', 'student_last_name_maternal': 'Treviño', 'student_dob': '2018-02-05', 'grade_interest': 'Primaria 1', 'student_grade_interest': 'Primaria 1', 'school_year': '2026-2027', 'current_school': 'Vilaseca', 'contact_email': 'roberto.garza@test.com', 'contact_phone': '8719998877', 'contact_first_name': 'Roberto', 'contact_last_name_paternal': 'Garza', 'contact_name': 'Roberto Garza', 'metadata': {'relationship': 'Padre'}}}
+[admissions] contact updated {'contact_id': '282d0f84-6e85-455a-bca7-d34518be92a1', 'updates': {'first_name': 'Roberto', 'last_name_paternal': 'Garza', 'email': 'roberto.garza@test.com', 'phone': '8719998877', 'whatsapp_wa_id': 'test3_data_correction_f1ea3873'}}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emiliano","student_middle_name":null,"student_last_name_paternal":"Garza","student_last_name_maternal":"Treviño","stu[0m
+[2m     Result: Lead L-96 actualizado.[0m
+[1m[34m🤖 Bot:[0m
+  He corregido el nombre a Emiliano en el registro de admisión.   ¿Te
+  gustaría conocer los requisitos de admisión para Primaria o
+  información sobre próximos eventos y visitas al campus? 😊
+
+
+[35m── Step 5/5 ──[0m
+[1m[32m👤 User:[0m También me equivoqué de escuela, está en el Montessori, no el Vilaseca
+[admissions] loading session messages {'session_id': 'de9c9a94-cc41-444d-87c4-865059c36c15'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] update lead payload {'student_first_name': 'Emiliano', 'student_last_name_paternal': 'Garza', 'student_last_name_maternal': 'Treviño', 'student_dob': '2018-02-05', 'grade_interest': 'Primaria 1', 'school_year': '2026-2027', 'current_school': 'Montessori', 'contact_first_name': 'Roberto', 'contact_last_name_paternal': 'Garza', 'contact_email': 'roberto.garza@test.com', 'contact_phone': '8719998877'}
+[admissions] lead updated {'lead_id': '226011e8-634a-4e2c-997e-e40ef88263f7', 'updates': {'student_first_name': 'Emiliano', 'student_last_name_paternal': 'Garza', 'student_last_name_maternal': 'Treviño', 'student_dob': '2018-02-05', 'grade_interest': 'Primaria 1', 'student_grade_interest': 'Primaria 1', 'school_year': '2026-2027', 'current_school': 'Montessori', 'contact_email': 'roberto.garza@test.com', 'contact_phone': '8719998877', 'contact_first_name': 'Roberto', 'contact_last_name_paternal': 'Garza', 'contact_name': 'Roberto Garza'}}
+[admissions] contact updated {'contact_id': '282d0f84-6e85-455a-bca7-d34518be92a1', 'updates': {'first_name': 'Roberto', 'last_name_paternal': 'Garza', 'email': 'roberto.garza@test.com', 'phone': '8719998877', 'whatsapp_wa_id': 'test3_data_correction_f1ea3873'}}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emiliano","student_middle_name":null,"student_last_name_paternal":"Garza","student_last_name_maternal":"Treviño","stu[0m
+[2m     Result: Lead L-96 actualizado.[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/elementary/requisitos-genericos-elementary.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  He actualizado el registro de Emiliano y corregido la escuela a
+  Montessori.   Te acabo de enviar el documento con los requisitos de
+  admisión para Primaria por WhatsApp. Si tienes más preguntas o
+  necesitas información adicional, no dudes en decírmelo. 😊
+
+[2mℹ️  Chat ID: 700fa552-52e3-475c-ba58-724074b854a6 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'data_correction' complete
+════════════════════════════════════════════════════════════════[0m
+

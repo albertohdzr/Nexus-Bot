@@ -43,6 +43,8 @@ from app.whatsapp.process_router import (
     _maybe_auto_cancel,
     _maybe_auto_add_notes,
     _format_slot_window_local,
+    _maybe_send_requested_requirements,
+    _maybe_auto_search_slots,
 )
 from app.core.config import settings
 
@@ -175,13 +177,16 @@ def simulate_message(
         CreateAdmissionsLeadRequest, UpdateAdmissionsLeadRequest,
         AddLeadNoteRequest, GetNextEventRequest, RegisterEventRequest,
         GetRequirementsRequest, SearchSlotsRequest, BookAppointmentRequest,
-        CancelAppointmentRequest, CloseChatSessionRequest,
+        RescheduleAppointmentRequest, CancelAppointmentRequest,
+        CloseChatSessionRequest, GetLeadStatusRequest,
     )
     from app.whatsapp.process_router import (
         _create_admissions_lead, _update_admissions_lead,
         _add_lead_note, _get_next_event, _register_event,
         _send_requirements, _search_availability_slots,
-        _book_appointment, _cancel_appointment, _close_chat_session,
+        _book_appointment, _reschedule_appointment, _cancel_appointment,
+        _close_chat_session, _get_lead_status,
+        _update_appointment_flow_from_user_text,
     )
 
     supabase = get_supabase_client()
@@ -236,6 +241,13 @@ def simulate_message(
     if preferred_date:
         _set_chat_state_value(supabase, chat, "preferred_date", preferred_date)
 
+    _update_appointment_flow_from_user_text(combined_user, org, chat)
+
+    forced_slots = _maybe_auto_search_slots(combined_user=combined_user, org=org, chat=chat)
+    if forced_slots:
+        inject_assistant_message(chat_id, session_id, forced_slots)
+        return forced_slots
+
     forced_text = _maybe_book_from_selection(combined_user=combined_user, org=org, chat=chat)
     if forced_text:
         inject_assistant_message(chat_id, session_id, forced_text)
@@ -259,12 +271,14 @@ def simulate_message(
     lead = get_lead_by_chat(supabase, org["id"], chat["id"], wa_id=chat.get("wa_id"))
     slot_options = get_slot_options(lead, chat)
     if slot_options:
-        lines = ["OPCIONES DE HORARIOS DISPONIBLES (usa estos IDs exactos para book_appointment):"]
+        appointment_flow = (chat.get("state_context") or {}).get("appointment_flow")
+        slot_tool_name = "reschedule_appointment" if appointment_flow == "reschedule" else "book_appointment"
+        lines = [f"OPCIONES DE HORARIOS DISPONIBLES (usa estos IDs exactos para {slot_tool_name}):"]
         for opt in slot_options:
             fmt = _format_slot_window_local(opt.get("starts_at"), opt.get("ends_at"))
             if fmt:
                 lines.append(f"- Opción {opt.get('option')}: {fmt} (slot_id: {opt.get('slot_id')})")
-        lines.append("Si el usuario elige una opción, usa el slot_id correspondiente en book_appointment.")
+        lines.append(f"Si el usuario elige una opción, usa el slot_id correspondiente en {slot_tool_name}.")
         parts.append("\n".join(lines))
 
     booking_context = chat.get("_booking_context")
@@ -306,8 +320,10 @@ def simulate_message(
         "get_admission_requirements": (GetRequirementsRequest, lambda a: _send_requirements(a, org=org, chat=chat, session_id=session_id)),
         "search_availability_slots": (SearchSlotsRequest, lambda a: _search_availability_slots(a, org=org, chat=chat)),
         "book_appointment": (BookAppointmentRequest, lambda a: _book_appointment(a, org=org, chat=chat)),
+        "reschedule_appointment": (RescheduleAppointmentRequest, lambda a: _reschedule_appointment(a, org=org, chat=chat)),
         "cancel_appointment": (CancelAppointmentRequest, lambda a: _cancel_appointment(a, org=org, chat=chat)),
         "close_chat_session": (CloseChatSessionRequest, lambda a: _close_chat_session(a, org=org, chat=chat, session_id=session_id)),
+        "get_lead_status": (GetLeadStatusRequest, lambda a: _get_lead_status(a, org=org, chat=chat)),
     }
 
     for tc in tool_calls:
@@ -379,6 +395,16 @@ def simulate_message(
             _err("Exhausted tool rounds without text response")
             assistant_text = "[MAX ROUNDS — BUG]"
 
+    requirements_text = _maybe_send_requested_requirements(
+        combined_user=combined_user,
+        tool_calls=tool_calls,
+        org=org,
+        chat=chat,
+        session_id=session_id,
+    )
+    if requirements_text:
+        assistant_text = requirements_text
+
     assistant_text = sanitize_response(assistant_text)
     assistant_text = validate_and_fix_response(assistant_text, combined_user, tool_calls, lead, chat)
 
@@ -441,10 +467,13 @@ def _():
         "Está en 6to de primaria en el colegio La Salle.",
         "Yo soy Carolina García Mendoza, mi celular es 8712345678 y mi correo carolina.garcia@email.com",
         "¿Me pueden enviar los requisitos de admisión para secundaria en PDF?",
-        "Me gustaría agendar una visita al campus esta semana, de preferencia por la mañana",
+        "Me gustaría ver horarios disponibles para una visita la próxima semana por la mañana",
+        "La opción 1 por favor",
         "La opción 1 por favor",
         "¿Tienen club de robótica? Mi hija está muy interesada en eso",
-        "Disculpe, se me complicó esa fecha. ¿Puedo cambiar mi cita para la próxima semana?",
+        "Disculpe, se me complicó esa fecha. ¿Puedo cambiar mi cita para la siguiente semana por la mañana?",
+        "La opción 1 por favor",
+        "La opción 1 por favor",
         "¿Y cuánto cuesta la inscripción y las colegiaturas?",
     ]
 

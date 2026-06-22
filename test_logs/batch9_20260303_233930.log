@@ -1,0 +1,80 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:39:30.008361
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_233930.log
+================================================================
+
+  Running only scenario: 2-language-switch
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 2: Language switch (EN → ES)
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 766a0f15… (wa_id=test3_lang_switch_612ae190)[0m
+[1m[32m👤 User:[0m Hello, I'd like information about your school for my son
+[admissions] loading session messages {'session_id': '0abcaba4-17ea-4250-9e45-3076a0cbdddc'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 288 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hello, thanks for contacting the Admissions team at Colegio Americano
+  de Torreón. How can I help you today?  To point you to the right
+  information, what grade would your son be entering (or his date of
+  birth), and are you looking for entry for the *next school year
+  starting August 2026*?
+[2mℹ️  ASSERT PASS [lang-1-start-english]: English maintained[0m
+[1m[32m👤 User:[0m He's 10 years old and currently in 4th grade
+[admissions] loading session messages {'session_id': '0abcaba4-17ea-4250-9e45-3076a0cbdddc'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 449 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Thanks—at 10 years old and currently in *4th grade*, he would
+  typically be in our *Elementary School (Upper Elementary)* range.  For
+  the *August 2026* entry, to confirm the best grade placement I just
+  need his *date of birth* (day/month/year).    In the meantime, what
+  would you like to know most? - Admissions process/requirements   -
+  Academics (bilingual program, curriculum)   - After-school activities
+  (sports/arts)   - Scheduling a campus visit
+[2mℹ️  ASSERT PASS [lang-2-continue-english]: English maintained[0m
+[1m[32m👤 User:[0m Ah perdón, mejor hablemos en español. Quiero inscribir a mi hijo en primaria para el próximo ciclo
+[admissions] loading session messages {'session_id': '0abcaba4-17ea-4250-9e45-3076a0cbdddc'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 324 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Con gusto te ayudo. Para *primaria* y para el *próximo ciclo
+  (inicio agosto 2026)*, lo primero es confirmar el grado correcto.
+  ¿Cuál es la *fecha de nacimiento* de tu hijo (dd/mm/aaaa)?   Y, si me
+  dices también en qué *grado de primaria* te gustaría inscribirlo
+  (¿5º?), te explico el proceso y los siguientes pasos.
+[1m[32m👤 User:[0m Tiene 10 años, nació el 10 de febrero de 2016
+[admissions] loading session messages {'session_id': '0abcaba4-17ea-4250-9e45-3076a0cbdddc'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 756 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Con fecha de nacimiento *10/feb/2016*, para el ciclo
+  *2026–2027 (agosto 2026)* a tu hijo le corresponde *4º de Primaria*
+  (el rango para Primaria 4 es del 01-ago-2016 al 31-jul-2017).  Como su
+  fecha es *antes* (febrero 2016), queda en el rango de *3º de Primaria*
+  (01-ago-2017 a 31-jul-2018 no aplica; y para *Primaria 5* sería
+  01-ago-2015 a 31-jul-2016, tampoco aplica porque nació después del
+  31-jul-2016).   Por eso, para nosotros la colocación por edad para
+  agosto 2026 sería *3º de Primaria*.  Para orientarte mejor: 1) ¿En qué
+  *grado* está actualmente (me habías comentado 4º, ¿correcto)?   2) ¿De
+  qué *escuela* viene?  Si gustas, también puedo ayudarte a *agendar una
+  visita al campus* para que conozcan primaria y resolver dudas en
+  persona.
+[2mℹ️  Chat ID: 766a0f15-8736-40ed-b80c-92c0c6c54ec3[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 4/4 passed, 0 failed
+================================================================
+  ✅ [lang-1-start-english]: English OK
+  ✅ [lang-2-continue-english]: English OK
+  ✅ [lang-3-switch-to-spanish]: Spanish OK
+  ✅ [lang-4-continue-spanish]: Spanish OK
+================================================================
+

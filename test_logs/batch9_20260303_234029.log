@@ -1,0 +1,124 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:40:29.098957
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234029.log
+================================================================
+
+  Running only scenario: 3-scholarships
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 3: Scholarship & discount inquiries
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 73480e7b… (wa_id=test3_becas_705b8e0d)[0m
+[1m[32m👤 User:[0m Hola, tengo 3 hijos y quiero inscribirlos a todos
+[admissions] loading session messages {'session_id': '2bdcf02f-a878-4a74-af0b-940a4e1e8502'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado/a en inscribir a 3 hijos (hermanos) en el Colegio Americano de Torreón. Posible solicitud de descuento por hermanos.","[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Soy Vale, del área de admisiones del Colegio Americano de
+  Torreón. Con gusto te ayudo 😊   ¿Me platicas qué edades tienen tus 3
+  hijos (o sus fechas de nacimiento) y a qué grado entrarían?  También
+  te comparto: sí contamos con *descuento por hermanos inscritos
+  simultáneamente*.   Para *3 hijos inscritos*, aplica *10% de descuento
+  en colegiatura al hijo mayor*.  Con esas edades/fechas te digo
+  exactamente en qué sección quedaría cada uno
+  (Prenursery/Preescolar/Primaria/Secundaria/Prepa) para el ingreso de
+  *Agosto 2026*.
+[1m[32m👤 User:[0m ¿Tienen algún descuento por meter a los 3 hermanos?
+[admissions] loading session messages {'session_id': '2bdcf02f-a878-4a74-af0b-940a4e1e8502'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento por inscripción de 3 hermanos (pregunta por descuento familiar).","subject":"Descuento por hermanos"}[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí 😊 Tenemos *descuento por hermanos inscritos simultáneamente*.  Para
+  *3 hijos inscritos*, aplica un *10% de descuento en colegiatura* y se
+  *aplica al hijo mayor*.  Si me confirmas si serían *3 al mismo tiempo*
+  (en el mismo ciclo) y las *fechas de nacimiento* de tus hijos, te digo
+  en qué sección/grado quedaría cada uno para *Agosto 2026* y lo
+  canalizo con el asesor para que les orienten con el esquema correcto.
+[2mℹ️  ASSERT PASS [beca-3er-hijo]: Found ['10%', 'descuento'][0m
+[1m[32m👤 User:[0m ¿Y si inscribo un cuarto hijo también?
+[admissions] loading session messages {'session_id': '2bdcf02f-a878-4a74-af0b-940a4e1e8502'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento por hermanos: pregunta por aplicar descuento al inscribir 4 hijos (también tiene 3 hijos actualmente).","s[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Si inscribes un *cuarto hijo* también (4 hijos inscritos
+  simultáneamente), el beneficio cambia a *15% de descuento en
+  colegiatura* y *se aplica al hijo mayor*.  (Para referencia: si fueran
+  *5 hijos inscritos*, el 5º tendría *100% de beca en colegiatura*).
+  Para orientarte bien con tu caso: ¿serían *4 hijos al mismo tiempo*
+  para el ingreso de *agosto 2026*? Y si me compartes las *fechas de
+  nacimiento* de cada uno, te confirmo el grado que les correspondería.
+[2mℹ️  ASSERT PASS [beca-4to-hijo]: Found ['15%', 'cuarto'][0m
+[1m[32m👤 User:[0m Imagina que fueran 5 hijos, ¿qué pasa con el quinto?
+[admissions] loading session messages {'session_id': '2bdcf02f-a878-4a74-af0b-940a4e1e8502'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento: pregunta por esquema de hermanos (escenario de 5 hijos). Aún no confirma número real de hijos ni datos de[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Si fueran *5 hijos inscritos simultáneamente*, el *5º hijo* tendría
+  *100% de beca en colegiatura*.  Si me confirmas cuántos hijos serían
+  en realidad (3, 4 o 5) y sus *fechas de nacimiento*, te digo qué grado
+  le correspondería a cada uno para el ingreso de *agosto 2026* y los
+  siguientes pasos para avanzar con admisiones.
+[2mℹ️  ASSERT PASS [beca-5to-hijo]: Found ['100%', 'beca'][0m
+[1m[32m👤 User:[0m También escuché que hay una beca si mi hijo entró desde kínder y sigue hasta secundaria, ¿es cierto?
+[admissions] loading session messages {'session_id': '2bdcf02f-a878-4a74-af0b-940a4e1e8502'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento. Pregunta por Beca de Continuidad (ingresó desde kínder y continúa hasta secundaria). Número de hijos no c[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, es cierto. Existe la *Beca de Continuidad*: es un *20% de
+  descuento* si el alumno *ingresó en kínder* y *continúa* con nosotros
+  *hasta secundaria*.  Para orientarte con precisión: - ¿Tu hijo *entró
+  aquí al CAT desde kínder* (en nuestro colegio) o te refieres a que
+  entró a kínder en otra escuela? - Y en tu caso, ¿cuántos hijos
+  estarías inscribiendo al mismo tiempo: *3, 4 o 5*?
+[2mℹ️  ASSERT PASS [beca-continuidad]: Found ['20%', 'continuidad'][0m
+[1m[32m👤 User:[0m ¿Me puedes decir cuánto cuesta la colegiatura exactamente?
+[admissions] loading session messages {'session_id': '2bdcf02f-a878-4a74-af0b-940a4e1e8502'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 582 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Por este medio no puedo compartir *montos exactos* de colegiatura,
+  porque varían según la sección
+  (Prenursery/Preescolar/Primaria/Secundaria/Prepa) y algunos datos del
+  ingreso.  Lo que sí puedo confirmarte es que hay *descuentos por
+  hermanos* (3: 10% al mayor; 4: 15% al mayor; 5: 100% beca de
+  colegiatura para el 5º) y la *Beca de Continuidad* (20% en el caso que
+  aplica).  Si me dices a qué sección/edad entrarían tus hijos
+  (idealmente sus *fechas de nacimiento*), con gusto lo canalizo para
+  que un asesor de admisiones te comparta la información de costos de
+  forma personalizada.
+[2mℹ️  ASSERT PASS [redirect-pricing]: Found ['asesor', 'personalizada'][0m
+[2mℹ️  Chat ID: 73480e7b-0d7d-4b00-936c-13dced2f095f[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 6/6 passed, 0 failed
+================================================================
+  ✅ [beca-3er-hijo]: Found: ['10%', 'descuento']
+  ✅ [beca-4to-hijo]: Found: ['15%', 'cuarto']
+  ✅ [beca-5to-hijo]: Found: ['100%', 'beca']
+  ✅ [beca-continuidad]: Found: ['20%', 'continuidad']
+  ✅ [no-share-prices]: Clean
+  ✅ [redirect-pricing]: Found: ['asesor', 'personalizada']
+================================================================
+

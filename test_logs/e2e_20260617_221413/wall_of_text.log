@@ -1,0 +1,81 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: wall_of_text
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 8588c790… (wa_id=test3_wall_of_text_274b6904)[0m
+
+[35m── Step 1/1 ──[0m
+[1m[32m👤 User:[0m Buenas tardes, mire le explico mi situación. Somos una familia que nos acabamos de mudar de Monterre…
+[admissions] loading session messages {'session_id': 'c684fc34-1053-400c-8be6-8037859e7522'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 6 tools[0m
+[admissions] create lead payload {'student_first_name': 'Fernando', 'student_last_name_paternal': 'Ochoa', 'grade_interest': 'prepa', 'current_school': 'Tec de Monterrey', 'contact_email': 'analaura.delgado@test.com', 'contact_phone': '8111234567'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_wall_of_text_274b6904', 'contact_phone': '8111234567'}
+[admissions] contact created {'contact_id': '8c84b667-e942-42db-8619-13e21210e63d'}
+[admissions] lead created {'lead_id': '4803f9a6-eca4-4626-bdd1-447ecf893a31', 'lead_number': 93}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Fernando","student_middle_name":null,"student_last_name_paternal":"Ochoa","student_last_name_maternal":"Delgado","stu[0m
+[2m     Result: Lead creado con folio L-93.[0m
+[admissions] create lead payload {'student_first_name': 'Mariana', 'student_last_name_paternal': 'Ochoa', 'grade_interest': 'secundaria', 'current_school': 'Tec de Monterrey', 'contact_email': 'analaura.delgado@test.com', 'contact_phone': '8111234567'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_wall_of_text_274b6904', 'contact_phone': '8111234567'}
+[admissions] contact found {'contact_id': '8c84b667-e942-42db-8619-13e21210e63d'}
+[admissions] lead created {'lead_id': '216c8efd-1f3e-4eea-b069-f6b4fd50b680', 'lead_number': 94}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Mariana","student_middle_name":null,"student_last_name_paternal":"Ochoa","student_last_name_maternal":"Delgado","stud[0m
+[2m     Result: Lead creado con folio L-94.[0m
+[admissions] create lead payload {'student_first_name': 'Pablo', 'student_last_name_paternal': 'Ochoa', 'grade_interest': 'primaria', 'current_school': 'Tec de Monterrey', 'contact_email': 'analaura.delgado@test.com', 'contact_phone': '8111234567'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_wall_of_text_274b6904', 'contact_phone': '8111234567'}
+[admissions] contact found {'contact_id': '8c84b667-e942-42db-8619-13e21210e63d'}
+[admissions] lead created {'lead_id': '696e52c6-e38f-40a1-a7e9-05af5caaecfb', 'lead_number': 95}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Pablo","student_middle_name":null,"student_last_name_paternal":"Ochoa","student_last_name_maternal":"Delgado","studen[0m
+[2m     Result: Lead creado con folio L-95.[0m
+[admissions] fetching requirements for high_school
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/high_school/requisitos-genericos-high_school.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"high_school"}[0m
+[2m     Result: Documento de requisitos para high_school enviado exitosamente al usuario.[0m
+[admissions] fetching requirements for middle_school
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/middle_school/requisitos-genericos-middle_school.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: Documento de requisitos para middle_school enviado exitosamente al usuario.[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/elementary/requisitos-genericos-elementary.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[2mℹ️  Followup round 1: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"high_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[2mℹ️  Followup round 2: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[2mℹ️  Followup round 3: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola Ana Laura! Gracias por compartir tu situación. He registrado a
+  tus hijos Fernando, Mariana y Pablo como leads en nuestro sistema.  Te
+  envié por WhatsApp los requisitos de admisión para cada uno:  -
+  *Preparatoria* (Fernando) - *Secundaria* (Mariana) - *Primaria*
+  (Pablo)  Lamentablemente, en este momento no tenemos eventos
+  programados para las divisiones que mencionan tus hijos.   Para la
+  visita al campus, necesito saber qué días u horarios preferirías. Una
+  vez me lo indiques, puedo buscar disponibilidad para agendar tu cita.
+  Estoy aquí para ayudarte con cualquier otra duda que tengas. 😊
+
+[2mℹ️  Chat ID: 8588c790-87d0-49a9-9b12-297b974b4383 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'wall_of_text' complete
+════════════════════════════════════════════════════════════════[0m
+

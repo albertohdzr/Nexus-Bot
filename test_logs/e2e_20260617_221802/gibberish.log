@@ -1,0 +1,55 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: gibberish
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat b92031f0… (wa_id=test3_gibberish_d1349fdc)[0m
+
+[35m── Step 1/4 ──[0m
+[1m[32m👤 User:[0m asdfghjkl
+[admissions] loading session messages {'session_id': '876d0d46-8254-44c2-84f3-094d4d56be42'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 58 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Estoy aquí para ayudarte. ¿Qué te gustaría conocer?
+
+
+[35m── Step 2/4 ──[0m
+[1m[32m👤 User:[0m 😂😂😂
+[admissions] loading session messages {'session_id': '876d0d46-8254-44c2-84f3-094d4d56be42'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 125 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Parece que te diviertes. ¡Me alegra! Si tienes alguna pregunta o algo
+  en lo que pueda ayudarte sobre admisiones, ¡adelante! 😊
+
+
+[35m── Step 3/4 ──[0m
+[1m[32m👤 User:[0m ??????
+[admissions] loading session messages {'session_id': '876d0d46-8254-44c2-84f3-094d4d56be42'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 134 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Si hay algo específico que te gustaría preguntar o discutir sobre
+  admisiones, ¡estoy aquí para ayudarte! ¿Tienes alguna duda en mente?
+
+
+[35m── Step 4/4 ──[0m
+[1m[32m👤 User:[0m Hola ya en serio, quiero informes para secundaria
+[admissions] loading session messages {'session_id': '876d0d46-8254-44c2-84f3-094d4d56be42'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 195 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Claro, con gusto te ayudo con la información sobre secundaria.   ¿Qué
+  grado de secundaria te interesa? También sería útil saber la fecha de
+  nacimiento de tu hijo para verificar el rango adecuado.
+
+[2mℹ️  Chat ID: b92031f0-9c41-40f1-b512-c7dd897140ef (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'gibberish' complete
+════════════════════════════════════════════════════════════════[0m
+

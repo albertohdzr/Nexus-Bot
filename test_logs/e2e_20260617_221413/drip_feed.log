@@ -1,0 +1,156 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: drip_feed
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 23e921a9… (wa_id=test3_drip_feed_11321d46)[0m
+
+[35m── Step 1/12 ──[0m
+[1m[32m👤 User:[0m Hola
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 75 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Estoy aquí para ayudarte con admisiones. ¿Qué información
+  necesitas?
+
+
+[35m── Step 2/12 ──[0m
+[1m[32m👤 User:[0m Quiero informes
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 128 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Claro, ¿qué información específica te gustaría conocer? ¿Sobre los
+  grados, requisitos de admisión, eventos próximos, o algo más?
+
+
+[35m── Step 3/12 ──[0m
+[1m[32m👤 User:[0m Es para primaria
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 132 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, ¿podrías decirme qué grado de primaria te interesa y si
+  deseas información sobre requisitos, eventos, o visitas al campus?
+
+
+[35m── Step 4/12 ──[0m
+[1m[32m👤 User:[0m Se llama Daniela
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 203 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por compartir el nombre de tu hija.   ¿Podrías proporcionarme
+  también la fecha de nacimiento de Daniela y el grado de primaria que
+  te interesa? Esto me ayudará a darte la información más precisa.
+
+
+[35m── Step 5/12 ──[0m
+[1m[32m👤 User:[0m Daniela Moreno
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 219 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, tengo el nombre completo de Daniela Moreno.   ¿Me podrías
+  compartir su fecha de nacimiento y el grado específico de primaria en
+  el que estás interesada? Esto me ayudará a proporcionarte la
+  información correcta.
+
+
+[35m── Step 6/12 ──[0m
+[1m[32m👤 User:[0m Moreno Castillo
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 152 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Entendido, el nombre completo es Daniela Moreno Castillo.   ¿Podrías
+  confirmar su fecha de nacimiento y el grado específico de primaria que
+  te interesa?
+
+
+[35m── Step 7/12 ──[0m
+[1m[32m👤 User:[0m Nació en 2017
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 227 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por la información. Entonces, Daniela nació en 2017, lo que la
+  ubica en 1º de primaria para el ciclo escolar que inicia en agosto de
+  2026.  ¿Te gustaría conocer los requisitos de admisión o agendar una
+  visita al campus?
+
+
+[35m── Step 8/12 ──[0m
+[1m[32m👤 User:[0m El 22 de agosto
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[2mℹ️  LLM: 295 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Daniela nacía el 22 de agosto de 2017, lo que la hace
+  elegible para 1º de primaria.  Ahora, para avanzar, ¿puedes indicarme
+  la escuela actual de Daniela, así como tu nombre y contacto (teléfono
+  y correo)? Esto es necesario para crear el registro de admisión y
+  facilitar la información.
+
+
+[35m── Step 9/12 ──[0m
+[1m[32m👤 User:[0m Está en kinder 3 en otra escuela
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 16 msgs | Pending: 1[0m
+[2mℹ️  LLM: 230 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por compartir que Daniela está en Kinder 3 en otra escuela.
+  Ahora, necesitaré tu nombre completo, así como tu número de teléfono y
+  correo electrónico para crear el registro de admisión. ¿Podrías
+  proporcionarme esos datos?
+
+
+[35m── Step 10/12 ──[0m
+[1m[32m👤 User:[0m Yo soy su mamá, Lucía Castillo
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 18 msgs | Pending: 1[0m
+[2mℹ️  LLM: 191 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, Lucía. Tengo el nombre de Daniela y tu nombre completo.  Por
+  favor, ¿puedes compartir tu número de teléfono y correo electrónico?
+  Esto me permitirá completar el registro de admisión.
+
+
+[35m── Step 11/12 ──[0m
+[1m[32m👤 User:[0m Mi teléfono es 8717654321
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 20 msgs | Pending: 1[0m
+[2mℹ️  LLM: 139 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, tengo tu número de teléfono.  Solo me falta tu correo
+  electrónico para completar el registro de admisión. ¿Podrías
+  compartírmelo?
+
+
+[35m── Step 12/12 ──[0m
+[1m[32m👤 User:[0m Y mi correo lucia.castillo@test.com
+[admissions] loading session messages {'session_id': '35e71b88-e5df-4df1-9e54-df3011d7e937'}
+[2mℹ️  History: 22 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Daniela', 'student_last_name_paternal': 'Moreno', 'grade_interest': 'Primaria 1', 'current_school': 'Kinder 3', 'contact_email': 'lucia.castillo@test.com', 'contact_phone': '8717654321'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_drip_feed_11321d46', 'contact_phone': '8717654321'}
+[admissions] contact created {'contact_id': 'f4561b72-ae99-445e-87de-650a0e1ee766'}
+[admissions] lead created {'lead_id': 'a8d3762e-1e1b-45c3-b9b6-9ed82243fca7', 'lead_number': 97}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Daniela","student_middle_name":null,"student_last_name_paternal":"Moreno","student_last_name_maternal":"Castillo","st[0m
+[2m     Result: Lead creado con folio L-97.[0m
+[1m[34m🤖 Bot:[0m
+  He creado el registro de admisión para Daniela Moreno Castillo con
+  éxito.   Ahora, ¿te gustaría conocer los requisitos de admisión para
+  1º de primaria o agendar una visita al campus?
+
+[2mℹ️  Chat ID: 23e921a9-d517-4c93-9d1a-a36142f467af (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'drip_feed' complete
+════════════════════════════════════════════════════════════════[0m
+

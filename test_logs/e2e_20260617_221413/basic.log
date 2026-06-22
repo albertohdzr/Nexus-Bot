@@ -1,0 +1,66 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: basic
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 6941a3c7… (wa_id=test3_basic_4524f4d2)[0m
+
+[35m── Step 1/4 ──[0m
+[1m[32m👤 User:[0m Hola
+[admissions] loading session messages {'session_id': 'c0915bde-367a-4327-b989-dabe16e08a63'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 70 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Estoy para ayudarte con admisiones. ¿Qué información necesitas?
+
+
+[35m── Step 2/4 ──[0m
+[1m[32m👤 User:[0m Quiero informes para secundaria
+[admissions] loading session messages {'session_id': 'c0915bde-367a-4327-b989-dabe16e08a63'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 156 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Claro, puedo ayudarte con información sobre secundaria. ¿Te gustaría
+  conocer los requisitos de admisión o tal vez te interesa agendar una
+  visita al campus?
+
+
+[35m── Step 3/4 ──[0m
+[1m[32m👤 User:[0m Mi hijo está en el Carlos Pereyra, nació el 3 de septiembre de 2013
+[admissions] loading session messages {'session_id': 'c0915bde-367a-4327-b989-dabe16e08a63'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 223 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, tu hijo podría ingresar a secundaria 1.   Voy a registrar
+  algunos datos.   ¿Qué grado le interesa a tu hijo para el próximo
+  ciclo escolar? También necesito saber el nombre completo del tutor, su
+  teléfono y correo.
+
+
+[35m── Step 4/4 ──[0m
+[1m[32m👤 User:[0m Se llama Alberto Hernández Reyes, está en 6to de primaria. Yo soy Javier Hernández, 8711746007, albe…
+[admissions] loading session messages {'session_id': 'c0915bde-367a-4327-b989-dabe16e08a63'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Alberto', 'student_last_name_paternal': 'Hernández', 'grade_interest': 'Secundaria 1', 'current_school': 'Carlos Pereyra', 'contact_email': 'albertohdzr98@gmail.com', 'contact_phone': '8711746007'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_basic_4524f4d2', 'contact_phone': '8711746007'}
+[admissions] contact found {'contact_id': '6642db5b-4212-4eb2-8271-bcdeb8417b47'}
+[admissions] lead created {'lead_id': '6a15dcb1-183d-450a-8606-2d403cf3a9b8', 'lead_number': 88}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Alberto","student_middle_name":null,"student_last_name_paternal":"Hernández","student_last_name_maternal":"Reyes","st[0m
+[2m     Result: Lead creado con folio L-88.[0m
+[1m[34m🤖 Bot:[0m
+  He registrado a tu hijo Alberto Hernández Reyes con el folio L-88.
+  Ahora, ¿te gustaría que te envíe el documento con los requisitos de
+  admisión para secundaria? Y también, ¿qué días u horarios te
+  convendrían para agendar una visita al campus?
+
+[2mℹ️  Chat ID: 6941a3c7-48a7-4c72-8adb-efa50ca306eb (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'basic' complete
+════════════════════════════════════════════════════════════════[0m
+

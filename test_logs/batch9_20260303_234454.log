@@ -1,0 +1,182 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:44:54.491792
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234454.log
+================================================================
+
+  Running only scenario: 6-long
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 6: Long conversation (12+ exchanges)
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat af4d22c1… (wa_id=test3_long_conv_c73c6624)[0m
+[1m[32m👤 User:[0m Hola
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 117 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. Soy Vale, ¿cómo puedo ayudarte?
+[1m[32m👤 User:[0m Quiero información sobre el colegio para mi hijo
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 292 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Con gusto 😊 ¿Qué tipo de información te gustaría conocer: *programa
+  académico*, *idioma*, *actividades*, *requisitos de admisión* o
+  *agendar una visita al campus*?  Para orientarte mejor, ¿qué edad
+  tiene tu hijo o en qué *grado* te interesa inscribirlo (kínder,
+  primaria, secundaria o prepa)?
+[1m[32m👤 User:[0m ¿Qué niveles manejan?
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 299 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Manejamos estos niveles:  • *Early Childhood*: Prenursery (desde 2
+  años), Nursery, Preschool y Kindergarten   • *Primaria*   •
+  *Secundaria*   • *Bachillerato (Prepa)*  ¿Para qué edad o grado es tu
+  hijo? Así te digo cuál sería el nivel ideal para el ingreso a *Agosto
+  2026* (siguiente ciclo escolar).
+[1m[32m👤 User:[0m Me interesa primaria
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 250 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Perfecto! En *Primaria* recibimos de 1º a 6º. Para ubicar el grado
+  correcto para *Agosto 2026*, lo más importante es la *fecha de
+  nacimiento* de tu hijo.  ¿Me la compartes (día/mes/año)? Y si ya lo
+  tienes en mente: ¿a qué escuela asiste actualmente?
+[1m[32m👤 User:[0m ¿Qué deportes tienen?
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 316 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  En Primaria, a partir de *1º*, contamos con deportes como: *soccer,
+  básquetbol, natación, tennis, atletismo, tae kwon do, volley, yoga* y
+  *tochito*.  ¿Tu hijo ya está en primaria actualmente o apenas entraría
+  a 1º? Si me dices su edad o fecha de nacimiento, te puedo orientar
+  mejor sobre lo que aplica para su grado.
+[1m[32m👤 User:[0m ¿Tienen robótica?
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 446 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, sí tenemos *Robótica FIRST* 😊  En primaria contamos con: - *FLL
+  Explore* (1º a 3º de primaria) - *FLL Challenge* (4º a 6º de primaria)
+  Y más adelante: - *FTC* en secundaria - *FRC* en prepa (compiten a
+  nivel nacional e internacional)  ¿Para qué grado te interesa tu hijo
+  en *Primaria* (o qué fecha de nacimiento tiene)? Así te digo cuál
+  categoría le correspondería y, si quieres, también podemos agendar una
+  visita para que conozcan el área.
+[1m[32m👤 User:[0m Mi hijo se llama Carlos Hernández Vega, nació el 10 de octubre de 2018. Está en kínder 3 en el Cerva…
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés en Primaria. Alumno: Carlos Hernández Vega, nació 10/10/2018. Actualmente en Kínder 3 en el Colegio Cervantes. Preguntan p[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por los datos. Con la fecha de nacimiento *10/oct/2018*, para
+  el ingreso de *Agosto 2026* tu hijo queda para *2º de Primaria* (rango
+  de 2º: 01-ago-2018 a 31-jul-2019).  Y sí le aplicaría *Robótica FIRST*
+  (en *2º* sería *FLL Explore*) y también los deportes que te comenté
+  (soccer, básquet, natación, etc.).  Si te parece, el siguiente paso
+  ideal es *agendar una visita al campus* para que conozcan primaria y
+  puedan resolver dudas en persona.   Para poder apartar un horario, ¿me
+  compartes por favor estos datos del tutor?  - Nombre completo de
+  mamá/papá/tutor   - *Teléfono* y *correo*   Y confirmo: ¿sería ingreso
+  a *Agosto 2026*?
+[1m[32m👤 User:[0m Yo soy Pedro Hernández, 871-111-2222, pedro.hernandez@test.com
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Carlos', 'student_last_name_paternal': 'Hernández', 'grade_interest': 'Primaria 2', 'current_school': 'Cervantes', 'contact_email': 'pedro.hernandez@test.com', 'contact_phone': '871-111-2222'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_long_conv_c73c6624', 'contact_phone': '871-111-2222'}
+[admissions] contact created {'contact_id': '45ee3a45-26ff-4ede-b58e-31fd9d6a7205'}
+[admissions] lead created {'lead_id': 'e92ef95a-e889-444d-a7d8-3300f3b46142', 'lead_number': 133}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Carlos","student_middle_name":null,"student_last_name_paternal":"Hernández","student_last_name_maternal":"Vega","stud[0m
+[2m     Result: Lead creado con folio L-133.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Gracias, Pedro! Listo: ya quedó registrado el interés de tu hijo
+  *Carlos Hernández Vega* (10/oct/2018) para *2º de Primaria* en el
+  ciclo *2026–2027*.  Para agendar la *visita al campus* (lun–vie, 8:00
+  am a 3:00 pm), ¿qué días te acomodan más y en qué horario prefieres:
+  *mañana* (8–12) o *tarde* (12–3)?
+[1m[32m👤 User:[0m ¿Cuándo puedo ir a conocer las instalaciones?
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 16 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Carlos', 'student_last_name_paternal': 'Hernández', 'grade_interest': 'Primaria 2', 'current_school': 'Cervantes', 'contact_email': 'pedro.hernandez@test.com', 'contact_phone': '871-111-2222'}
+[admissions] lead exists for student {'lead_id': 'e92ef95a-e889-444d-a7d8-3300f3b46142', 'lead_number': 133}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Carlos","student_middle_name":null,"student_last_name_paternal":"Hernández","student_last_name_maternal":"Vega","stud[0m
+[2m     Result: Lead ya existente con folio L-133 para Carlos.[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-03-05 to 2026-03-20 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-05","end_date":"2026-03-20","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Jueves 5 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 2: Jueves 5 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Jueves 5 de marzo de 2026, 1[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Ya tengo disponibilidad para visita al campus (lun–vie, 8:00
+  am a 3:00 pm). Puedes elegir una de estas opciones:  1) Jue 5 de
+  marzo, 9:00–10:00 am   2) Jue 5 de marzo, 10:00–11:00 am   3) Jue 5 de
+  marzo, 11:00 am–12:00 pm   4) Jue 5 de marzo, 12:00–1:00 pm   5) Jue 5
+  de marzo, 1:00–2:00 pm   6) Vie 6 de marzo, 8:00–9:00 am   7) Vie 6 de
+  marzo, 9:00–10:00 am   8) Vie 6 de marzo, 10:00–11:00 am    ¿Cuál
+  opción te gustaría reservar? (Dime el número)
+[1m[32m👤 User:[0m Prefiero por la mañana, ¿qué tienen la próxima semana?
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 18 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-09 to 2026-03-13 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-09","end_date":"2026-03-13","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 9 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 9 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Lunes 9 de marzo de 2026, 10:00 [0m
+[1m[34m🤖 Bot:[0m
+  Para *la próxima semana por la mañana* tengo estas opciones
+  disponibles:  1) Lun 9 de marzo, 8:00–9:00 am   2) Lun 9 de marzo,
+  9:00–10:00 am   3) Lun 9 de marzo, 10:00–11:00 am   4) Lun 9 de marzo,
+  11:00 am–12:00 pm   5) Mar 10 de marzo, 8:00–9:00 am   6) Mar 10 de
+  marzo, 9:00–10:00 am   7) Mar 10 de marzo, 10:00–11:00 am   8) Mar 10
+  de marzo, 11:00 am–12:00 pm    ¿Cuál te gustaría reservar? (Dime el
+  número)
+[1m[32m👤 User:[0m ¿Dónde queda exactamente el campus?
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 20 msgs | Pending: 1[0m
+[2mℹ️  LLM: 314 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  El campus está en:  *C. P.º del Algodón 500, Los Viñedos, 27023
+  Torreón, Coah.*    Para las visitas, la entrada es por *Puerta 3* (por
+  la *caseta del reloj*).  Ubicación en Maps:
+  https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  Cuando me confirmes, ¿qué
+  horario eliges para la visita de la próxima semana (opción 1 a 8)?
+[2mℹ️  ASSERT PASS [long-conv-location]: Found ['viñedos', 'algodón', '500', 'torreón'][0m
+[1m[32m👤 User:[0m Gracias por todo
+[admissions] loading session messages {'session_id': '91a710e1-1db4-44a0-a8ae-9760562dc699'}
+[2mℹ️  History: 22 msgs | Pending: 1[0m
+[2mℹ️  LLM: 152 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Con gusto, Pedro! Si te animas a la visita, solo dime cuál opción
+  prefieres de la próxima semana (1 a 8) y la aparto.  ¿Te gustaría que
+  la programemos?
+[2mℹ️  Chat ID: af4d22c1-f762-4a57-8354-7354d7161db4[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 1/1 passed, 0 failed
+================================================================
+  ✅ [long-conv-location]: Found: ['viñedos', 'algodón', '500', 'torreón']
+================================================================
+

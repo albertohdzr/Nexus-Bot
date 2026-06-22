@@ -1,0 +1,191 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: full_journey
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 3cdab432… (wa_id=test3_full_journey_d2f32ff6)[0m
+
+[35m── Step 1/13 ──[0m
+[1m[32m👤 User:[0m Hola buenas tardes
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 89 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones de Nexus Core.
+  ¿Cómo puedo ayudarte?
+
+
+[35m── Step 2/13 ──[0m
+[1m[32m👤 User:[0m Estoy interesada en información para inscribir a mi hija en secundaria
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 225 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Para poder ayudarte mejor, ¿me podrías proporcionar la fecha
+  de nacimiento de tu hija y la escuela donde está actualmente? También,
+  es importante saber el grado exacto de secundaria al que está
+  interesada en ingresar.
+
+
+[35m── Step 3/13 ──[0m
+[1m[32m👤 User:[0m Se llama Valentina López García, tiene 12 años, nació el 15 de mayo de 2013. Está en 6to de primaria…
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Valentina', 'student_last_name_paternal': 'López', 'grade_interest': 'secundaria 1', 'current_school': 'colegio La Salle', 'contact_email': None, 'contact_phone': None}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_full_journey_d2f32ff6', 'contact_phone': 'test3_full_journey_d2f32ff6'}
+[admissions] contact created {'contact_id': '66db2dcf-e7a4-4fd6-a457-3a97932440d3'}
+[admissions] lead created {'lead_id': 'dcddceb9-685e-4b11-82ab-b625433898c6', 'lead_number': 86}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Valentina","student_middle_name":null,"student_last_name_paternal":"López","student_last_name_maternal":"García","stu[0m
+[2m     Result: Lead creado con folio L-86.[0m
+[1m[34m🤖 Bot:[0m
+  He registrado a Valentina López García como una posible estudiante
+  para secundaria.   Ahora, ¿te gustaría conocer los requisitos de
+  admisión o los próximos eventos disponibles para visitas?
+
+
+[35m── Step 4/13 ──[0m
+[1m[32m👤 User:[0m Yo soy Carolina García Mendoza, mi celular es 8712345678 y mi correo carolina.garcia@email.com
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Valentina', 'student_last_name_paternal': 'López', 'grade_interest': 'Secundaria 1', 'current_school': 'Colegio La Salle', 'contact_email': 'carolina.garcia@email.com', 'contact_phone': '8712345678'}
+[admissions] lead exists for student {'lead_id': 'dcddceb9-685e-4b11-82ab-b625433898c6', 'lead_number': 86}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Valentina","student_middle_name":null,"student_last_name_paternal":"López","student_last_name_maternal":"García","stu[0m
+[2m     Result: Lead ya existente con folio L-86 para Valentina; datos actualizados.[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesada en inscribir a su hija Valentina en secundaria.","subject":null}[0m
+[2m     Result: Nota agregada al lead L-86 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  He registrado toda la información de Valentina y tus datos de
+  contacto.   Ahora, ¿te gustaría que te envíe los requisitos de
+  admisión para secundaria o conocer el próximo evento disponible para
+  visitas?
+
+
+[35m── Step 5/13 ──[0m
+[1m[32m👤 User:[0m ¿Me pueden enviar los requisitos de admisión para secundaria en PDF?
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for middle_school
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/middle_school/requisitos-genericos-middle_school.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: Documento de requisitos para middle_school enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Te lo acabo de enviar por WhatsApp. Si necesitas algo más o tienes
+  alguna otra pregunta, ¡aquí estoy para ayudarte!
+
+
+[35m── Step 6/13 ──[0m
+[1m[32m👤 User:[0m Me gustaría ver horarios disponibles para una visita la próxima semana por la mañana
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 11 msgs | Pending: 1[0m
+[admissions] searching slots from 2026-06-18 to 2026-06-18 preferred_time=morning
+[1m[34m🤖 Bot:[0m
+  Horarios disponibles (hora local Torreón): - Opción 1: Viernes 19 de
+  junio de 2026, 10:00 AM - 11:00 AM - Opción 2: Lunes 22 de junio de
+  2026, 11:00 AM - 12:00 PM - Opción 3: Martes 23 de junio de 2026, 8:00
+  AM - 9:00 AM - Opción 4: Martes 23 de junio de 2026, 9:00 AM - 10:00
+  AM - Opción 5: Martes 23 de junio de 2026, 10:00 AM - 11:00 AM -
+  Opción 6: Martes 23 de junio de 2026, 11:00 AM - 12:00 PM - Opción 7:
+  Miércoles 24 de junio de 2026, 8:00 AM - 9:00 AM - Opción 8: Miércoles
+  24 de junio de 2026, 9:00 AM - 10:00 AM
+
+
+[35m── Step 7/13 ──[0m
+[1m[32m👤 User:[0m La opción 1 por favor
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 13 msgs | Pending: 1[0m
+[admissions] booking appointment for slot fa464b6e-9770-40f6-b385-157f71d1f45a
+[1m[34m🤖 Bot:[0m
+  ¡Listo! Tu visita quedó agendada para Viernes 19 de junio de 2026,
+  10:00 AM - 11:00 AM. La entrada es por Puerta 3 (caseta del reloj).
+  ¿Necesitas algo más?
+
+
+[35m── Step 8/13 ──[0m
+[1m[32m👤 User:[0m La opción 1 por favor
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 15 msgs | Pending: 1[0m
+[1m[34m🤖 Bot:[0m
+  Tu visita ya está programada para Viernes 19 de junio de 2026, 10:00
+  AM - 11:00 AM. Si quieres cambiarla, dime qué día y horario prefieres
+  y reviso nuevas opciones.
+
+
+[35m── Step 9/13 ──[0m
+[1m[32m👤 User:[0m ¿Tienen club de robótica? Mi hija está muy interesada en eso
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 17 msgs | Pending: 1[0m
+[2mℹ️  LLM: 356 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, tenemos un club de robótica que ofrece diferentes programas,
+  incluido FIRST Robotics. Hay opciones específicas para primaria y
+  secundaria, y los estudiantes pueden participar en competencias
+  nacionales e internacionales.   Me parece genial que Valentina esté
+  interesada. ¿Te gustaría que registre esta información para que el
+  asesor la tenga en cuenta?
+
+
+[35m── Step 10/13 ──[0m
+[1m[32m👤 User:[0m Disculpe, se me complicó esa fecha. ¿Puedo cambiar mi cita para la siguiente semana por la mañana?
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 19 msgs | Pending: 1[0m
+[admissions] searching slots from 2026-06-18 to 2026-06-18 preferred_time=morning
+[1m[34m🤖 Bot:[0m
+  Horarios disponibles para reagendar la visita (hora local Torreón): -
+  Opción 1: Lunes 22 de junio de 2026, 11:00 AM - 12:00 PM - Opción 2:
+  Martes 23 de junio de 2026, 8:00 AM - 9:00 AM - Opción 3: Martes 23 de
+  junio de 2026, 9:00 AM - 10:00 AM - Opción 4: Martes 23 de junio de
+  2026, 10:00 AM - 11:00 AM - Opción 5: Martes 23 de junio de 2026,
+  11:00 AM - 12:00 PM - Opción 6: Miércoles 24 de junio de 2026, 8:00 AM
+  - 9:00 AM - Opción 7: Miércoles 24 de junio de 2026, 9:00 AM - 10:00
+  AM - Opción 8: Miércoles 24 de junio de 2026, 10:00 AM - 11:00 AM
+
+
+[35m── Step 11/13 ──[0m
+[1m[32m👤 User:[0m La opción 1 por favor
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 21 msgs | Pending: 1[0m
+[admissions] rescheduling appointment to slot 3967023e-e721-4ae2-8463-fc443ada877f
+[1m[34m🤖 Bot:[0m
+  ¡Listo! Tu visita quedó reagendada para Lunes 22 de junio de 2026,
+  11:00 AM - 12:00 PM. La entrada es por Puerta 3 (caseta del reloj).
+  ¿Necesitas algo más?
+
+
+[35m── Step 12/13 ──[0m
+[1m[32m👤 User:[0m La opción 1 por favor
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 23 msgs | Pending: 1[0m
+[1m[34m🤖 Bot:[0m
+  Tu visita ya está programada para Lunes 22 de junio de 2026, 11:00 AM
+  - 12:00 PM. Si quieres cambiarla, dime qué día y horario prefieres y
+  reviso nuevas opciones.
+
+
+[35m── Step 13/13 ──[0m
+[1m[32m👤 User:[0m ¿Y cuánto cuesta la inscripción y las colegiaturas?
+[admissions] loading session messages {'session_id': 'd593c7b3-ce3f-4a00-94d9-2b2878a56715'}
+[2mℹ️  History: 25 msgs | Pending: 1[0m
+[2mℹ️  LLM: 257 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  No puedo compartir detalles sobre costos de inscripción y colegiaturas
+  por este medio. Pero con gusto puedo solicitar que uno de nuestros
+  asesores de admisiones se ponga en contacto contigo para ofrecerte
+  información personalizada. ¿Te gustaría que lo haga?
+
+[2mℹ️  Chat ID: 3cdab432-a442-45d2-8d48-4776178a2caf (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'full_journey' complete
+════════════════════════════════════════════════════════════════[0m
+

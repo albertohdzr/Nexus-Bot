@@ -1,0 +1,151 @@
+
+════════════════════════════════════════════════════════════════
+  [4/4] 34_divorcio_emotivo
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260304_000038_34_divorcio_emotivo.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO D: Papá recién divorciado (~18 msgs, 2 sesiones)
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 63b88b17… (wa_id=test3_divorcio_v2_feb8640b)[0m
+
+  ╔══ SESSION 1: Primera interacción emotiva ══╗
+[1m[32m👤 User:[0m Hola, disculpe que le moleste. Estoy pasando por un momento difícil y necesito cambiar a mis hijos d…
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 864 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. Lamento que estén pasando por un momento
+  difícil; con gusto te ayudo a revisar opciones.    Para orientarte
+  bien, ¿me puedes decir por favor?   - ¿Cuántos hijos son y qué edades
+  tienen (o sus *fechas de nacimiento*)?   - ¿A qué grado entrarían
+  (kínder/primaria/secundaria/prepa) y de qué escuela vienen?    Te
+  comento también para que lo tengas claro: normalmente el ingreso es
+  para el *siguiente ciclo* (inicia en *agosto 2026*). Si lo que
+  necesitas es un cambio *en el ciclo actual*, sí se puede revisar como
+  caso especial, pero depende de *disponibilidad y evaluación*.  Si te
+  sientes cómoda/o compartiendo: ¿buscas el cambio por un tema de
+  *traslado/ubicación*, *académico*, o por una situación de *seguridad o
+  bienestar*? (Solo lo general; no necesitas entrar en detalles.)
+[1m[32m👤 User:[0m Nos estamos separando mi esposa y yo, y los niños van a la escuela cerca de donde vivía ella. Yo me …
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia en proceso de separación. Papá se mudó a zona Viñedos y busca cambiar a los hijos a una escuela más cercana para los días [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Entiendo, gracias por compartirlo. En Viñedos les quedamos muy cerca;
+  el campus está en *P.º del Algodón 500, Los Viñedos* (entrada a
+  visitas por *Puerta 3*, la caseta del reloj). Eso suele facilitar
+  mucho la logística cuando hay custodia compartida.  Para decirte
+  exactamente por dónde empezar (y si conviene una visita rápida al
+  campus), ¿me confirmas por favor? - ¿Cuántos hijos son? - La *fecha de
+  nacimiento* de cada uno (es importante para ubicar el grado correcto)
+  - ¿Qué grado cursan ahorita y en qué escuela están?  Con eso te digo
+  qué división les corresponde y el siguiente paso para avanzar lo antes
+  posible.
+[1m[32m👤 User:[0m Son dos: Diego tiene 9 años, nació 4 de abril de 2016, va en 3ro en el Lancaster. Y Sofía tiene 7, n…
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia en proceso de separación; papá se mudó a zona Viñedos y busca cambio de escuela más cercano para logística de custodia com[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[31m❌ Followup error (round 0): Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Perdón, estoy un poco abrumado con todo esto. Solo quiero lo mejor para ellos
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 2[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿El colegio americano queda cerca de Viñedos verdad?
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 3[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Yo soy Ricardo Fuentes, 871-999-4455, ricardo.fuentes@test.com
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 4[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿Ambos pueden ir al mismo campus?
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 5[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿Tienen servicio de psicología? Creo que les vendría bien algo de apoyo emocional con todo el cambio
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 6[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Cierra la conversación, necesito procesar todo esto
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 7[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 8[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+
+  ╔══ SESSION 2: Más tranquilo, listo para avanzar ══╗
+[1m[32m👤 User:[0m Hola, soy Ricardo otra vez. Ya me siento mejor y quiero avanzar
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 9[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m ¿Ya quedaron registrados mis dos hijos?
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 10[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Quiero agendar visita. ¿Puede ser esta semana?
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 11[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m La más temprana que tengan
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 12[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Una cosa: ¿necesito traer algo firmado por su mamá? Tenemos custodia compartida
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 13[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Ok gracias, eso me deja más tranquilo. Cierra la conversación por favor
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 14[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': '3956d1be-438a-4d89-bedf-f0f4be74a876'}
+[2mℹ️  History: 4 msgs | Pending: 15[0m
+[31m❌ OpenAI error: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}[0m
+[1m[34m🤖 Bot:[0m
+
+[2mℹ️  Chat ID: 63b88b17-6e49-435d-a49a-5b45d559af5d[0m

@@ -1,0 +1,104 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: two_siblings
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat e23b7a90… (wa_id=test3_two_siblings_57ae8b73)[0m
+
+[35m── Step 1/5 ──[0m
+[1m[32m👤 User:[0m Hola, tengo dos hijos que quiero inscribir en el CAT
+[admissions] loading session messages {'session_id': '386190eb-6d8e-435a-98da-2c58674f37ea'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 113 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Con gusto te ayudo. ¿Qué información te gustaría conocer sobre
+  el proceso de inscripción para tus hijos? 😊
+
+
+[35m── Step 2/5 ──[0m
+[1m[32m👤 User:[0m El mayor se llama Santiago Ramírez Flores, nació el 20 de marzo de 2012. Está en 1ro de secundaria e…
+[admissions] loading session messages {'session_id': '386190eb-6d8e-435a-98da-2c58674f37ea'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Santiago', 'student_last_name_paternal': 'Ramírez', 'grade_interest': 'secundaria', 'current_school': 'Instituto Cumbres', 'contact_email': None, 'contact_phone': None}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_two_siblings_57ae8b73', 'contact_phone': 'test3_two_siblings_57ae8b73'}
+[admissions] contact created {'contact_id': 'e578935b-0769-4e33-99a5-474e261ef6e7'}
+[admissions] lead created {'lead_id': '7874eba4-f3b8-4bff-8a47-420f7216af88', 'lead_number': 89}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Santiago","student_middle_name":null,"student_last_name_paternal":"Ramírez","student_last_name_maternal":"Flores","st[0m
+[2m     Result: Lead creado con folio L-89.[0m
+[admissions] create lead payload {'student_first_name': 'Sofía', 'student_last_name_paternal': 'Ramírez', 'grade_interest': 'primaria', 'current_school': 'Cumbres', 'contact_email': None, 'contact_phone': None}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_two_siblings_57ae8b73', 'contact_phone': 'test3_two_siblings_57ae8b73'}
+[admissions] contact found {'contact_id': 'e578935b-0769-4e33-99a5-474e261ef6e7'}
+[admissions] lead created {'lead_id': '641da28e-630c-4787-8a55-cd3c4f7a4a39', 'lead_number': 90}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Sofía","student_middle_name":null,"student_last_name_paternal":"Ramírez","student_last_name_maternal":"Flores","stude[0m
+[2m     Result: Lead creado con folio L-90.[0m
+[1m[34m🤖 Bot:[0m
+  He registrado a tus hijos en nuestro sistema:  1. *Santiago Ramírez
+  Flores* - Interés en secundaria. 2. *Sofía Ramírez Flores* - Interés
+  en primaria.  Ahora, ¿te gustaría conocer requisitos, agendar una
+  visita o recibir información sobre los eventos próximos? 😊
+
+
+[35m── Step 3/5 ──[0m
+[1m[32m👤 User:[0m Yo soy Andrea Flores Gutiérrez, tel 8713456789, correo andrea.flores@test.com
+[admissions] loading session messages {'session_id': '386190eb-6d8e-435a-98da-2c58674f37ea'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Santiago', 'student_last_name_paternal': 'Ramírez', 'grade_interest': 'secundaria', 'current_school': 'Instituto Cumbres', 'contact_email': 'andrea.flores@test.com', 'contact_phone': '8713456789'}
+[admissions] lead exists for student {'lead_id': '7874eba4-f3b8-4bff-8a47-420f7216af88', 'lead_number': 89}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Santiago","student_middle_name":null,"student_last_name_paternal":"Ramírez","student_last_name_maternal":"Flores","st[0m
+[2m     Result: Lead ya existente con folio L-89 para Santiago; datos actualizados.[0m
+[admissions] create lead payload {'student_first_name': 'Sofía', 'student_last_name_paternal': 'Ramírez', 'grade_interest': 'primaria', 'current_school': 'Cumbres', 'contact_email': 'andrea.flores@test.com', 'contact_phone': '8713456789'}
+[admissions] lead exists for student {'lead_id': '641da28e-630c-4787-8a55-cd3c4f7a4a39', 'lead_number': 90}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Sofía","student_middle_name":null,"student_last_name_paternal":"Ramírez","student_last_name_maternal":"Flores","stude[0m
+[2m     Result: Lead ya existente con folio L-90 para Sofía; datos actualizados.[0m
+[1m[34m🤖 Bot:[0m
+  He registrado a tus datos correctamente para ambos hijos.   Ahora, ¿te
+  gustaría saber sobre los requisitos de inscripción, agendar una visita
+  al campus o conocer los próximos eventos? 😊
+
+
+[35m── Step 4/5 ──[0m
+[1m[32m👤 User:[0m ¿Cuáles son los requisitos para cada nivel? Secundaria y primaria
+[admissions] loading session messages {'session_id': '386190eb-6d8e-435a-98da-2c58674f37ea'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] fetching requirements for middle_school
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/middle_school/requisitos-genericos-middle_school.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: Documento de requisitos para middle_school enviado exitosamente al usuario.[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/elementary/requisitos-genericos-elementary.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Te acabo de enviar por WhatsApp los requisitos para ambos niveles:  -
+  *Secundaria (Santiago)* - *Primaria (Sofía)*  Si necesitas algo más o
+  deseas agendar una visita, ¡avísame! 😊
+
+
+[35m── Step 5/5 ──[0m
+[1m[32m👤 User:[0m ¿Puedo agendar una sola visita para ver ambas secciones?
+[admissions] loading session messages {'session_id': '386190eb-6d8e-435a-98da-2c58674f37ea'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 118 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, puedes agendar una sola visita para ver ambas secciones.   ¿Qué
+  días o horarios te convienen más para la visita? 🙂
+
+[2mℹ️  Chat ID: e23b7a90-424b-40ae-aa37-1b90cb64e8f3 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'two_siblings' complete
+════════════════════════════════════════════════════════════════[0m
+

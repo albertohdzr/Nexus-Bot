@@ -1,0 +1,66 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: weird_phone_format
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 6857deb6… (wa_id=test3_weird_phone_format_7eab7990)[0m
+
+[35m── Step 1/3 ──[0m
+[1m[32m👤 User:[0m Hola quiero informes para prepa
+[admissions] loading session messages {'session_id': '268a9cce-c8ac-48fa-9e3e-d16055b3bb39'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 120 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Con gusto te ayudo con la información sobre la preparatoria.
+  ¿Qué aspectos te gustaría conocer específicamente? 😊
+
+
+[35m── Step 2/3 ──[0m
+[1m[32m👤 User:[0m Mi hija se llama Ana Beltrán Ríos, tiene 14 años, nació 30 de noviembre de 2011. Está en 3ro de secu…
+[admissions] loading session messages {'session_id': '268a9cce-c8ac-48fa-9e3e-d16055b3bb39'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'Beltrán', 'grade_interest': 'prepa', 'current_school': 'La Salle', 'contact_email': None, 'contact_phone': None}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_weird_phone_format_7eab7990', 'contact_phone': 'test3_weird_phone_format_7eab7990'}
+[admissions] contact created {'contact_id': 'b54651b7-490d-4782-affd-23478a447f4d'}
+[admissions] lead created {'lead_id': '244ac4c1-aef1-4ec7-bd05-cc37b37e280a', 'lead_number': 100}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":null,"student_last_name_paternal":"Beltrán","student_last_name_maternal":"Ríos","student_d[0m
+[2m     Result: Lead creado con folio L-100.[0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"high_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  He registrado a Ana como interesada en la preparatoria. Actualmente no
+  hay eventos próximos disponibles para esa división.  Si deseas, puedo
+  proporcionarte los requisitos de admisión o más información sobre el
+  proceso. ¿Te gustaría que enviara el documento con los requisitos?
+
+
+[35m── Step 3/3 ──[0m
+[1m[32m👤 User:[0m Yo soy Miguel Beltrán. Mi cel es +52 1 (871) 555-0099, y mi correo es miguel punto beltran arroba gm…
+[admissions] loading session messages {'session_id': '268a9cce-c8ac-48fa-9e3e-d16055b3bb39'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'Beltrán', 'grade_interest': 'prepa', 'current_school': 'La Salle', 'contact_email': 'miguel.beltran@gmail.com', 'contact_phone': '+52 1 (871) 555-0099'}
+[admissions] lead exists for student {'lead_id': '244ac4c1-aef1-4ec7-bd05-cc37b37e280a', 'lead_number': 100}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":null,"student_last_name_paternal":"Beltrán","student_last_name_maternal":"Ríos","student_d[0m
+[2m     Result: Lead ya existente con folio L-100 para Ana; datos actualizados.[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado en prepa para Ana Beltrán Ríos, padre se llama Miguel Beltrán.","subject":null}[0m
+[2m     Result: Nota agregada al lead L-100 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  He registrado tus datos y actualizado la información de Ana en nuestro
+  sistema.   ¿Te gustaría que también te envíe el documento con los
+  requisitos de admisión para la preparatoria?
+
+[2mℹ️  Chat ID: 6857deb6-ad66-4424-8c4c-7b24a004c8ce (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'weird_phone_format' complete
+════════════════════════════════════════════════════════════════[0m
+

@@ -1,0 +1,42 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: quick_lead
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 4c0a6273… (wa_id=test3_quick_lead_189343b4)[0m
+
+[35m── Step 1/1 ──[0m
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hijo Juan Pérez Rodríguez en primaria. Nació el 10 de enero de 2019, est…
+[admissions] loading session messages {'session_id': '40047e88-c5a8-41c8-a548-93d9432300c4'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Juan', 'student_last_name_paternal': 'Pérez', 'grade_interest': 'Primaria 1', 'current_school': 'Montessori', 'contact_email': 'maria.rodriguez@test.com', 'contact_phone': '8719876543'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_quick_lead_189343b4', 'contact_phone': '8719876543'}
+[admissions] contact found {'contact_id': 'aaee2fea-719a-41c1-807a-757ec832e222'}
+[admissions] lead created {'lead_id': '80c7f23f-300b-4dc8-8574-853b329f9e4a', 'lead_number': 91}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Juan","student_middle_name":null,"student_last_name_paternal":"Pérez","student_last_name_maternal":"Rodríguez","stude[0m
+[2m     Result: Lead creado con folio L-91.[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesada en inscripción para primaria","subject":"Inscripción Juan Pérez Rodríguez"}[0m
+[2m     Result: Nota agregada al lead L-91 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  He creado el registro para tu hijo Juan Pérez Rodríguez para la
+  inscripción en Primaria. 🎉  En este momento, no hay eventos próximos
+  para la división de Primaria. Sin embargo, estoy aquí para ayudarte
+  con cualquier pregunta que tengas sobre el proceso de admisión o para
+  agendar una visita al campus.   ¿Qué te gustaría saber más?
+
+[2mℹ️  Chat ID: 4c0a6273-e460-4140-9cc5-a7525f4d9ada (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'quick_lead' complete
+════════════════════════════════════════════════════════════════[0m
+

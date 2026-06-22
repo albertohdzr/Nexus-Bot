@@ -1,0 +1,97 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:47:11.135452
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234711.log
+================================================================
+
+  Running only scenario: 8-edge
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 8: Edge cases
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat fb2e68bc… (wa_id=test3_edge_cases_b9cd548e)[0m
+[1m[32m👤 User:[0m Quiero inscribir a mi hijo en preparatoria, nació en 2020
+[admissions] loading session messages {'session_id': '25f9b3ca-686d-44b6-8898-62872196cb05'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 534 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Sobre lo que me comentas:
+  si tu hijo nació en *2020*, todavía está en edad de *kínder/primaria*,
+  no de *preparatoria*. Para *Preparatoria (Bachillerato 1)* en el ciclo
+  *agosto 2026–junio 2027*, la fecha de nacimiento normalmente debe
+  estar entre *01-ago-2010 y 31-jul-2011*.  ¿Me confirmas por favor la
+  fecha de nacimiento exacta (día/mes/año)?   Y también: ¿preparatoria
+  es para tu hijo o quizá era para *otro* hijo/familiar?
+[2mℹ️  ASSERT PASS [edge-dob-mismatch]: Found ['no', 'edad'][0m
+[1m[32m👤 User:[0m Tengo gemelos nacidos el 5 de mayo de 2018: Ana García Pérez y Luis García Pérez. Están en 2do prima…
+[admissions] loading session messages {'session_id': '25f9b3ca-686d-44b6-8898-62872196cb05'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'García', 'grade_interest': 'Primaria 3', 'current_school': 'Montessori', 'contact_email': 'carmen.perez@test.com', 'contact_phone': '871-666-7777'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_edge_cases_b9cd548e', 'contact_phone': '871-666-7777'}
+[admissions] contact created {'contact_id': '0ec070e5-a95a-4199-bc76-d834245347d4'}
+[admissions] lead created {'lead_id': '5f916a6b-6a0b-4a07-b7c1-651b90ffeb7c', 'lead_number': 135}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":null,"student_last_name_paternal":"García","student_last_name_maternal":"Pérez","student_d[0m
+[2m     Result: Lead creado con folio L-135.[0m
+[admissions] create lead payload {'student_first_name': 'Luis', 'student_last_name_paternal': 'García', 'grade_interest': 'Primaria 3', 'current_school': 'Montessori', 'contact_email': 'carmen.perez@test.com', 'contact_phone': '871-666-7777'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_edge_cases_b9cd548e', 'contact_phone': '871-666-7777'}
+[admissions] contact found {'contact_id': '0ec070e5-a95a-4199-bc76-d834245347d4'}
+[admissions] lead created {'lead_id': '40010071-2878-472a-a5dc-2136f8ff3444', 'lead_number': 136}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Luis","student_middle_name":null,"student_last_name_paternal":"García","student_last_name_maternal":"Pérez","student_[0m
+[2m     Result: Lead creado con folio L-136.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en inscribir gemelos: Ana García Pérez y Luis García Pérez (05-may-2018), actualmente 2º primaria en Montessori[0m
+[2m     Result: Nota agregada al lead L-136 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 2: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Carmen, gracias por compartir los datos. Ya quedaron
+  registrados tus gemelos:  - *Ana García Pérez* (05/05/2018) – interés
+  para *Primaria 3* en el ciclo *2026-2027* (ingreso agosto 2026)   -
+  *Luis García Pérez* (05/05/2018) – interés para *Primaria 3* en el
+  ciclo *2026-2027*   Escuela actual: *Montessori*.  Por fecha de
+  nacimiento, para *agosto 2026* sí les corresponde *Primaria 3*.  El
+  siguiente paso ideal es agendar una *visita al campus* (lun–vie, *8:00
+  am a 3:00 pm*).   ¿Qué días y en qué horario te conviene más: *mañana
+  (8–12)* o *tarde (12–3)*? Con eso busco espacios disponibles.
+[2mℹ️  ASSERT PASS [edge-twins]: Found ['ana', 'luis', 'gemelos', 'registr'][0m
+[1m[32m👤 User:[0m ok
+[admissions] loading session messages {'session_id': '25f9b3ca-686d-44b6-8898-62872196cb05'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-05 to 2026-03-12 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-05","end_date":"2026-03-12","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Jueves 5 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 2: Jueves 5 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Jueves 5 de marzo de 2026, 1[0m
+[1m[34m🤖 Bot:[0m
+  ¡Gracias, Carmen! Tengo estos horarios disponibles para la *visita al
+  campus* (hora Torreón):  1) Jue 5 mar, 9:00–10:00 am   2) Jue 5 mar,
+  10:00–11:00 am   3) Jue 5 mar, 11:00 am–12:00 pm   4) Jue 5 mar,
+  12:00–1:00 pm   5) Jue 5 mar, 1:00–2:00 pm   6) Vie 6 mar, 8:00–9:00
+  am   7) Vie 6 mar, 9:00–10:00 am   8) Vie 6 mar, 10:00–11:00 am
+  ¿Cuál opción te gustaría apartar? (Dime el número)
+[2mℹ️  Chat ID: fb2e68bc-8494-43a4-8f4d-eefbeab80e4a[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 3/3 passed, 0 failed
+================================================================
+  ✅ [edge-dob-mismatch]: Found: ['no', 'edad']
+  ✅ [edge-twins]: Found: ['ana', 'luis', 'gemelos', 'registr']
+  ✅ [edge-short-msg]: Clean
+================================================================
+

@@ -1,0 +1,218 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:49:49.266010
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234949.log
+================================================================
+
+  Running only scenario: 9-all-tools
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 9: Exercise all tools
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 03c2f3cd… (wa_id=test3_all_tools_ed071272)[0m
+
+  ── Tool: create_admissions_lead ──
+[1m[32m👤 User:[0m Quiero inscribir a mi hijo Marco Ruiz Vega en secundaria 1. Nació el 3 de septiembre de 2013, viene …
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés de inscripción para Secundaria 1 (ciclo sugerido Agosto 2026). Alumno: Marco Ruiz Vega, DOB 03-sep-2013. Viene del Colegio[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Marco', 'student_last_name_paternal': 'Ruiz', 'grade_interest': 'Secundaria 1', 'current_school': 'Lancaster', 'contact_email': 'patricia.vega@test.com', 'contact_phone': '871-333-4444'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_all_tools_ed071272', 'contact_phone': '871-333-4444'}
+[admissions] contact created {'contact_id': '9ba71c58-1a4f-4e1d-837f-bb5610916987'}
+[admissions] lead created {'lead_id': '5e0d0145-b42d-41d3-92a3-758f827ad7e6', 'lead_number': 137}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Marco","student_middle_name":null,"student_last_name_paternal":"Ruiz","student_last_name_maternal":"Vega","student_do[0m
+[2m     Result: Lead creado con folio L-137.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Patricia. Ya registré el interés de tu hijo *Marco Ruiz
+  Vega* para *Secundaria 1* para el ciclo *Agosto 2026*.  Sobre la edad:
+  con fecha de nacimiento *03-sep-2013*, Marco corresponde a *Secundaria
+  1* (ciclo 2026–2027), así que va acorde. ✅  El siguiente paso ideal es
+  *agendar una visita al campus* para que conozcan Secundaria y
+  resolvamos dudas del proceso.  ¿Qué días entre semana y en qué horario
+  te conviene más venir? (Atendemos visitas de *lunes a viernes, 8:00 am
+  a 3:00 pm*).
+
+  ── Tool: update_admissions_lead ──
+[1m[32m👤 User:[0m Perdón, el nombre correcto es Marcos, no Marco
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] update lead payload {'student_first_name': 'Marcos', 'notes': 'Corrección de nombre: el alumno se llama Marcos (no Marco).'}
+[admissions] lead updated {'lead_id': '5e0d0145-b42d-41d3-92a3-758f827ad7e6', 'updates': {'student_first_name': 'Marcos'}}
+[admissions] contact updated {'contact_id': '9ba71c58-1a4f-4e1d-837f-bb5610916987', 'updates': {'whatsapp_wa_id': 'test3_all_tools_ed071272'}}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":"Marcos","student_middle_name":null,"student_last_name_paternal":null,"student_last_name_maternal":null,"student_dob":[0m
+[2m     Result: Lead L-137 actualizado.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por avisarme, Patricia. Ya quedó corregido: *Marcos Ruiz
+  Vega*.  ¿Te gustaría agendar la visita al campus?   Dime por favor qué
+  *día(s) entre semana* te convienen y si prefieres *por la mañana
+  (8–12)* o *por la tarde (12–3)*, y busco horarios disponibles.
+
+  ── Tool: add_lead_note ──
+[1m[32m👤 User:[0m Le interesa mucho la robótica y el fútbol, por favor anótalo
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"El alumno tiene mucho interés en robótica y fútbol.","subject":"Intereses del alumno"}[0m
+[2m     Result: Nota agregada al lead L-137 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya lo anoté: a *Marcos* le interesa mucho *robótica* y
+  *fútbol*.  ¿Te gustaría que agendemos la visita al campus?   ¿Qué
+  día(s) entre semana te convienen y prefieres *mañana (8–12)* o *tarde
+  (12–3)*?
+
+  ── Tool: get_admission_requirements ──
+[1m[32m👤 User:[0m ¿Me envían los requisitos de secundaria en PDF?
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for middle_school
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/middle_school/1766895193415-04_Admission_Requirements_Middle_School.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: Documento de requisitos para middle_school enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Claro. Ya te envié el *PDF de requisitos de Secundaria*.  Si gustas,
+  también podemos *agendar una visita al campus* (lun-vie, 8:00 am a
+  3:00 pm).   ¿Qué día(s) te convienen y prefieres en la mañana o en la
+  tarde?
+
+  ── Tool: get_next_event ──
+[1m[32m👤 User:[0m ¿Tienen algún evento próximo para secundaria?
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 9 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  Por el momento no tenemos *eventos próximos* programados para
+  *Secundaria*.  Si te parece, la mejor opción es agendar una *visita al
+  campus* para conocer el área y resolver dudas (lun-vie, 8:00 am a 3:00
+  pm).   ¿Qué día(s) entre semana te convienen y prefieres *mañana* o
+  *tarde*?
+
+  ── Tool: search_availability_slots ──
+[1m[32m👤 User:[0m Quiero agendar visita, ¿qué tienen la próxima semana por la mañana?
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 11 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Marcos', 'student_last_name_paternal': 'Ruiz', 'grade_interest': 'Secundaria 1', 'current_school': 'Lancaster', 'contact_email': 'patricia.vega@test.com', 'contact_phone': '871-333-4444'}
+[admissions] lead exists for student {'lead_id': '5e0d0145-b42d-41d3-92a3-758f827ad7e6', 'lead_number': 137}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Marcos","student_middle_name":null,"student_last_name_paternal":"Ruiz","student_last_name_maternal":"Vega","student_d[0m
+[2m     Result: Lead ya existente con folio L-137 para Marcos.[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-03-09 to 2026-03-13 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-09","end_date":"2026-03-13","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 9 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 9 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Lunes 9 de marzo de 2026, 10:00 [0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Patricia. Para la *próxima semana por la mañana* tengo estos
+  horarios disponibles:  1) *Lun 9 mar* 8:00–9:00 am   2) *Lun 9 mar*
+  9:00–10:00 am   3) *Lun 9 mar* 10:00–11:00 am   4) *Lun 9 mar*
+  11:00–12:00 pm   5) *Mar 10 mar* 8:00–9:00 am   6) *Mar 10 mar*
+  9:00–10:00 am   7) *Mar 10 mar* 10:00–11:00 am   8) *Mar 10 mar*
+  11:00–12:00 pm    ¿Cuál opción te gustaría apartar? (dime el número)
+
+  ── Tool: book_appointment ──
+[1m[32m👤 User:[0m La opción 1 por favor
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 13 msgs | Pending: 1[0m
+[admissions] booking appointment for slot c2b81861-55a0-4cb3-b5a7-b26223c49360
+[2mℹ️  LLM: 415 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Excelente! Quedó confirmada su visita al campus para *lunes 9 de
+  marzo de 2026, 8:00 AM a 9:00 AM* para conocer *Secundaria 1* de
+  *Marcos Ruiz Vega*.  Para llegar: C. P.º del Algodón 500, Los Viñedos,
+  27023 Torreón, Coah.   Entrada para visitas: *Puerta 3* (por la caseta
+  del reloj).   Maps: https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  ¿Te
+  gustaría que los espere alguien en específico o asistirán tú y alguien
+  más?
+
+  ── Tool: cancel_appointment ──
+[1m[32m👤 User:[0m Necesito cancelar la cita, me surgió un compromiso de trabajo
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 15 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] cancelling appointment, reason: Compromiso de trabajo
+[admissions] appointment 5e6255c6-a03b-46b8-a9f1-906bae931cbd cancelled successfully
+[33m  🔧 cancel_appointment[0m
+[2m     Args: {"cancellation_reason":"Compromiso de trabajo"}[0m
+[2m     Result: Cita cancelada exitosamente. El lead ha sido actualizado. Intenta convencer al usuario de agendar otra visita preguntando qué fechas le convendrían mejor.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya quedó *cancelada* la cita. Motivo: *compromiso de trabajo*.
+  ¿Quieres que la reprogramemos?   Dime por favor qué *día(s) de la
+  próxima semana* te convienen y si prefieres *por la mañana (8–12)* o
+  *por la tarde (12–3)*, y busco horarios disponibles.
+
+  ── Tool: get_lead_status ──
+[1m[32m👤 User:[0m ¿Cuál es mi estatus de admisión?
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 17 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Marcos Ruiz (Folio L-137)
+Estado actual: El equipo ya te contactó, en espera de avanzar
+Historial reciente: visit_scheduled → contacted, new → visit_scheduled[0m
+[1m[34m🤖 Bot:[0m
+  Tu estatus de admisión actualmente aparece como *contacted* (ya se
+  tuvo contacto y estamos *en espera de avanzar al siguiente paso*).  En
+  el historial se ve que se había programado una visita y luego regresó
+  a *contacted* (por la cancelación).  Si gustas, lo ideal es *reagendar
+  la visita* para continuar.   ¿Qué día(s) entre semana te convienen y
+  prefieres *mañana (8–12)* o *tarde (12–3)*?
+[2mℹ️  ASSERT PASS [all-tools-status]: Found ['status'][0m
+
+  ── Tool: close_chat_session ──
+[1m[32m👤 User:[0m Cierra la conversación por favor
+[admissions] loading session messages {'session_id': '03efca3b-539d-4c63-bf66-3863af778ad6'}
+[2mℹ️  History: 19 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'Conversación con Patricia Vega (871-333-4444, patricia.vega@test.com) sobre inscripción de su hijo Marcos Ruiz Vega a Secundaria 1 para ciclo Agosto 2026. Se confirmó fecha de nacimiento 03-sep-2013 (corresponde a Secundaria 1). Escuela de procedencia: Lancaster. Intereses del alumno: robótica y fútbol (se registró nota). Se solicitó y se envió PDF de requisitos de Secundaria. Se consultó por eventos próximos de Secundaria (no hubo evento disponible). Se intentó agendar visita: la familia eligió opción 1 (lun 9 mar 2026 8:00–9:00 am) y posteriormente solicitó cancelación por compromiso de trabajo (se canceló). Posteriormente solicitó estatus: lead en contacted y sin visita vigente. Pendiente: reprogramar visita en horario lun-vie 8:00–15:00 y continuar proceso si desea.', 'reason': 'Usuario solicitó cerrar la conversación.'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"Conversación con Patricia Vega (871-333-4444, patricia.vega@test.com) sobre inscripción de su hijo Marcos Ruiz Vega a Secundaria[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  De acuerdo, ya cerré la conversación.  Resumen de lo visto: - Interés
+  de inscripción para *Marcos Ruiz Vega* en *Secundaria 1* (ingreso
+  *Agosto 2026*). - Fecha de nacimiento: *03-sep-2013* (sí corresponde a
+  Secundaria 1). - Escuela de procedencia: *Lancaster*. - Se registró
+  que le interesa *robótica* y *fútbol*. - Se envió el *PDF de
+  requisitos de Secundaria*. - Se agendó visita para *lun 9 mar 2026
+  8:00 am*, y se *canceló* por compromiso de trabajo. - Estatus actual:
+  *contacted* (sin visita programada por el momento).  Cuando gustes,
+  escríbeme y con gusto reprogramamos la visita.
+[1m[32m👤 User:[0m Sí, cierra
+[admissions] loading session messages {'session_id': '8f5090e3-ac10-4981-bc29-0491f8b1e537'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 141 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría finalizar esta conversación ahora? Si me confirmas con un
+  “sí” o “adelante”, generaré un resumen de nuestra charla y la cerraré.
+[2mℹ️  Chat ID: 03c2f3cd-7a8c-4d3c-99dc-86d4926de959[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 1/1 passed, 0 failed
+================================================================
+  ✅ [all-tools-status]: Found: ['status']
+================================================================
+

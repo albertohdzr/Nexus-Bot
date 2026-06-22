@@ -82,6 +82,9 @@ class WhatsAppResponse(BaseModel):
 def send_whatsapp_text(
     params: SendWhatsAppTextParams,
 ) -> WhatsAppResponse:
+    if settings.whatsapp_dry_run:
+        return WhatsAppResponse(message_id=f"dryrun.text.{int(time.time() * 1000)}")
+
     recipient = _normalize_recipient(params.to)
     payload = {
         "messaging_product": "whatsapp",
@@ -117,6 +120,9 @@ def send_whatsapp_text(
 def send_whatsapp_read(
     params: SendWhatsAppReadParams,
 ) -> WhatsAppResponse:
+    if settings.whatsapp_dry_run:
+        return WhatsAppResponse()
+
     payload = {
         "messaging_product": "whatsapp",
         "status": "read",
@@ -149,6 +155,9 @@ def send_whatsapp_read(
 def upload_whatsapp_media(
     params: UploadWhatsAppMediaParams,
 ) -> WhatsAppResponse:
+    if settings.whatsapp_dry_run:
+        return WhatsAppResponse(media_id=f"dryrun.media.{int(time.time() * 1000)}")
+
     token = _get_access_token(params.access_token)
     file_name = params.file_name or f"media-{int(time.time())}"
 
@@ -186,6 +195,9 @@ def upload_whatsapp_media(
 def send_whatsapp_image(
     params: SendWhatsAppImageParams,
 ) -> WhatsAppResponse:
+    if settings.whatsapp_dry_run:
+        return WhatsAppResponse(message_id=f"dryrun.image.{int(time.time() * 1000)}")
+
     recipient = _normalize_recipient(params.to)
     payload = {
         "messaging_product": "whatsapp",
@@ -224,6 +236,9 @@ def send_whatsapp_image(
 def send_whatsapp_audio(
     params: SendWhatsAppAudioParams,
 ) -> WhatsAppResponse:
+    if settings.whatsapp_dry_run:
+        return WhatsAppResponse(message_id=f"dryrun.audio.{int(time.time() * 1000)}")
+
     recipient = _normalize_recipient(params.to)
     payload = {
         "messaging_product": "whatsapp",
@@ -262,6 +277,9 @@ def send_whatsapp_audio(
 def send_whatsapp_document(
     params: SendWhatsAppDocumentParams,
 ) -> WhatsAppResponse:
+    if settings.whatsapp_dry_run:
+        return WhatsAppResponse(message_id=f"dryrun.document.{int(time.time() * 1000)}")
+
     recipient = _normalize_recipient(params.to)
     payload = {
         "messaging_product": "whatsapp",

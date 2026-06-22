@@ -1,0 +1,120 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: kinder_with_event
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 9d0bf493… (wa_id=test3_kinder_with_event_5872dcfe)[0m
+
+[35m── Step 1/6 ──[0m
+[1m[32m👤 User:[0m Hola, mi hijo tiene 3 años y quiero meterlo a kínder. ¿Tienen espacio?
+[admissions] loading session messages {'session_id': 'f110d99f-4215-44cf-a4c2-0fe7d7c6bf0e'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 363 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por contactar al área de admisiones de Nexus Core. Para
+  el ciclo escolar que empieza en agosto, tu hijo podría ingresar al
+  nivel de *Nursery*, ya que tiene 3 años.   Sin embargo, para
+  asegurarte de que hay espacio disponible y comenzar el proceso,
+  necesitaría algunos datos más. ¿Te gustaría que continuemos
+  recolectando la información necesaria? 😊
+
+
+[35m── Step 2/6 ──[0m
+[1m[32m👤 User:[0m Se llama Mateo Torres Vega, nació el 12 de noviembre de 2022. Está en una guardería particular.
+[admissions] loading session messages {'session_id': 'f110d99f-4215-44cf-a4c2-0fe7d7c6bf0e'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Mateo', 'student_last_name_paternal': 'Torres', 'grade_interest': 'Nursery', 'current_school': 'guardería', 'contact_email': None, 'contact_phone': None}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_kinder_with_event_5872dcfe', 'contact_phone': 'test3_kinder_with_event_5872dcfe'}
+[admissions] contact created {'contact_id': '58562778-06f6-4425-ad2c-e2b7bb7425ad'}
+[admissions] lead created {'lead_id': 'e231858c-918c-4d4d-a78f-5c184ce0fad2', 'lead_number': 98}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Mateo","student_middle_name":null,"student_last_name_paternal":"Torres","student_last_name_maternal":"Vega","student_[0m
+[2m     Result: Lead creado con folio L-98.[0m
+[1m[34m🤖 Bot:[0m
+  He registrado a Mateo Torres Vega como un nuevo lead. Ahora, para
+  continuar, ¿cuál es tu nombre completo y el número de teléfono y
+  correo electrónico con los que te gustaría que nos pongamos en
+  contacto? 😊
+
+
+[35m── Step 3/6 ──[0m
+[1m[32m👤 User:[0m Soy Luis Torres, 8715551234, luis.torres@test.com
+[admissions] loading session messages {'session_id': 'f110d99f-4215-44cf-a4c2-0fe7d7c6bf0e'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Mateo', 'student_last_name_paternal': 'Torres', 'grade_interest': 'Nursery', 'current_school': 'guardería particular', 'contact_email': 'luis.torres@test.com', 'contact_phone': '8715551234'}
+[admissions] lead exists for student {'lead_id': 'e231858c-918c-4d4d-a78f-5c184ce0fad2', 'lead_number': 98}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Mateo","student_middle_name":null,"student_last_name_paternal":"Torres","student_last_name_maternal":"Vega","student_[0m
+[2m     Result: Lead ya existente con folio L-98 para Mateo; datos actualizados.[0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"early_child"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  He registrado a Mateo y actualizado tus datos. 😊   En este momento, no
+  tenemos eventos próximos para el nivel de *Nursery*, pero podemos
+  programar una visita al campus para que conozcas nuestras
+  instalaciones y te brinde más información sobre el proceso de
+  admisión.   ¿Qué días u horarios te convendrían para programar la
+  visita?
+
+
+[35m── Step 4/6 ──[0m
+[1m[32m👤 User:[0m ¿Tienen algún evento o open house próximamente para conocer el kínder?
+[admissions] loading session messages {'session_id': 'f110d99f-4215-44cf-a4c2-0fe7d7c6bf0e'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"early_child"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  No tenemos eventos próximos para el nivel de *Nursery*.   Sin embargo,
+  puedo ayudarte a agendar una visita al campus para que conozcas más
+  sobre el kínder y resolver cualquier duda que tengas. ¿Qué días u
+  horarios te serían convenientes para la visita? 😊
+
+
+[35m── Step 5/6 ──[0m
+[1m[32m👤 User:[0m Me gustaría agendar una visita, ¿qué días tienen disponibles esta semana por la tarde?
+[admissions] loading session messages {'session_id': 'f110d99f-4215-44cf-a4c2-0fe7d7c6bf0e'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-06-21 to 2026-06-25 preferred_time=afternoon
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-06-21","end_date":"2026-06-25","preferred_time":"afternoon"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 22 de junio de 2026, 12:00 PM - 1:00 PM
+- Opción 2: Lunes 22 de junio de 2026, 1:00 PM - 2:00 PM
+- Opción 3: Lunes 22 de junio de 2026, 2:0[0m
+[1m[34m🤖 Bot:[0m
+  Tengo disponibles las siguientes opciones por la tarde esta semana:  -
+  Opción 1: Lunes 22 de junio de 2026, 12:00 PM - 1:00 PM - Opción 2:
+  Lunes 22 de junio de 2026, 1:00 PM - 2:00 PM - Opción 3: Lunes 22 de
+  junio de 2026, 2:00 PM - 3:00 PM - Opción 4: Martes 23 de junio de
+  2026, 12:00 PM - 1:00 PM - Opción 5: Martes 23 de junio de 2026, 1:00
+  PM - 2:00 PM - Opción 6: Martes 23 de junio de 2026, 2:00 PM - 3:00 PM
+  - Opción 7: Miércoles 24 de junio de 2026, 12:00 PM - 1:00 PM - Opción
+  8: Miércoles 24 de junio de 2026, 1:00 PM - 2:00 PM  ¿Cuál opción
+  prefieres? 😊
+
+
+[35m── Step 6/6 ──[0m
+[1m[32m👤 User:[0m La opción 2 por favor
+[admissions] loading session messages {'session_id': 'f110d99f-4215-44cf-a4c2-0fe7d7c6bf0e'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[admissions] booking appointment for slot 6a6a7e0e-a9b5-4d6d-bb73-0bdfeb299f1b
+[1m[34m🤖 Bot:[0m
+  ¡Listo! Tu visita quedó agendada para Lunes 22 de junio de 2026, 1:00
+  PM - 2:00 PM. La entrada es por Puerta 3 (caseta del reloj).
+  ¿Necesitas algo más?
+
+[2mℹ️  Chat ID: 9d0bf493-2651-4af4-a0de-da215895211b (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'kinder_with_event' complete
+════════════════════════════════════════════════════════════════[0m
+

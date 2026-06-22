@@ -1,0 +1,93 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:43:20.614338
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234320.log
+================================================================
+
+  Running only scenario: 5-status
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 5: Lead status inquiry
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 0b51b312… (wa_id=test3_status_inq_8402ec47)[0m
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hijo Diego Pérez López en secundaria 1. Nació el 5 de marzo de 2013. Est…
+[admissions] loading session messages {'session_id': 'f5bf795b-a3f3-434b-bd98-c269c2a753ec'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés de inscripción para su hijo Diego Pérez López a Secundaria 1 (ciclo agosto 2026). Fecha de nacimiento: 05-mar-2013. Actual[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Diego', 'student_last_name_paternal': 'Pérez', 'grade_interest': 'Secundaria 1', 'current_school': 'IEST', 'contact_email': 'maria.lopez@test.com', 'contact_phone': '871-555-0001'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_status_inq_8402ec47', 'contact_phone': '871-555-0001'}
+[admissions] contact created {'contact_id': 'c4061c28-8ca1-42a8-bd7e-d9264c9647ec'}
+[admissions] lead created {'lead_id': 'c19b3308-cc60-4d63-b5aa-803048a1c4d2', 'lead_number': 132}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Diego","student_middle_name":null,"student_last_name_paternal":"Pérez","student_last_name_maternal":"López","student_[0m
+[2m     Result: Lead creado con folio L-132.[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones del Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Con la información que me
+  compartes, *Diego Pérez López* (05-mar-2013) *sí corresponde a
+  Secundaria 1* para el ciclo *2026-2027 (agosto 2026)*. También ya
+  registré sus datos y los tuyos para dar seguimiento.  El siguiente
+  paso ideal es agendar una *visita al campus* (lun–vie, 8:00 am a 3:00
+  pm).  ¿Qué día y en qué horario te conviene más venir: *por la mañana
+  (8–12)* o *por la tarde (12–3)*?
+[1m[32m👤 User:[0m ¿Cómo va mi proceso de admisión? ¿Cuál es mi estatus?
+[admissions] loading session messages {'session_id': 'f5bf795b-a3f3-434b-bd98-c269c2a753ec'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Diego Pérez (Folio L-132)
+Estado actual: Estado: unknown[0m
+[1m[34m🤖 Bot:[0m
+  En este momento, al consultar tu expediente del folio *L-132 (Diego
+  Pérez López)*, el sistema me muestra el *estado como “unknown”* (no
+  disponible/por confirmar).  Para poder avanzar y que ya quede
+  reflejado el progreso, lo siguiente recomendable es agendar la *visita
+  al campus*.  ¿Te viene mejor venir *por la mañana (8:00–12:00)* o *por
+  la tarde (12:00–3:00)*? Y dime, por favor, *qué día entre semana* te
+  acomoda (por ejemplo: jueves o viernes).
+[2mℹ️  ASSERT PASS [status-new]: Found ['estado'][0m
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+  [test] Set lead c19b3308… → visit_scheduled
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[1m[32m👤 User:[0m ¿Ya me pueden confirmar el estatus de mi inscripción?
+[admissions] loading session messages {'session_id': 'f5bf795b-a3f3-434b-bd98-c269c2a753ec'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Diego Pérez (Folio L-132)
+Estado actual: Estado: unknown
+Historial reciente: new → visit_scheduled[0m
+[1m[34m🤖 Bot:[0m
+  Sí. Acabo de revisar el estatus de tu proceso para *Diego Pérez (Folio
+  L-132)* y aparece así:  *Estado actual:* *unknown* (pendiente/por
+  confirmar en sistema)   *Historial reciente:* *new → visit_scheduled*
+  Esto normalmente significa que *ya hay una visita programada o en
+  proceso de programación*, pero el sistema no está mostrando aún el
+  estado final confirmado.  ¿Te aparece a ti alguna *fecha y hora* de
+  visita en tus mensajes? Si me la compartes, la valido; y si aún no
+  tienes cita confirmada, dime qué *día entre semana* y si prefieres
+  *mañana (8–12)* o *tarde (12–3)* para buscar horarios disponibles.
+[2mℹ️  ASSERT PASS [status-visit-scheduled]: Found ['visita', 'programada', 'scheduled', 'cita'][0m
+[2mℹ️  Chat ID: 0b51b312-8ee8-44d6-b911-c579251b25b5[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 2/2 passed, 0 failed
+================================================================
+  ✅ [status-new]: Found: ['estado']
+  ✅ [status-visit-scheduled]: Found: ['visita', 'programada', 'scheduled', 'cita']
+================================================================
+

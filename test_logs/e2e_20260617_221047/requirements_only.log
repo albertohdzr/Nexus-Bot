@@ -1,0 +1,41 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: requirements_only
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat cee4d891… (wa_id=test3_requirements_only_46acc78b)[0m
+
+[35m── Step 1/2 ──[0m
+[1m[32m👤 User:[0m Hola, ¿me pueden mandar los requisitos de admisión para preparatoria?
+[admissions] loading session messages {'session_id': '30f9c4b9-6a87-4302-b277-9bd2b489ff3b'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for high_school
+[admissions] downloading admissions/requirements/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11/high_school/requisitos-genericos-high_school.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"high_school"}[0m
+[2m     Result: Documento de requisitos para high_school enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  Te lo acabo de enviar por WhatsApp. Si necesitas más información o
+  tienes alguna otra duda, ¡aquí estoy para ayudarte! 😊
+
+
+[35m── Step 2/2 ──[0m
+[1m[32m👤 User:[0m Gracias, eso es todo por ahora
+[admissions] loading session messages {'session_id': '30f9c4b9-6a87-4302-b277-9bd2b489ff3b'}
+[2mℹ️  History: 3 msgs | Pending: 1[0m
+[2mℹ️  LLM: 86 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría finalizar esta conversación ahora? Generaré un resumen de
+  nuestra charla.
+
+[2mℹ️  Chat ID: cee4d891-9566-4325-a256-9e535d936dc5 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'requirements_only' complete
+════════════════════════════════════════════════════════════════[0m
+

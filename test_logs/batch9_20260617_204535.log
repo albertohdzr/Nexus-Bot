@@ -1,0 +1,69 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-06-17T20:45:35.552241
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260617_204535.log
+================================================================
+
+  Running only scenario: grade
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 4: Grade calculation from DOB
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat bbb35b7f… (wa_id=test3_grade_calc_aa2be2df)[0m
+[1m[32m👤 User:[0m Hola, quiero saber en qué grado le tocaría a mi hijo para agosto 2026
+[admissions] loading session messages {'session_id': '1b06bb61-9bea-4e31-9d73-47d2f6f420e5'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 222 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Para agosto de 2026, la asignación de grado depende de la fecha
+  de nacimiento de tu hijo.   Por favor, ¿me podrías proporcionar su
+  fecha de nacimiento? Así podré ayudarte a determinar el grado al que
+  le corresponde.
+[1m[32m👤 User:[0m Nació el 1 de agosto de 2020
+[admissions] loading session messages {'session_id': '1b06bb61-9bea-4e31-9d73-47d2f6f420e5'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 223 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Con una fecha de nacimiento del 1 de agosto de 2020, tu hijo le
+  tocaría ingresar a Kindergarten para agosto de 2026.   ¿Te gustaría
+  obtener más información sobre el proceso de admisión o quizás agendar
+  una visita al campus?
+[2mℹ️  ASSERT PASS [grade-aug1-2020]: Found ['kinder', 'kindergarten'][0m
+[1m[32m👤 User:[0m Tengo otro hijo que nació el 15 de enero de 2024
+[admissions] loading session messages {'session_id': '1b06bb61-9bea-4e31-9d73-47d2f6f420e5'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 252 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Tu otro hijo, nacido el 15 de enero de 2024, podría ingresar a
+  Prenursery en agosto de 2026.  Si deseas, puedo ayudarte a crear los
+  registros de admisión para ambos hijos y proporcionarte más
+  información sobre el proceso. ¿Te gustaría proceder con eso?
+[2mℹ️  ASSERT PASS [grade-jan-2024]: Found ['prenursery'][0m
+[1m[32m👤 User:[0m ¿Y si quiero meterlo a preparatoria? El que nació en 2020
+[admissions] loading session messages {'session_id': '1b06bb61-9bea-4e31-9d73-47d2f6f420e5'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 394 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para ingresar a preparatoria, tu hijo debe tener entre 16 y 18 años en
+  el ciclo escolar correspondiente. Dado que nace el 1 de agosto de
+  2020, sería elegible para preparatoria a partir de agosto de 2036, no
+  en 2026.  Por lo tanto, para agosto de 2026, le corresponde ingresar a
+  Kindergarten.   Si necesitas más detalles sobre el proceso de admisión
+  o quieres agendar una visita, ¡házmelo saber!
+[2mℹ️  ASSERT PASS [grade-mismatch]: Found ['no', 'corresponde', 'kinder', 'kindergarten'][0m
+[2mℹ️  Chat ID: bbb35b7f-f3c4-4d4a-a1e5-edd0188ea991[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 3/3 passed, 0 failed
+================================================================
+  ✅ [grade-aug1-2020]: Found: ['kinder', 'kindergarten']
+  ✅ [grade-jan-2024]: Found: ['prenursery']
+  ✅ [grade-mismatch]: Found: ['no', 'corresponde', 'kinder', 'kindergarten']
+================================================================
+

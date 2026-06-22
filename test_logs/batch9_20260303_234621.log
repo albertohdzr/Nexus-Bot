@@ -1,0 +1,97 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:46:21.196477
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234621.log
+================================================================
+
+  Running only scenario: 7-multi
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 7: Multi-session continuity
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 2b9bf3c3… (wa_id=test3_multi_sess_ad77223e)[0m
+
+  ╔══ SESSION 1: Registro ══╗
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hija Ana Sofía Ruiz Martínez en primaria 1. Nació el 2 de diciembre de 2…
+[admissions] loading session messages {'session_id': '79300a00-6d1f-401f-b3b3-02c1e4e72de0'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés de inscripción para su hija Ana Sofía Ruiz Martínez a Primaria 1 (ciclo sugerido 2026-2027). Fecha de nacimiento: 02-dic-2[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Ana Sofía', 'student_last_name_paternal': 'Ruiz', 'grade_interest': 'Primaria 1', 'current_school': 'Montessori', 'contact_email': 'laura.martinez@test.com', 'contact_phone': '871-444-5555'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_multi_sess_ad77223e', 'contact_phone': '871-444-5555'}
+[admissions] contact created {'contact_id': 'a31a515a-b938-46ac-823b-1c4d78abf45c'}
+[admissions] lead created {'lead_id': '506b1eed-c801-47e3-a395-5a4f7673043a', 'lead_number': 134}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana Sofía","student_middle_name":null,"student_last_name_paternal":"Ruiz","student_last_name_maternal":"Martínez","st[0m
+[2m     Result: Lead creado con folio L-134.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones del *Colegio
+  Americano de Torreón*. Con gusto te ayudo. 🙂  Con la fecha de
+  nacimiento de tu hija (02-dic-2019), para el ciclo *2026–2027 (agosto
+  2026)* le corresponde *Primaria 1* (está dentro del rango). También
+  tomé nota de que viene de *Montessori*.  Ya registré sus datos para
+  dar seguimiento.  ¿Te gustaría que agendemos una *visita al campus*?
+  Tenemos horarios de lunes a viernes de *8:00 am a 3:00 pm*.  Dime por
+  favor: - ¿Qué día(s) de la próxima semana te convienen más? -
+  ¿Prefieres *mañana (8-12)* o *tarde (12-3)*?
+[1m[32m👤 User:[0m Cierra la conversación por favor
+[admissions] loading session messages {'session_id': '79300a00-6d1f-401f-b3b3-02c1e4e72de0'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 127 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría finalizar esta conversación ahora? En cuanto me
+  confirmes, generaré un resumen de lo que compartiste y la cerraré.
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': '79300a00-6d1f-401f-b3b3-02c1e4e72de0'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'Laura Martínez solicita información/seguimiento para inscribir a su hija Ana Sofía Ruiz Martínez en Primaria 1 para el ciclo sugerido 2026–2027 (inicio agosto 2026). Fecha de nacimiento de la alumna: 02-dic-2019 (corresponde a Primaria 1 para 2026–2027). Escuela de procedencia: Montessori. Datos de contacto proporcionados: Tel. 871-444-5555, correo laura.martinez@test.com. Se ofreció agendar una visita al campus (lun–vie 8:00–15:00) y se solicitó preferencia de días/horario, pero la familia pidió cerrar la conversación antes de agendar.', 'reason': 'Usuario solicita cierre de conversación.'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"Laura Martínez solicita información/seguimiento para inscribir a su hija Ana Sofía Ruiz Martínez en Primaria 1 para el ciclo sug[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, la conversación quedó cerrada.  Resumen: - Interés de
+  inscripción para *Ana Sofía Ruiz Martínez* a *Primaria 1* (ciclo
+  sugerido *2026–2027, inicio agosto 2026*). - Fecha de nacimiento:
+  *02-dic-2019* (corresponde a Primaria 1). - Escuela de procedencia:
+  *Montessori*. - Tutor: *Laura Martínez* | Tel: *871-444-5555* |
+  Correo: *laura.martinez@test.com*. - Se ofreció agendar *visita al
+  campus* (lun–vie 8:00 am a 3:00 pm), sin programarla aún.  Cuando
+  gustes retomar, me dices qué días/horario te convienen y lo agendamos.
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+
+  ╔══ SESSION 2: Regresa y pregunta estatus ══╗
+[1m[32m👤 User:[0m Hola, soy Laura Martínez otra vez. ¿Cómo va el proceso de mi hija?
+[admissions] loading session messages {'session_id': '1f034311-5b22-4ec6-aaa7-6ecefb6b37be'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Ana Sofía Ruiz (Folio L-134)
+Estado actual: Registro recibido, pendiente de contacto[0m
+[1m[34m🤖 Bot:[0m
+  Hola Laura, con gusto te actualizo.  El proceso de tu hija *Ana Sofía
+  Ruiz* (folio *L-134*) aparece como: *Registro recibido, pendiente de
+  contacto*.  Si gustas, puedo ayudarte a dar el siguiente paso
+  agendando una *visita al campus* (de lunes a viernes, 8:00 am a 3:00
+  pm).   ¿Qué días y horario te acomodan más: *por la mañana* o *por la
+  tarde*?
+[2mℹ️  ASSERT PASS [multi-session-recall]: Found ['ana', 'sofía', 'ruiz', 'proceso', 'registro'][0m
+[2mℹ️  Chat ID: 2b9bf3c3-6997-406c-a25a-a0e3fcc38f94[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 1/1 passed, 0 failed
+================================================================
+  ✅ [multi-session-recall]: Found: ['ana', 'sofía', 'ruiz', 'proceso', 'registro']
+================================================================
+

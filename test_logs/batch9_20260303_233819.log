@@ -1,0 +1,146 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:38:19.318583
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_233819.log
+================================================================
+
+  Running only scenario: 1-full-english
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 1: Full English conversation
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 7c87410a… (wa_id=test3_full_english_ed722f56)[0m
+[1m[32m👤 User:[0m Hi, I'm interested in enrolling my daughter at your school
+[admissions] loading session messages {'session_id': '56c92e39-9a31-42e8-bfc0-951079dc8a5c'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 299 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hi, thanks for contacting the Admissions team at Colegio Americano de
+  Torreón. How can I help you today?  To guide you with enrollment, what
+  grade are you considering for your daughter
+  (Prenursery/Preschool/Kindergarten/Elementary/Middle School/High
+  School), and for which school year—*August 2026*?
+[2mℹ️  ASSERT PASS [en-1-greeting]: English maintained[0m
+[1m[32m👤 User:[0m She's 6 years old, born on March 15, 2020. She's currently in first grade at the American School in …
+[admissions] loading session messages {'session_id': '56c92e39-9a31-42e8-bfc0-951079dc8a5c'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 577 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Thanks—based on her date of birth (*March 15, 2020*), for the
+  *2026–2027* school year (starting *August 2026*) she falls in the age
+  range for *2nd grade Elementary (Primaria 2)*.  You mentioned she’s
+  currently in *1st grade at the American School in Monterrey*—great.
+  Would you like to *schedule a campus visit*? If yes, please share: -
+  Your daughter’s *full name* (as it appears on her documents) - Your
+  *full name* (parent/guardian) - A *phone number* and *email* to
+  confirm the visit  And do you prefer a *morning (8am–12pm)* or
+  *afternoon (12pm–3pm)* visit, Monday–Friday?
+[2mℹ️  ASSERT PASS [en-2-info]: English maintained[0m
+[1m[32m👤 User:[0m Her name is Emily Johnson, and her father's last name is Johnson, mother's last name is Davis
+[admissions] loading session messages {'session_id': '56c92e39-9a31-42e8-bfc0-951079dc8a5c'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Prospect student: Emily Johnson (father last name Johnson, mother last name Davis). DOB 15-Mar-2020. Currently 1st grade at Americ[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Thanks! I have her as *Emily Johnson* (father’s last name: *Johnson*,
+  mother’s last name: *Davis*).  To move forward and schedule a campus
+  visit, I just need a few details:  1) Emily’s *maternal last name* to
+  use officially (would it be *Davis Johnson* or *Johnson Davis*—which
+  order do you use?)   2) Your *full name* and your relationship to
+  Emily (mom/dad/guardian)   3) A *phone number* and *email* for the
+  visit confirmation  Also, do you prefer a visit in the *morning
+  (8am–12pm)* or *afternoon (12pm–3pm)*, Monday to Friday?
+[2mℹ️  ASSERT PASS [en-3-names]: English maintained[0m
+[1m[32m👤 User:[0m My name is Sarah Davis, phone 8711234567, email sarah.davis@test.com
+[admissions] loading session messages {'session_id': '56c92e39-9a31-42e8-bfc0-951079dc8a5c'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Emily', 'student_last_name_paternal': 'Johnson', 'grade_interest': 'Primaria 2 (Elementary Grade 2)', 'current_school': 'American School in Monterrey', 'contact_email': 'sarah.davis@test.com', 'contact_phone': '8711234567'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_full_english_ed722f56', 'contact_phone': '8711234567'}
+[admissions] contact created {'contact_id': 'cef7dcc5-90dd-4b33-944a-175541ee8ce3'}
+[admissions] lead created {'lead_id': '40fff144-6b6e-435f-b857-1240e141c11a', 'lead_number': 131}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emily","student_middle_name":null,"student_last_name_paternal":"Johnson","student_last_name_maternal":"Davis","studen[0m
+[2m     Result: Lead creado con folio L-131.[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-03-05 to 2026-03-20 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-05","end_date":"2026-03-20","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Jueves 5 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 2: Jueves 5 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Jueves 5 de marzo de 2026, 1[0m
+[1m[34m🤖 Bot:[0m
+  Perfect, Sarah—thank you. I’ve saved the information and created
+  Emily’s admissions record.  Campus visit availability (Torreón local
+  time), please tell me which option you prefer:  1) Thu Mar 5,
+  9:00–10:00 AM   2) Thu Mar 5, 10:00–11:00 AM   3) Thu Mar 5, 11:00
+  AM–12:00 PM   4) Thu Mar 5, 12:00–1:00 PM   5) Thu Mar 5, 1:00–2:00 PM
+  6) Fri Mar 6, 8:00–9:00 AM   7) Fri Mar 6, 9:00–10:00 AM   8) Fri Mar
+  6, 10:00–11:00 AM  Also, just to confirm Emily’s last names for her
+  file: is it *Johnson Davis* (paternal then maternal)?
+[2mℹ️  ASSERT PASS [en-4-contact]: English maintained[0m
+[1m[32m👤 User:[0m What are the admission requirements for elementary school?
+[admissions] loading session messages {'session_id': '56c92e39-9a31-42e8-bfc0-951079dc8a5c'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/elementary/1766895179881-03_Admission_Requirements_Elementary.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  For *Elementary (Primaria)*, the main admission requirements are:  -
+  Recent *passport-size photos* (typically 4) - *Birth certificate* -
+  *CURP* - *Official report cards/grades (SEP)*: current year + the
+  previous 2 years - For *1st grade only*: *Preschool certificate* (not
+  needed for 2nd grade) - *Letter of good conduct* from the previous
+  school - *Letter of financial good standing/solvency* from the
+  previous school (for new students) - *Recommendation letters* (as
+  requested by Admissions)  I’ve sent you the official *Elementary
+  requirements PDF* here on WhatsApp.  When you’re ready, you can tell
+  me which campus visit option you prefer (1–8), and please confirm
+  Emily’s last names: *Johnson Davis* (paternal then maternal)?
+[2mℹ️  ASSERT PASS [en-5-requirements]: English maintained[0m
+[1m[32m👤 User:[0m Can I schedule a campus visit for next week in the morning?
+[admissions] loading session messages {'session_id': '56c92e39-9a31-42e8-bfc0-951079dc8a5c'}
+[2mℹ️  History: 11 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-09 to 2026-03-13 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-09","end_date":"2026-03-13","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 9 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 9 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Lunes 9 de marzo de 2026, 10:00 [0m
+[1m[34m🤖 Bot:[0m
+  Yes—morning visits next week are available (Torreón local time). Which
+  option would you like?  1) Mon, Mar 9 • 8:00–9:00 AM   2) Mon, Mar 9 •
+  9:00–10:00 AM   3) Mon, Mar 9 • 10:00–11:00 AM   4) Mon, Mar 9 • 11:00
+  AM–12:00 PM   5) Tue, Mar 10 • 8:00–9:00 AM   6) Tue, Mar 10 •
+  9:00–10:00 AM   7) Tue, Mar 10 • 10:00–11:00 AM   8) Tue, Mar 10 •
+  11:00 AM–12:00 PM    Also, quick confirmation for Emily’s file: are
+  her last names *Johnson Davis* (paternal then maternal)?
+[2mℹ️  ASSERT PASS [en-6-visit]: English maintained[0m
+[2mℹ️  Chat ID: 7c87410a-62fa-410c-ae6c-21f1b8efbdca[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 6/6 passed, 0 failed
+================================================================
+  ✅ [en-1-greeting]: English OK
+  ✅ [en-2-info]: English OK
+  ✅ [en-3-names]: English OK
+  ✅ [en-4-contact]: English OK
+  ✅ [en-5-requirements]: English OK
+  ✅ [en-6-visit]: English OK
+================================================================
+

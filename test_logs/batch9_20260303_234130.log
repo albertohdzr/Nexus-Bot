@@ -1,0 +1,78 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:41:30.029430
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_234130.log
+================================================================
+
+  Running only scenario: 4-grade-calc
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 4: Grade calculation from DOB
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 93f4f07e… (wa_id=test3_grade_calc_60859aa8)[0m
+[1m[32m👤 User:[0m Hola, quiero saber en qué grado le tocaría a mi hijo para agosto 2026
+[admissions] loading session messages {'session_id': '94954f11-9466-4818-85e7-4e3b7ad4d537'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 300 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al area de admisiones de Colegio
+  Americano de Torreón. ¿Como puedo ayudarte?  Para decirte exactamente
+  qué grado le tocaría en *agosto 2026* (ciclo 2026–2027), ¿me compartes
+  la *fecha de nacimiento* de tu hijo (día/mes/año)? Con eso lo ubico en
+  el grado correspondiente.
+[1m[32m👤 User:[0m Nació el 1 de agosto de 2020
+[admissions] loading session messages {'session_id': '94954f11-9466-4818-85e7-4e3b7ad4d537'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 252 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Con fecha de nacimiento *1 de agosto de 2020*, para el ciclo
+  que inicia en *agosto 2026* le corresponde *1º de Primaria*.  Si
+  quieres, también puedo decirte la división y el siguiente paso del
+  proceso. ¿Actualmente en qué escuela está tu hijo?
+[31m❌ ASSERT FAIL [grade-aug1-2020]: None of ['kinder', 'kindergarten'] found in: Gracias. Con fecha de nacimiento *1 de agosto de 2020*, para el ciclo que inicia en *agosto 2026* le corresponde *1º de Primaria*.
+
+Si quieres, también puedo decirte la división y el siguiente paso de[0m
+[1m[32m👤 User:[0m Tengo otro hijo que nació el 15 de enero de 2024
+[admissions] loading session messages {'session_id': '94954f11-9466-4818-85e7-4e3b7ad4d537'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en ingreso para agosto 2026. Hijo 1 DOB 01/08/2020 (corresponde a 1° Primaria). Menciona segundo hijo DOB 15/01[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto. Con fecha de nacimiento *15 de enero de 2024*, para el ciclo
+  que inicia en *agosto 2026* le tocaría *Prenursery (Maternal)*.  Si te
+  interesa, puedo orientarte con los siguientes pasos para ambos. ¿Los
+  estarías considerando para *agosto 2026* los dos, y en qué escuela
+  están actualmente?
+[2mℹ️  ASSERT PASS [grade-jan-2024]: Found ['prenursery', 'maternal'][0m
+[1m[32m👤 User:[0m ¿Y si quiero meterlo a preparatoria? El que nació en 2020
+[admissions] loading session messages {'session_id': '94954f11-9466-4818-85e7-4e3b7ad4d537'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 492 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para el ciclo *agosto 2026*, un alumno nacido el *1 de agosto de 2020*
+  corresponde por edad a *1º de Primaria*, no a preparatoria.
+  Preparatoria normalmente es para nacidos entre *01-ago-2008 y
+  31-jul-2009* (para 3º) o rangos cercanos. Con esa diferencia de edad,
+  no sería viable como ingreso regular.  Si me cuentas por qué lo estás
+  considerando (por ejemplo, si es una pregunta general o si hubo algún
+  error en la fecha), lo revisamos. ¿Confirmas que la fecha de
+  nacimiento es *01/08/2020*?
+[2mℹ️  ASSERT PASS [grade-mismatch]: Found ['no', 'rango', 'corresponde'][0m
+[2mℹ️  Chat ID: 93f4f07e-1296-492b-af14-936828463c3f[0m
+
+  ⏳ Cooling down 8s …
+
+================================================================
+  TEST SUMMARY: 2/3 passed, 1 failed
+================================================================
+  ❌ [grade-aug1-2020]: None of ['kinder', 'kindergarten'] found
+  ✅ [grade-jan-2024]: Found: ['prenursery', 'maternal']
+  ✅ [grade-mismatch]: Found: ['no', 'rango', 'corresponde']
+================================================================
+

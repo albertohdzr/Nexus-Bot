@@ -1,0 +1,1104 @@
+================================================================
+  BATCH 9 — Comprehensive Automated Tests
+  Started: 2026-03-03T23:51:36.367401
+  Log: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/batch9_20260303_235136.log
+================================================================
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 1: Full English conversation
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat c391f82e… (wa_id=test3_full_english_4b9f5902)[0m
+[1m[32m👤 User:[0m Hi, I'm interested in enrolling my daughter at your school
+[admissions] loading session messages {'session_id': 'c58051b4-26b7-4725-b20c-5cf1a53b2666'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 228 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hi, thanks for contacting the Admissions area at Colegio Americano de
+  Torreón. How can I help you?  To guide you with enrollment, what grade
+  (or school level) are you considering for your daughter, and what is
+  her date of birth?
+[2mℹ️  ASSERT PASS [en-1-greeting]: English maintained[0m
+[1m[32m👤 User:[0m She's 6 years old, born on March 15, 2020. She's currently in first grade at the American School in …
+[admissions] loading session messages {'session_id': 'c58051b4-26b7-4725-b20c-5cf1a53b2666'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Family interested in enrolling daughter. DOB: 15-Mar-2020. Currently in 1st grade at American School in Monterrey.","subject":"Pro[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  With her date of birth (*March 15, 2020*), for the *Aug 2026–Jun 2027*
+  school year she falls into *1st Grade (Elementary)* (DOB range: Aug 1,
+  2019–Jul 31, 2020).  We can definitely guide you through admissions
+  for Elementary. The next best step is to schedule a campus visit
+  (Mon–Fri, *8:00am–3:00pm*).  To set that up, may I have: - Your
+  daughter’s full name (as it appears on her documents) - Your full name
+  - Email and phone number (WhatsApp is fine)  And lastly—do you prefer
+  a *morning* or *afternoon* visit?
+[2mℹ️  ASSERT PASS [en-2-info]: English maintained[0m
+[1m[32m👤 User:[0m Her name is Emily Johnson, and her father's last name is Johnson, mother's last name is Davis
+[admissions] loading session messages {'session_id': 'c58051b4-26b7-4725-b20c-5cf1a53b2666'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Parent provided student name details: Emily Johnson (father last name Johnson, mother last name Davis). Interested in Elementary 1[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Thanks! I have her as *Emily Johnson Davis*.  To schedule the campus
+  visit and open her admissions file, I still need a few details: -
+  Emily’s *middle name* (if she has one) — or confirm none - Your *full
+  name* (parent/guardian) - Your *email* and *phone number* - For the
+  visit: do you prefer *morning* (8am–12pm) or *afternoon* (12pm–3pm),
+  and what days usually work for you (Mon–Fri)?
+[2mℹ️  ASSERT PASS [en-3-names]: English maintained[0m
+[1m[32m👤 User:[0m My name is Sarah Davis, phone 8711234567, email sarah.davis@test.com
+[admissions] loading session messages {'session_id': 'c58051b4-26b7-4725-b20c-5cf1a53b2666'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Emily', 'student_last_name_paternal': 'Johnson', 'grade_interest': 'Elementary - 1st Grade', 'current_school': 'American School in Monterrey', 'contact_email': 'sarah.davis@test.com', 'contact_phone': '8711234567'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_full_english_4b9f5902', 'contact_phone': '8711234567'}
+[admissions] contact found {'contact_id': 'cef7dcc5-90dd-4b33-944a-175541ee8ce3'}
+[admissions] lead created {'lead_id': '843f2ee6-daf1-4da2-9a73-f826d6fef2b9', 'lead_number': 138}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Emily","student_middle_name":null,"student_last_name_paternal":"Johnson","student_last_name_maternal":"Davis","studen[0m
+[2m     Result: Lead creado con folio L-138.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en ingreso a Elementary (1st Grade) para ciclo 2026-2027. Alumna viene de American School in Monterrey. Contact[0m
+[2m     Result: Nota agregada al lead L-138 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfect—thank you, Sarah. I’ve created Emily’s admissions profile.
+  Just to confirm: does Emily have a *middle name*, or none?  And for
+  the campus visit, what do you prefer: - *Morning* (8:00am–12:00pm) or
+  *afternoon* (12:00pm–3:00pm)? - Which days work best for you
+  (Mon–Fri)?  Once you tell me that, I’ll check the available slots and
+  share options for you to choose.
+[2mℹ️  ASSERT PASS [en-4-contact]: English maintained[0m
+[1m[32m👤 User:[0m What are the admission requirements for elementary school?
+[admissions] loading session messages {'session_id': 'c58051b4-26b7-4725-b20c-5cf1a53b2666'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/elementary/1766895179881-03_Admission_Requirements_Elementary.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Documento de requisitos para elementary enviado exitosamente al usuario.[0m
+[1m[34m🤖 Bot:[0m
+  For *Elementary (Primaria)*, the main admission requirements are:  -
+  Recent *passport-size photos* - *Birth certificate* (Acta de
+  nacimiento) - *CURP* - *SEP report cards/grades*: the current school
+  year and the *two previous* years (as applicable) - *Conduct letter*
+  from the current/previous school - *Financial solvency letter* (for
+  new students) - *Recommendation letters* (as requested by admissions)
+  I’ve sent you the official *Elementary requirements PDF* here on
+  WhatsApp as well.    When you’re ready, tell me your preference for a
+  campus visit (*morning* or *afternoon*) and which weekdays work best,
+  and I’ll check available times.
+[2mℹ️  ASSERT PASS [en-5-requirements]: English maintained[0m
+[1m[32m👤 User:[0m Can I schedule a campus visit for next week in the morning?
+[admissions] loading session messages {'session_id': 'c58051b4-26b7-4725-b20c-5cf1a53b2666'}
+[2mℹ️  History: 11 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-09 to 2026-03-13 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-09","end_date":"2026-03-13","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 9 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 9 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Lunes 9 de marzo de 2026, 10:00 [0m
+[1m[34m🤖 Bot:[0m
+  Yes—here are the *morning* campus-visit options for next week (Torreón
+  time):  - *1)* Mon, Mar 9 — 8:00–9:00 AM   - *2)* Mon, Mar 9 —
+  9:00–10:00 AM   - *3)* Mon, Mar 9 — 10:00–11:00 AM   - *4)* Mon, Mar 9
+  — 11:00 AM–12:00 PM   - *5)* Tue, Mar 10 — 8:00–9:00 AM   - *6)* Tue,
+  Mar 10 — 9:00–10:00 AM   - *7)* Tue, Mar 10 — 10:00–11:00 AM   - *8)*
+  Tue, Mar 10 — 11:00 AM–12:00 PM    Which option number would you like
+  to book?
+[2mℹ️  ASSERT PASS [en-6-visit]: English maintained[0m
+[2mℹ️  Chat ID: c391f82e-b8d9-41cb-b384-05bf8430741c[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 2: Language switch (EN → ES)
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 9474dc75… (wa_id=test3_lang_switch_1dec74ee)[0m
+[1m[32m👤 User:[0m Hello, I'd like information about your school for my son
+[admissions] loading session messages {'session_id': '144eba5b-146c-42f5-a402-0022186ca9f9'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 422 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hello, thanks for contacting the Admissions area at Colegio Americano
+  de Torreón. How can I help you today?  To point you in the right
+  direction, what would you like to know first—*grade levels/programs*,
+  *admissions process*, or *scheduling a campus visit*?  If you tell me
+  your son’s *date of birth* (and, if you know it, the grade you’re
+  considering for *August 2026*), I can also confirm which division he
+  would enter.
+[2mℹ️  ASSERT PASS [lang-1-start-english]: English maintained[0m
+[1m[32m👤 User:[0m He's 10 years old and currently in 4th grade
+[admissions] loading session messages {'session_id': '144eba5b-146c-42f5-a402-0022186ca9f9'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 461 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Thanks—at *10 years old* and currently in *4th grade*, your son would
+  typically be in our *Elementary (Primaria)* division.  For *August
+  2026* entry, the exact grade placement depends on his *date of birth*
+  (we use strict DOB ranges).   What is his *full date of birth
+  (day/month/year)*? And what school is he currently attending?  If
+  you’d like, we can also set up a *campus tour (Mon–Fri,
+  8:00am–3:00pm)* so you can see classrooms and ask questions in person.
+[2mℹ️  ASSERT PASS [lang-2-continue-english]: English maintained[0m
+[1m[32m👤 User:[0m Ah perdón, mejor hablemos en español. Quiero inscribir a mi hijo en primaria para el próximo ciclo
+[admissions] loading session messages {'session_id': '144eba5b-146c-42f5-a402-0022186ca9f9'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 509 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Con gusto te ayudo en español.  Para *Primaria* de *próximo
+  ciclo (ingreso en agosto 2026)*, lo primero es confirmar el grado
+  correcto según su *fecha de nacimiento* (los rangos son estrictos).
+  ¿Me compartes por favor: - La *fecha de nacimiento completa* de tu
+  hijo (día/mes/año) - ¿En qué *grado* lo quieres inscribir (¿4º o 5º de
+  primaria?) y cuál es su *escuela actual*?  Si te parece, también
+  podemos ir programando una *visita al campus* (lun–vie, 8:00am a
+  3:00pm) para que conozcan la primaria.
+[1m[32m👤 User:[0m Tiene 10 años, nació el 10 de febrero de 2016
+[admissions] loading session messages {'session_id': '144eba5b-146c-42f5-a402-0022186ca9f9'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 611 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Con fecha de nacimiento *10/febrero/2016*, para el ciclo
+  *2026–2027 (agosto 2026)* a tu hijo le corresponde *4º de Primaria*
+  (rango: 01-ago-2016 a 31-jul-2017).  Como me comentas que tiene 10
+  años, puede que por trayectoria escolar esté cursando un grado
+  distinto; si tu intención es *5º de Primaria*, eso ya sería un caso
+  para revisar con admisiones (por edad/rango). ¿Hoy en qué grado va
+  exactamente y en qué escuela está?  Si quieres, avanzamos para agendar
+  una *visita al campus* y conocer Primaria. Solo para ir preparando
+  todo: ¿me compartes el *nombre completo* de tu hijo y la *escuela
+  actual*?
+[2mℹ️  Chat ID: 9474dc75-55a7-4be5-a98b-c647b0148198[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 3: Scholarship & discount inquiries
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat c6bb863f… (wa_id=test3_becas_56bfca2e)[0m
+[1m[32m👤 User:[0m Hola, tengo 3 hijos y quiero inscribirlos a todos
+[admissions] loading session messages {'session_id': '5901b3ea-8466-49de-9973-caad78824aa5'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"La familia desea inscribir a sus 3 hijos (hermanos) en Colegio Americano de Torreón.","subject":"Interés en inscripción de 3 hijos[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Soy Vale, del área de admisiones del *Colegio Americano de
+  Torreón*. Con gusto te ayudo a inscribir a tus 3 hijos. 🙂  Para poder
+  orientarte bien (y decirte a qué secciones entrarían para el *ciclo
+  que inicia en agosto 2026*), ¿me compartes por favor de cada hijo?  -
+  Fecha de nacimiento (día/mes/año) - Grado al que te gustaría que
+  ingresara (o el grado actual) - Escuela actual  Y para entender su
+  caso: ¿buscarían que los 3 entren el mismo ciclo (agosto 2026) o
+  alguno sería antes?  *Nota:* Sí contamos con *descuento por hermanos
+  inscritos simultáneamente*: para el *3er hijo inscrito* se aplica *10%
+  de descuento en colegiatura* (se aplica al hijo mayor).
+[1m[32m👤 User:[0m ¿Tienen algún descuento por meter a los 3 hermanos?
+[admissions] loading session messages {'session_id': '5901b3ea-8466-49de-9973-caad78824aa5'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento por hermanos: 3 hijos.","subject":"Beca/Descuento"}[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, *sí hay descuento por hermanos inscritos simultáneamente*.  Para
+  el caso de *3 hermanos*: - El *3er hijo inscrito* tiene *10% de
+  descuento en colegiatura* (se aplica al hijo *mayor*).  Si llegaran a
+  ser 4 o 5 inscritos al mismo tiempo, también existen: - 4º hijo: *15%*
+  (al hijo mayor) - 5º hijo: *100% de beca en colegiatura*  Si me
+  confirmas: ¿son exactamente *3 hijos* los que inscribirías este ciclo
+  (agosto 2026), o también habría un 4º/5º?
+[2mℹ️  ASSERT PASS [beca-3er-hijo]: Found ['10%', 'descuento'][0m
+[1m[32m👤 User:[0m ¿Y si inscribo un cuarto hijo también?
+[admissions] loading session messages {'session_id': '5901b3ea-8466-49de-9973-caad78824aa5'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento por hermanos. Considera inscribir 4 hijos (pregunta por descuento para 4º hijo).","subject":"Beca/Descuent[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Si inscribes *4 hijos* al mismo tiempo, aplica el descuento por
+  hermanos así:  - *3er hijo inscrito:* *10%* de descuento en
+  colegiatura (se aplica al hijo *mayor*) - *4º hijo inscrito:* *15%* de
+  descuento en colegiatura (también se aplica al hijo *mayor*)  Para
+  confirmarte correctamente cómo quedaría en tu caso: ¿serían *4 hijos
+  inscritos simultáneamente* para el ciclo que inicia en *agosto 2026*?
+[2mℹ️  ASSERT PASS [beca-4to-hijo]: Found ['15%'][0m
+[1m[32m👤 User:[0m Imagina que fueran 5 hijos, ¿qué pasa con el quinto?
+[admissions] loading session messages {'session_id': '5901b3ea-8466-49de-9973-caad78824aa5'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento. Pregunta por escenario de 5 hijos (descuentos por hermanos).","subject":"Beca/Descuento"}[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Si fueran *5 hijos inscritos simultáneamente*, el beneficio para el
+  *5º hijo* es una *beca del 100% en colegiatura*.  Y, como referencia,
+  también aplican: - *3er hijo:* *10%* (al hijo mayor) - *4º hijo:*
+  *15%* (al hijo mayor)  ¿En tu caso cuántos hijos estás considerando
+  inscribir realmente: 3, 4 o 5? Así te oriento con el escenario
+  correcto y los siguientes pasos de admisión.
+[2mℹ️  ASSERT PASS [beca-5to-hijo]: Found ['100%', 'beca'][0m
+[1m[32m👤 User:[0m También escuché que hay una beca si mi hijo entró desde kínder y sigue hasta secundaria, ¿es cierto?
+[admissions] loading session messages {'session_id': '5901b3ea-8466-49de-9973-caad78824aa5'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento. Pregunta por Beca de Continuidad (ingresó desde kínder y continúa hasta secundaria). Número de hijos no c[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, es cierto. Existe la *Beca de Continuidad*: es un *20% de
+  descuento* si el alumno *ingresó en kínder* y continúa hasta
+  *secundaria*.  Para decirte si aplicaría en tu caso, ¿tu hijo *entró a
+  CAT desde kínder* (es decir, ya es alumno del colegio) o te refieres a
+  que entraría a CAT desde kínder y después continuaría hasta
+  secundaria?
+[2mℹ️  ASSERT PASS [beca-continuidad]: Found ['20%', 'continuidad'][0m
+[1m[32m👤 User:[0m ¿Me puedes decir cuánto cuesta la colegiatura exactamente?
+[admissions] loading session messages {'session_id': '5901b3ea-8466-49de-9973-caad78824aa5'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento. Interés en descuentos por hermanos (menciona 3, 4 y escenario de 5 hijos) y pregunta por Beca de Continui[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Por este medio no puedo compartir *montos exactos* de colegiatura,
+  porque varía según la *sección (kínder/primaria/secundaria/prepa)* y
+  el perfil de la familia. Lo que sí puedo hacer es ayudarte a que un
+  asesor de admisiones te comparta la información *exacta y
+  personalizada*.  Para canalizarte correctamente, dime por favor: 1) ¿A
+  qué *grados* entrarían tus hijos (o sus *fechas de nacimiento*)? 2)
+  ¿Serían *3, 4 o 5* hijos los que inscribirías?  Con eso te digo
+  también qué *descuentos* aplicarían en tu caso (hermanos y/o *Beca de
+  Continuidad*).
+[2mℹ️  ASSERT PASS [redirect-pricing]: Found ['asesor', 'personalizada'][0m
+[2mℹ️  Chat ID: c6bb863f-ef07-4409-a00e-8ea3a2ed7f2c[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 4: Grade calculation from DOB
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat f63c45ec… (wa_id=test3_grade_calc_22e0eb1a)[0m
+[1m[32m👤 User:[0m Hola, quiero saber en qué grado le tocaría a mi hijo para agosto 2026
+[admissions] loading session messages {'session_id': '25af25d0-05b2-419f-ae33-e72858f598b8'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 267 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Para decirte con
+  exactitud qué grado le tocaría para *agosto 2026* (ciclo 2026–2027),
+  ¿me compartes la *fecha de nacimiento completa* de tu hijo
+  (día/mes/año)?
+[1m[32m👤 User:[0m Nació el 1 de agosto de 2020
+[admissions] loading session messages {'session_id': '25af25d0-05b2-419f-ae33-e72858f598b8'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 366 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Con fecha de nacimiento *1 de agosto de 2020*, para el ciclo
+  *agosto 2026 – junio 2027* le corresponde *Kindergarten* (kínder).
+  Esto es porque Kindergarten es para nacidos del *01-ago-2020 al
+  31-jul-2021* (incluye el 01-ago-2020).  ¿Te gustaría que te platique
+  un poco del programa de kínder o prefieres agendar una *visita al
+  campus* para conocer el área?
+[2mℹ️  ASSERT PASS [grade-aug1-2020]: Found ['kinder', 'kindergarten'][0m
+[1m[32m👤 User:[0m Tengo otro hijo que nació el 15 de enero de 2024
+[admissions] loading session messages {'session_id': '25af25d0-05b2-419f-ae33-e72858f598b8'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 460 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto. Con fecha de nacimiento *15 de enero de 2024*, para el ciclo
+  *agosto 2026 – junio 2027* le corresponde *Prenursery (Maternal)*.
+  Prenursery es para peques nacidos del *01-ago-2023 al 31-jul-2024*, y
+  el 15-ene-2024 cae dentro de ese rango.  ¿Te interesa que ambos entren
+  en *agosto 2026*? Si sí, ¿quieres que te comparta los requisitos
+  generales o prefieres que vayamos agendando una visita para conocer el
+  campus y las áreas de *Kínder* y *Maternal*?
+[2mℹ️  ASSERT PASS [grade-jan-2024]: Found ['prenursery', 'maternal'][0m
+[1m[32m👤 User:[0m ¿Y si quiero meterlo a preparatoria? El que nació en 2020
+[admissions] loading session messages {'session_id': '25af25d0-05b2-419f-ae33-e72858f598b8'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 489 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Para el ciclo *agosto 2026*, tu hijo nacido el *01-ago-2020* no puede
+  ingresar a *preparatoria* por edad; por rango le corresponde
+  *Kindergarten (Kínder)*.  Preparatoria (1º de bachillerato) para
+  *agosto 2026* es para alumnos nacidos del *01-ago-2010 al
+  31-jul-2011*.  Si me cuentas un poquito el motivo (por ejemplo, si te
+  referías a otro hijo o si es por un tema de programa/aceleración), con
+  gusto te oriento y lo canalizo con un asesor si hiciera falta. ¿Buscas
+  prepa para alguien más?
+[2mℹ️  ASSERT PASS [grade-mismatch]: Found ['no', 'rango', 'asesor', 'corresponde', 'kinder', 'kindergarten'][0m
+[2mℹ️  Chat ID: f63c45ec-b14a-4866-96e9-fb4dfde1e359[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 5: Lead status inquiry
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat b97c23d4… (wa_id=test3_status_inq_6717a06d)[0m
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hijo Diego Pérez López en secundaria 1. Nació el 5 de marzo de 2013. Est…
+[admissions] loading session messages {'session_id': '41d59831-92e1-4c36-88a8-9a73f3597e5a'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesada en inscripción para su hijo Diego Pérez López a Secundaria 1 (ciclo próximo agosto 2026). Nació 05-mar-2013. Actualment[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Diego', 'student_last_name_paternal': 'Pérez', 'grade_interest': 'Secundaria 1', 'current_school': 'IEST', 'contact_email': 'maria.lopez@test.com', 'contact_phone': '871-555-0001'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_status_inq_6717a06d', 'contact_phone': '871-555-0001'}
+[admissions] contact found {'contact_id': 'c4061c28-8ca1-42a8-bd7e-d9264c9647ec'}
+[admissions] lead created {'lead_id': 'e6302563-0ea6-4c04-aa02-463ab246840d', 'lead_number': 139}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Diego","student_middle_name":null,"student_last_name_paternal":"Pérez","student_last_name_maternal":"López","student_[0m
+[2m     Result: Lead creado con folio L-139.[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Con los datos que me
+  compartes: Diego Pérez López (05-mar-2013) *sí corresponde a
+  Secundaria 1 para el ciclo 2026-2027 (inicio agosto 2026)*. Perfecto.
+  ✅  Ya registré su información y tus datos de contacto.  ¿Te gustaría
+  que agendemos una *visita al campus* para conocer la secundaria y
+  resolver dudas del proceso?   Dime por favor qué día te acomoda más
+  entre semana y si prefieres *en la mañana (8am-12pm)* o *en la tarde
+  (12pm-3pm)*.
+[1m[32m👤 User:[0m ¿Cómo va mi proceso de admisión? ¿Cuál es mi estatus?
+[admissions] loading session messages {'session_id': '41d59831-92e1-4c36-88a8-9a73f3597e5a'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Diego Pérez (Folio L-139)
+Estado actual: Registro recibido, pendiente de contacto[0m
+[1m[34m🤖 Bot:[0m
+  Tu proceso va en *etapa inicial*.  En este momento, tu estatus para
+  Diego (Folio L-139) aparece como: *Registro recibido, pendiente de
+  contacto*.  Si gustas, puedo ayudarte a avanzar al siguiente paso
+  agendando una *visita al campus* (lun-vie, 8:00 am a 3:00 pm).   ¿Qué
+  día entre semana te conviene y si la prefieres en *mañana* o *tarde*?
+[2mℹ️  ASSERT PASS [status-new]: Found ['status', 'registro', 'recibido'][0m
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+  [test] Set lead e6302563… → visit_scheduled
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[1m[32m👤 User:[0m ¿Ya me pueden confirmar el estatus de mi inscripción?
+[admissions] loading session messages {'session_id': '41d59831-92e1-4c36-88a8-9a73f3597e5a'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Diego Pérez (Folio L-139)
+Estado actual: Visita al campus programada
+Historial reciente: new → visit_scheduled[0m
+[1m[34m🤖 Bot:[0m
+  Sí. En el sistema, el estatus actual de Diego (Folio L-139) es:
+  *visita al campus programada*.  Esto significa que el siguiente paso
+  de tu proceso es asistir a la visita para continuar con la evaluación
+  y requisitos de admisión.  ¿Quieres que te confirme *fecha y hora* de
+  la visita que quedó agendada?
+[2mℹ️  ASSERT PASS [status-visit-scheduled]: Found ['visita', 'programada'][0m
+[2mℹ️  Chat ID: b97c23d4-0c6d-4d6c-ba0c-56813ab5168d[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 6: Long conversation (12+ exchanges)
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat f37722bb… (wa_id=test3_long_conv_b9c725d3)[0m
+[1m[32m👤 User:[0m Hola
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 99 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Soy Vale, del área de admisiones del Colegio Americano de
+  Torreón. ¿Qué te gustaría conocer?
+[1m[32m👤 User:[0m Quiero información sobre el colegio para mi hijo
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 556 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Con gusto! 😊 Para orientarte mejor, ¿tu hijo estaría entrando a
+  *kínder, primaria, secundaria o prepa*?  Mientras me confirmas, te
+  cuento en general: en el CAT tenemos un enfoque bilingüe (inglés-
+  español), formación académica sólida y muchas actividades de campus
+  (deportes y artes).   Las actividades vespertinas (after-school)
+  comienzan *a partir de Preschool* (no hay para Prenursery/Nursery).
+  Si me dices la edad o *fecha de nacimiento* de tu hijo, también puedo
+  decirte exactamente qué grado le corresponde para el ciclo que inicia
+  en *agosto 2026*.
+[1m[32m👤 User:[0m ¿Qué niveles manejan?
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 277 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Manejamos estos niveles:  - *Early Childhood (Preescolar)*: Prenursery
+  (desde 2 años), Nursery, Preschool y Kindergarten   - *Primaria* (1º a
+  6º)   - *Secundaria* (1º a 3º)   - *Bachillerato / Prepa* (1º a 3º)
+  ¿Para qué nivel te interesa ingresar a tu hijo (o qué edad tiene)?
+[1m[32m👤 User:[0m Me interesa primaria
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 296 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Perfecto! En *Primaria* tenemos de *1º a 6º*.  Para decirte
+  exactamente qué grado le corresponde para el ciclo que inicia en
+  *agosto 2026*, ¿me compartes la *fecha de nacimiento* de tu hijo
+  (día/mes/año)?    Y si ya sabes: ¿a qué grado te gustaría que entrara
+  y de qué escuela viene actualmente?
+[1m[32m👤 User:[0m ¿Qué deportes tienen?
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 329 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  En Primaria contamos con deportes (a partir de *1º de Primaria*) como:
+  *soccer, básquetbol, natación, tennis, atletismo, tae kwon do, volley,
+  yoga y tochito*.  ¿Tu hijo ya está en 1º de Primaria o entraría a 1º?
+  Si me dices su *fecha de nacimiento*, te confirmo el grado que le toca
+  para agosto 2026 y lo que aplica para su edad.
+[1m[32m👤 User:[0m ¿Tienen robótica?
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 357 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, sí tenemos *robótica* 🙂 Participamos en FIRST y hay programas por
+  etapas:  - *1º a 3º de Primaria*: FLL Explore   - *4º a 6º de
+  Primaria*: FLL Challenge   (Ya en secundaria y prepa también hay
+  niveles más avanzados.)  ¿A qué grado entraría tu hijo o cuál es su
+  *fecha de nacimiento*? Con eso te ubico en el nivel correcto para el
+  ciclo de *agosto 2026*.
+[1m[32m👤 User:[0m Mi hijo se llama Carlos Hernández Vega, nació el 10 de octubre de 2018. Está en kínder 3 en el Cerva…
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Carlos', 'student_last_name_paternal': 'Hernández', 'grade_interest': 'Primaria 2', 'current_school': 'Cervantes', 'contact_email': None, 'contact_phone': None}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_long_conv_b9c725d3', 'contact_phone': 'test3_long_conv_b9c725d3'}
+[admissions] contact created {'contact_id': 'c2ee2574-331b-4ccc-8b41-ff8369eff04e'}
+[admissions] lead created {'lead_id': 'a122f549-4b48-4a1d-a38f-0cde3d4a75a8', 'lead_number': 140}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Carlos","student_middle_name":null,"student_last_name_paternal":"Hernández","student_last_name_maternal":"Vega","stud[0m
+[2m     Result: Lead creado con folio L-140.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en Primaria. Preguntan por deportes y programa de robótica FIRST. Alumno: Carlos Hernández Vega (10/10/2018). A[0m
+[2m     Result: Nota agregada al lead L-140 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Gracias por los datos. Ya quedó registrado el interés de tu hijo.  Por
+  su fecha de nacimiento (*10/oct/2018*), para el ciclo que inicia en
+  *agosto 2026* a Carlos le corresponde *2º de Primaria* (Primaria 2).
+  Como viene de *Kínder 3* en el Cervantes, el siguiente paso ideal es
+  agendar una *visita al campus* para que conozcan Primaria, y de paso
+  platicar del programa de *robótica FIRST* y las actividades deportivas
+  (incluyendo *natación*, soccer, básquet, etc.).  ¿Te gustaría agendar
+  esa visita?   Si sí: ¿qué días te acomodan más entre semana y
+  prefieres *mañana (8am-12pm)* o *tarde (12pm-3pm)*?
+[1m[32m👤 User:[0m Yo soy Pedro Hernández, 871-111-2222, pedro.hernandez@test.com
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] update lead payload {'school_year': '2026-2027', 'current_school': 'Colegio Cervantes', 'contact_first_name': 'Pedro', 'contact_last_name_paternal': 'Hernández', 'contact_email': 'pedro.hernandez@test.com', 'contact_phone': '871-111-2222', 'relationship': 'Padre'}
+[admissions] lead updated {'lead_id': 'a122f549-4b48-4a1d-a38f-0cde3d4a75a8', 'updates': {'school_year': '2026-2027', 'current_school': 'Colegio Cervantes', 'contact_email': 'pedro.hernandez@test.com', 'contact_phone': '871-111-2222', 'contact_first_name': 'Pedro', 'contact_last_name_paternal': 'Hernández', 'contact_name': 'Pedro Hernández', 'metadata': {'relationship': 'Padre'}}}
+[admissions] contact updated {'contact_id': 'c2ee2574-331b-4ccc-8b41-ff8369eff04e', 'updates': {'first_name': 'Pedro', 'last_name_paternal': 'Hernández', 'email': 'pedro.hernandez@test.com', 'phone': '871-111-2222', 'whatsapp_wa_id': 'test3_long_conv_b9c725d3'}}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":null,"student_middle_name":null,"student_last_name_paternal":null,"student_last_name_maternal":null,"student_dob":null[0m
+[2m     Result: Lead L-140 actualizado.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interesado en Primaria para su hijo Carlos Hernández Vega (DOB 10/10/2018). Actualmente en Kínder 3 en Colegio Cervantes. Pregunta[0m
+[2m     Result: Nota agregada al lead L-140 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  ¡Gracias, Pedro! Listo, ya actualicé los datos de contacto y la info
+  de Carlos (para *agosto 2026* le corresponde *2º de Primaria*).  Para
+  agendar su *visita al campus* (lun-vie, *8:00 am a 3:00 pm*), ¿qué te
+  acomoda más? 1) ¿Qué días entre semana te sirven? (por ejemplo:
+  lunes/miércoles o jueves/viernes)   2) ¿Prefieres *mañana* (8-12) o
+  *tarde* (12-3)?
+[1m[32m👤 User:[0m ¿Cuándo puedo ir a conocer las instalaciones?
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 16 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-05 to 2026-03-19 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-05","end_date":"2026-03-19","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Jueves 5 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 2: Jueves 5 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Jueves 5 de marzo de 2026, 1[0m
+[1m[34m🤖 Bot:[0m
+  ¡Claro! Tengo estos horarios disponibles para que vengas a conocer las
+  instalaciones (hora local Torreón):  - *1)* Jue 5 mar, 9:00–10:00 am
+  - *2)* Jue 5 mar, 10:00–11:00 am   - *3)* Jue 5 mar, 11:00 am–12:00 pm
+  - *4)* Jue 5 mar, 12:00–1:00 pm   - *5)* Jue 5 mar, 1:00–2:00 pm   -
+  *6)* Vie 6 mar, 8:00–9:00 am   - *7)* Vie 6 mar, 9:00–10:00 am   -
+  *8)* Vie 6 mar, 10:00–11:00 am    ¿Cuál opción te gustaría apartar?
+  (puedes decirme “la 2”, “viernes a las 9”, etc.)
+[1m[32m👤 User:[0m Prefiero por la mañana, ¿qué tienen la próxima semana?
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 18 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-09 to 2026-03-13 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-09","end_date":"2026-03-13","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 9 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 9 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Lunes 9 de marzo de 2026, 10:00 [0m
+[1m[34m🤖 Bot:[0m
+  Para *la próxima semana por la mañana* tengo estos horarios
+  disponibles (hora local Torreón):  - *1)* Lun 9 mar, 8:00–9:00 am   -
+  *2)* Lun 9 mar, 9:00–10:00 am   - *3)* Lun 9 mar, 10:00–11:00 am   -
+  *4)* Lun 9 mar, 11:00 am–12:00 pm   - *5)* Mar 10 mar, 8:00–9:00 am
+  - *6)* Mar 10 mar, 9:00–10:00 am   - *7)* Mar 10 mar, 10:00–11:00 am
+  - *8)* Mar 10 mar, 11:00 am–12:00 pm    ¿Cuál te aparto? (puedes decir
+  “la 6” o “martes a las 9”).
+[1m[32m👤 User:[0m ¿Dónde queda exactamente el campus?
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 20 msgs | Pending: 1[0m
+[2mℹ️  LLM: 293 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  El campus está en:  *C. P.º del Algodón 500, Los Viñedos, 27023
+  Torreón, Coah.*  Para visitas, la entrada es por *Puerta 3* (por la
+  caseta del reloj).  Ubicación en Maps:
+  https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  Cuando me confirmes el
+  horario (por ejemplo “martes 10 a las 9”), te la aparto.
+[2mℹ️  ASSERT PASS [long-conv-location]: Found ['viñedos', 'algodón', '500', 'torreón'][0m
+[1m[32m👤 User:[0m Gracias por todo
+[admissions] loading session messages {'session_id': '79437d4b-4721-4c8e-8310-5746667bb1db'}
+[2mℹ️  History: 22 msgs | Pending: 1[0m
+[2mℹ️  LLM: 185 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Con gusto, Pedro! Si quieres, también puedo *apartarte la visita*
+  para la próxima semana por la mañana.  ¿Cuál horario prefieres? - Lun
+  9: 8, 9, 10 u 11 am   - Mar 10: 8, 9, 10 u 11 am
+[2mℹ️  Chat ID: f37722bb-a2c6-45c0-a8b8-3040a5108c31[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 7: Multi-session continuity
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 4d7e7480… (wa_id=test3_multi_sess_6fc26c79)[0m
+
+  ╔══ SESSION 1: Registro ══╗
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hija Ana Sofía Ruiz Martínez en primaria 1. Nació el 2 de diciembre de 2…
+[admissions] loading session messages {'session_id': 'bf43382f-2a36-480a-8520-ae81fd251e0c'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés de inscripción para su hija Ana Sofía Ruiz Martínez a Primaria 1. Fecha de nacimiento: 02-dic-2019. Escuela actual: Montes[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'Ruiz', 'grade_interest': 'Primaria 1', 'current_school': 'Montessori', 'contact_email': 'laura.martinez@test.com', 'contact_phone': '871-444-5555'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_multi_sess_6fc26c79', 'contact_phone': '871-444-5555'}
+[admissions] contact found {'contact_id': 'a31a515a-b938-46ac-823b-1c4d78abf45c'}
+[admissions] lead created {'lead_id': '3030ee60-9eaa-4b74-aef5-c77456d91747', 'lead_number': 141}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":"Sofía","student_last_name_paternal":"Ruiz","student_last_name_maternal":"Martínez","stude[0m
+[2m     Result: Lead creado con folio L-141.[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. Con gusto te ayudo, Laura.  Ya registré la
+  información de tu hija *Ana Sofía Ruiz Martínez* para ingreso al ciclo
+  *Agosto 2026*.  Sobre el grado: con fecha de nacimiento *02-dic-2019*,
+  para el ciclo *2026-2027* a Ana Sofía le corresponde *Primaria 1*
+  (está dentro del rango 01-ago-2019 a 31-jul-2020), así que *sí
+  aplica*.  ¿Te gustaría que agendemos una *visita al campus*?   Dime
+  por favor qué días te acomodan (entre semana) y si prefieres *por la
+  mañana (8am-12pm)* o *por la tarde (12pm-3pm)*, y te comparto horarios
+  disponibles.
+[1m[32m👤 User:[0m Cierra la conversación por favor
+[admissions] loading session messages {'session_id': 'bf43382f-2a36-480a-8520-ae81fd251e0c'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 128 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Claro. ¿Te gustaría finalizar esta conversación ahora? En cuanto me
+  confirmes, generaré un resumen de lo que vimos y la cerraré.
+[1m[32m👤 User:[0m Sí
+[admissions] loading session messages {'session_id': 'bf43382f-2a36-480a-8520-ae81fd251e0c'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'Familia: Tutor Laura Martínez (tel 871-444-5555, correo laura.martinez@test.com). Solicita inscripción para su hija Ana Sofía Ruiz Martínez a Primaria 1 para el ciclo Agosto 2026. Alumna nacida el 02-dic-2019; se validó que sí corresponde a Primaria 1 para ciclo 2026-2027 (rango 01-ago-2019 a 31-jul-2020). Escuela de procedencia: Montessori. Se ofreció agendar visita al campus y se solicitó preferencia de días/horario, sin que se programara cita aún. Usuario pidió cerrar conversación y confirmó cierre.', 'reason': 'Usuario solicitó cerrar la conversación.'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"Familia: Tutor Laura Martínez (tel 871-444-5555, correo laura.martinez@test.com). Solicita inscripción para su hija Ana Sofía Ru[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, la conversación quedó cerrada.  Resumen: Quieres inscribir a tu
+  hija *Ana Sofía Ruiz Martínez* a *Primaria 1* para *Agosto 2026*;
+  nació el *02-dic-2019* (sí corresponde a Primaria 1) y viene de
+  *Montessori*. Quedó pendiente agendar una *visita al campus* en
+  horario de lunes a viernes de 8:00 am a 3:00 pm.  Cuando gustes,
+  puedes escribirnos de nuevo y con gusto la agendamos.
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+
+  ╔══ SESSION 2: Regresa y pregunta estatus ══╗
+[1m[32m👤 User:[0m Hola, soy Laura Martínez otra vez. ¿Cómo va el proceso de mi hija?
+[admissions] loading session messages {'session_id': '4498c0cf-5d08-48c8-99f1-138df53e4774'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Ana Ruiz (Folio L-141)
+Estado actual: Registro recibido, pendiente de contacto[0m
+[1m[34m🤖 Bot:[0m
+  Hola Laura, con gusto te actualizo.  En este momento el estatus de tu
+  hija (Folio *L-141*) aparece como: *Registro recibido, pendiente de
+  contacto*.  Si gustas, puedo apoyar dejando una nota para que el
+  equipo de admisiones te contacte a la brevedad. ¿Prefieres que te
+  llamen o que te escriban por WhatsApp?
+[2mℹ️  ASSERT PASS [multi-session-recall]: Found ['registro'][0m
+[2mℹ️  Chat ID: 4d7e7480-a388-40e0-84c4-163578ee7570[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 8: Edge cases
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 3bafc2e6… (wa_id=test3_edge_cases_8f0b3ce0)[0m
+[1m[32m👤 User:[0m Quiero inscribir a mi hijo en preparatoria, nació en 2020
+[admissions] loading session messages {'session_id': '5eb56718-83f2-4f9c-8819-cd73187c44d9'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 647 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Sobre lo que me comentas:
+  *si tu hijo nació en 2020, no corresponde a preparatoria todavía* (por
+  edad estaría en nivel *primaria/kínder*, según su fecha exacta de
+  nacimiento). Para *preparatoria* normalmente son nacimientos alrededor
+  de *2008–2011* para el ciclo que inicia en *agosto 2026*.  ¿Me
+  compartes la *fecha completa de nacimiento (día/mes/año)* para decirte
+  con precisión qué grado le corresponde para *agosto 2026*?   Y si
+  gustas, también dime si tu interés era *para él* o tal vez para *otro
+  hijo* que sí esté en edad de prepa.
+[2mℹ️  ASSERT PASS [edge-dob-mismatch]: Found ['no', 'corresponde', 'edad'][0m
+[1m[32m👤 User:[0m Tengo gemelos nacidos el 5 de mayo de 2018: Ana García Pérez y Luis García Pérez. Están en 2do prima…
+[admissions] loading session messages {'session_id': '5eb56718-83f2-4f9c-8819-cd73187c44d9'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 2 tools[0m
+[admissions] create lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'García', 'grade_interest': 'Primaria 3', 'current_school': 'Montessori', 'contact_email': 'carmen.perez@test.com', 'contact_phone': '871-666-7777'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_edge_cases_8f0b3ce0', 'contact_phone': '871-666-7777'}
+[admissions] contact found {'contact_id': '0ec070e5-a95a-4199-bc76-d834245347d4'}
+[admissions] lead created {'lead_id': 'a09c8ddf-6e02-4257-90f9-60cb8183522b', 'lead_number': 142}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":null,"student_last_name_paternal":"García","student_last_name_maternal":"Pérez","student_d[0m
+[2m     Result: Lead creado con folio L-142.[0m
+[admissions] create lead payload {'student_first_name': 'Luis', 'student_last_name_paternal': 'García', 'grade_interest': 'Primaria 3', 'current_school': 'Montessori', 'contact_email': 'carmen.perez@test.com', 'contact_phone': '871-666-7777'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_edge_cases_8f0b3ce0', 'contact_phone': '871-666-7777'}
+[admissions] contact found {'contact_id': '0ec070e5-a95a-4199-bc76-d834245347d4'}
+[admissions] lead created {'lead_id': '7476354d-7f53-44bf-9011-dc050904328b', 'lead_number': 143}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Luis","student_middle_name":null,"student_last_name_paternal":"García","student_last_name_maternal":"Pérez","student_[0m
+[2m     Result: Lead creado con folio L-143.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en inscribir gemelos Ana García Pérez y Luis García Pérez (DOB 2018-05-05), actualmente en 2º primaria en Monte[0m
+[2m     Result: Nota agregada al lead L-143 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, Carmen, gracias por compartir toda la información.  Por la
+  fecha de nacimiento *05/mayo/2018*, para el ciclo que inicia en
+  *agosto 2026* a Ana y Luis les corresponde *Primaria 3* (el rango para
+  Primaria 3 es del *01-ago-2018 al 31-jul-2019*). Como nacieron antes
+  (mayo 2018), *por edad correspondería Primaria 4*; en estos casos lo
+  que se revisa es el *grado actual* y la *trayectoria escolar* para
+  ubicarles el grado correcto. Como me dices que hoy van en *2º de
+  primaria* en Montessori, lo canalizamos para validación académica y
+  equivalencias.    Ya dejé registrados a *Ana García Pérez* y *Luis
+  García Pérez* con tus datos de contacto.  ¿Te gustaría que agendemos
+  una *visita al campus* para conocer primaria y platicar de la
+  colocación de grado?   Si sí, dime por favor qué días te acomodan más
+  (entre semana) y si prefieres *mañana (8am-12pm)* o *tarde
+  (12pm-3pm)*.
+[2mℹ️  ASSERT PASS [edge-twins]: Found ['ana', 'luis', 'registr'][0m
+[1m[32m👤 User:[0m ok
+[admissions] loading session messages {'session_id': '5eb56718-83f2-4f9c-8819-cd73187c44d9'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Confirma interés en visita al campus para Ana García Pérez y Luis García Pérez (gemelos). Nacidos 05-mayo-2018. Actualmente en 2º [0m
+[2m     Result: Nota agregada al lead L-143 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['update_admissions_lead', 'update_admissions_lead'][0m
+[admissions] update lead payload {'student_first_name': 'Ana', 'student_last_name_paternal': 'García', 'student_last_name_maternal': 'Pérez', 'student_dob': '2018-05-05', 'grade_interest': 'Primaria 3', 'school_year': '2026-2027', 'current_school': 'Montessori', 'contact_first_name': 'Carmen', 'contact_last_name_paternal': 'Pérez', 'contact_email': 'carmen.perez@test.com', 'contact_phone': '871-666-7777', 'relationship': 'Madre', 'qualification_status': 'qualified'}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":"Ana","student_middle_name":null,"student_last_name_paternal":"García","student_last_name_maternal":"Pérez","student_d[0m
+[2m     Result: Error: {'message': 'Missing response', 'code': '204', 'hint': 'Please check traceback of the code', 'details': "Postgrest couldn't retrieve response, please check traceback of the code. Please create [0m
+[admissions] update lead payload {'student_first_name': 'Luis', 'student_last_name_paternal': 'García', 'student_last_name_maternal': 'Pérez', 'student_dob': '2018-05-05', 'grade_interest': 'Primaria 3', 'school_year': '2026-2027', 'current_school': 'Montessori', 'contact_first_name': 'Carmen', 'contact_last_name_paternal': 'Pérez', 'contact_email': 'carmen.perez@test.com', 'contact_phone': '871-666-7777', 'relationship': 'Madre', 'qualification_status': 'qualified'}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":"Luis","student_middle_name":null,"student_last_name_paternal":"García","student_last_name_maternal":"Pérez","student_[0m
+[2m     Result: Error: {'message': 'Missing response', 'code': '204', 'hint': 'Please check traceback of the code', 'details': "Postgrest couldn't retrieve response, please check traceback of the code. Please create [0m
+[2mℹ️  Followup round 2: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-03-05 to 2026-03-13 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-05","end_date":"2026-03-13","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Jueves 5 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 2: Jueves 5 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Jueves 5 de marzo de 2026, 1[0m
+[1m[34m🤖 Bot:[0m
+  Listo, Carmen — con gusto agendamos la visita para conocer *Primaria*
+  y revisar la *colocación de grado* para Ana y Luis. Ya dejé nota con
+  su caso (gemelos, nacidos 05/mayo/2018, actualmente en 2º en
+  Montessori).    Tengo estos horarios disponibles (hora Torreón):  1)
+  Jue 5 mar 9:00–10:00   2) Jue 5 mar 10:00–11:00   3) Jue 5 mar
+  11:00–12:00   4) Jue 5 mar 12:00–1:00   5) Jue 5 mar 1:00–2:00   6)
+  Vie 6 mar 8:00–9:00   7) Vie 6 mar 9:00–10:00   8) Vie 6 mar
+  10:00–11:00    ¿Cuál opción te funciona mejor? (respóndeme con el
+  número)
+[2mℹ️  Chat ID: 3bafc2e6-fcf6-4f7a-aa02-4185c60b18f4[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 9: Exercise all tools
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 61305425… (wa_id=test3_all_tools_d4f1a8b3)[0m
+
+  ── Tool: create_admissions_lead ──
+[1m[32m👤 User:[0m Quiero inscribir a mi hijo Marco Ruiz Vega en secundaria 1. Nació el 3 de septiembre de 2013, viene …
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Marco', 'student_last_name_paternal': 'Ruiz', 'grade_interest': 'Secundaria 1', 'current_school': 'Lancaster', 'contact_email': 'patricia.vega@test.com', 'contact_phone': '871-333-4444'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_all_tools_d4f1a8b3', 'contact_phone': '871-333-4444'}
+[admissions] contact found {'contact_id': '9ba71c58-1a4f-4e1d-837f-bb5610916987'}
+[admissions] lead created {'lead_id': 'f14189f5-2d0f-4770-b999-30a36fa30b76', 'lead_number': 144}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Marco","student_middle_name":null,"student_last_name_paternal":"Ruiz","student_last_name_maternal":"Vega","student_do[0m
+[2m     Result: Lead creado con folio L-144.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en Secundaria 1 (ciclo 2026-2027). Alumno: Marco Ruiz Vega, DOB 03/sep/2013. Proviene de Lancaster. Contacto: P[0m
+[2m     Result: Nota agregada al lead L-144 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 2: ['get_next_event'][0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Con gusto te ayudo con el ingreso de *Marco Ruiz Vega* a
+  *Secundaria 1*.  Por la fecha de nacimiento que compartes
+  (*03-sep-2013*), *sí le corresponde Secundaria 1 para el ciclo
+  2026-2027 (agosto 2026 a junio 2027).*   También ya quedó registrado
+  que actualmente viene del *Lancaster* y tus datos de contacto,
+  Patricia.  El siguiente paso ideal es agendar una *visita al campus*
+  (lun-vie de *8:00 am a 3:00 pm*) para que conozcan secundaria y
+  podamos orientarles con el proceso.  ¿Qué días y en qué horario te
+  conviene más venir: *por la mañana* o *por la tarde*?
+
+  ── Tool: update_admissions_lead ──
+[1m[32m👤 User:[0m Perdón, el nombre correcto es Marcos, no Marco
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] update lead payload {'student_first_name': 'Marcos'}
+[admissions] lead updated {'lead_id': 'f14189f5-2d0f-4770-b999-30a36fa30b76', 'updates': {'student_first_name': 'Marcos'}}
+[admissions] contact updated {'contact_id': '9ba71c58-1a4f-4e1d-837f-bb5610916987', 'updates': {'whatsapp_wa_id': 'test3_all_tools_d4f1a8b3'}}
+[33m  🔧 update_admissions_lead[0m
+[2m     Args: {"student_first_name":"Marcos","student_middle_name":null,"student_last_name_paternal":null,"student_last_name_maternal":null,"student_dob":[0m
+[2m     Result: Lead L-144 actualizado.[0m
+[1m[34m🤖 Bot:[0m
+  ¡Gracias por la aclaración! Ya actualicé el nombre a *Marcos Ruiz
+  Vega*.  ¿Te conviene más agendar la visita al campus *por la mañana
+  (8:00 am–12:00 pm)* o *por la tarde (12:00 pm–3:00 pm)*?   Y si tienes
+  1–2 días de preferencia entre semana, dime cuáles para buscar
+  disponibilidad.
+
+  ── Tool: add_lead_note ──
+[1m[32m👤 User:[0m Le interesa mucho la robótica y el fútbol, por favor anótalo
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Alumno (Marcos Ruiz Vega) interesado en Robótica y fútbol.","subject":"Intereses del alumno"}[0m
+[2m     Result: Nota agregada al lead L-144 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya quedó anotado que a *Marcos* le interesa mucho *robótica* y
+  *fútbol*.  En CAT contamos con *Robótica FIRST* (en secundaria suele
+  ser *FTC*) y deportes como *soccer*; con gusto en la visita te
+  platican opciones y horarios.  ¿Te conviene más la visita *por la
+  mañana* o *por la tarde*? ¿Qué días entre semana te acomodan?
+
+  ── Tool: get_admission_requirements ──
+[1m[32m👤 User:[0m ¿Me envían los requisitos de secundaria en PDF?
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] fetching requirements for middle_school
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/middle_school/1766895193415-04_Admission_Requirements_Middle_School.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: Error al enviar el documento: (#131009) Parameter value is not valid[0m
+[1m[34m🤖 Bot:[0m
+  Claro, con gusto te los envío, pero en este momento el sistema no me
+  permitió generar el PDF de *Secundaria* (me marcó un error).  ¿Me
+  confirmas por favor si lo necesitas para *Secundaria (Middle School)*
+  o para *Preparatoria (High School)*? En cuanto me confirmes, lo
+  intento de nuevo y te lo mando por aquí mismo.
+
+  ── Tool: get_next_event ──
+[1m[32m👤 User:[0m ¿Tienen algún evento próximo para secundaria?
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 9 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_next_event[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: No hay eventos proximos para esa division.[0m
+[2mℹ️  Followup round 1: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés del alumno Marcos Ruiz Vega en Robótica y fútbol. Solicita requisitos de Secundaria en PDF. Pregunta por evento próximo de[0m
+[2m     Result: Nota agregada al lead L-144 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Por el momento *no tenemos un evento próximo programado para
+  Secundaria*.  Si te parece, podemos avanzar con una *visita al campus*
+  (lun-vie, *8:00 am a 3:00 pm*) para que conozcan el área de Middle
+  School y les platiquen de *robótica (FIRST/FTC)* y *soccer*.  ¿Qué
+  días entre semana y en qué horario te conviene más: *mañana* o
+  *tarde*?
+
+  ── Tool: search_availability_slots ──
+[1m[32m👤 User:[0m Quiero agendar visita, ¿qué tienen la próxima semana por la mañana?
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 11 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicitan agendar visita al campus. Prefiere la próxima semana por la mañana. Alumno Marcos Ruiz Vega (DOB 03-sep-2013) interesado[0m
+[2m     Result: Nota agregada al lead L-144 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 1: ['search_availability_slots'][0m
+[admissions] searching slots from 2026-03-09 to 2026-03-13 preferred_time=morning
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-09","end_date":"2026-03-13","preferred_time":"morning"}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Lunes 9 de marzo de 2026, 8:00 AM - 9:00 AM
+- Opción 2: Lunes 9 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 3: Lunes 9 de marzo de 2026, 10:00 [0m
+[1m[34m🤖 Bot:[0m
+  Para la *próxima semana por la mañana* tengo estos horarios
+  disponibles (hora Torreón):  1) Lun 9 mar, 8:00–9:00 am   2) Lun 9
+  mar, 9:00–10:00 am   3) Lun 9 mar, 10:00–11:00 am   4) Lun 9 mar,
+  11:00 am–12:00 pm   5) Mar 10 mar, 8:00–9:00 am   6) Mar 10 mar,
+  9:00–10:00 am   7) Mar 10 mar, 10:00–11:00 am   8) Mar 10 mar, 11:00
+  am–12:00 pm  ¿Cuál opción te gustaría apartar? (dime el número)
+
+  ── Tool: book_appointment ──
+[1m[32m👤 User:[0m La opción 1 por favor
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 13 msgs | Pending: 1[0m
+[admissions] booking appointment for slot c2b81861-55a0-4cb3-b5a7-b26223c49360
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Interés: robótica y fútbol para Marcos Ruiz Vega (Secundaria 1). Viene del Lancaster. Solicita requisitos en PDF para secundaria."[0m
+[2m     Result: Nota agregada al lead L-144 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, queda confirmada tu visita con *Marcos Ruiz Vega*:  *Lunes 9
+  de marzo de 2026*   *8:00 AM – 9:00 AM*  Para ingresar, por favor
+  lleguen por *Puerta 3 (caseta del reloj)*.   Dirección: *C. P.º del
+  Algodón 500, Los Viñedos, 27023 Torreón, Coah.*   Maps:
+  https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  ¿Vendrás solo tú o te
+  acompañará alguien más?
+
+  ── Tool: cancel_appointment ──
+[1m[32m👤 User:[0m Necesito cancelar la cita, me surgió un compromiso de trabajo
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 15 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] cancelling appointment, reason: Compromiso de trabajo
+[admissions] appointment fb6e201e-3911-47af-82a0-3fc842c67655 cancelled successfully
+[33m  🔧 cancel_appointment[0m
+[2m     Args: {"cancellation_reason":"Compromiso de trabajo"}[0m
+[2m     Result: Cita cancelada exitosamente. El lead ha sido actualizado. Intenta convencer al usuario de agendar otra visita preguntando qué fechas le convendrían mejor.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya quedó *cancelada* la cita por tu *compromiso de trabajo*.
+  ¿Te parece si la reagendamos?   Dime por favor qué días de la próxima
+  semana te acomodan mejor (lun-vie) y si prefieres *por la mañana
+  (8:00–12:00)* o *por la tarde (12:00–3:00)*, y busco horarios
+  disponibles.
+
+  ── Tool: get_lead_status ──
+[1m[32m👤 User:[0m ¿Cuál es mi estatus de admisión?
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 17 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 get_lead_status[0m
+[2m     Args: {}[0m
+[2m     Result: Alumno: Marcos Ruiz (Folio L-144)
+Estado actual: El equipo ya te contactó, en espera de avanzar
+Historial reciente: visit_scheduled → contacted, new → visit_scheduled[0m
+[1m[34m🤖 Bot:[0m
+  Tu estatus de admisión para *Marcos (folio L-144)* está en:
+  *contacted*.  Esto significa que *ya te contactamos* y estamos *en
+  espera de avanzar al siguiente paso* (normalmente, agendar la visita o
+  iniciar el proceso de solicitud).  Si quieres, lo retomamos de
+  inmediato: ¿qué días te convienen para reagendar la visita y prefieres
+  *mañana* o *tarde*?
+[2mℹ️  ASSERT PASS [all-tools-status]: Found ['status', 'proceso'][0m
+
+  ── Tool: close_chat_session ──
+[1m[32m👤 User:[0m Cierra la conversación por favor
+[admissions] loading session messages {'session_id': 'a65e8e0a-5d87-4671-a869-5d304f767ce5'}
+[2mℹ️  History: 19 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] close session payload {'summary': 'Patricia Vega solicitó información de admisiones para su hijo Marcos Ruiz Vega (corrigió nombre; inicialmente “Marco”). Interés: Secundaria 1 para ciclo 2026-2027. Fecha de nacimiento: 03-sep-2013 (corresponde a Secundaria 1). Escuela de procedencia: Lancaster. Datos de contacto proporcionados: 871-333-4444, patricia.vega@test.com. Se registró interés del alumno en robótica y fútbol. Solicitó requisitos en PDF de Secundaria (hubo envío/solicitud de PDF en el chat) y preguntó por eventos próximos de Secundaria. Se buscó agenda y se apartó visita opción 1 (Lun 9-mar-2026 8:00–9:00 am), posteriormente se canceló por compromiso de trabajo. Consultó estatus de admisión: contacted. No se reagendó nueva cita antes de cerrar.', 'reason': 'Usuario solicitó cerrar la conversación'}
+[33m  🔧 close_chat_session[0m
+[2m     Args: {"summary":"Patricia Vega solicitó información de admisiones para su hijo Marcos Ruiz Vega (corrigió nombre; inicialmente “Marco”). Interés:[0m
+[2m     Result: Sesión cerrada correctamente y resumen guardado.[0m
+[1m[34m🤖 Bot:[0m
+  Listo, ya cerré la conversación.  Resumen de lo que vimos: - Alumno:
+  *Marcos Ruiz Vega* (Secundaria 1, ciclo *2026-2027*), nacido
+  *03-sep-2013*; viene del *Lancaster*. - Tutor: *Patricia Vega* |
+  871-333-4444 | patricia.vega@test.com - Intereses: *robótica* y
+  *fútbol*. - Se agendó visita (lun 9-mar-2026 8:00–9:00 am) y se
+  *canceló* por compromiso de trabajo. - Estatus de admisión:
+  *contacted*.  Cuando gustes, me escribes para reagendar la visita.
+[1m[32m👤 User:[0m Sí, cierra
+[admissions] loading session messages {'session_id': '9c7bcbd0-dc7c-415e-9678-0b278aeba74b'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 147 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¿Te gustaría *finalizar esta conversación ahora*? En cuanto me
+  confirmes con un “sí, adelante”, generaré un resumen de nuestra charla
+  y la cerraré.
+[2mℹ️  Chat ID: 61305425-68da-4c8f-accb-f5539526a4c5[0m
+
+  ⏳ Cooling down 8s …
+
+[1m[36m════════════════════════════════════════════════════════════════
+  SCENARIO 10: Question bombardment
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat 6247c147… (wa_id=test3_bombardment_319e7767)[0m
+[1m[32m👤 User:[0m Hola, tengo muchas preguntas: ¿Qué horarios manejan? ¿Tienen transporte? ¿Cuánto cuesta la inscripci…
+[admissions] loading session messages {'session_id': '423daa1d-48a3-456b-80e8-1adb172c5ec9'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 1398 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al área de admisiones de Colegio
+  Americano de Torreón. ¿Cómo puedo ayudarte?  Te respondo cada punto:
+  *Horarios*   Manejamos jornada escolar por la mañana y el campus está
+  abierto para atención y *visitas* de lunes a viernes de *8:00 a.m. a
+  3:00 p.m.*.   Si me dices *qué grado* te interesa (kínder, primaria,
+  secundaria o prepa), te confirmo el horario específico de esa sección.
+  *Transporte*   No contamos con transporte escolar.  *Costo de
+  inscripción / colegiaturas*   Por este medio no puedo compartir montos
+  exactos. Si gustas, puedo pedir que un asesor de admisiones te
+  contacte para darte la información personalizada según el grado y el
+  ciclo escolar.  *Uniformes*   Sí, se utiliza uniforme. Dependiendo de
+  la sección también hay uniforme para educación física/deportes.
+  *Actividades deportivas*   Sí. A partir de *1º de Primaria* tenemos,
+  por ejemplo: soccer, básquetbol, natación, tennis, atletismo, tae kwon
+  do, volley, yoga y tochito.  *Actividades artísticas (Centro de
+  Artes)*   Sí. A partir de *1º de Primaria* hay opciones como: piano,
+  pintura, guitarra, canto, violín, ballet, baile moderno, teatro,
+  animación digital, entre otras.   En *Preschool/Kínder* hay iniciación
+  deportiva/artística, pero la oferta completa es desde primaria.  Para
+  orientarte mejor: ¿qué grado y para qué ciclo te interesa?
+  (Normalmente el ingreso es para *agosto 2026*).
+[2mℹ️  ASSERT PASS [bombardment-multi-topic]: Found ['horario', 'transporte', 'deporte', 'arte', 'actividad'][0m
+[2mℹ️  ASSERT PASS [bombardment-no-transport]: Found ['no', 'transporte'][0m
+[1m[32m👤 User:[0m Mi hijo se llama Andrés Torres Salazar, nació el 8 de julio de 2017, va en 3ro primaria en el San Ro…
+[admissions] loading session messages {'session_id': '423daa1d-48a3-456b-80e8-1adb172c5ec9'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambio para agosto 2026. Alumno: Andrés Torres Salazar, DOB 08-jul-2017, actualmente 3° primaria en Colegio [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Andrés', 'student_last_name_paternal': 'Torres', 'grade_interest': 'Primaria 4', 'current_school': 'Colegio San Roberto', 'contact_email': None, 'contact_phone': None}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_bombardment_319e7767', 'contact_phone': 'test3_bombardment_319e7767'}
+[admissions] contact created {'contact_id': 'c8f28209-fcf1-4fbc-aa89-9df107b06b2d'}
+[admissions] lead created {'lead_id': '5d36962a-7352-4b0f-80de-76e7b35d653b', 'lead_number': 145}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Andrés","student_middle_name":null,"student_last_name_paternal":"Torres","student_last_name_maternal":"Salazar","stud[0m
+[2m     Result: Lead creado con folio L-145.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, con esos datos ya puedo orientarte mejor.  Por la fecha de
+  nacimiento de tu hijo (08-jul-2017), para el ciclo que inicia en
+  *agosto 2026* le corresponde *4º de Primaria* (va perfecto con el
+  cambio que buscas).  *Becas / descuentos*   Sí contamos con
+  *descuentos por hermanos inscritos simultáneamente*: - *3er hijo
+  inscrito:* 10% en colegiatura (se aplica al hijo *mayor*) - *4º hijo
+  inscrito:* 15% (al hijo *mayor*) - *5º hijo inscrito:* 100% beca en
+  colegiatura   También existe *Beca de Continuidad:* 20% si el alumno
+  ingresó en kínder en CAT y continúa hasta secundaria.  Para decirte
+  cuál aplica en tu caso: ¿cuántos hijos tendrías inscritos al mismo
+  tiempo en el CAT?  *Visita al campus (agendar en este momento)*   Ya
+  quedó creado el registro de tu hijo. Para poder buscar y apartar
+  horario de visita, solo me faltan tus datos como tutor(a): - Nombre
+  completo - Teléfono - Correo - Relación con el alumno
+  (mamá/papá/tutor)  Y dime también: ¿qué días te acomodan más para
+  venir y si prefieres *mañana (8–12)* o *tarde (12–3)*?
+[2mℹ️  Chat ID: 6247c147-299b-4dc4-8e26-aee863901fd2[0m
+
+================================================================
+  TEST SUMMARY: 30/30 passed, 0 failed
+================================================================
+  ✅ [en-1-greeting]: English OK
+  ✅ [en-2-info]: English OK
+  ✅ [en-3-names]: English OK
+  ✅ [en-4-contact]: English OK
+  ✅ [en-5-requirements]: English OK
+  ✅ [en-6-visit]: English OK
+  ✅ [lang-1-start-english]: English OK
+  ✅ [lang-2-continue-english]: English OK
+  ✅ [lang-3-switch-to-spanish]: Spanish OK
+  ✅ [lang-4-continue-spanish]: Spanish OK
+  ✅ [beca-3er-hijo]: Found: ['10%', 'descuento']
+  ✅ [beca-4to-hijo]: Found: ['15%']
+  ✅ [beca-5to-hijo]: Found: ['100%', 'beca']
+  ✅ [beca-continuidad]: Found: ['20%', 'continuidad']
+  ✅ [no-share-prices]: Clean
+  ✅ [redirect-pricing]: Found: ['asesor', 'personalizada']
+  ✅ [grade-aug1-2020]: Found: ['kinder', 'kindergarten']
+  ✅ [grade-jan-2024]: Found: ['prenursery', 'maternal']
+  ✅ [grade-mismatch]: Found: ['no', 'rango', 'asesor', 'corresponde', 'kinder', 'kindergarten']
+  ✅ [status-new]: Found: ['status', 'registro', 'recibido']
+  ✅ [status-visit-scheduled]: Found: ['visita', 'programada']
+  ✅ [long-conv-location]: Found: ['viñedos', 'algodón', '500', 'torreón']
+  ✅ [multi-session-recall]: Found: ['registro']
+  ✅ [edge-dob-mismatch]: Found: ['no', 'corresponde', 'edad']
+  ✅ [edge-twins]: Found: ['ana', 'luis', 'registr']
+  ✅ [edge-short-msg]: Clean
+  ✅ [all-tools-status]: Found: ['status', 'proceso']
+  ✅ [bombardment-multi-topic]: Found: ['horario', 'transporte', 'deporte', 'arte', 'actividad']
+  ✅ [bombardment-no-transport]: Found: ['no', 'transporte']
+  ✅ [bombardment-no-error]: Clean
+================================================================
+

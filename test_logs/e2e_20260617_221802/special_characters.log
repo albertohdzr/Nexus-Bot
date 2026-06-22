@@ -1,0 +1,46 @@
+/Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+[1m[36m════════════════════════════════════════════════════════════════
+  Scenario: special_characters
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat b4f310dd… (wa_id=test3_special_characters_186f45d1)[0m
+
+[35m── Step 1/2 ──[0m
+[1m[32m👤 User:[0m Hola, quiero inscribir a mi hija María José O'Brien-García Müller. Nació el 1 de enero de 2016 y est…
+[admissions] loading session messages {'session_id': '3d124b7d-17f9-44c1-83c5-c051847f725e'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 328 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  ¡Hola! Gracias por comunicarte al área de admisiones de Nexus Core.
+  Estoy aquí para ayudarte con la inscripción de tu hija María José.
+  Antes de continuar, ¿podrías proporcionarme el nombre completo del
+  tutor, su correo y número de teléfono? Con esta información, podré
+  crear el registro para María José y seguir con el proceso.
+
+
+[35m── Step 2/2 ──[0m
+[1m[32m👤 User:[0m Soy Héctor O'Brien, 8714443322, hector.obrien@test.com
+[admissions] loading session messages {'session_id': '3d124b7d-17f9-44c1-83c5-c051847f725e'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'María José', 'student_last_name_paternal': 'Müller', 'grade_interest': 'Primaria 3', 'current_school': 'Heidelberg', 'contact_email': 'hector.obrien@test.com', 'contact_phone': '8714443322'}
+[admissions] contact lookup {'org_id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'wa_id': 'test3_special_characters_186f45d1', 'contact_phone': '8714443322'}
+[admissions] contact created {'contact_id': '5703259f-59d5-4a07-945e-75749fa38fa8'}
+[admissions] lead created {'lead_id': 'b24fab5b-5d9b-4e39-a92c-53bee46670bc', 'lead_number': 99}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"María José","student_middle_name":"O'Brien-García","student_last_name_paternal":"Müller","student_last_name_maternal"[0m
+[2m     Result: Lead creado con folio L-99.[0m
+[1m[34m🤖 Bot:[0m
+  He creado el registro para tu hija María José con folio L-99.   Ahora,
+  me gustaría saber qué días u horarios te convienen para agendar una
+  visita al campus. ¿Tienes alguna preferencia?
+
+[2mℹ️  Chat ID: b4f310dd-544b-4d67-be42-d57fa7368a14 (kept for analysis)[0m
+
+[1m[36m════════════════════════════════════════════════════════════════
+  ✅ Scenario 'special_characters' complete
+════════════════════════════════════════════════════════════════[0m
+

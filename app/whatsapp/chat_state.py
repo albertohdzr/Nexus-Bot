@@ -64,7 +64,8 @@ def pop_chat_state_value(
 
 _LEAD_SELECT_FIELDS = (
     "id, lead_number, metadata, notes, contact_id, "
-    "student_first_name, student_last_name_paternal"
+    "student_first_name, student_last_name_paternal, "
+    "student_last_name_maternal, student_dob"
 )
 
 

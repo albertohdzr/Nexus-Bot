@@ -1,0 +1,329 @@
+
+════════════════════════════════════════════════════════════════
+  [2/4] 32_cuatro_hijos
+  Log file: /Users/alberto/Documents/Codes/CAT/Nexus-Chatbot/test_logs/20260304_000038_32_cuatro_hijos.log
+════════════════════════════════════════════════════════════════
+
+
+[1m[36m════════════════════════════════════════════════════════════════
+  LARGO B: Familia con 4 hijos (~20 msgs)
+════════════════════════════════════════════════════════════════[0m
+
+[supabase] client reset — next call will create a fresh connection
+[supabase] fresh client created (HTTP/1.1, pool limits enforced)
+[2mℹ️  Created chat c0a8258e… (wa_id=test3_cuatro_hijos_v2_6deeef5a)[0m
+[1m[32m👤 User:[0m Hola, tenemos 4 hijos y queremos cambiarlos de escuela todos juntos
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 0 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar de escuela a 4 hijos al mismo tiempo. Solicita informacion sobre proceso/posible descuento por herma[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Hola, gracias por comunicarte al area de admisiones de Colegio
+  Americano de Torreón. ¿Como puedo ayudarte?  ¡Qué bien que estén
+  considerando el cambio juntos! Para *4 hijos inscritos
+  simultáneamente* sí contamos con *descuento por hermanos*: el *4º
+  hijo* obtiene *15% de descuento en colegiatura* (se aplica al hijo
+  *mayor*). También, si llegaran a tener *5 hijos* inscritos, el 5º
+  tendría *100% de beca en colegiatura*.  Para orientarte bien (y
+  decirte por cuál división iría cada quien:
+  preescolar/primaria/secundaria/prepa), ¿me compartes por favor las
+  *fechas de nacimiento* de tus 4 hijos o, si prefieres, las *edades y
+  grados actuales*?
+[1m[32m👤 User:[0m Yo soy Rodrigo Méndez, 871-111-9988, rodrigo.mendez@test.com. Mi esposa es Ana García, 871-333-7766
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 2 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a sus 4 hijos al Colegio Americano de Torreón. Contactos: Rodrigo Méndez (871-111-9988, rodrigo.mend[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias, Rodrigo. Tomo nota de los datos de contacto y que son *4
+  hijos* para cambio de escuela (eso aplica para el *15% de descuento en
+  colegiatura* al hijo *mayor*).    Para poder avanzar y abrir el
+  proceso, necesito los datos de *cada hijo* (se registra a cada uno por
+  separado):  1) Nombre completo de cada hijo   2) *Fecha de nacimiento*
+  de cada uno (obligatoria)   3) Grado al que entraría en *Agosto 2026*
+  (o grado actual)   4) Escuela actual de cada uno    Si te parece,
+  empezamos con el mayor: ¿cómo se llama y cuál es su fecha de
+  nacimiento?
+[1m[32m👤 User:[0m El mayor se llama Santiago Méndez García, nació 15 de enero de 2010. Va en 2do de prepa en el TEC
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 4 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia interesada en cambiar a sus 4 hijos al CAT. Contacto: Rodrigo Méndez (871-111-9988, rodrigo.mendez@test.com). Esposa: Ana [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Perfecto, gracias. Santiago (15/ene/2010) para ingreso en *Agosto
+  2026* normalmente correspondería a *Bachillerato 2* (2º de prepa), así
+  que va alineado con lo que me comentas. 👍  Para poder registrarlo
+  formalmente y después agendar una visita, solo me faltan de Santiago:
+  - ¿Cuál es su *escuela actual*? (¿TEC Campus Laguna, por ejemplo?) -
+  ¿A qué grado les interesa que entre en CAT en Agosto 2026:
+  *Bachillerato 2* o *Bachillerato 3*?  Y luego nos vamos con el segundo
+  hijo: ¿me compartes su *nombre completo* y *fecha de nacimiento*?
+[1m[32m👤 User:[0m La segunda es Isabella Méndez García, nació 3 de mayo de 2013. Va en 6to de primaria en el TEC tambi…
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 6 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia busca cambiar a sus 4 hijos al mismo tiempo. Contacto: Rodrigo Méndez (871-111-9988, rodrigo.mendez@test.com) y esposa Ana[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Isabella (03/may/2013) para ingreso en *Agosto 2026*
+  normalmente corresponde a *Secundaria 1* (1º de secundaria). Esto
+  también va en línea si hoy está en 6º de primaria.  Para seguir
+  avanzando: 1) ¿Confirmas si la escuela actual de ambos es *TEC (Campus
+  Laguna)*? 2) ¿Les interesa que Isabella entre a *Secundaria 1* en
+  Agosto 2026?  Y me faltan tus otros dos hijos para completar el cambio
+  “todos juntos”: ¿me compartes el *nombre completo* y *fecha de
+  nacimiento* del tercero y del cuarto?
+[1m[32m👤 User:[0m El tercero es Mateo Méndez García, nació 20 de agosto de 2016. Está en 3ro de primaria en el TEC
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 8 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia solicita cambio de escuela para 4 hijos. Contacto: Rodrigo Méndez (871-111-9988, rodrigo.mendez@test.com) y esposa Ana Gar[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Mateo (20/ago/2016) para ingreso en *Agosto 2026* corresponde
+  a *Primaria 4* (4º de primaria).  Dos confirmaciones rápidas para ir
+  amarrando todo: - ¿Su escuela actual también es *TEC (Campus Laguna)*?
+  - ¿Les interesa que Mateo entre a *4º de primaria* en Agosto 2026?  Y
+  ya solo nos falta el/la cuarto(a): ¿cómo se llama y cuál es su *fecha
+  de nacimiento*?
+[1m[32m👤 User:[0m Y la más chica es Valentina Méndez García, nació 12 de diciembre de 2020. Está en kínder 2 en el TEC
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 10 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia desea cambiar a sus 4 hijos al CAT juntos. Solicita descuento por hermanos: 4 hijos (aplica 15% al hijo mayor). Contacto: [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Gracias. Valentina (12/dic/2020) para ingreso en *Agosto 2026*
+  correspondería a *Primaria 1* (1º de primaria).   Como ahorita está en
+  *Kínder 2*, esto normalmente significa que en Agosto 2026 estaría
+  lista para 1º, así que va acorde.  Ya con esto, tengo identificadas
+  las divisiones: - Santiago: *Prepa* - Isabella: *Secundaria* - Mateo:
+  *Primaria* - Valentina: *Primaria (1º)*  Para avanzar y poder *agendar
+  una visita al campus* (pueden venir ambos papás y ver áreas de las
+  divisiones), solo necesito confirmar 2 cosas: 1) ¿La escuela actual de
+  los 4 es el *TEC (Campus Laguna)*? 2) ¿Su interés es que *los 4
+  ingresen en Agosto 2026*?  En cuanto me confirmes eso, comienzo a
+  registrar a cada hijo y enseguida vemos *fechas/horarios* para su
+  visita (lun-vie, 8:00 am a 3:00 pm).
+[1m[32m👤 User:[0m ¿Les toca a todos en secciones diferentes verdad?
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 12 msgs | Pending: 1[0m
+[2mℹ️  LLM: 536 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Sí, correcto. Por las edades/fechas de nacimiento que me compartiste,
+  quedarían en *secciones diferentes*:  - *Santiago* (15-ene-2010):
+  *Preparatoria*   - *Isabella* (03-may-2013): *Secundaria*   - *Mateo*
+  (20-ago-2016): *Primaria*   - *Valentina* (12-dic-2020): *Primaria*
+  (para *1º* en agosto 2026)  Si quieren, en la visita podemos organizar
+  para que conozcan en un mismo recorrido las áreas de *Primaria,
+  Secundaria y Prepa*.  ¿Confirmas por favor si los 4 vienen del *TEC
+  (Campus Laguna)* y si el plan es ingresar en *Agosto 2026*?
+[1m[32m👤 User:[0m ¿Tienen descuento por meter a los 4?
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 14 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento por inscribir 4 hijos simultáneamente. Contacto: Rodrigo Méndez (871-111-9988, rodrigo.mendez@test.com) y [0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, por inscribir a *4 hijos simultáneamente* sí hay *descuento por
+  hermanos*:  - *4º hijo inscrito*: *15% de descuento en colegiatura*
+  (se aplica al hijo *mayor*).  Y por si les sirve a futuro: - *3er hijo
+  inscrito*: 10% (al mayor) - *5º hijo inscrito*: 100% de beca en
+  colegiatura  ¿Me confirmas nada más si la idea es que los 4 entren en
+  *Agosto 2026*? Con eso ya puedo avanzar para registrar a cada uno y
+  ayudarte a agendar una visita al campus.
+[1m[32m👤 User:[0m ¿La visita puede ser para toda la familia? ¿O tenemos que ir a cada sección por separado?
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 16 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Familia con 4 hijos quiere cambiarse todos juntos desde TEC. Pregunta si la visita puede ser para toda la familia o si deben ir po[0m
+[2m     Result: Aún no hay un lead registrado, pero guardé la nota pendiente. Se agregará automáticamente cuando se cree el lead.[0m
+[1m[34m🤖 Bot:[0m
+  Sí, la visita puede ser *para toda la familia*. De hecho, en casos
+  como el de ustedes (con hijos en *Primaria, Secundaria y Prepa*) lo
+  ideal es hacer *una sola visita* y durante el recorrido ver las áreas
+  de cada sección.  No tienen que agendar una visita por separado por
+  cada división; solo coordinamos el tour para que alcance el tiempo y
+  puedan resolver dudas de cada nivel.  Si les parece, lo siguiente es
+  agendarla. Para poder apartar un horario en sistema, primero tengo que
+  *registrar a cada hijo* (se crean 4 registros, uno por alumno). Ya
+  tengo sus nombres y fechas de nacimiento; me falta confirmar: 1) ¿La
+  escuela actual de los 4 es *TEC (Campus Laguna)*?   2) ¿Quién quedará
+  como tutor principal para los registros: *Rodrigo Méndez* o *Ana
+  García*? (y me dices la relación: papá/mamá)  Con eso ya los registro
+  y enseguida buscamos horarios disponibles (lun-vie, 8:00 am a 3:00
+  pm).
+[1m[32m👤 User:[0m Entendido. Quisiéramos ir el viernes. ¿Qué tienen?
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 18 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] searching slots from 2026-03-06 to 2026-03-06 preferred_time=None
+[33m  🔧 search_availability_slots[0m
+[2m     Args: {"start_date":"2026-03-06","end_date":"2026-03-06","preferred_time":null}[0m
+[2m     Result: Horarios disponibles (hora local Torreón):
+- Opción 1: Viernes 6 de marzo de 2026, 9:00 AM - 10:00 AM
+- Opción 2: Viernes 6 de marzo de 2026, 10:00 AM - 11:00 AM
+- Opción 3: Viernes 6 de marzo de 2026[0m
+[1m[34m🤖 Bot:[0m
+  Para este *viernes 6 de marzo* tengo estos horarios disponibles (hora
+  Torreón):  1) 9:00–10:00 am   2) 10:00–11:00 am   3) 11:00–12:00 pm
+  4) 12:00–1:00 pm   5) 1:00–2:00 pm    ¿Cuál opción prefieren?  Y para
+  poder *apartarla en sistema* solo confírmame por favor: - ¿La escuela
+  actual de los 4 es *TEC (Campus Laguna)*? - ¿Tutor principal será
+  *Rodrigo* o *Ana* (papá/mamá)?
+[1m[32m👤 User:[0m La primera que tengan
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 20 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[admissions] create lead payload {'student_first_name': 'Santiago', 'student_last_name_paternal': 'Méndez', 'grade_interest': 'Bachillerato 2', 'current_school': 'TEC', 'contact_email': 'rodrigo.mendez@test.com', 'contact_phone': '871-111-9988'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_cuatro_hijos_v2_6deeef5a', 'contact_phone': '871-111-9988'}
+[admissions] contact found {'contact_id': '11c6032b-bb01-4292-accd-1e51d2103e36'}
+[admissions] lead created {'lead_id': 'f7453444-5d02-4e54-aeae-dedc871d4e75', 'lead_number': 147}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Santiago","student_middle_name":null,"student_last_name_paternal":"Méndez","student_last_name_maternal":"García","stu[0m
+[2m     Result: Lead creado con folio L-147.[0m
+[2mℹ️  Followup round 1: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Isabella', 'student_last_name_paternal': 'Méndez', 'grade_interest': 'Secundaria 1', 'current_school': 'TEC', 'contact_email': 'rodrigo.mendez@test.com', 'contact_phone': '871-111-9988'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_cuatro_hijos_v2_6deeef5a', 'contact_phone': '871-111-9988'}
+[admissions] contact found {'contact_id': '11c6032b-bb01-4292-accd-1e51d2103e36'}
+[admissions] lead created {'lead_id': 'ae1a3dd1-9f9e-4ad8-a3cc-68b2adc805ba', 'lead_number': 148}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Isabella","student_middle_name":null,"student_last_name_paternal":"Méndez","student_last_name_maternal":"García","stu[0m
+[2m     Result: Lead creado con folio L-148.[0m
+[2mℹ️  Followup round 2: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Mateo', 'student_last_name_paternal': 'Méndez', 'grade_interest': 'Primaria 4', 'current_school': 'TEC', 'contact_email': 'rodrigo.mendez@test.com', 'contact_phone': '871-111-9988'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_cuatro_hijos_v2_6deeef5a', 'contact_phone': '871-111-9988'}
+[admissions] contact found {'contact_id': '11c6032b-bb01-4292-accd-1e51d2103e36'}
+[admissions] lead created {'lead_id': 'ca7ec1ab-74df-47bb-8c73-eb8e213ef123', 'lead_number': 149}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Mateo","student_middle_name":null,"student_last_name_paternal":"Méndez","student_last_name_maternal":"García","studen[0m
+[2m     Result: Lead creado con folio L-149.[0m
+[2mℹ️  Followup round 3: ['create_admissions_lead'][0m
+[admissions] create lead payload {'student_first_name': 'Valentina', 'student_last_name_paternal': 'Méndez', 'grade_interest': 'Primaria 1', 'current_school': 'TEC', 'contact_email': 'rodrigo.mendez@test.com', 'contact_phone': '871-111-9988'}
+[admissions] contact lookup {'org_id': '726f0ce2-edd0-4319-a7fd-7d0bfc4161aa', 'wa_id': 'test3_cuatro_hijos_v2_6deeef5a', 'contact_phone': '871-111-9988'}
+[admissions] contact found {'contact_id': '11c6032b-bb01-4292-accd-1e51d2103e36'}
+[admissions] lead created {'lead_id': 'c6bdbc18-52a9-4c4f-8a42-8fad4a6717fc', 'lead_number': 150}
+[33m  🔧 create_admissions_lead[0m
+[2m     Args: {"student_first_name":"Valentina","student_middle_name":null,"student_last_name_paternal":"Méndez","student_last_name_maternal":"García","st[0m
+[2m     Result: Lead creado con folio L-150.[0m
+[2mℹ️  Followup round 4: ['add_lead_note'][0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Solicita beca/descuento por 4 hijos. Interesados en cambiar a los 4. Prefieren visita familiar; solicita primer horario disponible[0m
+[2m     Result: Nota agregada al lead L-150 (y otros asociados si existen).[0m
+[2mℹ️  Followup round 5: ['book_appointment'][0m
+[admissions] booking appointment for slot 17842013-fb18-4646-94b8-48da32e6139b
+[33m  🔧 book_appointment[0m
+[2m     Args: {"slot_id":"17842013-fb18-4646-94b8-48da32e6139b","notes":"Visita familiar para conocer Primaria, Secundaria y Prepa. Familia Méndez García [0m
+[2m     Result: Cita agendada exitosamente. El lead (y hermanos) ha sido actualizado a 'visit_scheduled'.[0m
+[31m❌ Exhausted tool rounds without text response[0m
+[1m[34m🤖 Bot:[0m
+  [MAX ROUNDS — BUG]
+[1m[32m👤 User:[0m ¿Hay estacionamiento suficiente? Vamos a ir mi esposa y yo con los 4 niños
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 22 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 1 tools[0m
+[33m  🔧 add_lead_note[0m
+[2m     Args: {"notes":"Visita al campus será familiar: asistirán Rodrigo y su esposa Ana con sus 4 hijos. Preguntan por estacionamiento suficiente. Prefi[0m
+[2m     Result: Nota agregada al lead L-150 (y otros asociados si existen).[0m
+[1m[34m🤖 Bot:[0m
+  Sí, normalmente hay estacionamiento suficiente para una visita
+  familiar.  Cuando lleguen, les recomiendo entrar por *Puerta 3 (por la
+  caseta del reloj)*; ahí les indican dónde estacionarse y a dónde
+  dirigirse para el recorrido. Dirección: *C. P.º del Algodón 500, Los
+  Viñedos, Torreón, Coah.*   Maps:
+  https://maps.app.goo.gl/oRz1jz1bvmuf1mZT9  Para apartarles *la primera
+  opción disponible del viernes*, solo necesito que me confirmes dos
+  cosas: 1) ¿La escuela actual de los 4 es *TEC (Campus Laguna)*?   2)
+  ¿Listo para reservar el *viernes 6 de marzo de 2026 de 9:00 a 10:00
+  am*? (sí/no)
+[1m[32m👤 User:[0m ¿Nos pueden mandar los requisitos de todas las secciones? Preescolar, primaria, secundaria y prepa
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 24 msgs | Pending: 1[0m
+[2mℹ️  LLM: 0 chars, 4 tools[0m
+[admissions] fetching requirements for early_child
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/early_child/1766895158029-02_Admission_Requirements_Early_Childhood.pdf from CAT
+Storage endpoint URL should have a trailing slash.
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"early_child"}[0m
+[2m     Result: Error al enviar el documento: (#131009) Parameter value is not valid[0m
+[admissions] fetching requirements for elementary
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/elementary/1766895179881-03_Admission_Requirements_Elementary.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"elementary"}[0m
+[2m     Result: Error al enviar el documento: (#131009) Parameter value is not valid[0m
+[admissions] fetching requirements for middle_school
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/middle_school/1766895193415-04_Admission_Requirements_Middle_School.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"middle_school"}[0m
+[2m     Result: Error al enviar el documento: (#131009) Parameter value is not valid[0m
+[admissions] fetching requirements for high_school
+[admissions] downloading admissions/requirements/726f0ce2-edd0-4319-a7fd-7d0bfc4161aa/high_school/1766895210383-05_Admission_Requirements_High_School.pdf from CAT
+[33m  🔧 get_admission_requirements[0m
+[2m     Args: {"division":"high_school"}[0m
+[2m     Result: Error al enviar el documento: (#131009) Parameter value is not valid[0m
+[1m[34m🤖 Bot:[0m
+  Claro. Intenté enviarlos por WhatsApp, pero en este momento el sistema
+  me marcó error al adjuntar los PDFs de requisitos.  Si gustas,
+  mientras lo reintento te comparto el resumen de papelería por sección
+  (y en cuanto el sistema me deje, te mando los documentos oficiales):
+  *Preescolar/Kínder (Early Childhood)*   Acta de nacimiento, CURP,
+  cartilla de vacunación, certificado de salud, fotos, carta de conducta
+  y reporte/evaluación de la escuela anterior (si aplica), carta de
+  solvencia (alumnos nuevos) y formatos CAT.  *Primaria (Elementary)*
+  Fotos, acta, CURP, boletas/calificaciones SEP (año en curso y 2
+  anteriores), carta de conducta, carta de solvencia (nuevos) y cartas
+  de recomendación. (Para 1º primaria suele aplicar certificado de
+  preescolar).  *Secundaria (Middle School)*   Similar a primaria +
+  *certificado de primaria*.  *Prepa (High School)*   Papelería estándar
+  + *certificado de secundaria*. Se considera *promedio mínimo 8.0* y la
+  *conducta* es condicionante.  ¿Me confirmas si quieres que te los
+  mande en cuanto el sistema vuelva a permitir adjuntos (sí), y si
+  necesitas los requisitos pensando en ingreso *Agosto 2026*?
+[1m[32m👤 User:[0m Una duda más: ¿el TEC les puede hacer transferencia directa del expediente o tenemos que empezar de …
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 30 msgs | Pending: 1[0m
+[2mℹ️  LLM: 917 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Buenísima duda. Normalmente *no hay una “transferencia directa”
+  automática* del expediente de una escuela a otra.  En CAT sí deben
+  *iniciar su proceso de admisión* y entregar la papelería
+  correspondiente; lo que suele pasar es que el *TEC* les puede apoyar
+  entregándoles (a ustedes) documentos como boletas/kárdex, cartas y
+  certificados para que ustedes los presenten en CAT.  Si quieres, lo
+  revisamos de forma práctica según cada nivel: - *Valentina (Primaria
+  1)*: normalmente acta/CURP/salud/vacunación y documentos de
+  preescolar. - *Mateo (Primaria 4) e Isabella (Secundaria 1)*: boletas
+  SEP y carta de conducta, y para secundaria *certificado de primaria*.
+  - *Santiago (Prepa)*: certificado de secundaria y kárdex/constancias;
+  en prepa también se considera promedio y conducta.  ¿Me confirmas si
+  todos están en *TEC Campus Laguna*? Y si tienen ya a la mano
+  boletas/certificados, ¿o apenas los solicitarían al TEC?
+[1m[32m👤 User:[0m Ok, ya la última pregunta: ¿cuánto tiempo toma todo el proceso desde la visita hasta saber si los ac…
+[admissions] loading session messages {'session_id': '58093ca0-7bfa-418b-845f-436ae1b196d9'}
+[2mℹ️  History: 32 msgs | Pending: 1[0m
+[2mℹ️  LLM: 767 chars, 0 tools[0m
+[1m[34m🤖 Bot:[0m
+  Depende un poquito de la sección y de qué tan rápido se complete la
+  papelería y evaluaciones, pero como guía general:  - Después de la
+  *visita*, si entregan documentos y se programan
+  evaluaciones/entrevistas, el avance suele ser relativamente ágil. - En
+  cuanto el expediente está *completo* (papelería + evaluaciones que
+  apliquen), el comité/área académica puede emitir respuesta en un plazo
+  que normalmente es de *días a un par de semanas*.  Para darles un
+  estimado más certero para su caso (porque son 4 y están en 3
+  secciones), lo ideal es revisarlo en la visita y dejar calendarizadas
+  las siguientes etapas de cada hijo.  ¿Quieren que dejemos ya
+  confirmada su visita familiar para el *viernes 6 de marzo de 9:00 a
+  10:00 am*? Si me dices “sí, confirmo”, la aparto.
+[2mℹ️  Chat ID: c0a8258e-1373-4064-b6f3-52b57e9fb923[0m
